@@ -1,0 +1,42 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>lientje's bistro - references</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Norican&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="|/css/style.css|">
+</head>
+<body>
+
+<header th:replace="bistro/fragments/header :: header"></header>
+
+<main>
+    <section th:replace="bistro/fragments/firstsectiontemplate :: firstsection">
+    </section>
+
+    <section class="homepage-first-section">
+        <div class="reference-links">
+            <th:block th:each="reference : ${referenceList}">
+                <p><span th:text="${reference.getProductName()}">product placeholder</span>
+                    made by <a th:href="${reference.getArtistUrl()}" th:title="${reference.getArtistName()}" th:text="${reference.getArtistName()}">name palceholder</a>
+                    <span th:if="${reference.getSiteName() != null}">
+                        from <a th:href="${reference.getSiteUrl()}" th:title="${reference.getSiteName()}" th:text="${reference.getSiteName()}">site name placeholder</a>
+                    </span>
+                </p>
+            </th:block>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="bistro/fragments/footer :: footer"></footer>
+</body>
+</html>

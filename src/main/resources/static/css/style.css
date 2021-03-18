@@ -1,0 +1,922 @@
+:root{
+    --color1: #D4A047;
+    --color2: #3a8786;
+    --color3: #A17935;
+    --color4: #A17935;
+    --color5: #DBBD8A;
+    --color6: #88f6f6;
+}
+
+
+
+/* =============================
+        general styling
+   ============================= */
+
+html{
+    box-sizing: border-box;
+    font-family: 'Shippori Mincho B1', serif;
+    color: #eeeeee;
+    font-size: 20px;
+}
+
+*, *:before, *:after{
+    box-sizing: inherit;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    max-width: 100vw;
+}
+
+main{
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+p{
+    font-weight: 500;
+}
+
+/* =============================
+        navigation bar
+   ============================= */
+header{
+    width: 100%;
+    min-height: 8vh;
+    height:auto;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    margin: 0 auto;
+}
+
+nav{
+    max-width: 100%;
+    width:auto;
+    height: auto;
+}
+
+nav ul{
+    width:auto;
+    list-style: none;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-flow: row nowrap;
+    margin: 0 auto;
+    padding: 0;
+}
+
+nav a{
+    text-decoration: none;
+    color: #eee;
+    display: block;
+    font-size: clamp(0.8rem, 2vw , 1.2rem);
+    padding: 1vh 6vw;
+    font-weight: 700;
+    text-shadow: 2px 2px #222;
+    transition: all 0.1s ease-out;
+}
+
+
+nav a:hover:after{
+    transform: scaleX(1);
+}
+
+nav a::after{
+    display: block;
+    position: relative;
+    content: "";
+    border-bottom: 2px solid var(--color1);
+    transform: scaleX(0);
+    width: 75%;
+    height: 3px;
+    margin: 0 auto;
+    transition: all 0.2s ease-out;
+}
+
+.active-page-header{
+    color: var(--color1);
+}
+
+
+/* =============================
+        index header
+   ============================= */
+
+.page-header{
+    width: 100%;
+    position: relative;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.page-header img{
+    width:100%;
+    height: 100%;
+    object-fit: cover;
+    border-bottom-right-radius: 5rem 2rem;
+    border-bottom-left-radius: 5rem 2rem;
+    background-color: var(--color4);
+}
+
+.header-image{
+    position: absolute;
+    width:100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.header-text{
+    position: relative;
+    z-index: 3;
+}
+
+.header-title{
+    font-family: 'Norican', cursive, sans-serif;
+    font-size: 6vh;
+    max-font-size: 6rem;
+    color: #fff6eb;
+    margin-left: 1vw;
+    text-shadow: 2px 2px #222;
+}
+
+.title-inset{
+    margin-left: 5rem;
+}
+
+.page-header::after {
+    content: "";
+    position: absolute;
+    width: 96%;
+    height: 10vh;
+    background-color: var(--color4);
+    border-bottom-right-radius: 5rem 2rem;
+    border-bottom-left-radius: 5rem 2rem;
+    z-index: 1;
+    margin: 42vh 0 0;
+    opacity: 0.9;
+}
+
+/* =============================
+              footer
+   ============================= */
+
+footer{
+    position: relative;
+    background-color: #222;
+    padding: 2vh 5vw;
+    margin-top: -2rem;
+    border-top-right-radius: 5rem 2rem;
+    border-top-left-radius: 5rem 2rem;
+    z-index: 1;
+    text-align: right;
+    font-size: 0.8rem;
+}
+
+footer a{
+    color: #bbb;
+    text-decoration: none;
+    transition: all 0.1s ease-out;
+}
+
+footer a:hover{
+    color: var(--color6);
+}
+
+
+
+/* =============================
+        homepage sections
+   ============================= */
+
+
+/*        first section
+   ============================= */
+
+.homepage-first-section{
+    position: relative;
+    background-color: var(--color1);
+    min-height: 40vh;
+    height: auto;
+    width: 100%;
+    margin-top: -2rem;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    flex-flow: column nowrap;
+}
+
+.homepage-first-section::before{
+    content: "";
+    position: absolute;
+    background-image: url("../images/wood-texture-background.jpg");
+    width: 100%;
+    height: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.55;
+    z-index: -1;
+}
+
+.homepage-first-section h1::after{
+    display: block;
+    content:"";
+    position: relative;
+    border-bottom: solid 2px #eee;
+    height: 2px;
+    width: 10%;
+    margin-top: 1.5rem;
+    left: 45%;
+}
+
+/*        welcome title
+    --------------------------- */
+
+.welcome-title{
+    width: auto;
+    display:flex;
+    justify-content: center;
+}
+
+.welcome-title h1{
+    text-transform: uppercase;
+    font-size: clamp(1.5rem, 10vw, 2.5rem);
+    padding-top: 6rem;
+    text-shadow: 2px 2px #222;
+    line-height: 1.2rem;
+}
+
+.welcome-title h1{
+    margin:0;
+}
+
+.welcome-title .line-2{
+    margin-left: 3.5ch;
+
+}
+
+.welcome-title .line-3{
+    margin-left: 4.7ch;
+}
+
+/*     welcome section text
+    --------------------------- */
+
+.welcome-text-section{
+    width: 75%;
+    height: auto;
+    margin-top: 8rem;
+    text-align: center;
+}
+
+.welcome-text-section h1{
+    font-size: clamp(1.5rem, 8vw, 2rem);
+}
+
+.welcome-text-section p{
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/*     welcome team section
+    --------------------------- */
+
+.welcome-team-section{
+    width: 75%;
+    height: auto;
+    text-align: center;
+    margin-bottom: 10rem;
+}
+
+.welcome-team-section h1{
+    font-size: clamp(1.5rem, 8vw, 2rem);
+}
+
+
+/*     personel images markup
+    --------------------------- */
+
+.image-personnel-container{
+    position: relative;
+    min-height: 25vh;
+    height: auto;
+    margin: 1rem auto 0;
+    width: 100%;
+    max-width: 500px;
+    font-family: 'Indie Flower', cursive;
+}
+
+.personnel-container p{
+    color: #222;
+    margin: 0.5rem;
+    font-size: 1.2rem;
+    line-height: 0.8rem;
+}
+
+.personnel-container{
+    padding-top: 2.5%;
+    background-color: #eee;
+    box-shadow: 2px 2px 5px 2px rgba(34,34,34,0.5);
+    width: clamp(80px, 40%, 170px);
+    height: auto;
+
+}
+
+.personnel-container:hover{
+    z-index: 3;
+}
+
+.personnel-left{
+    position: absolute;
+    top: 2vh;
+    left: 0;
+    z-index: 1;
+    transform: rotateZ(-30deg) translateX(1.5rem);
+}
+
+
+.personnel-middle{
+    position: absolute;
+    top: 0;
+    left: 30%;
+    z-index: 2;
+}
+
+.personnel-right{
+    position: absolute;
+    top: 2vh;
+    right: 0;
+    margin-left: -2rem;
+    z-index: 1;
+    transform: rotateZ(30deg) translateX(-1.5rem);
+}
+
+
+/*        second section
+   ============================= */
+
+.homepage-second-section{
+    position: relative;
+    height: auto;
+    width: 100%;
+    background-color: #222;
+    border-top-right-radius: 5rem 2rem;
+    border-top-left-radius: 5rem 2rem;
+    border-bottom-right-radius: 5rem 2rem;
+    border-bottom-left-radius: 5rem 2rem;
+    margin-top: -2rem;
+    padding: 3rem 0;
+    z-index: 2;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    text-align: center;
+}
+
+.homepage-second-section p,
+.homepage-second-section h1{
+    margin: 0.5rem;
+}
+
+.arrow-button{
+    width: 12rem;
+    padding: 0.5rem;
+    margin: 0.5rem auto 0;
+    background-color: var(--color1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    text-decoration: none;
+    transition: all 0.2s ease-out;
+}
+
+.arrow-button:hover{
+    background-color: var(--color2);
+}
+
+.arrow-button p{
+    color: #eeeeee;
+    text-decoration: none;
+    margin-right: 0.5rem;
+}
+
+/*        menu text
+    --------------------------- */
+
+.homepage-menu-text{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+
+/*        contact text
+    --------------------------- */
+
+.homepage-contact-text{
+    margin-top: 3.5rem;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+
+/*        third section
+   ============================= */
+
+/*        openingsuren
+    --------------------------- */
+
+.homepage-openingsuren-section{
+    margin: 3.5rem 0 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 80%;
+    row-gap: 0.5rem;
+    column-gap: 1rem;
+    text-align: center;
+}
+
+.homepage-openingsuren-section h1{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    margin: 0 0 2rem;
+    font-size: clamp(1.5rem, 8vw, 2rem);
+}
+
+.homepage-openingsuren-section p{
+    margin: 0;
+}
+
+/*        social media
+    --------------------------- */
+
+.homepage-social-media-section{
+    margin: 2rem 0 5rem;
+    width: 75%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    text-align: center;
+}
+
+.homepage-social-media-section h1{
+    font-size: clamp(1.5rem, 8vw, 2rem);
+}
+
+.button-container{
+    display: flex;
+    flex-flow: row nowrap;
+    width: 60%;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.social-media-button{
+    margin: 1rem 2rem;
+    padding: 0.5rem 0.7rem;
+    border: #eeeeee solid 1px;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    transition: all 0.2s ease-out;
+
+}
+
+.social-media-button:hover{
+    background-color: var(--color2);
+    border: solid 1px var(--color2);
+}
+
+/*        bolo pointer
+    --------------------------- */
+
+.homepage-bolo-section{
+    margin-bottom: 5rem;
+    width: 75%;
+    text-align: center;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.bolo-button{
+    margin: 1rem 2rem;
+    padding: 0.5rem 0.7rem;
+    border: var(--color1) solid 1px;
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    background-color: var(--color1);
+    transition: all 0.2s ease-out;
+    text-decoration: none;
+    color: #eee;
+}
+
+.bolo-button p{
+    margin-right: 0.5rem;
+}
+
+.bolo-button:hover{
+    background-color: var(--color2);
+    border: solid 1px var(--color2);
+}
+
+/* =============================
+        image markup
+   ============================= */
+
+.inline-logo{
+    height: 1.2rem;
+    width: auto;
+    padding: 0;
+}
+
+/*     personel images
+    --------------------------- */
+
+.image-personnel{
+    object-fit: cover;
+    width: 90%;
+    height: auto;
+}
+
+/* =============================
+        reference page only
+   ============================= */
+
+.reference-links{
+    width: 50%;
+    min-width: 250px;
+    margin: 5rem auto;
+    text-align: center;
+}
+
+.reference-links a{
+    color: #fff;
+    text-decoration: none;
+    font-weight: 800;
+    transition: all 0.1s ease-out;
+}
+
+.reference-links a:hover{
+    color: var(--color6);
+}
+
+/* =============================
+        contact page only
+   ============================= */
+
+/*     contact info
+    --------------------------- */
+
+.contact-info-section{
+    margin: 3rem 0;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.contact-line{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.contact-info-text{
+    display: inline-flex;
+    align-items: flex-start;
+}
+
+.contact-info-text p{
+    margin: 0 0.3rem;
+}
+
+.contact-line .contact-info-text{
+    flex: 1 0 80%;
+}
+
+.contact-line img{
+    flex: 1 0 60%;
+}
+
+/*     social media
+    --------------------------- */
+.contact-social-media-section{
+    text-align: center;
+    margin: 3rem 0;
+}
+
+/*     map
+    --------------------------- */
+
+.map-section{
+    flex: 1 0 60%;
+    align-self: center;
+    min-height: 65vh;
+    height: auto;
+    width: 100%;
+    margin: 5rem 5vw;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.map-section iframe{
+    width: 75%;
+    height: 45vh;
+    background-color: #222222;
+    border: 2px solid #222222;
+    z-index: 2;
+}
+
+.map-section p{
+    z-index: 2;
+    color: #222;
+    font-family: 'Indie Flower', cursive;
+}
+
+.map-section::before{
+    position:absolute;
+    content: "";
+    background-color: #eee;
+    height: 65vh;
+    width: 90%;
+    z-index: 1;
+    left:5%;
+    box-shadow: 2px 2px 5px #222;
+}
+
+/* =============================
+        personnel page only
+   ============================= */
+
+.personnel-list{
+    margin: 5rem 0;
+}
+
+.personnel-context-container{
+    margin: 1rem 0 5rem 0;
+    width: 100%;
+    min-height: 25vh;
+    height: auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 100%;
+}
+.personnel-image-container{
+    min-height: 20vh;
+    height: auto;
+    width: 50%;
+    padding: 5% 5% 0 5%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    box-shadow: 2px 2px 5px 2px rgba(34,34,34,0.5);
+}
+
+
+.personnel-image-container img{
+    height: auto;
+    width: 90%;
+    margin: 0 auto;
+    z-index: 2;
+    background-color: #222222;
+}
+.personnel-image-container p{
+    margin: 0.3rem 0;
+    font-family: 'Indie Flower', cursive;
+    color: #222;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 0.8rem;
+}
+
+.left .personnel-image-container{
+    transform: rotateZ(-5deg);
+}
+
+.right .personnel-image-container{
+    transform: rotateZ(5deg);
+}
+
+.personnel-context-container p{
+    max-width: 75%;
+    width: auto;
+    text-align: center;
+    margin: 0.5rem 0 0 0;
+}
+
+
+
+/* =============================
+        media breakpoints
+   ============================= */
+
+@media only screen and (min-width: 920px){
+
+    /*        header
+   ============================= */
+    header{
+        width: 100%;
+    }
+
+    /*        first section
+   ============================= */
+
+    .homepage-first-section{
+        padding: 0 5vw;
+        flex-flow: row wrap;
+        min-height: 80vh;
+        align-items: baseline;
+    }
+
+    .welcome-text-section{
+        flex: 1 0 40%;
+    }
+
+    .welcome-title{
+        align-self: center;
+        padding-right: 2rem;
+        flex: 1 0 100%;
+    }
+
+    .welcome-title h1{
+        font-size: clamp(1.8rem, 8vw, 4rem);
+        line-height: 2rem;
+        margin: 0 1rem;
+    }
+
+    .welcome-team-section{
+        flex: 1 0 40%;
+    }
+
+    /*        second section
+    ============================= */
+
+    .homepage-second-section{
+        flex-flow: row nowrap;
+        justify-content: space-evenly;
+        align-items: baseline;
+    }
+
+    .homepage-menu-text .arrow-button{
+        margin-top: 6.5rem;
+    }
+
+    .homepage-contact-text{
+        margin: 0;
+    }
+
+    .homepage-contact-text .arrow-button{
+        margin-top: 2.5rem;
+    }
+
+    /*        third section
+    ============================= */
+
+    .homepage-openingsuren-section{
+        flex: 1 0 40%;
+    }
+
+    .homepage-social-media-section{
+        flex: 1 0 40%;
+        align-self: center;
+    }
+
+    .homepage-bolo-section{
+        flex: 1 0 100%;
+        align-self: center;
+    }
+
+
+    /* =============================
+        contact page only
+   ============================= */
+
+    .contact-info-section{
+        align-items: center;
+        flex: 1 0 45%;
+    }
+
+    .contact-line{
+        width: 100%;
+    }
+
+    .contact-line .contact-info-text{
+        margin: 0 0.2rem;
+        flex: 1 0 70%;
+    }
+
+    .contact-line img{
+        flex: 1 0 10%;
+    }
+    .contact-social-media-section{
+        flex: 1 0 45%;
+    }
+
+    /*     map
+    --------------------------- */
+
+    .map-section{
+        flex-flow: row wrap;
+        width: 40vw;
+    }
+
+
+    .map-section iframe{
+        margin-top: 2vw;
+        align-self: flex-start;
+        width: 32vw;
+        height: 45vh;
+    }
+
+    .map-section p{
+        font-size: 1.5rem;
+        flex: 1 0 100%;
+        text-align: center;
+    }
+
+    .map-section::before{
+        height: 65vh;
+        width: 36vw;
+        left:32%;
+    }
+
+    /* =============================
+        personnel page only
+   ============================= */
+
+    .personnel-context-container{
+        flex-flow: row;
+        justify-content: unset;
+    }
+
+    .personnel-context-container .description-text{
+        max-width: 15rem;
+        margin: 1rem;
+    }
+
+    .personnel-image-container{
+        height: auto;
+        width: 15rem;
+        padding: 1%;
+    }
+
+    .left .description-text{
+        text-align: left;
+    }
+
+    .right .description-text{
+        text-align: right;
+    }
+
+    .left{
+        padding-left: 5vw;
+    }
+
+    .left .personnel-image-container{
+        justify-self: start;
+        order: 1;
+    }
+
+    .left .description-text{
+        justify-self: start;
+        order: 2;
+    }
+
+    .right{
+        padding-left: 40vw;
+    }
+
+    .right .personnel-image-container{
+        justify-self: end;
+        order: 2;
+    }
+
+    .right .description-text {
+        justify-self: end;
+        order: 1;
+    }
+}

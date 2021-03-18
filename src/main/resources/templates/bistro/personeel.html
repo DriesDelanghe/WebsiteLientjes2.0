@@ -1,0 +1,47 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Norican&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="|/css/style.css|">
+
+
+    <title>Lientjes Bistro - personeel</title>
+</head>
+<body>
+<header th:replace="bistro/fragments/header :: header"></header>
+
+<main>
+
+    <section th:replace="bistro/fragments/firstsectiontemplate :: firstsection"></section>
+
+    <section class="homepage-first-section">
+        <div class="personnel-list">
+            <th:block th:each="personnel : ${personnelList}">
+                <div class="personnel-context-container" th:classappend="${personnelStat.odd} ? right : left">
+                    <div class="personnel-image-container">
+                        <img th:src="${personnel.getImage().getImageLocation()}" alt="" class="image-personnel">
+                        <p>
+                            <span th:text="${personnel.getName()}">name placeholder</span>
+                            <br> - <br>
+                            <span th:text="${personnel.getFunctionDescription()}"> function placeholder</span>
+                        </p>
+                    </div>
+                    <p class="description-text" th:text="${personnel.getExtraInfo()}">placeholder</p>
+                </div>
+            </th:block>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="bistro/fragments/footer :: footer"></footer>
+</body>
+</html>

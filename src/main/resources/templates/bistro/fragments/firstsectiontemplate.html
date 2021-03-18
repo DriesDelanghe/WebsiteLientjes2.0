@@ -1,0 +1,21 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<section th:fragment="firstsection" class="page-header">
+    <div class="header-image">
+        <img src="/images/pexels-negative-space-134577.jpg" alt="">
+    </div>
+    <div class="header-text">
+        <h1 class="header-title" th:text="${page.getPageName()}">
+            placeholder
+        </h1>
+    </div>
+</section>
+
+</body>
+</html>
