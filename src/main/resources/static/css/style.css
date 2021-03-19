@@ -868,9 +868,14 @@ footer a:hover{
         personnel page only
    ============================= */
 
+    .personnel-list{
+        margin: 7rem 0;
+    }
+
     .personnel-context-container{
         flex-flow: row;
         justify-content: unset;
+        margin: -2rem 0;
     }
 
     .personnel-context-container .description-text{

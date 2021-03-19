@@ -110,7 +110,7 @@ id, site_url, site_name, artist_name, artist_url, product_name
 )
 values
 (1, 'https://www.flaticon.com/', 'Flaticon', 'Roundicons', 'https://roundicons.com/', 'symbols'),
-(2, 'https://www.pexels.com/', 'Pexels', 'Negative Space', 'https://www.pexels.com/@negativespace', 'images'),
+(2, 'https://www.pexels.com/', 'Pexels', 'Negative Space', 'https://www.pexels.com/@negativespace', 'header image'),
 (3, null, null, 'Dries Delanghe', 'https://www.driesdelanghe.be/', 'site');
 
 insert into contact_info(
