@@ -30,7 +30,8 @@ insert into domain(
 id, name
 )
 values
-(1, 'bistro');
+(1, 'bistro'),
+(2, 'bolo');
 
 insert into page(
 id, page_name, domain_id
@@ -120,3 +121,51 @@ values
 (1, 'email', 'info@lientjes-coffeebreak.be', 1, 8),
 (2, 'adres', 'Stationstraat 143, 2845 Niel', 1, 7),
 (3, 'telefoon', '03 344 85 79', 1, 9);
+
+insert into menu_section(
+id, domain_id, name
+)
+values
+(1, 1, 'Warme Dranken'),
+(2, 1, 'Koude Dranken'),
+(3, 1, 'Ontbijt'),
+(4, 1, 'Versnaperingen'),
+(5, 1, 'Gerechten'),
+(6, 1, 'Desserten'),
+(7, 2, 'Pasta''s'),
+(8, 1, 'Alle producten'),
+(9, 2, 'Alle producten');
+
+insert into menu_sub_section(
+id, name
+)
+values
+(1, 'Koffie'),
+(2, 'Speciale Koffieskes'),
+(3, 'Koffie met Alcohol'),
+(4, 'Pure leaf'),
+(5, 'Zakskes Thee'),
+(6, 'Warme Melk'),
+(7, 'Warme Choco'),
+(8, 'Fris'),
+(9, 'Streekbier'),
+(10, 'Bieren op Vat'),
+(11, 'Bieren op Fles'),
+(12, 'Wijnen'),
+(13, 'Cava'),
+(14, 'Aperitief'),
+(15, 'Alcohol'),
+(16, 'Ontbijten tot 11u30'),
+(17, 'Borrelhapjes' ),
+(18, 'Dagmenu tot 17u00'),
+(19, 'Kleine honger tot 17u00'),
+(20, 'Starters'),
+(21, 'Hoofdgerechten'),
+(22, 'Salades'),
+(23, 'Pasta'),
+(24, 'Kindermenu'),
+(25, 'Nagerechten'),
+(26, 'Pannenkoeken & Wafels'),
+(27, 'Bevrozen genot'),
+(28, 'pastas'),
+(29, 'Kindermenu');

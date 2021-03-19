@@ -12,7 +12,6 @@ public class MenuSubSection {
     @Id
     private int id;
     private String name;
-    private String extraInfo;
     @ManyToMany
     private List<Product> productList;
     @ManyToMany(mappedBy = "menuSubSectionList")
@@ -36,14 +35,6 @@ public class MenuSubSection {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getExtraInfo() {
-        return extraInfo;
-    }
-
-    public void setExtraInfo(String extraInfo) {
-        this.extraInfo = extraInfo;
     }
 
     public List<Product> getProductList() {
