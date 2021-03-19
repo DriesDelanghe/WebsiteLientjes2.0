@@ -3,6 +3,7 @@ package be.thomasmore.be.websitelientjes.models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.util.Collection;
 import java.util.List;
 
@@ -12,8 +13,6 @@ public class MenuSubSection {
     @Id
     private int id;
     private String name;
-    @ManyToMany
-    private List<Product> productList;
     @ManyToMany(mappedBy = "menuSubSectionList")
     private List<MenuSection> menuSectionList;
 
@@ -37,19 +36,22 @@ public class MenuSubSection {
         this.name = name;
     }
 
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }
-
     public List<MenuSection> getMenuSectionList() {
         return menuSectionList;
     }
 
     public void setMenuSectionList(List<MenuSection> menuSectionList) {
         this.menuSectionList = menuSectionList;
+    }
+
+    @OneToMany(mappedBy = "menuSubSection")
+    private List<Product> productList;
+
+    public List<Product> getProducts() {
+        return productList;
+    }
+
+    public void setProducts(List<Product> productList) {
+        this.productList = productList;
     }
 }

@@ -3,6 +3,7 @@ package be.thomasmore.be.websitelientjes.models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.util.Collection;
 
 @Entity
@@ -11,10 +12,10 @@ public class Product {
     @Id
     private int id;
     private String name;
-    private double priceInEur;
+    private Double priceInEur;
     private String extraInfo;
-    @ManyToMany(mappedBy = "productList")
-    private Collection<MenuSubSection> menuSubSectionList;
+    @ManyToOne
+    private MenuSubSection menuSubSection;
 
     public Product() {
     }
@@ -35,11 +36,11 @@ public class Product {
         this.name = name;
     }
 
-    public double getPriceInEur() {
+    public Double getPriceInEur() {
         return priceInEur;
     }
 
-    public void setPriceInEur(double priceInEur) {
+    public void setPriceInEur(Double priceInEur) {
         this.priceInEur = priceInEur;
     }
 
@@ -51,11 +52,11 @@ public class Product {
         this.extraInfo = extraInfo;
     }
 
-    public Collection<MenuSubSection> getMenuSubSectionList() {
-        return menuSubSectionList;
+    public MenuSubSection getMenuSubSection() {
+        return menuSubSection;
     }
 
-    public void setMenuSubSectionList(Collection<MenuSubSection> menuSubSectionList) {
-        this.menuSubSectionList = menuSubSectionList;
+    public void setMenuSubSection(MenuSubSection menuSubSection) {
+        this.menuSubSection = menuSubSection;
     }
 }
