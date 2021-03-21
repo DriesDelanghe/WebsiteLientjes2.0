@@ -38,6 +38,8 @@ public class BistroController {
     ReferenceRepository referenceRepository;
     @Autowired
     ContactInfoRepository contactInfoRepository;
+    @Autowired
+    MenuSectionRepository menuSectionRepository;
 
 
 
@@ -123,6 +125,23 @@ public class BistroController {
         return "bistro/personeel";
     }
 
+    @GetMapping("/bistro/menu")
+    public String menu(Model model, HttpServletRequest request){
 
+        Domain domain = domainRepository.getByDomainName("bistro");
+        Page page = pageRepository.getByDomainAndPageName(domain, "menu");
+
+        List<MenuSection> menuSectionList = menuSectionRepository.getByDomain(domain);
+        Symbol rightArrow = symbolRepository.getSymbolByReferenceName("rightArrow");
+
+        model.addAttribute("rightArrow", rightArrow);
+        model.addAttribute("menuSectionList", menuSectionList);
+        model.addAttribute("page", page);
+
+        logger.info(String.format("Returned menu page to client -- %s", request.getRemoteAddr()));
+
+
+        return "bistro/menu";
+    }
 
 }
