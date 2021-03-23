@@ -9,9 +9,9 @@
 <header th:fragment="header">
     <nav>
         <ul>
-            <li><a th:classappend="${page.getPageName().toLowerCase().equals('home')} ? active-page-header" href="/bistro/home">Home</a></li>
-            <li><a th:classappend="${page.getPageName().toLowerCase().equals('menu')} ? active-page-header" href="/bistro/menu">Menu</a></li>
-            <li><a th:classappend="${page.getPageName().toLowerCase().equals('contact')} ? active-page-header" href="/bistro/contact">Contact</a></li>
+            <li><a th:classappend="${page != null} ? (${page.getPageName().toLowerCase().equals('home')} ? active-page-header)" href="/bistro/home">Home</a></li>
+            <li><a th:classappend="${page != null} ? (${page.getPageName().toLowerCase().equals('menu')} ? active-page-header)" href="/bistro/menu">Menu</a></li>
+            <li><a th:classappend="${page != null} ? (${page.getPageName().toLowerCase().equals('contact')} ? active-page-header)" href="/bistro/contact">Contact</a></li>
         </ul>
     </nav>
 </header>

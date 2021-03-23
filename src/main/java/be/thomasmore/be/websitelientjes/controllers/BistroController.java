@@ -7,14 +7,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
+@RequestMapping("/bistro")
 @Controller
 public class BistroController {
 
@@ -42,8 +42,7 @@ public class BistroController {
     MenuSectionRepository menuSectionRepository;
 
 
-
-    @RequestMapping(value = {"/bistro", "/bistro/" ,"/bistro/home"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/" ,"/home"}, method = RequestMethod.GET)
     public String home(Model model, HttpServletRequest request){
         Domain domain = domainRepository.getByDomainName("bistro");
         Page page = pageRepository.getByDomainAndPageName(domain, "home");
@@ -73,7 +72,7 @@ public class BistroController {
 
     }
 
-    @GetMapping("/bistro/references")
+    @GetMapping("/references")
     public String reference(Model model, HttpServletRequest request){
 
         Domain domain = domainRepository.getByDomainName("bistro");
@@ -88,7 +87,7 @@ public class BistroController {
         return "bistro/references";
     }
 
-    @GetMapping("/bistro/contact")
+    @GetMapping("/contact")
     public String contact(Model model, HttpServletRequest request){
         Domain domain = domainRepository.getByDomainName("bistro");
         Page page = pageRepository.getByDomainAndPageName(domain, "contact");
@@ -109,7 +108,7 @@ public class BistroController {
         return "bistro/contact";
     }
 
-    @GetMapping("/bistro/personeel")
+    @GetMapping("/personeel")
     public String personeel(Model model, HttpServletRequest request){
 
         Domain domain = domainRepository.getByDomainName("bistro");
@@ -125,7 +124,7 @@ public class BistroController {
         return "bistro/personeel";
     }
 
-    @GetMapping("/bistro/menu")
+    @GetMapping("/menu")
     public String menu(Model model, HttpServletRequest request){
 
         Domain domain = domainRepository.getByDomainName("bistro");
@@ -142,6 +141,15 @@ public class BistroController {
 
 
         return "bistro/menu";
+    }
+
+    @GetMapping({"/menudetails", "/menudetails/{id}"})
+    public String menudetails(Model model, @PathVariable(required = false) Integer id){
+
+        Optional<MenuSection> menuSectionOptional = menuSectionRepository.findById(id);
+        menuSectionOptional.ifPresent(menuSection -> model.addAttribute("menuSection", menuSection));
+
+        return "bistro/menudetails";
     }
 
 }

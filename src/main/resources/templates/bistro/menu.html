@@ -13,7 +13,7 @@
     <link rel="stylesheet" th:href="|/css/style.css|">
 
 
-    <title>Lientjes Bistro - personeel</title>
+    <title>Lientjes Bistro - menu</title>
 </head>
 <body>
 <header th:replace="bistro/fragments/header :: header"></header>
@@ -25,7 +25,7 @@
     <section class="homepage-first-section">
         <div class="menu-button-container">
             <th:block th:each="menuSection : ${menuSectionList}">
-                <a href="#" class="menu-button">
+                <a th:href="@{|/bistro/menudetails/${menuSection.id}|}" class="menu-button">
                     <div class="menu-section-container">
                         <img class="menu-section-image" th:src="${menuSection.image.imageLocation}" alt="">
                         <p th:text="${menuSection.name}">name placeholder</p>
