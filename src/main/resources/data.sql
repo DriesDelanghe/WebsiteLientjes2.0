@@ -2,18 +2,25 @@ insert into image(
     id, image_location
 )
 values
-(1, '../images/logo-facebook.svg'),
-(2, '../images/logo-instagram.svg'),
-(3, '../images/right-arrow.svg'),
-(4, '../images/placeholder-personnel-1.jpg'),
-(5, '../images/placeholder-personnel-2.jpg'),
-(6, '../images/placeholder-personnel-3.jpg'),
-(7, '../images/adress-logo.svg'),
-(8, '../images/email-logo.svg'),
-(9, '../images/phone-call-logo.svg'),
-(10, '../images/placeholder-personnel-4.jpg'),
-(11, '../images/placeholder-personnel-5.jpg'),
-(12, '../images/placeholder-personnel-6.jpg');
+(1, '../images/general/logo-facebook.svg'),
+(2, '../images/general/logo-instagram.svg'),
+(3, '../images/general/right-arrow.svg'),
+(4, '../images/personnel/placeholder-personnel-1.jpg'),
+(5, '../images/personnel/placeholder-personnel-2.jpg'),
+(6, '../images/personnel/placeholder-personnel-3.jpg'),
+(7, '../images/general/adress-logo.svg'),
+(8, '../images/general/email-logo.svg'),
+(9, '../images/general/phone-call-logo.svg'),
+(10, '../images/personnel/placeholder-personnel-4.jpg'),
+(11, '../images/personnel/placeholder-personnel-5.jpg'),
+(12, '../images/personnel/placeholder-personnel-6.jpg'),
+(13, '../images/food/afbeelding-croque.jpg'),
+(14, '../images/food/afbeelding-dessert.jpg'),
+(15, '../images/food/afbeelding-hoofdgerecht.jpg'),
+(16, '../images/food/afbeelding-koude-drank.jpg'),
+(17, '../images/food/afbeelding-ontbijt.jpg'),
+(18, '../images/food/afbeelding-warme-drank.jpg'),
+(19, '../images/food/afbeelding-alle-gerechten.jpg');
 
 insert into personnel(
 id, name, image_Id, extra_info, function_description
@@ -124,18 +131,18 @@ values
 (3, 'telefoon', '03 344 85 79', 1, 9);
 
 insert into menu_section(
-id, domain_id, name
+id, domain_id, name, image_id
 )
 values
-(1, 1, 'Warme Dranken'),
-(2, 1, 'Koude Dranken'),
-(3, 1, 'Ontbijt'),
-(4, 1, 'Versnaperingen'),
-(5, 1, 'Gerechten'),
-(6, 1, 'Desserten'),
-(7, 2, 'Pasta''s'),
-(8, 1, 'Alle producten'),
-(9, 2, 'Alle producten');
+(1, 1, 'Warme Dranken', 18),
+(2, 1, 'Koude Dranken', 16),
+(3, 1, 'Ontbijt', 17),
+(4, 1, 'Versnaperingen', 13),
+(5, 1, 'Gerechten', 15),
+(6, 1, 'Desserten', 14),
+(7, 2, 'Pasta''s', 9),
+(8, 1, 'Alle producten', 19),
+(9, 2, 'Alle producten', 9);
 
 insert into menu_sub_section(
 id, name

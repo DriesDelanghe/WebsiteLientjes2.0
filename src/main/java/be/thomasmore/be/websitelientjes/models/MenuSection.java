@@ -1,9 +1,6 @@
 package be.thomasmore.be.websitelientjes.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -16,6 +13,8 @@ public class MenuSection {
     private Domain domain;
     @ManyToMany
     private List<MenuSubSection> menuSubSectionList;
+    @OneToOne
+    private Image image;
 
     public MenuSection() {
     }
@@ -50,5 +49,13 @@ public class MenuSection {
 
     public void setMenuSubSectionList(List<MenuSubSection> menuSubSectionList) {
         this.menuSubSectionList = menuSubSectionList;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 }

@@ -26,8 +26,10 @@
         <div class="menu-button-container">
             <th:block th:each="menuSection : ${menuSectionList}">
                 <a href="#" class="menu-button">
-                    <p th:text="${menuSection.getName()}">placeholder</p>
-                    <img class="inline-logo" th:src="${rightArrow.getImage().getImageLocation()}" alt="">
+                    <div class="menu-section-container">
+                        <img class="menu-section-image" th:src="${menuSection.image.imageLocation}" alt="">
+                        <p th:text="${menuSection.name}">name placeholder</p>
+                    </div>
                 </a>
             </th:block>
         </div>
