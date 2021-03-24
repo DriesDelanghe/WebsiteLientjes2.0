@@ -43,7 +43,10 @@
     <div class="menu-header">
 
         <div class="menu-filter-container">
-            <div class="filter-show-button"></div>
+            <div class="filter-show-button">
+                <p class="filter-text-hidden hide"> show filters </p>
+                <p class="filter-text-shown"> hide filters </p>
+            </div>
             <form class="menu-filters">
                 <div class="filter-block">
                     <h3>Zoeken op naam:</h3>
@@ -68,12 +71,21 @@
                     <h3>Categorie:</h3>
                     <div class="filter-line-radio" th:each="category : ${categoryList}">
                         <label th:for="${category.id}" th:text="|${category.name}:|">placeholder</label>
-                        <input type="radio" th:id="${category.id}" name="categoryFilter[]"
-                               th:value="|hide${category.id}|"> hide
-                        <input type="radio" th:id="${category.id}" name="categoryFilter[]"
-                               th:value="|show${category.id}|"> show
+                        <div class="input-line">
+                            <input type="radio" th:id="${category.id}" th:name="${'categoryFilter['+ categoryStat.index + ']'}"
+                                   th:value="|hide${category.id}|"> verbergen
+                        </div>
+                        <div class="input-line">
+                            <input type="radio" th:id="${category.id}" th:name="${'categoryFilter['+ categoryStat.index + ']'}"
+                                   th:value="|show${category.id}|"> tonen
+                        </div>
                     </div>
                 </div>
+
+                <div class="submit-filter">
+                    <input type="submit" value="zoeken" class="filter-button">
+                </div>
+
             </form>
         </div>
 
@@ -84,7 +96,7 @@
          th:if="${menuSection != null && !menuSection.getMenuSubSectionList().containsAll(menuSubSectionList)}">
         <div class="menu-section" th:each="subSection : ${menuSection.getMenuSubSectionList()}">
             <h2 th:text="${subSection.name}"> placeholder</h2>
-            <div class="product-line" th:each="product : ${subSection.getProducts()}">
+            <div class="product-line" th:each="product : ${subSection.getProducts()}" th:unless="${productListFiltered.contains(product)}">
                 <p class="product-name" th:text="${product.name}"> placeholder</p>
                 <p class="product-price" th:if="${product.priceInEur != null}"
                    th:text="${product.priceInEur}"></p>
@@ -102,7 +114,7 @@
             <div class="menu-section-grid">
                 <div class="menu-section" th:each="subSection : ${menuSectionLoop.getMenuSubSectionList()}">
                     <h2 th:text="${subSection.name}">name sub placeholder</h2>
-                    <div class="product-line" th:each="product : ${subSection.getProducts()}">
+                    <div class="product-line" th:each="product : ${subSection.getProducts()}" th:unless="${productListFiltered.contains(product)}">
                         <p class="product-name" th:text="${product.name}"> product name placeholder</p>
                         <p class="product-price" th:if="${product.priceInEur != null}"
                            th:text="${product.priceInEur}"></p>

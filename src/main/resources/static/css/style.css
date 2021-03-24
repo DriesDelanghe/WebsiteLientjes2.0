@@ -877,12 +877,85 @@ footer a:hover{
     transform: rotateZ(180deg);
 }
 
+.menu-filter-container{
+    display: flex;
+    flex-flow: column;
+}
+
+.filter-show-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-end;
+    min-width: 2rem;
+    min-height: 2rem;
+    width: auto;
+    height: auto;
+    border-radius: 0.5rem;
+    background-color: var(--color1);
+    margin: 0 2rem 1rem;
+}
+
+.filter-text-hidden,
+.filter-text-shown{
+    margin: 0.5rem;
+}
+
+.hide{
+ display: none;
+}
+
 .menu-filters{
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column nowrap;
     justify-content: space-between;
-    margin: 0 2rem;
+    margin: 0 auto;
 }
+
+.filter-line{
+    margin: 0.2rem 0;
+    text-align: left;
+}
+
+.filter-line-radio{
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.filter-line-radio label{
+    flex: 1 0 100%;
+}
+
+.filter-line-radio .input-line{
+    flex: 1 0 45%;
+}
+
+.filter-block{
+    margin: 0.2rem 1rem;
+    padding: 0 1rem 1rem;
+    background-color: rgba(238,238,238,0.2);
+    border-top-right-radius: 5rem 2rem;
+    border-top-left-radius: 5rem 2rem;
+    border-bottom-right-radius: 5rem 2rem;
+    border-bottom-left-radius: 5rem 2rem;
+}
+
+.submit-filter{
+    flex: 1 0 100%;
+    margin: 2rem 0 0;
+}
+
+.submit-filter .filter-button{
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--color1);
+    border: none;
+    font-family: 'Shippori Mincho B1', serif;
+    color: #eeeeee;
+    float: left;
+}
+
 
 
 
@@ -1109,5 +1182,17 @@ footer a:hover{
 
     .menu-section-grid {
         padding: 2rem 5rem;
+    }
+
+    .menu-filters{
+        flex-flow: row wrap;
+    }
+
+    .filter-line-radio label{
+        text-align: left;
+    }
+
+    .filter-line-radio{
+        margin-bottom: 0.5rem;
     }
 }

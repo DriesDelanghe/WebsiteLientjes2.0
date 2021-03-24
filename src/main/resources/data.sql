@@ -364,7 +364,7 @@ values (1, 1),
 
 insert into product_category(id, name)
 values (1, 'alcoholisch'),
-       (2, 'vagetarisch');
+       (2, 'vegetarisch');
 
 insert into product_categories(products_id, categories_id)
 values (11, 1),
