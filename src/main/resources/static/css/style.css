@@ -877,6 +877,13 @@ footer a:hover{
     transform: rotateZ(180deg);
 }
 
+.menu-filters{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    margin: 0 2rem;
+}
+
 
 
 /* =============================

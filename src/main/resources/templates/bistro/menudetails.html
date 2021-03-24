@@ -44,19 +44,44 @@
 
         <div class="menu-filter-container">
             <div class="filter-show-button"></div>
-            <div class="menu-filters">
-                <form>
-                    <p th:each="category : ${categoryList}" th:text="${category.name}">name placeholder</p>
-                    <br>
-                    <p th:each="allergie : ${allergieList}" th:text="${allergie.name}">name placeholder</p>
-                </form>
-            </div>
+            <form class="menu-filters">
+                <div class="filter-block">
+                    <h3>Zoeken op naam:</h3>
+                    <input type="text" list="productNames" name="productSearch" th:value="${productSearch}">
+                    <datalist id="productNames">
+                        <option th:each="product : ${productList}" th:value="${product.name}">
+                        </option>
+                    </datalist>
+                </div>
+
+                <div class="filter-block">
+                    <h3>Allergie:</h3>
+                    <div class="filter-line" th:each="allergie : ${allergieList}">
+                        <input type="checkbox" name="allergieFilter[]" th:value="${allergie.id}"
+                               th:text="${allergie.name}" th:checked="${allergieFilters != null and
+                                allergieFilters.contains(allergie.id)}">
+                    </div>
+
+                </div>
+
+                <div class="filter-block">
+                    <h3>Categorie:</h3>
+                    <div class="filter-line-radio" th:each="category : ${categoryList}">
+                        <label th:for="${category.id}" th:text="|${category.name}:|">placeholder</label>
+                        <input type="radio" th:id="${category.id}" name="categoryFilter[]"
+                               th:value="|hide${category.id}|"> hide
+                        <input type="radio" th:id="${category.id}" name="categoryFilter[]"
+                               th:value="|show${category.id}|"> show
+                    </div>
+                </div>
+            </form>
         </div>
 
         <h1 th:if="${menuSection != null}" th:text="${menuSection.name}">name placeholder</h1>
         <h1 th:if="${menuSection == null}">Geen menuonderdeel geselecteerd</h1>
     </div>
-    <div class="menu-section-grid" th:if="${menuSection != null && !menuSection.getMenuSubSectionList().containsAll(menuSubSectionList)}">
+    <div class="menu-section-grid"
+         th:if="${menuSection != null && !menuSection.getMenuSubSectionList().containsAll(menuSubSectionList)}">
         <div class="menu-section" th:each="subSection : ${menuSection.getMenuSubSectionList()}">
             <h2 th:text="${subSection.name}"> placeholder</h2>
             <div class="product-line" th:each="product : ${subSection.getProducts()}">
@@ -64,7 +89,7 @@
                 <p class="product-price" th:if="${product.priceInEur != null}"
                    th:text="${product.priceInEur}"></p>
                 <p class="product-extra-info" th:if="${product.extraInfo != null}"
-                th:utext="${product.extraInfo}">placeholder</p>
+                   th:utext="${product.extraInfo}">placeholder</p>
             </div>
         </div>
     </div>
@@ -79,8 +104,10 @@
                     <h2 th:text="${subSection.name}">name sub placeholder</h2>
                     <div class="product-line" th:each="product : ${subSection.getProducts()}">
                         <p class="product-name" th:text="${product.name}"> product name placeholder</p>
-                        <p class="product-price" th:if="${product.priceInEur != null}" th:text="${product.priceInEur}"></p>
-                        <p class="product-extra-info" th:if="${product.extraInfo != null}" th:utext="${product.getExtraInfo()}"></p>
+                        <p class="product-price" th:if="${product.priceInEur != null}"
+                           th:text="${product.priceInEur}"></p>
+                        <p class="product-extra-info" th:if="${product.extraInfo != null}"
+                           th:utext="${product.getExtraInfo()}"></p>
                     </div>
                 </div>
             </div>

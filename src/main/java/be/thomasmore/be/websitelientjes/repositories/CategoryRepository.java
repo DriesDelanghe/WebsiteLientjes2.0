@@ -10,10 +10,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CategoryRepository extends CrudRepository<ProductCategory, Integer> {
-
-    @Query("select c from ProductCategory c where c.name in (:categoryNames)")
-    List<ProductCategory> getAllCategoryByName(@Param("categoryNames") String[] categoryNames);
-
     @Query("select distinct c from ProductCategory c join c.products p " +
             "where p in (" +
             "select distinct p from Product p where p.menuSubSection in :menuSubSections )")

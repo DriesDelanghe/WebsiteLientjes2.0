@@ -46,6 +46,8 @@ public class BistroController {
     CategoryRepository categoryRepository;
     @Autowired
     AllergieRepository allergieRepository;
+    @Autowired
+    ProductRepository productRepository;
 
 
     @RequestMapping(value = {"", "/", "/home"}, method = RequestMethod.GET)
@@ -150,7 +152,12 @@ public class BistroController {
     }
 
     @GetMapping({"/menudetails", "/menudetails/{id}"})
-    public String menudetails(Model model, @PathVariable(required = false) Integer id) {
+    public String menudetails(Model model, @PathVariable(required = false) Integer id,
+                              @RequestParam(required = false) String productSearch,
+                              @RequestParam(required = false, name = "allergieFilter[]") List<Integer> allergieFilters) {
+
+        model.addAttribute("productSearch", productSearch);
+        model.addAttribute("allergieFilters", allergieFilters);
 
         Domain domain = domainRepository.getByDomainName("bistro");
 
@@ -177,9 +184,11 @@ public class BistroController {
 
             List<ProductCategory> categoryList = categoryRepository.getAllCategoryByMenuSubSections(menuSection.getMenuSubSectionList());
             List<Allergie> allergieList = allergieRepository.getAllAllergiesByMenuSubSections(menuSection.getMenuSubSectionList());
-
             model.addAttribute("categoryList", categoryList);
             model.addAttribute("allergieList", allergieList);
+
+            List<Product> productList = productRepository.getAllProductsByMenuSection(menuSection);
+            model.addAttribute("productList", productList);
 
 
             model.addAttribute("rightArrow", rightArrow);
