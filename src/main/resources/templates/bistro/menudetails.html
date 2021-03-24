@@ -46,7 +46,9 @@
             <div class="filter-show-button"></div>
             <div class="menu-filters">
                 <form>
-
+                    <p th:each="category : ${categoryList}" th:text="${category.name}">name placeholder</p>
+                    <br>
+                    <p th:each="allergie : ${allergieList}" th:text="${allergie.name}">name placeholder</p>
                 </form>
             </div>
         </div>

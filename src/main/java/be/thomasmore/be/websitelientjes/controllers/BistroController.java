@@ -42,6 +42,10 @@ public class BistroController {
     MenuSectionRepository menuSectionRepository;
     @Autowired
     MenuSubSectionRepository menuSubSectionRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
+    @Autowired
+    AllergieRepository allergieRepository;
 
 
     @RequestMapping(value = {"", "/", "/home"}, method = RequestMethod.GET)
@@ -170,6 +174,13 @@ public class BistroController {
             menuSectionList.remove(menuSection);
 
             Symbol rightArrow = symbolRepository.getSymbolByReferenceName("rightArrow");
+
+            List<ProductCategory> categoryList = categoryRepository.getAllCategoryByMenuSubSections(menuSection.getMenuSubSectionList());
+            List<Allergie> allergieList = allergieRepository.getAllAllergiesByMenuSubSections(menuSection.getMenuSubSectionList());
+
+            model.addAttribute("categoryList", categoryList);
+            model.addAttribute("allergieList", allergieList);
+
 
             model.addAttribute("rightArrow", rightArrow);
             model.addAttribute("nextId", nextId);
