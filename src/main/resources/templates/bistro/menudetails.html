@@ -19,6 +19,15 @@
 
 <header th:replace="bistro/fragments/header :: header"></header>
 
+<div class="arrow-section">
+    <a th:href="@{|/bistro/menudetails/${nextId}|}" class="right-arrow">
+        <img class="inline-logo" th:src="@{${rightArrow.image.imageLocation}}" alt="">
+    </a>
+    <a th:href="@{|/bistro/menudetails/${prevId}|}" class="left-arrow">
+        <img class="inline-logo" th:src="@{${rightArrow.image.imageLocation}}" alt="">
+    </a>
+</div>
+
 <section th:fragment="firstsection" class="page-header">
     <div class="header-image">
         <img src="/images/general/pexels-negative-space-134577.jpg" alt="">
@@ -32,9 +41,20 @@
 
 <section class="homepage-first-section">
     <div class="menu-header">
-        <h1 th:text="${menuSection.name}"></h1>
+
+        <div class="menu-filter-container">
+            <div class="filter-show-button"></div>
+            <div class="menu-filters">
+                <form>
+
+                </form>
+            </div>
+        </div>
+
+        <h1 th:if="${menuSection != null}" th:text="${menuSection.name}">name placeholder</h1>
+        <h1 th:if="${menuSection == null}">Geen menuonderdeel geselecteerd</h1>
     </div>
-    <div class="menu-section-grid">
+    <div class="menu-section-grid" th:if="${menuSection != null && !menuSection.getMenuSubSectionList().containsAll(menuSubSectionList)}">
         <div class="menu-section" th:each="subSection : ${menuSection.getMenuSubSectionList()}">
             <h2 th:text="${subSection.name}"> placeholder</h2>
             <div class="product-line" th:each="product : ${subSection.getProducts()}">
@@ -42,10 +62,28 @@
                 <p class="product-price" th:if="${product.priceInEur != null}"
                    th:text="${product.priceInEur}"></p>
                 <p class="product-extra-info" th:if="${product.extraInfo != null}"
-                th:text="${product.extraInfo}">placeholder</p>
+                th:utext="${product.extraInfo}">placeholder</p>
             </div>
         </div>
     </div>
+
+    <th:block th:if="${menuSection != null && menuSection.getMenuSubSectionList().containsAll(menuSubSectionList)}">
+        <th:block th:each="menuSectionLoop : ${menuSectionList}">
+            <div class="menu-header">
+                <h2 th:text="${menuSectionLoop.name}">name placeholder</h2>
+            </div>
+            <div class="menu-section-grid">
+                <div class="menu-section" th:each="subSection : ${menuSectionLoop.getMenuSubSectionList()}">
+                    <h2 th:text="${subSection.name}">name sub placeholder</h2>
+                    <div class="product-line" th:each="product : ${subSection.getProducts()}">
+                        <p class="product-name" th:text="${product.name}"> product name placeholder</p>
+                        <p class="product-price" th:if="${product.priceInEur != null}" th:text="${product.priceInEur}"></p>
+                        <p class="product-extra-info" th:if="${product.extraInfo != null}" th:utext="${product.getExtraInfo()}"></p>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </th:block>
 </section>
 
 <footer th:replace="bistro/fragments/footer :: footer"></footer>

@@ -16,6 +16,10 @@ public class Product {
     private String extraInfo;
     @ManyToOne
     private MenuSubSection menuSubSection;
+    @ManyToMany
+    private Collection<Allergie> allergies;
+    @ManyToMany
+    private Collection<ProductCategory> categories;
 
     public Product() {
     }
@@ -58,5 +62,21 @@ public class Product {
 
     public void setMenuSubSection(MenuSubSection menuSubSection) {
         this.menuSubSection = menuSubSection;
+    }
+
+    public Collection<Allergie> getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(Collection<Allergie> allergies) {
+        this.allergies = allergies;
+    }
+
+    public Collection<ProductCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Collection<ProductCategory> categories) {
+        this.categories = categories;
     }
 }

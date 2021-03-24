@@ -40,10 +40,12 @@ public class BistroController {
     ContactInfoRepository contactInfoRepository;
     @Autowired
     MenuSectionRepository menuSectionRepository;
+    @Autowired
+    MenuSubSectionRepository menuSubSectionRepository;
 
 
-    @RequestMapping(value = {"", "/" ,"/home"}, method = RequestMethod.GET)
-    public String home(Model model, HttpServletRequest request){
+    @RequestMapping(value = {"", "/", "/home"}, method = RequestMethod.GET)
+    public String home(Model model, HttpServletRequest request) {
         Domain domain = domainRepository.getByDomainName("bistro");
         Page page = pageRepository.getByDomainAndPageName(domain, "home");
 
@@ -73,7 +75,7 @@ public class BistroController {
     }
 
     @GetMapping("/references")
-    public String reference(Model model, HttpServletRequest request){
+    public String reference(Model model, HttpServletRequest request) {
 
         Domain domain = domainRepository.getByDomainName("bistro");
         Page page = pageRepository.getByDomainAndPageName(domain, "references");
@@ -88,7 +90,7 @@ public class BistroController {
     }
 
     @GetMapping("/contact")
-    public String contact(Model model, HttpServletRequest request){
+    public String contact(Model model, HttpServletRequest request) {
         Domain domain = domainRepository.getByDomainName("bistro");
         Page page = pageRepository.getByDomainAndPageName(domain, "contact");
         List<ContactInfo> contactInfoList = contactInfoRepository.getByDomain(domain);
@@ -109,7 +111,7 @@ public class BistroController {
     }
 
     @GetMapping("/personeel")
-    public String personeel(Model model, HttpServletRequest request){
+    public String personeel(Model model, HttpServletRequest request) {
 
         Domain domain = domainRepository.getByDomainName("bistro");
         Page page = pageRepository.getByDomainAndPageName(domain, "personeel");
@@ -125,7 +127,7 @@ public class BistroController {
     }
 
     @GetMapping("/menu")
-    public String menu(Model model, HttpServletRequest request){
+    public String menu(Model model, HttpServletRequest request) {
 
         Domain domain = domainRepository.getByDomainName("bistro");
         Page page = pageRepository.getByDomainAndPageName(domain, "menu");
@@ -144,10 +146,38 @@ public class BistroController {
     }
 
     @GetMapping({"/menudetails", "/menudetails/{id}"})
-    public String menudetails(Model model, @PathVariable(required = false) Integer id){
+    public String menudetails(Model model, @PathVariable(required = false) Integer id) {
+
+        Domain domain = domainRepository.getByDomainName("bistro");
 
         Optional<MenuSection> menuSectionOptional = menuSectionRepository.findById(id);
-        menuSectionOptional.ifPresent(menuSection -> model.addAttribute("menuSection", menuSection));
+        if (menuSectionOptional.isPresent()) {
+            MenuSection menuSection = menuSectionOptional.get();
+            model.addAttribute("menuSection", menuSection);
+
+            List<MenuSection> menuSectionList = menuSectionRepository.getByDomain(domain);
+
+            int indexMenuSection = menuSectionList.indexOf(menuSection);
+            logger.info("found index");
+            int nextId = (indexMenuSection != menuSectionList.size() - 1) ?
+                    menuSectionList.get(indexMenuSection + 1).getId() :
+                    menuSectionList.get(0).getId();
+            int prevId = (indexMenuSection != 0) ?
+                    menuSectionList.get(indexMenuSection - 1).getId() :
+                    menuSectionList.get(menuSectionList.size() - 1).getId();
+
+            List<MenuSubSection> menuSubSectionList = menuSubSectionRepository.getByDomain(domain);
+            menuSectionList.remove(menuSection);
+
+            Symbol rightArrow = symbolRepository.getSymbolByReferenceName("rightArrow");
+
+            model.addAttribute("rightArrow", rightArrow);
+            model.addAttribute("nextId", nextId);
+            model.addAttribute("prevId", prevId);
+            model.addAttribute("menuSectionList", menuSectionList);
+            model.addAttribute("menuSubSectionList", menuSubSectionList);
+        }
+
 
         return "bistro/menudetails";
     }
