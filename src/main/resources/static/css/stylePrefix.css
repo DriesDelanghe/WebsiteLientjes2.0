@@ -6,7 +6,7 @@
 */
 
 :root{
-    --color1: #D4A047;
+    --color1: #d4a047;
     --color2: #3a8786;
     --color3: #A17935;
     --color4: #A17935;
@@ -145,7 +145,7 @@ nav a::after{
 .page-header{
     width: 100%;
     position: relative;
-    height: 50vh;
+    height:50vh;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -202,7 +202,8 @@ nav a::after{
     border-bottom-right-radius: 5rem 2rem;
     border-bottom-left-radius: 5rem 2rem;
     z-index: 1;
-    margin: 42vh 0 0;
+    top: 41vh;
+    margin: 0;
     opacity: 0.9;
 }
 
@@ -268,13 +269,13 @@ footer a:hover{
     content: "";
     position: absolute;
     background-image: url("../images/general/wood-texture-background.jpg");
+    filter: opacity(0.55);
     width: 100%;
     height: auto;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    opacity: 0.55;
     z-index: -1;
 }
 
