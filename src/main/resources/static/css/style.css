@@ -219,7 +219,7 @@ footer a:hover{
 .homepage-first-section::before{
     content: "";
     position: absolute;
-    background-image: url("../images/general/wood-texture-background.jpg");
+    background-image: url("../images/general/wood-texture.jpg");
     width: 100%;
     height: auto;
     top: 0;

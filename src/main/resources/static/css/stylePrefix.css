@@ -12,6 +12,7 @@
     --color4: #A17935;
     --color5: #DBBD8A;
     --color6: #88f6f6;
+    --color7: #87662D;
 }
 
 
@@ -247,7 +248,7 @@ footer a:hover{
 
 .homepage-first-section{
     position: relative;
-    background-color: var(--color1);
+    background-color: var(--color7);
     min-height: 40vh;
     height: auto;
     width: 100%;
@@ -268,7 +269,7 @@ footer a:hover{
 .homepage-first-section::before{
     content: "";
     position: absolute;
-    background-image: url("../images/general/wood-texture-background.jpg");
+    background-image: url("../images/general/wood-texture.jpg");
     filter: opacity(0.55);
     width: 100%;
     height: auto;
