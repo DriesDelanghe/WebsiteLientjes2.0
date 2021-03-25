@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -17,9 +18,9 @@ public class Product {
     @ManyToOne
     private MenuSubSection menuSubSection;
     @ManyToMany
-    private Collection<Allergie> allergies;
+    private List<Allergie> allergies;
     @ManyToMany
-    private Collection<ProductCategory> categories;
+    private List<ProductCategory> categories;
 
     public Product() {
     }
@@ -64,19 +65,19 @@ public class Product {
         this.menuSubSection = menuSubSection;
     }
 
-    public Collection<Allergie> getAllergies() {
+    public List<Allergie> getAllergies() {
         return allergies;
     }
 
-    public void setAllergies(Collection<Allergie> allergies) {
+    public void setAllergies(List<Allergie> allergies) {
         this.allergies = allergies;
     }
 
-    public Collection<ProductCategory> getCategories() {
+    public List<ProductCategory> getCategories() {
         return categories;
     }
 
-    public void setCategories(Collection<ProductCategory> categories) {
+    public void setCategories(List<ProductCategory> categories) {
         this.categories = categories;
     }
 }
