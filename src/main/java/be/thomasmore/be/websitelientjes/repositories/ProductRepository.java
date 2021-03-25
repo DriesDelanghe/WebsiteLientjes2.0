@@ -14,16 +14,26 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Integer> {
 
-    @Query("select p from Product p left join p.allergies a left join p.categories c " +
+    @Query("select distinct p from Product p left join p.allergies a " +
             "where (:productName is null or lower(p.name) not like concat('%', lower(:productName), '%')) " +
-            "and ((:allergies) is null or( (a) in (:allergies))) " +
-            "and ((:hiddenCategories) is null or (c) is empty or (c) in (:hiddenCategories)) " +
+            "and ((:allergies) is null or (a) in (:allergies)) " +
             "and p.menuSubSection in (select mss from MenuSubSection mss join mss.menuSectionList msl where :menuSection is null or :menuSection in (msl))")
     List<Product> filterOnAllergieAndName(@Param("allergies") List<Allergie> allergies,
                                           @Param("productName") String productName,
-                                          @Param("menuSection") MenuSection menuSection,
-                                          @Param("hiddenCategories") List<ProductCategory> hiddenCategories);
+                                          @Param("menuSection") MenuSection menuSection);
 
+    @Query("select distinct p from Product p left join p.categories c " +
+            "where p not in (:productList) and (c) in (:categoryList) " +
+            "and p.menuSubSection in (select mss from MenuSubSection mss join mss.menuSectionList msl where :menuSection is null or :menuSection in (msl))")
+    List<Product> filterListOnCategory(@Param("productList") List<Product> productList,
+                                       @Param("categoryList") List<ProductCategory> hiddenCategoryList,
+                                       @Param("menuSection") MenuSection menuSection);
+
+    @Query("select distinct p from Product p left join p.categories c " +
+            "where (c) in (:categoryList) " +
+            "and p.menuSubSection in (select mss from MenuSubSection mss join mss.menuSectionList msl where :menuSection is null or :menuSection in (msl))")
+    List<Product> filterOnlyOnCategory(@Param("categoryList") List<ProductCategory> hiddenCategoryList,
+                                       @Param("menuSection") MenuSection menuSection);
 
     @Query("select distinct p from Product p " +
             "where p.menuSubSection in (select mss from MenuSubSection mss join mss.menuSectionList ms where :menuSection is null or :menuSection in (ms))")

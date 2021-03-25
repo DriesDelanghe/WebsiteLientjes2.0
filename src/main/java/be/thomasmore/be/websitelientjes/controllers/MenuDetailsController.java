@@ -91,21 +91,21 @@ public class MenuDetailsController {
     }
 
     @ModelAttribute("categoryList")
-    public List<ProductCategory> getCategoryList(@ModelAttribute("menuSection") MenuSection menuSection){
+    public List<ProductCategory> getCategoryList(@ModelAttribute("menuSection") MenuSection menuSection) {
         List<ProductCategory> categoryList = categoryRepository.getAllCategoryByMenuSubSections(menuSection.getMenuSubSectionList());
 
         return categoryList;
     }
 
     @ModelAttribute("allergieList")
-    public List<Allergie> getAllergieList(@ModelAttribute("menuSection") MenuSection menuSection){
+    public List<Allergie> getAllergieList(@ModelAttribute("menuSection") MenuSection menuSection) {
         List<Allergie> allergieList = allergieRepository.getAllAllergiesByMenuSubSections(menuSection.getMenuSubSectionList());
 
         return allergieList;
     }
 
     @ModelAttribute("productList")
-    public List<Product> getProductList(@ModelAttribute("menuSection") MenuSection menuSection){
+    public List<Product> getProductList(@ModelAttribute("menuSection") MenuSection menuSection) {
         List<Product> productList = productRepository.getAllProductsByMenuSection(menuSection);
 
         return productList;
@@ -113,16 +113,15 @@ public class MenuDetailsController {
 
 
     @GetMapping({"/menudetails", "/menudetails/{id}"})
-    public String menudetails(Model model) {
+    public String menudetails(Model model, @ModelAttribute("categoryList") List<ProductCategory> categoryList) {
 
         model.addAttribute("productSearch", null);
         model.addAttribute("allergieFilters", null);
         model.addAttribute("productListFiltered", null);
-        model.addAttribute("filteredCategoryList", model.getAttribute("categoryList"));
+        model.addAttribute("filteredCategoryList", categoryList);
 
         return "bistro/menudetails";
     }
-
 
 
     @PostMapping({"/menudetails", "/menudetails/{id}"})
@@ -140,17 +139,19 @@ public class MenuDetailsController {
 
         if (categoryFilter != null) {
             for (Integer d : categoryFilter) {
-                logger.info(String.format("filter catergoryId -- %d", d));
+                logger.info(String.format("show catergoryId -- %d", d));
             }
             filteredCategoryList = (List<ProductCategory>) categoryRepository.findAllById(categoryFilter);
         } else {
-            logger.info("No filter for categories");
+            logger.info("No shown category");
         }
 
         List<ProductCategory> missingCategories = categoryList;
-        missingCategories.remove(filteredCategoryList);
+        if (filteredCategoryList != null) {
+            missingCategories.removeAll(filteredCategoryList);
+        }
 
-        if(!missingCategories.isEmpty()){
+        if (!missingCategories.isEmpty()) {
             missingCategories.forEach(category -> logger.info(String.format("Hiding category -- %s", category.getName())));
         }
 
@@ -168,25 +169,28 @@ public class MenuDetailsController {
         List<Allergie> filteredAllergies = null;
         if (allergieFilters != null) {
             filteredAllergies = (List<Allergie>) allergieRepository.findAllById(allergieFilters);
-            filteredAllergies.forEach(allergie -> logger.info(String.format("searching on allergie -- %s ", allergie.getName())));
+            filteredAllergies.forEach(allergie -> logger.info(String.format("Filtering on allergie -- %s", allergie.getName())));
         }
 
         logger.info(String.format("allergies is null -- %s", filteredAllergies == null));
 
-        if (filteredAllergies != null) {
-            filteredAllergies.forEach(allergie -> logger.info(String.format("Filtering on allergie -- %s", allergie.getName())));
-        }
-
         logger.info(String.format("searching on productName -- '%s'", productSearch));
         logger.info(String.format("searching in menuSection -- %s", menuSection.getName()));
 
-        List<Product> productListFiltered = productRepository.filterOnAllergieAndName(filteredAllergies, productSearch, menuSection, missingCategories);
+        if(allergieFilters !=null) {
+            List<Product> productListFiltered = productRepository.filterOnAllergieAndName(filteredAllergies, productSearch, menuSection);
+            List<Product> productListCategoryFilter = productRepository.filterListOnCategory(productListFiltered, missingCategories, menuSection);
 
+            productListFiltered.addAll(productListCategoryFilter);
         productListFiltered.forEach(product -> logger.info(String.format("found product matching filter -- %s", product.getName())));
         logger.info(String.format("number of filtered products -- %d", productListFiltered.size()));
 
+            model.addAttribute("productListFiltered", productListFiltered);
+        }else{
+            List<Product> productListFiltered = productRepository.filterOnlyOnCategory(missingCategories, menuSection);
+            model.addAttribute("productListFiltered", productListFiltered);
+        }
 
-        model.addAttribute("productListFiltered", productListFiltered);
         model.addAttribute("filteredCategoryList", filteredCategoryList);
 
         return "bistro/menudetails";

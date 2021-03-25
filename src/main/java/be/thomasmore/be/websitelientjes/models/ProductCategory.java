@@ -3,7 +3,7 @@ package be.thomasmore.be.websitelientjes.models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class ProductCategory {
@@ -12,7 +12,7 @@ public class ProductCategory {
     private int id;
     private String name;
     @ManyToMany(mappedBy = "categories")
-    private Collection<Product> products;
+    private List<Product> products;
 
     public ProductCategory() {
     }
@@ -33,11 +33,11 @@ public class ProductCategory {
         this.name = name;
     }
 
-    public Collection<Product> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(Collection<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 }
