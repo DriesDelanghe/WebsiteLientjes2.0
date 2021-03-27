@@ -69,12 +69,26 @@ header {
     align-items: center;
     z-index: 5;
     margin: 0 auto;
+    pointer-events: none;
+}
+
+header::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    background-color: #222222;
+    height: 2.5rem;
+    width: 100%;
+    z-index: 2;
+    border-bottom-left-radius: 5rem 2rem;
+    border-bottom-right-radius: 5rem 2rem;
 }
 
 nav {
     max-width: 100%;
     width: auto;
     height: auto;
+    z-index: 5;
 }
 
 nav ul {
@@ -108,6 +122,7 @@ nav a {
     -webkit-transition: all 0.1s ease-out;
     -o-transition: all 0.1s ease-out;
     transition: all 0.1s ease-out;
+    pointer-events: all;
 }
 
 
@@ -1091,16 +1106,16 @@ footer a:hover {
 
 .product-price {
     -webkit-box-flex: 1;
-    -ms-flex: 1 0 20%;
-    flex: 1 0 20%;
+    -ms-flex: 1 0 25%;
+    flex: 1 0 25%;
     margin: 0;
     text-align: right;
 }
 
 .product-name {
     -webkit-box-flex: 1;
-    -ms-flex: 1 0 75%;
-    flex: 1 0 75%;
+    -ms-flex: 1 0 70%;
+    flex: 1 0 70%;
     margin: 0;
 }
 
@@ -1352,6 +1367,10 @@ footer a:hover {
         width: 100%;
     }
 
+    header::after{
+        display: none;
+    }
+
     /*        first section
    ============================= */
     .homepage-first-section {
@@ -1485,19 +1504,9 @@ footer a:hover {
 
     /*     map
     --------------------------- */
-    .map-section {
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -ms-flex-flow: row wrap;
-        flex-flow: row wrap;
-        width: 40vw;
-    }
-
 
     .map-section iframe {
         margin-top: 2vw;
-        -ms-flex-item-align: start;
-        align-self: flex-start;
         width: 32vw;
         height: 45vh;
     }
@@ -1508,6 +1517,7 @@ footer a:hover {
         -ms-flex: 1 0 100%;
         flex: 1 0 100%;
         text-align: center;
+        max-width: 34vw;
     }
 
     .map-section::before {

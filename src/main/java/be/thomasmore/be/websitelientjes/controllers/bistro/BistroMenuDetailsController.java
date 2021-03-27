@@ -1,4 +1,4 @@
-package be.thomasmore.be.websitelientjes.controllers.Bistro;
+package be.thomasmore.be.websitelientjes.controllers.bistro;
 
 
 import be.thomasmore.be.websitelientjes.models.*;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RequestMapping("/bistro")
 @Controller
-public class MenuDetailsController {
+public class BistroMenuDetailsController {
 
     @Autowired
     DomainRepository domainRepository;
@@ -32,7 +32,7 @@ public class MenuDetailsController {
     @Autowired
     SymbolRepository symbolRepository;
 
-    Logger logger = LoggerFactory.getLogger(MenuDetailsController.class);
+    Logger logger = LoggerFactory.getLogger(BistroMenuDetailsController.class);
 
 
     @ModelAttribute("rightArrow")

@@ -1,4 +1,4 @@
-package be.thomasmore.be.websitelientjes.controllers.Bistro;
+package be.thomasmore.be.websitelientjes.controllers.bistro;
 
 import be.thomasmore.be.websitelientjes.models.*;
 import be.thomasmore.be.websitelientjes.repositories.*;
@@ -15,9 +15,9 @@ import java.util.List;
 
 @RequestMapping("/bistro")
 @Controller
-public class GeneralController {
+public class BistroGeneralController {
 
-    Logger logger = LoggerFactory.getLogger(GeneralController.class);
+    Logger logger = LoggerFactory.getLogger(BistroGeneralController.class);
 
     @Autowired
     DomainRepository domainRepository;

@@ -12,16 +12,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{|/css/stylePrefix.css|}">
 
-    <title>Lientjes Bistro - contact</title>µ
+    <title>Lientjes Bistro - contact</title>
 
     <script>
         function removeErrorClass(element) {
             element.classList.remove("form-error-field")
         }
     </script>
-</head>
-<body>
 
+</head>
+
+<body>
 <header th:replace="bistro/fragments/header :: header"></header>
 
 <main>
@@ -51,6 +52,7 @@
         <div class="map-section">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156.5514437974912!2d4.3380411402457675!3d51.111723929227594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3f2117d26e7d7%3A0x90d4e0975f273fb!2sLientje&#39;s%20Bistro!5e0!3m2!1sen!2sbe!4v1616099780630!5m2!1sen!2sbe"
                     allowfullscreen="" loading="lazy"></iframe>
+            <p th:text="${paragraphText.get(0).textContent}">Vind makkelijk je weg naar ons!</p>
         </div>
     </section>
 
@@ -65,22 +67,22 @@
                 <fieldset class="general-info-fieldset">
                     <legend th:text="${headerText.get(3).getTextContent()}" class="general-info-legend"></legend>
                     <div class="form-error-text" th:if="${#fields.hasErrors('*')}"
-                         th:text="${paragraphText.get(3).getTextContent()}"></div>
+                         th:text="${paragraphText.get(4).getTextContent()}"></div>
                     <div class="contact-form-line">
-                        <label for="name" th:text="${paragraphText.get(0).getTextContent()}" class="contact-form-label">textContent
+                        <label for="name" th:text="${paragraphText.get(1).getTextContent()}" class="contact-form-label">textContent
                             placeholder</label>
                         <input id="name" th:field="*{name}" class="contact-form-input" th:errorclass="form-error-field"
                                onfocus="removeErrorClass(this)">
                     </div>
                     <div class="contact-form-line">
-                        <label for="email" th:text="${paragraphText.get(1).getTextContent()}"
+                        <label for="email" th:text="${paragraphText.get(2).getTextContent()}"
                                class="contact-form-label">textContent
                             placeholder</label>
                         <input id="email" th:field="*{email}" class="contact-form-input"
                                th:errorclass="form-error-field" onfocus="removeErrorClass(this)">
                     </div>
                     <div class="contact-form-line">
-                        <label for="contactType" th:text="${paragraphText.get(2).getTextContent()}"
+                        <label for="contactType" th:text="${paragraphText.get(3).getTextContent()}"
                                class="contact-form-label">textContent
                             placeholder</label>
                         <select name="contactTypeId" id="contactType" class="contact-form-input">

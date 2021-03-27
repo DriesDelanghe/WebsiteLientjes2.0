@@ -136,7 +136,7 @@
 
         <div class="homepage-bolo-section">
             <h1 th:text="${headerText.get(6).getTextContent()}">header placeholder 6</h1>
-            <a href="" class="bolo-button">
+            <a th:href="|/bolo/home|" class="bolo-button">
                 <p th:text="${paragraphText.get(6).getTextContent()}">paragraph placeholder 6</p>
                 <img class="inline-logo" th:src="${rightArrow.getImage().getImageLocation()}" alt="">
             </a>

@@ -80,13 +80,14 @@ values (1, 'Meer dan een koffiehuis', 1, true, 1),
        (15, 'onze contactgegevens', 1, true, 3),
        (16, 'onze sociale media', 2, true, 3),
        (17, 'contacteer ons hier', 3, true, 3),
-       (18, 'Je naam:', 1, false, 3),
-       (19, 'Je email:', 2, false, 3),
-       (20, 'soort vraag:', 3, false, 3),
+       (18, 'Je naam:', 2, false, 3),
+       (19, 'Je email:', 3, false, 3),
+       (20, 'soort vraag:', 4, false, 3),
        (21, 'algemene info', 4, true, 3),
        (22, 'Je vraag', 5, true, 3),
        (23, 'Je vraag is verstuurd!', 6, true, 3),
-       (24, 'Gelieve alle velden in te vullen', 4, false, 3);
+       (24, 'Gelieve alle velden in te vullen', 5, false, 3),
+       (25, 'Vind makkelijk je weg naar ons!', 1, false, 3);
 
 insert into symbol(id, image_id, reference_name)
 values (1, 3, 'rightArrow');
