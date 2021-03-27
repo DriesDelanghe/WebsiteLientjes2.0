@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 
@@ -89,7 +90,7 @@ public class ContactController {
 
     @PostMapping("/contact")
     public String contactPost(Model model,
-                              @ModelAttribute("contactFormObject") ContactForm contactForm,
+                              @Valid @ModelAttribute("contactFormObject") ContactForm contactForm,
                               BindingResult bindingResult,
                               @RequestParam Integer contactTypeId){
         if(bindingResult.hasErrors()){

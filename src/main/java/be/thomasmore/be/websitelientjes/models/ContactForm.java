@@ -1,6 +1,7 @@
 package be.thomasmore.be.websitelientjes.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -14,9 +15,9 @@ public class ContactForm {
     @NotBlank
     private String name;
     @NotBlank
+    @Email
     private String email;
     @ManyToOne
-    @NotNull
     private ContactType contactType;
     @Column(length = 500)
     @NotBlank

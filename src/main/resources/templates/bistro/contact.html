@@ -12,7 +12,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{|/css/stylePrefix.css|}">
 
-    <title>Lientjes Bistro - contact</title>
+    <title>Lientjes Bistro - contact</title>µ
+
+    <script>
+        function removeErrorClass(element) {
+            element.classList.remove("form-error-field")
+        }
+    </script>
 </head>
 <body>
 
@@ -58,18 +64,24 @@
             <form method="post" th:action="@{|/bistro/contact|}" th:object="${contactFormObject}">
                 <fieldset class="general-info-fieldset">
                     <legend th:text="${headerText.get(3).getTextContent()}" class="general-info-legend"></legend>
+                    <div class="form-error-text" th:if="${#fields.hasErrors('*')}"
+                         th:text="${paragraphText.get(3).getTextContent()}"></div>
                     <div class="contact-form-line">
                         <label for="name" th:text="${paragraphText.get(0).getTextContent()}" class="contact-form-label">textContent
                             placeholder</label>
-                        <input id="name" th:field="*{name}" class="contact-form-input">
+                        <input id="name" th:field="*{name}" class="contact-form-input" th:errorclass="form-error-field"
+                               onfocus="removeErrorClass(this)">
                     </div>
                     <div class="contact-form-line">
-                        <label for="email" th:text="${paragraphText.get(1).getTextContent()}" class="contact-form-label">textContent
+                        <label for="email" th:text="${paragraphText.get(1).getTextContent()}"
+                               class="contact-form-label">textContent
                             placeholder</label>
-                        <input id="email" th:field="*{email}" class="contact-form-input">
+                        <input id="email" th:field="*{email}" class="contact-form-input"
+                               th:errorclass="form-error-field" onfocus="removeErrorClass(this)">
                     </div>
                     <div class="contact-form-line">
-                        <label for="contactType" th:text="${paragraphText.get(2).getTextContent()}" class="contact-form-label">textContent
+                        <label for="contactType" th:text="${paragraphText.get(2).getTextContent()}"
+                               class="contact-form-label">textContent
                             placeholder</label>
                         <select name="contactTypeId" id="contactType" class="contact-form-input">
                             <option th:each="contactType : ${contactTypeList}"
@@ -80,7 +92,8 @@
                 </fieldset>
                 <fieldset class="general-info-fieldset">
                     <legend class="general-info-legend" th:text="${headerText.get(4).getTextContent()}"></legend>
-                    <textarea id="" cols="30" rows="10" th:field="*{question}" class="contact-form-input"></textarea>
+                    <textarea id="" cols="30" rows="10" th:field="*{question}" class="contact-form-text-area"
+                              th:errorclass="form-error-field" onfocus="removeErrorClass(this)"></textarea>
                 </fieldset>
 
                 <input type="submit" value="versturen">

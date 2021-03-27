@@ -85,7 +85,8 @@ values (1, 'Meer dan een koffiehuis', 1, true, 1),
        (20, 'soort vraag:', 3, false, 3),
        (21, 'algemene info', 4, true, 3),
        (22, 'Je vraag', 5, true, 3),
-       (23, 'Je vraag is verstuurd!', 6, true, 3);
+       (23, 'Je vraag is verstuurd!', 6, true, 3),
+       (24, 'Gelieve alle velden in te vullen', 4, false, 3);
 
 insert into symbol(id, image_id, reference_name)
 values (1, 3, 'rightArrow');

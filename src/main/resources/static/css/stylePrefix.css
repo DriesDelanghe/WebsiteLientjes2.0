@@ -845,7 +845,7 @@ footer a:hover {
     flex-flow: column;
     justify-content: space-between;
     align-items: flex-start;
-    margin: 0;
+    margin: 1rem 0;
 }
 
 .general-info-fieldset {
@@ -870,11 +870,30 @@ footer a:hover {
 .contact-form-input {
     flex: 1 0 75%;
     width: 100%;
-    margin: 1rem auto;
+    margin: 0 auto;
     font-size: 1rem;
     line-height: 1.2rem;
     background-color: #eeeeee;
     font-family: 'Shippori Mincho B1', serif;
+}
+
+.contact-form-text-area{
+    flex: 1 0 75%;
+    width: 100%;
+    margin: 2rem auto;
+    font-size: 1rem;
+    line-height: 1.2rem;
+    background-color: #eeeeee;
+    font-family: 'Shippori Mincho B1', serif;
+}
+
+.form-error-text{
+    color: rgba(180,0,0);
+    text-align: center;
+}
+
+.form-error-field{
+    background-color: rgb(180,0,0);
 }
 
 /* =============================
