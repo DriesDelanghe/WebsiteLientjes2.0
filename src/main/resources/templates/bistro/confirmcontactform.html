@@ -12,30 +12,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{|/css/stylePrefix.css|}">
 
-    <title>Lientjes Bistro - menu</title>
+    <title>Lientjes Bistro - contact</title>
 </head>
 <body>
-<header th:replace="bistro/fragments/header :: header"></header>
 
-<main>
+<header th:replace="/bistro/fragments/header :: header"></header>
 
-    <section th:replace="bistro/fragments/firstsectiontemplate :: firstsection"></section>
+<section th:replace="/bistro/fragments/firstsectiontemplate :: firstsection"></section>
 
-    <section class="homepage-first-section">
-        <div class="menu-button-container">
-            <th:block th:each="menuSection : ${menuSectionList}">
-                <a th:href="@{|/bistro/menudetails/${menuSection.id}|}" class="menu-button">
-                    <div class="menu-section-container">
-                        <img class="menu-section-image" th:src="${menuSection.image.imageLocation}" alt="">
-                        <p th:text="${menuSection.name}">name placeholder</p>
-                    </div>
-                </a>
-            </th:block>
-        </div>
-    </section>
+<section class="homepage-first-section">
+    <div class="contact-info-section">
+    <h1 th:text="${headerText.get(5).textContent}"></h1>
+    </div>
+</section>
 
-</main>
-
-<footer th:replace="bistro/fragments/footer :: footer"></footer>
+<footer th:replace="/bistro/fragments/footer :: footer"></footer>
 </body>
 </html>

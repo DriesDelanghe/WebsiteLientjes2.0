@@ -1,4 +1,4 @@
-package be.thomasmore.be.websitelientjes.controllers;
+package be.thomasmore.be.websitelientjes.controllers.Bistro;
 
 
 import be.thomasmore.be.websitelientjes.models.*;

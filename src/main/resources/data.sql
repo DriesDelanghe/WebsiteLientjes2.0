@@ -78,7 +78,14 @@ values (1, 'Meer dan een koffiehuis', 1, true, 1),
        (13, 'Bezoek ook onze zusterzaak', 7, true, 1),
        (14, 'naar Bolo lientje''s', 6, false, 1),
        (15, 'onze contactgegevens', 1, true, 3),
-       (16, 'onze sociale media', 2, true, 3);
+       (16, 'onze sociale media', 2, true, 3),
+       (17, 'contacteer ons hier', 3, true, 3),
+       (18, 'Je naam:', 1, false, 3),
+       (19, 'Je email:', 2, false, 3),
+       (20, 'soort vraag:', 3, false, 3),
+       (21, 'algemene info', 4, true, 3),
+       (22, 'Je vraag', 5, true, 3),
+       (23, 'Je vraag is verstuurd!', 6, true, 3);
 
 insert into symbol(id, image_id, reference_name)
 values (1, 3, 'rightArrow');
@@ -91,7 +98,9 @@ insert into reference(id, site_url, site_name, artist_name, artist_url, product_
 values (1, 'https://www.flaticon.com/', 'Flaticon', 'Roundicons', 'https://roundicons.com/', 'symbols'),
        (2, 'https://www.pexels.com/', 'Pexels', 'Negative Space', 'https://www.pexels.com/@negativespace',
         'header image'),
-       (3, null, null, 'Dries Delanghe', 'https://www.driesdelanghe.be/', 'site');
+       (3, null, null, 'Dries Delanghe', 'https://www.driesdelanghe.be/', 'site'),
+       (4, 'https://www.pexels.com/', 'Pexels', 'Amine M''Siouri', 'https://www.pexels.com/nl-nl/@amine-m-siouri-1025778',
+        'error page header');
 
 insert into contact_info(id, info_name, info_content, domain_id, image_id)
 values (1, 'email', 'info@lientjes-coffeebreak.be', 1, 8),
@@ -402,3 +411,11 @@ values (11, 1),
        (55, 1),
        (60, 1),
        (69, 2);
+
+insert into CONTACT_TYPE(
+ id, question_type, domain_id
+)
+values
+(1, 'Algemene vraag', 1),
+(2, 'Reservering', 1),
+(3, 'Iets anders', 1);

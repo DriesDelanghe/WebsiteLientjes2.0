@@ -11,7 +11,6 @@
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{|/css/stylePrefix.css|}">
-    <link rel="stylesheet" th:href="@{|/css/normalize.css|}">
 
     <title>Lientjes Bistro - contact</title>
 </head>
@@ -39,13 +38,53 @@
                 <th:block th:each="socialMedia : ${socialMediaList}">
                     <a th:href="${socialMedia.getSocialMediaUrl()}" class="social-media-button" target="_blank">
                         <img th:src="${socialMedia.getImage().getImageLocation()}" alt="">
+                    </a>
                 </th:block>
-                </a>
             </div>
         </div>
         <div class="map-section">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156.5514437974912!2d4.3380411402457675!3d51.111723929227594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3f2117d26e7d7%3A0x90d4e0975f273fb!2sLientje&#39;s%20Bistro!5e0!3m2!1sen!2sbe!4v1616099780630!5m2!1sen!2sbe" allowfullscreen="" loading="lazy"></iframe>
-            <p>Vind makkelijk je weg naar ons!</p>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156.5514437974912!2d4.3380411402457675!3d51.111723929227594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3f2117d26e7d7%3A0x90d4e0975f273fb!2sLientje&#39;s%20Bistro!5e0!3m2!1sen!2sbe!4v1616099780630!5m2!1sen!2sbe"
+                    allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <section class="homepage-second-section">
+        <div class="homepage-menu-text">
+            <h1 th:text="${headerText.get(2).getTextContent()}">header placeholder</h1>
+        </div>
+    </section>
+    <section class="homepage-first-section">
+        <div class="form-section">
+            <form method="post" th:action="@{|/bistro/contact|}" th:object="${contactFormObject}">
+                <fieldset class="general-info-fieldset">
+                    <legend th:text="${headerText.get(3).getTextContent()}" class="general-info-legend"></legend>
+                    <div class="contact-form-line">
+                        <label for="name" th:text="${paragraphText.get(0).getTextContent()}" class="contact-form-label">textContent
+                            placeholder</label>
+                        <input id="name" th:field="*{name}" class="contact-form-input">
+                    </div>
+                    <div class="contact-form-line">
+                        <label for="email" th:text="${paragraphText.get(1).getTextContent()}" class="contact-form-label">textContent
+                            placeholder</label>
+                        <input id="email" th:field="*{email}" class="contact-form-input">
+                    </div>
+                    <div class="contact-form-line">
+                        <label for="contactType" th:text="${paragraphText.get(2).getTextContent()}" class="contact-form-label">textContent
+                            placeholder</label>
+                        <select name="contactTypeId" id="contactType" class="contact-form-input">
+                            <option th:each="contactType : ${contactTypeList}"
+                                    th:value="${contactType.id}"
+                                    th:text="${contactType.questionType}"></option>
+                        </select>
+                    </div>
+                </fieldset>
+                <fieldset class="general-info-fieldset">
+                    <legend class="general-info-legend" th:text="${headerText.get(4).getTextContent()}"></legend>
+                    <textarea id="" cols="30" rows="10" th:field="*{question}" class="contact-form-input"></textarea>
+                </fieldset>
+
+                <input type="submit" value="versturen">
+            </form>
         </div>
     </section>
 </main>

@@ -1,4 +1,4 @@
-package be.thomasmore.be.websitelientjes.controllers;
+package be.thomasmore.be.websitelientjes.controllers.Bistro;
 
 import be.thomasmore.be.websitelientjes.models.*;
 import be.thomasmore.be.websitelientjes.repositories.*;
@@ -11,15 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("/bistro")
 @Controller
-public class BistroController {
+public class GeneralController {
 
-    Logger logger = LoggerFactory.getLogger(BistroController.class);
+    Logger logger = LoggerFactory.getLogger(GeneralController.class);
 
     @Autowired
     DomainRepository domainRepository;
@@ -96,26 +94,7 @@ public class BistroController {
         return "bistro/references";
     }
 
-    @GetMapping("/contact")
-    public String contact(Model model, HttpServletRequest request) {
-        Domain domain = domainRepository.getByDomainName("bistro");
-        Page page = pageRepository.getByDomainAndPageName(domain, "contact");
-        List<ContactInfo> contactInfoList = contactInfoRepository.getByDomain(domain);
-        List<TextFragment> headerText = textFragmentRepository.getByPageAndHeaderText(page, true);
-        List<SocialMedia> socialMediaList = socialMediaRepository.findByDomain(domain);
 
-        Collections.sort(headerText);
-        Collections.sort(socialMediaList);
-
-        model.addAttribute("headerText", headerText);
-        model.addAttribute("socialMediaList", socialMediaList);
-        model.addAttribute("contactInfoList", contactInfoList);
-        model.addAttribute("page", page);
-
-        logger.info(String.format("Returned contact page to client -- %s", request.getRemoteAddr()));
-
-        return "bistro/contact";
-    }
 
     @GetMapping("/personeel")
     public String personeel(Model model, HttpServletRequest request) {

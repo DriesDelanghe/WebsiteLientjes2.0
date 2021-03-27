@@ -5,7 +5,7 @@
 * Browsers: last 4 version
 */
 
-:root{
+:root {
     --color1: #d4a047;
     --color2: #3a8786;
     --color3: #A17935;
@@ -16,12 +16,11 @@
 }
 
 
-
 /* =============================
         general styling
    ============================= */
 
-html{
+html {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-family: 'Shippori Mincho B1', serif;
@@ -29,35 +28,35 @@ html{
     font-size: 20px;
 }
 
-*, *:before, *:after{
+*, *:before, *:after {
     -webkit-box-sizing: inherit;
     box-sizing: inherit;
 }
 
-body{
+body {
     margin: 0;
     padding: 0;
     max-width: 100vw;
 }
 
-main{
+main {
     width: 100%;
     height: auto;
     margin: 0;
     padding: 0;
 }
 
-p{
+p {
     font-weight: 500;
 }
 
 /* =============================
         navigation bar
    ============================= */
-header{
+header {
     width: 100%;
     min-height: 8vh;
-    height:auto;
+    height: auto;
     position: fixed;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -72,18 +71,18 @@ header{
     margin: 0 auto;
 }
 
-nav{
+nav {
     max-width: 100%;
-    width:auto;
+    width: auto;
     height: auto;
 }
 
-nav ul{
-    width:auto;
+nav ul {
+    width: auto;
     list-style: none;
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -98,11 +97,11 @@ nav ul{
     padding: 0;
 }
 
-nav a{
+nav a {
     text-decoration: none;
     color: #eee;
     display: block;
-    font-size: clamp(0.8rem, 2vw , 1.2rem);
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
     padding: 1vh 6vw;
     font-weight: 700;
     text-shadow: 2px 2px #222;
@@ -112,13 +111,13 @@ nav a{
 }
 
 
-nav a:hover:after{
+nav a:hover:after {
     -webkit-transform: scaleX(1);
     -ms-transform: scaleX(1);
     transform: scaleX(1);
 }
 
-nav a::after{
+nav a::after {
     display: block;
     position: relative;
     content: "";
@@ -134,7 +133,7 @@ nav a::after{
     transition: all 0.2s ease-out;
 }
 
-.active-page-header{
+.active-page-header {
     color: var(--color1);
 }
 
@@ -143,10 +142,10 @@ nav a::after{
         index header
    ============================= */
 
-.page-header{
+.page-header {
     width: 100%;
     position: relative;
-    height:50vh;
+    height: 50vh;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -159,8 +158,8 @@ nav a::after{
     margin: 0;
 }
 
-.page-header img{
-    width:100%;
+.page-header img {
+    width: 100%;
     height: 100%;
     -o-object-fit: cover;
     object-fit: cover;
@@ -169,19 +168,19 @@ nav a::after{
     background-color: var(--color4);
 }
 
-.header-image{
+.header-image {
     position: absolute;
-    width:100%;
+    width: 100%;
     height: 100%;
     z-index: 2;
 }
 
-.header-text{
+.header-text {
     position: relative;
     z-index: 3;
 }
 
-.header-title{
+.header-title {
     font-family: 'Norican', cursive, sans-serif;
     font-size: 6vh;
     max-font-size: 6rem;
@@ -190,7 +189,7 @@ nav a::after{
     text-shadow: 2px 2px #222;
 }
 
-.title-inset{
+.title-inset {
     margin-left: 5rem;
 }
 
@@ -212,7 +211,7 @@ nav a::after{
               footer
    ============================= */
 
-footer{
+footer {
     position: relative;
     background-color: #222;
     padding: 2vh 5vw;
@@ -224,7 +223,7 @@ footer{
     font-size: 0.8rem;
 }
 
-footer a{
+footer a {
     color: #bbb;
     text-decoration: none;
     -webkit-transition: all 0.1s ease-out;
@@ -232,10 +231,9 @@ footer a{
     transition: all 0.1s ease-out;
 }
 
-footer a:hover{
+footer a:hover {
     color: var(--color6);
 }
-
 
 
 /* =============================
@@ -246,7 +244,7 @@ footer a:hover{
 /*        first section
    ============================= */
 
-.homepage-first-section{
+.homepage-first-section {
     position: relative;
     background-color: var(--color7);
     min-height: 40vh;
@@ -266,7 +264,7 @@ footer a:hover{
     flex-flow: column nowrap;
 }
 
-.homepage-first-section::before{
+.homepage-first-section::before {
     content: "";
     position: absolute;
     background-image: url("../images/general/wood-texture.jpg");
@@ -280,9 +278,9 @@ footer a:hover{
     z-index: -1;
 }
 
-.homepage-first-section h1::after{
+.homepage-first-section h1::after {
     display: block;
-    content:"";
+    content: "";
     position: relative;
     border-bottom: solid 2px #eee;
     height: 2px;
@@ -294,17 +292,17 @@ footer a:hover{
 /*        welcome title
     --------------------------- */
 
-.welcome-title{
+.welcome-title {
     width: auto;
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
 }
 
-.welcome-title h1{
+.welcome-title h1 {
     text-transform: uppercase;
     font-size: clamp(1.5rem, 10vw, 2.5rem);
     padding-top: 6rem;
@@ -312,34 +310,34 @@ footer a:hover{
     line-height: 1.2rem;
 }
 
-.welcome-title h1{
-    margin:0;
+.welcome-title h1 {
+    margin: 0;
 }
 
-.welcome-title .line-2{
+.welcome-title .line-2 {
     margin-left: 3.5ch;
 
 }
 
-.welcome-title .line-3{
+.welcome-title .line-3 {
     margin-left: 4.7ch;
 }
 
 /*     welcome section text
     --------------------------- */
 
-.welcome-text-section{
+.welcome-text-section {
     width: 75%;
     height: auto;
     margin-top: 8rem;
     text-align: center;
 }
 
-.welcome-text-section h1{
+.welcome-text-section h1 {
     font-size: clamp(1.5rem, 8vw, 2rem);
 }
 
-.welcome-text-section p{
+.welcome-text-section p {
     max-width: 500px;
     margin: 0 auto;
 }
@@ -347,14 +345,14 @@ footer a:hover{
 /*     welcome team section
     --------------------------- */
 
-.welcome-team-section{
+.welcome-team-section {
     width: 75%;
     height: auto;
     text-align: center;
     margin-bottom: 10rem;
 }
 
-.welcome-team-section h1{
+.welcome-team-section h1 {
     font-size: clamp(1.5rem, 8vw, 2rem);
 }
 
@@ -362,7 +360,7 @@ footer a:hover{
 /*     personel images markup
     --------------------------- */
 
-.image-personnel-container{
+.image-personnel-container {
     position: relative;
     min-height: 25vh;
     height: auto;
@@ -372,28 +370,28 @@ footer a:hover{
     font-family: 'Indie Flower', cursive;
 }
 
-.personnel-container p{
+.personnel-container p {
     color: #222;
     margin: 0.5rem;
     font-size: 1.2rem;
     line-height: 0.8rem;
 }
 
-.personnel-container{
+.personnel-container {
     padding-top: 2.5%;
     background-color: #eee;
-    -webkit-box-shadow: 2px 2px 5px 2px rgba(34,34,34,0.5);
-    box-shadow: 2px 2px 5px 2px rgba(34,34,34,0.5);
+    -webkit-box-shadow: 2px 2px 5px 2px rgba(34, 34, 34, 0.5);
+    box-shadow: 2px 2px 5px 2px rgba(34, 34, 34, 0.5);
     width: clamp(80px, 40%, 170px);
     height: auto;
 
 }
 
-.personnel-container:hover{
+.personnel-container:hover {
     z-index: 3;
 }
 
-.personnel-left{
+.personnel-left {
     position: absolute;
     top: 2vh;
     left: 0;
@@ -404,14 +402,14 @@ footer a:hover{
 }
 
 
-.personnel-middle{
+.personnel-middle {
     position: absolute;
     top: 0;
     left: 30%;
     z-index: 2;
 }
 
-.personnel-right{
+.personnel-right {
     position: absolute;
     top: 2vh;
     right: 0;
@@ -426,7 +424,7 @@ footer a:hover{
 /*        second section
    ============================= */
 
-.homepage-second-section{
+.homepage-second-section {
     position: relative;
     height: auto;
     width: 100%;
@@ -452,11 +450,11 @@ footer a:hover{
 }
 
 .homepage-second-section p,
-.homepage-second-section h1{
+.homepage-second-section h1 {
     margin: 0.5rem;
 }
 
-.arrow-button{
+.arrow-button {
     width: 12rem;
     padding: 0.5rem;
     margin: 0.5rem auto 0;
@@ -477,11 +475,11 @@ footer a:hover{
     transition: all 0.2s ease-out;
 }
 
-.arrow-button:hover{
+.arrow-button:hover {
     background-color: var(--color2);
 }
 
-.arrow-button p{
+.arrow-button p {
     color: #eeeeee;
     text-decoration: none;
     margin-right: 0.5rem;
@@ -490,7 +488,7 @@ footer a:hover{
 /*        menu text
     --------------------------- */
 
-.homepage-menu-text{
+.homepage-menu-text {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -507,7 +505,7 @@ footer a:hover{
 /*        contact text
     --------------------------- */
 
-.homepage-contact-text{
+.homepage-contact-text {
     margin-top: 3.5rem;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -528,7 +526,7 @@ footer a:hover{
 /*        openingsuren
     --------------------------- */
 
-.homepage-openingsuren-section{
+.homepage-openingsuren-section {
     margin: 3.5rem 0 5rem;
     display: -ms-grid;
     display: grid;
@@ -542,7 +540,7 @@ footer a:hover{
     text-align: center;
 }
 
-.homepage-openingsuren-section h1{
+.homepage-openingsuren-section h1 {
     -ms-grid-column: 1;
     grid-column-start: 1;
     -ms-grid-column-span: 2;
@@ -551,14 +549,14 @@ footer a:hover{
     font-size: clamp(1.5rem, 8vw, 2rem);
 }
 
-.homepage-openingsuren-section p{
+.homepage-openingsuren-section p {
     margin: 0;
 }
 
 /*        social media
     --------------------------- */
 
-.homepage-social-media-section{
+.homepage-social-media-section {
     margin: 2rem 0 5rem;
     width: 75%;
     display: -webkit-box;
@@ -574,11 +572,11 @@ footer a:hover{
     text-align: center;
 }
 
-.homepage-social-media-section h1{
+.homepage-social-media-section h1 {
     font-size: clamp(1.5rem, 8vw, 2rem);
 }
 
-.button-container{
+.button-container {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -596,7 +594,7 @@ footer a:hover{
     margin: 0 auto;
 }
 
-.social-media-button{
+.social-media-button {
     margin: 1rem 2rem;
     padding: 0.5rem 0.7rem;
     border: #eeeeee solid 1px;
@@ -614,7 +612,7 @@ footer a:hover{
 
 }
 
-.social-media-button:hover{
+.social-media-button:hover {
     background-color: var(--color2);
     border: solid 1px var(--color2);
 }
@@ -622,7 +620,7 @@ footer a:hover{
 /*        bolo pointer
     --------------------------- */
 
-.homepage-bolo-section{
+.homepage-bolo-section {
     margin-bottom: 5rem;
     width: 75%;
     text-align: center;
@@ -638,7 +636,7 @@ footer a:hover{
     align-items: center;
 }
 
-.bolo-button{
+.bolo-button {
     margin: 1rem 2rem;
     padding: 0.5rem 0.7rem;
     border: var(--color1) solid 1px;
@@ -657,11 +655,11 @@ footer a:hover{
     color: #eee;
 }
 
-.bolo-button p{
+.bolo-button p {
     margin-right: 0.5rem;
 }
 
-.bolo-button:hover{
+.bolo-button:hover {
     background-color: var(--color2);
     border: solid 1px var(--color2);
 }
@@ -670,7 +668,7 @@ footer a:hover{
         image markup
    ============================= */
 
-.inline-logo{
+.inline-logo {
     height: 1.2rem;
     width: auto;
     padding: 0;
@@ -679,7 +677,7 @@ footer a:hover{
 /*     personel images
     --------------------------- */
 
-.image-personnel{
+.image-personnel {
     -o-object-fit: cover;
     object-fit: cover;
     width: 90%;
@@ -690,14 +688,14 @@ footer a:hover{
         reference page only
    ============================= */
 
-.reference-links{
+.reference-links {
     width: 50%;
     min-width: 250px;
     margin: 5rem auto;
     text-align: center;
 }
 
-.reference-links a{
+.reference-links a {
     color: #fff;
     text-decoration: none;
     font-weight: 800;
@@ -706,7 +704,7 @@ footer a:hover{
     transition: all 0.1s ease-out;
 }
 
-.reference-links a:hover{
+.reference-links a:hover {
     color: var(--color6);
 }
 
@@ -717,7 +715,7 @@ footer a:hover{
 /*     contact info
     --------------------------- */
 
-.contact-info-section{
+.contact-info-section {
     margin: 3rem 0;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -731,7 +729,7 @@ footer a:hover{
     align-items: center;
 }
 
-.contact-line{
+.contact-line {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -745,7 +743,7 @@ footer a:hover{
     margin: 1rem 0;
 }
 
-.contact-info-text{
+.contact-info-text {
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
     display: inline-flex;
@@ -754,17 +752,17 @@ footer a:hover{
     align-items: flex-start;
 }
 
-.contact-info-text p{
+.contact-info-text p {
     margin: 0 0.3rem;
 }
 
-.contact-line .contact-info-text{
+.contact-line .contact-info-text {
     -webkit-box-flex: 1;
     -ms-flex: 1 0 80%;
     flex: 1 0 80%;
 }
 
-.contact-line img{
+.contact-line img {
     -webkit-box-flex: 1;
     -ms-flex: 1 0 60%;
     flex: 1 0 60%;
@@ -772,7 +770,7 @@ footer a:hover{
 
 /*     social media
     --------------------------- */
-.contact-social-media-section{
+.contact-social-media-section {
     text-align: center;
     margin: 3rem 0;
 }
@@ -780,7 +778,7 @@ footer a:hover{
 /*     map
     --------------------------- */
 
-.map-section{
+.map-section {
     -webkit-box-flex: 1;
     -ms-flex: 1 0 60%;
     flex: 1 0 60%;
@@ -805,7 +803,7 @@ footer a:hover{
     align-items: center;
 }
 
-.map-section iframe{
+.map-section iframe {
     width: 75%;
     height: 45vh;
     background-color: #222222;
@@ -813,33 +811,81 @@ footer a:hover{
     z-index: 2;
 }
 
-.map-section p{
+.map-section p {
     z-index: 2;
     color: #222;
     font-family: 'Indie Flower', cursive;
 }
 
-.map-section::before{
-    position:absolute;
+.map-section::before {
+    position: absolute;
     content: "";
     background-color: #eee;
     height: 65vh;
     width: 90%;
     z-index: 1;
-    left:5%;
+    left: 5%;
     -webkit-box-shadow: 2px 2px 5px #222;
     box-shadow: 2px 2px 5px #222;
+}
+
+/*     contact form
+    --------------------------- */
+
+.form-section {
+    margin: 5rem auto;
+    width: 80%;
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+}
+
+.contact-form-line {
+    width: 80%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 0;
+}
+
+.general-info-fieldset {
+    border-top-right-radius: 5rem 2rem;
+    border-top-left-radius: 5rem 2rem;
+    border-bottom-right-radius: 5rem 2rem;
+    border-bottom-left-radius: 5rem 2rem;
+    background-color: rgba(238,238,238,0.4);
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.general-info-legend {
+    margin-left: 2rem;
+}
+.contact-form-label{
+    flex: 1 0 45%;
+    margin-bottom: 0.5rem;
+    min-width: 200px;
+}
+
+.contact-form-input {
+    flex: 1 0 75%;
+    width: 100%;
+    margin: 1rem auto;
+    font-size: 1rem;
+    line-height: 1.2rem;
+    background-color: #eeeeee;
+    font-family: 'Shippori Mincho B1', serif;
 }
 
 /* =============================
         personnel page only
    ============================= */
 
-.personnel-list{
+.personnel-list {
     margin: 5rem 0;
 }
 
-.personnel-context-container{
+.personnel-context-container {
     margin: 1rem 0 5rem 0;
     width: 100%;
     min-height: 25vh;
@@ -861,7 +907,8 @@ footer a:hover{
     -ms-flex: 1 0 100%;
     flex: 1 0 100%;
 }
-.personnel-image-container{
+
+.personnel-image-container {
     min-height: 20vh;
     height: auto;
     width: 50%;
@@ -880,19 +927,20 @@ footer a:hover{
     -ms-flex-align: center;
     align-items: center;
     background-color: #eee;
-    -webkit-box-shadow: 2px 2px 5px 2px rgba(34,34,34,0.5);
-    box-shadow: 2px 2px 5px 2px rgba(34,34,34,0.5);
+    -webkit-box-shadow: 2px 2px 5px 2px rgba(34, 34, 34, 0.5);
+    box-shadow: 2px 2px 5px 2px rgba(34, 34, 34, 0.5);
 }
 
 
-.personnel-image-container img{
+.personnel-image-container img {
     height: auto;
     width: 90%;
     margin: 0 auto;
     z-index: 2;
     background-color: #222222;
 }
-.personnel-image-container p{
+
+.personnel-image-container p {
     margin: 0.3rem 0;
     font-family: 'Indie Flower', cursive;
     color: #222;
@@ -901,19 +949,19 @@ footer a:hover{
     line-height: 0.8rem;
 }
 
-.left .personnel-image-container{
+.left .personnel-image-container {
     -webkit-transform: rotateZ(-5deg);
     -ms-transform: rotate(-5deg);
     transform: rotateZ(-5deg);
 }
 
-.right .personnel-image-container{
+.right .personnel-image-container {
     -webkit-transform: rotateZ(5deg);
     -ms-transform: rotate(5deg);
     transform: rotateZ(5deg);
 }
 
-.personnel-context-container p{
+.personnel-context-container p {
     max-width: 75%;
     width: auto;
     text-align: center;
@@ -925,7 +973,7 @@ footer a:hover{
         Menu page only
    ============================= */
 
-.menu-button-container{
+.menu-button-container {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -942,15 +990,15 @@ footer a:hover{
     margin: 5rem 0;
 }
 
-.menu-button{
+.menu-button {
     color: #222222;
     text-decoration: none;
     margin: 2rem auto;
     width: 80%;
 }
 
-.menu-section-container{
-    width:100%;
+.menu-section-container {
+    width: 100%;
     height: 40vh;
     background-color: #eeeeee;
     -webkit-box-shadow: 2px 2px #222222;
@@ -958,7 +1006,7 @@ footer a:hover{
     padding: 1rem;
 }
 
-.menu-section-image{
+.menu-section-image {
     height: 80%;
     width: 100%;
     -o-object-fit: cover;
@@ -966,7 +1014,7 @@ footer a:hover{
     margin: 0 auto;
 }
 
-.menu-section-container p{
+.menu-section-container p {
     font-family: 'Indie Flower', cursive;
     font-size: 1.2rem;
     line-height: 1rem;
@@ -979,22 +1027,22 @@ footer a:hover{
       menu detail page only
 ============================= */
 
-.menu-header{
+.menu-header {
     text-align: center;
     width: 100%;
     margin: 5rem auto 1rem;
 }
 
-.menu-section{
+.menu-section {
     border: dotted 4px #eee;
     padding: 0.5rem;
 }
 
-.menu-section h2{
+.menu-section h2 {
     margin: 0.1rem auto 1rem;
 }
 
-.menu-section-grid{
+.menu-section-grid {
     -webkit-box-flex: 1;
     -ms-flex: 1 0 100%;
     flex: 1 0 100%;
@@ -1006,7 +1054,8 @@ footer a:hover{
     grid-row-gap: 2rem;
     margin-bottom: 5rem;
 }
-.product-line{
+
+.product-line {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1021,7 +1070,7 @@ footer a:hover{
     width: 100%;
 }
 
-.product-price{
+.product-price {
     -webkit-box-flex: 1;
     -ms-flex: 1 0 20%;
     flex: 1 0 20%;
@@ -1029,14 +1078,14 @@ footer a:hover{
     text-align: right;
 }
 
-.product-name{
+.product-name {
     -webkit-box-flex: 1;
     -ms-flex: 1 0 75%;
     flex: 1 0 75%;
     margin: 0;
 }
 
-.product-extra-info{
+.product-extra-info {
     -webkit-box-flex: 1;
     -ms-flex: 1 0 80%;
     flex: 1 0 80%;
@@ -1046,12 +1095,12 @@ footer a:hover{
     margin: 0 2rem 0.4rem 0.5rem;
 }
 
-.product-price::before{
+.product-price::before {
     content: "€ ";
     margin: 0;
 }
 
-.arrow-section{
+.arrow-section {
     position: fixed;
     width: 100vw;
     height: 100vh;
@@ -1060,7 +1109,7 @@ footer a:hover{
 }
 
 .left-arrow,
-.right-arrow{
+.right-arrow {
     position: absolute;
     top: 45vh;
     height: 8vh;
@@ -1080,31 +1129,31 @@ footer a:hover{
     justify-content: center;
 }
 
-.left-arrow{
+.left-arrow {
     left: 0;
     border-bottom-right-radius: 1rem;
     border-top-right-radius: 1rem;
 }
 
-.right-arrow{
+.right-arrow {
     right: 0;
     border-bottom-left-radius: 1rem;
     border-top-left-radius: 1rem;
 }
 
 .left-arrow img,
-.right-arrow img{
+.right-arrow img {
     opacity: 1;
     z-index: 6;
 }
 
-.left-arrow img{
+.left-arrow img {
     -webkit-transform: rotateZ(180deg);
     -ms-transform: rotate(180deg);
     transform: rotateZ(180deg);
 }
 
-.menu-filter-container{
+.menu-filter-container {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1114,7 +1163,7 @@ footer a:hover{
     flex-flow: column;
 }
 
-.filter-show-button{
+.filter-show-button {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1136,15 +1185,15 @@ footer a:hover{
 }
 
 .filter-text-hidden,
-.filter-text-shown{
+.filter-text-shown {
     margin: 0.5rem;
 }
 
-.hide{
-    display: none!important;
+.hide {
+    display: none !important;
 }
 
-.menu-filters{
+.menu-filters {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1158,12 +1207,12 @@ footer a:hover{
     margin: 0 auto;
 }
 
-.filter-line{
+.filter-line {
     margin: 0.2rem 0;
     text-align: left;
 }
 
-.filter-line-radio{
+.filter-line-radio {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1178,36 +1227,37 @@ footer a:hover{
     -ms-flex-pack: space-evenly;
     justify-content: space-evenly;
 }
-.filter-line-radio label{
+
+.filter-line-radio label {
     -webkit-box-flex: 1;
     -ms-flex: 1 0 100%;
     flex: 1 0 100%;
 }
 
-.filter-line-radio .input-line{
+.filter-line-radio .input-line {
     -webkit-box-flex: 1;
     -ms-flex: 1 0 45%;
     flex: 1 0 45%;
 }
 
-.filter-block{
+.filter-block {
     margin: 0.2rem 1rem;
     padding: 0 1rem 1rem;
-    background-color: rgba(238,238,238,0.2);
+    background-color: rgba(238, 238, 238, 0.2);
     border-top-right-radius: 5rem 2rem;
     border-top-left-radius: 5rem 2rem;
     border-bottom-right-radius: 5rem 2rem;
     border-bottom-left-radius: 5rem 2rem;
 }
 
-.submit-filter{
+.submit-filter {
     -webkit-box-flex: 1;
     -ms-flex: 1 0 100%;
     flex: 1 0 100%;
     margin: 2rem 0 0;
 }
 
-.submit-filter .filter-button{
+.submit-filter .filter-button {
     padding: 1rem;
     border-radius: 0.5rem;
     background-color: var(--color1);
@@ -1217,25 +1267,75 @@ footer a:hover{
     float: left;
 }
 
+/* =============================
+      error only
+============================= */
 
+
+.error-section {
+    width: 100%;
+    position: relative;
+    height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: flex-start;
+    -ms-flex-pack: flex-start;
+    justify-content: flex-start;
+    margin: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+}
+
+.error-section img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    background-color: #eeeeee;
+    object-position: 50% 35%;
+    -o-object-position: 50% 35%;
+}
+
+.error-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.error-text {
+    position: relative;
+    z-index: 3;
+    margin-left: 10vw;
+}
+
+.error-nav {
+    background-color: rgba(160, 160, 160, 0.5);
+}
 
 
 /* =============================
         media breakpoints
    ============================= */
 
-@media only screen and (min-width: 920px){
+@media only screen and (min-width: 920px) {
 
     /*        header
    ============================= */
-    header{
+    header {
         width: 100%;
     }
 
     /*        first section
    ============================= */
-
-    .homepage-first-section{
+    .homepage-first-section {
         padding: 0 5vw;
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
@@ -1247,13 +1347,13 @@ footer a:hover{
         align-items: baseline;
     }
 
-    .welcome-text-section{
+    .welcome-text-section {
         -webkit-box-flex: 1;
         -ms-flex: 1 0 40%;
         flex: 1 0 40%;
     }
 
-    .welcome-title{
+    .welcome-title {
         -ms-flex-item-align: center;
         -ms-grid-row-align: center;
         align-self: center;
@@ -1263,13 +1363,13 @@ footer a:hover{
         flex: 1 0 100%;
     }
 
-    .welcome-title h1{
+    .welcome-title h1 {
         font-size: clamp(1.8rem, 8vw, 4rem);
         line-height: 2rem;
         margin: 0 1rem;
     }
 
-    .welcome-team-section{
+    .welcome-team-section {
         -webkit-box-flex: 1;
         -ms-flex: 1 0 40%;
         flex: 1 0 40%;
@@ -1277,8 +1377,7 @@ footer a:hover{
 
     /*        second section
     ============================= */
-
-    .homepage-second-section{
+    .homepage-second-section {
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
         -ms-flex-flow: row nowrap;
@@ -1291,28 +1390,27 @@ footer a:hover{
         align-items: baseline;
     }
 
-    .homepage-menu-text .arrow-button{
+    .homepage-menu-text .arrow-button {
         margin-top: 6.5rem;
     }
 
-    .homepage-contact-text{
+    .homepage-contact-text {
         margin: 0;
     }
 
-    .homepage-contact-text .arrow-button{
+    .homepage-contact-text .arrow-button {
         margin-top: 2.5rem;
     }
 
     /*        third section
     ============================= */
-
-    .homepage-openingsuren-section{
+    .homepage-openingsuren-section {
         -webkit-box-flex: 1;
         -ms-flex: 1 0 40%;
         flex: 1 0 40%;
     }
 
-    .homepage-social-media-section{
+    .homepage-social-media-section {
         -webkit-box-flex: 1;
         -ms-flex: 1 0 40%;
         flex: 1 0 40%;
@@ -1321,7 +1419,7 @@ footer a:hover{
         align-self: center;
     }
 
-    .homepage-bolo-section{
+    .homepage-bolo-section {
         -webkit-box-flex: 1;
         -ms-flex: 1 0 100%;
         flex: 1 0 100%;
@@ -1334,8 +1432,7 @@ footer a:hover{
     /* =============================
         contact page only
    ============================= */
-
-    .contact-info-section{
+    .contact-info-section {
         -webkit-box-align: center;
         -ms-flex-align: center;
         align-items: center;
@@ -1344,23 +1441,24 @@ footer a:hover{
         flex: 1 0 45%;
     }
 
-    .contact-line{
+    .contact-line {
         width: 100%;
     }
 
-    .contact-line .contact-info-text{
+    .contact-line .contact-info-text {
         margin: 0 0.2rem;
         -webkit-box-flex: 1;
         -ms-flex: 1 0 70%;
         flex: 1 0 70%;
     }
 
-    .contact-line img{
+    .contact-line img {
         -webkit-box-flex: 1;
         -ms-flex: 1 0 10%;
         flex: 1 0 10%;
     }
-    .contact-social-media-section{
+
+    .contact-social-media-section {
         -webkit-box-flex: 1;
         -ms-flex: 1 0 45%;
         flex: 1 0 45%;
@@ -1368,8 +1466,7 @@ footer a:hover{
 
     /*     map
     --------------------------- */
-
-    .map-section{
+    .map-section {
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
         -ms-flex-flow: row wrap;
@@ -1378,7 +1475,7 @@ footer a:hover{
     }
 
 
-    .map-section iframe{
+    .map-section iframe {
         margin-top: 2vw;
         -ms-flex-item-align: start;
         align-self: flex-start;
@@ -1386,7 +1483,7 @@ footer a:hover{
         height: 45vh;
     }
 
-    .map-section p{
+    .map-section p {
         font-size: 1.5rem;
         -webkit-box-flex: 1;
         -ms-flex: 1 0 100%;
@@ -1394,21 +1491,36 @@ footer a:hover{
         text-align: center;
     }
 
-    .map-section::before{
+    .map-section::before {
         height: 65vh;
         width: 36vw;
-        left:32%;
+        left: 32%;
     }
+
+    /*     contact form
+    --------------------------- */
+
+    .contact-form-line {
+        flex-flow: row;
+    }
+
+    .contact-form-label{
+        flex: 1 0 35%;
+    }
+
+    .contact-form-input {
+        flex: 1 0 55%;
+    }
+
 
     /* =============================
         personnel page only
    ============================= */
-
-    .personnel-list{
+    .personnel-list {
         margin: 7rem 0;
     }
 
-    .personnel-context-container{
+    .personnel-context-container {
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
         -ms-flex-flow: row;
@@ -1419,30 +1531,30 @@ footer a:hover{
         margin: -2rem 0;
     }
 
-    .personnel-context-container .description-text{
+    .personnel-context-container .description-text {
         max-width: 15rem;
         margin: 1rem;
     }
 
-    .personnel-image-container{
+    .personnel-image-container {
         height: auto;
         width: 15rem;
         padding: 1%;
     }
 
-    .left .description-text{
+    .left .description-text {
         text-align: left;
     }
 
-    .right .description-text{
+    .right .description-text {
         text-align: right;
     }
 
-    .left{
+    .left {
         padding-left: 5vw;
     }
 
-    .left .personnel-image-container{
+    .left .personnel-image-container {
         -ms-grid-column-align: start;
         justify-self: start;
         -webkit-box-ordinal-group: 2;
@@ -1450,7 +1562,7 @@ footer a:hover{
         order: 1;
     }
 
-    .left .description-text{
+    .left .description-text {
         -ms-grid-column-align: start;
         justify-self: start;
         -webkit-box-ordinal-group: 3;
@@ -1458,11 +1570,11 @@ footer a:hover{
         order: 2;
     }
 
-    .right{
+    .right {
         padding-left: 40vw;
     }
 
-    .right .personnel-image-container{
+    .right .personnel-image-container {
         -ms-grid-column-align: end;
         justify-self: end;
         -webkit-box-ordinal-group: 3;
@@ -1481,23 +1593,22 @@ footer a:hover{
     /* =============================
     menu page only
     ============================= */
-
-    .menu-section-image{
+    .menu-section-image {
         width: auto;
     }
 
-    .menu-button{
+    .menu-button {
         width: auto;
         margin: 1rem;
     }
 
-    .menu-section-container{
+    .menu-section-container {
         -webkit-transition: all 0.1s ease-out;
         -o-transition: all 0.1s ease-out;
         transition: all 0.1s ease-out;
     }
 
-    .menu-section-container:hover{
+    .menu-section-container:hover {
         -webkit-transform: rotateZ(5deg) translateY(-1rem);
         -ms-transform: rotate(5deg) translateY(-1rem);
         transform: rotateZ(5deg) translateY(-1rem);
@@ -1508,23 +1619,22 @@ footer a:hover{
     /* =============================
     menu detail page only
     ============================= */
-
     .menu-section-grid {
         padding: 2rem 5rem;
     }
 
-    .menu-filters{
+    .menu-filters {
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
         -ms-flex-flow: row wrap;
         flex-flow: row wrap;
     }
 
-    .filter-line-radio label{
+    .filter-line-radio label {
         text-align: left;
     }
 
-    .filter-line-radio{
+    .filter-line-radio {
         margin-bottom: 0.5rem;
     }
 }
