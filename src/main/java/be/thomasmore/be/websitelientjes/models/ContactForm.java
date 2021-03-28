@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 public class ContactForm {
@@ -22,6 +23,7 @@ public class ContactForm {
     @Column(length = 500)
     @NotBlank
     private String question;
+    private Date timestamp;
 
     public ContactForm() {
     }
@@ -68,5 +70,13 @@ public class ContactForm {
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 }
