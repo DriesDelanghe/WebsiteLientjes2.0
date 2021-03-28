@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
@@ -11,8 +13,11 @@ public class Personnel {
 
     @Id
     private int id;
+    @NotBlank
     private String name;
+    @NotBlank
     private String functionDescription;
+    @NotBlank
     private String extraInfo;
     @OneToOne
     private Image image;

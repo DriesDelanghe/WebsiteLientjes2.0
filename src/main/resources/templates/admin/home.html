@@ -57,7 +57,7 @@
                                         <h5 class="card-subtitle mb-2 text-muted" th:text="*{functionDescription}"></h5>
                                         <p class="card-text" th:text="*{extraInfo}"></p>
                                         <div class="container-fluid d-flex justify-content-center">
-                                            <a href="#" class="btn btn-dark">update info</a>
+                                            <a th:href="@{|/admin/personeeldetail/*{id}|}"  class="btn btn-dark">update info</a>
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@
                             <h6 class="card-subtitle text-muted" th:text="*{functionDescription}"></h6>
                             <p class="card-text" th:text="*{extraInfo}"></p>
                             <div class="container-fluid d-flex justify-content-center">
-                                <a href="#" class="btn btn-dark">update info</a>
+                                <a th:href="@{|/admin/personeeldetail/*{id}|}"  class="btn btn-dark">update info</a>
                             </div>
                         </div>
                     </div>

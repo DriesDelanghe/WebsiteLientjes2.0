@@ -1,5 +1,6 @@
 .object-cover{
     object-fit: cover;
+    object-position: 50% 10%;
 }
 
 .mobile-image{
