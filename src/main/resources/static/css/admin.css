@@ -1,0 +1,8 @@
+.object-cover{
+    object-fit: cover;
+}
+
+.mobile-image{
+    height: 40vh;
+    width: 100%;
+}
