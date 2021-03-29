@@ -104,4 +104,15 @@ public class AdminPersonnelController {
         personnelRepository.save(personnel);
         return"redirect:/admin/personeellijst";
     }
+
+    @PostMapping("/personnel/imagechange")
+    public String changeImage(@ModelAttribute("personnel") Personnel personnel,
+                              @RequestParam Integer imageId){
+        Image image = new Image(imageId);
+        personnel.setImage(image);
+
+        personnelRepository.save(personnel);
+
+        return "redirect:/admin/personeeldetail" + personnel.getId();
+    }
 }

@@ -13,11 +13,9 @@ public interface ImageRepository extends CrudRepository<Image, Integer> {
     @Query("select i from Image i where i.ImageLocation = :location")
     Optional<Image> getByImageLocation(@Param("location") String location);
 
-    @Query("select distinct i from Image i where i in " +
-            "(select p.image from Personnel p)")
+    @Query("select distinct i from Image i where i.ImageLocation like concat('%', 'personnel', '%') ")
     List<Image> getAllPersonnelImages();
 
-    @Query("select distinct i from Image i where i in " +
-            "(select ms.image from MenuSection ms)")
+    @Query("select distinct i from Image i where i.ImageLocation like concat('%', 'food', '%') ")
     List<Image> getAllMenuImages();
 }

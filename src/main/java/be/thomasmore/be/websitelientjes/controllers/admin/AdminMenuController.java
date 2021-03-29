@@ -112,4 +112,17 @@ public class AdminMenuController {
         return "admin/menusectie";
     }
 
+    @PostMapping("/menu/imagechange")
+    public String changeImageMenu(@ModelAttribute("menuSection") MenuSection menuSection,
+                                  @RequestParam Integer imageId){
+
+        if(imageId != null && menuSection.getImage().getId() != imageId) {
+            menuSection.setImage(new Image(imageId));
+        }
+
+        menuSectionRepository.save(menuSection);
+
+        return "redirect:admin/menusectie/" + menuSection.getId();
+    }
+
 }

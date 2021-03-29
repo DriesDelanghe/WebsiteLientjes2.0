@@ -25,7 +25,7 @@
         <div class="card col-12 col-md-6 mx-auto">
             <img th:src="${menuSection.image.imageLocation}" alt="afbeelding menu sectie">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imageModal">
-                Launch demo modal
+                afbeelding wijzigen
             </button>
             <div class="card-body">
                 <form method="post" th:action="@{|/admin/menusectie/${menuSection.id}|}" th:object="${menuSection}">
@@ -48,25 +48,31 @@
 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form th:action="@{/admin/personnel/imagechange}">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="imageModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Foto wijzigen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-center">Nieuwe foto selecteren</h4>
+                <form th:action="@{|/admin/menu/newimage|}" method="post">
+
+                </form>
+                <hr class="my-2">
+                <h4 class="text-center mt-4">bestaande foto selecteren</h4>
+                <form method="post" th:action="@{/admin/menu/imagechange}" >
                     <div class="row">
                         <div class="col-lg-3 col-md-6 col-12 d-flex flex-row m-2" th:each="image : ${menuImages}"
                              th:object="${image}">
                             <img th:src="*{imageLocation}" class="object-cover w-100">
-                            <input type="radio" th:value="*{id}" name="imageId">
+                            <input type="radio" th:value="*{id}" name="imageId" th:checked="${menuSection.image == image}">
                         </div>
+                        <input type="submit" value="opslagen" class="btn btn-primary">
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <input type="submit" value="opslagen" class="btn btn-primary">
-                </div>
-            </form>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>
