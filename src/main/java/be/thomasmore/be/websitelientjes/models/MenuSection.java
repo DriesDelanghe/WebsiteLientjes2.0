@@ -1,6 +1,7 @@
 package be.thomasmore.be.websitelientjes.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -8,6 +9,7 @@ public class MenuSection {
 
     @Id
     private int id;
+    @NotBlank
     private String name;
     @ManyToOne(fetch = FetchType.LAZY)
     private Domain domain;

@@ -1,6 +1,8 @@
 package be.thomasmore.be.websitelientjes.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class Product {
 
     @Id
     private int id;
+    @NotBlank
     private String name;
     private Double priceInEur;
     private String extraInfo;
