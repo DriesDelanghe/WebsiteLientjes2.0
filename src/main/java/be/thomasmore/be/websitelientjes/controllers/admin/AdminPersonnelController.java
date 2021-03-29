@@ -15,10 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,10 +28,6 @@ public class AdminPersonnelController {
     PersonnelRepository personnelRepository;
     @Autowired
     ImageRepository imageRepository;
-    @Autowired
-    MenuSectionRepository menuSectionRepository;
-    @Autowired
-    DomainRepository domainRepository;
 
     Logger logger = LoggerFactory.getLogger(AdminPersonnelController.class);
 
@@ -49,7 +43,7 @@ public class AdminPersonnelController {
     }
 
     @GetMapping({"/personeeldetail", "/personeeldetail/{id}"})
-    public String personeellijstdetail(@ModelAttribute("personnelList") List<Personnel> personnelList, Model model,
+    public String personeeldetail(@ModelAttribute("personnelList") List<Personnel> personnelList, Model model,
                                        @PathVariable(required = false) Integer id){
         Optional<Personnel> personnelOptional = personnelRepository.findById(id);
         if(personnelOptional.isPresent()){
@@ -84,18 +78,5 @@ public class AdminPersonnelController {
 
         personnelRepository.save(personnel);
         return"redirect:/admin/personeellijst";
-    }
-
-    @GetMapping("/productlijst")
-    public String productLijst(Model model){
-        Domain bistro = domainRepository.getByDomainName("bistro");
-        Domain bolo = domainRepository.getByDomainName("bolo");
-        List<MenuSection> menuSectionListBistro = menuSectionRepository.getByDomain(bistro);
-        List<MenuSection> menuSectionListBolo = menuSectionRepository.getByDomain(bolo);
-
-        model.addAttribute("menuSectionListBistro", menuSectionListBistro);
-        model.addAttribute("menuSectionListBolo", menuSectionListBistro);
-
-        return "admin/productlijst";
     }
 }

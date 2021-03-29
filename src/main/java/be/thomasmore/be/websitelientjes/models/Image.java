@@ -20,6 +20,10 @@ public class Image {
         ImageLocation = imageLocation;
     }
 
+    public Image(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
