@@ -9,9 +9,9 @@ public class MenuSection {
     @Id
     private int id;
     private String name;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Domain domain;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<MenuSubSection> menuSubSectionList;
     @OneToOne
     private Image image;

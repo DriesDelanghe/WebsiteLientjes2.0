@@ -1,9 +1,6 @@
 package be.thomasmore.be.websitelientjes.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -19,9 +16,9 @@ public class Personnel {
     private String functionDescription;
     @NotBlank
     private String extraInfo;
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Image image;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Page> pages;
 
 

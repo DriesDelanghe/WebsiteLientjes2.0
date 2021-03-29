@@ -9,11 +9,11 @@ public class Page {
     @Id
     private int id;
     private String pageName;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private Collection<TextFragment> textFragments;
-    @ManyToMany(mappedBy = "pages")
+    @ManyToMany(mappedBy = "pages", fetch = FetchType.LAZY)
     private Collection<Personnel> personnel;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Domain domain;
 
     public Page() {

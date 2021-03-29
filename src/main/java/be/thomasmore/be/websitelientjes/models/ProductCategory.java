@@ -1,6 +1,7 @@
 package be.thomasmore.be.websitelientjes.models;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.util.List;
@@ -11,7 +12,7 @@ public class ProductCategory {
     @Id
     private int id;
     private String name;
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
     private List<Product> products;
 
     public ProductCategory() {

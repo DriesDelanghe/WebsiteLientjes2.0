@@ -1,9 +1,6 @@
 package be.thomasmore.be.websitelientjes.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,7 +10,7 @@ public class MenuSubSection {
     @Id
     private int id;
     private String name;
-    @ManyToMany(mappedBy = "menuSubSectionList")
+    @ManyToMany(mappedBy = "menuSubSectionList", fetch = FetchType.LAZY)
     private List<MenuSection> menuSectionList;
 
 

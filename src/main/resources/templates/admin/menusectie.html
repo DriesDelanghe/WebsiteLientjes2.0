@@ -18,28 +18,58 @@
 <header th:replace="/admin/fragments/header :: header"></header>
 
 <th:block th:if="${menuSection}">
-<div class="container-fluid w-100">
-    <div class="alert alert-success" role="alert" th:if="${changesSaved != null && changesSaved}">
-        <p class="lead">aanpassingen opgeslagen</p>
-    </div>
-    <div class="card col-12 col-md-6 mx-auto">
-        <img th:src="${menuSection.image.imageLocation}" alt="afbeelding menu sectie">
-        <div class="card-body">
-            <form method="post" th:action="@{|/admin/menusectie/${menuSection.id}|}">
-                <div class="w-100 d-flex justify-content-between">
-                    <label for="name">naam:</label>
-                    <input id="name" type="text" class="card-title" name="name" th:value="${menuSection.name}">
-                </div>
-                <input type="submit" value="opslagen" class="btn btn-dark">
-            </form>
+    <div class="container-fluid w-100">
+        <div class="alert alert-success" role="alert" th:if="${changesSaved != null && changesSaved}">
+            <p class="lead">aanpassingen opgeslagen</p>
         </div>
+        <div class="card col-12 col-md-6 mx-auto">
+            <img th:src="${menuSection.image.imageLocation}" alt="afbeelding menu sectie">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imageModal">
+                Launch demo modal
+            </button>
+            <div class="card-body">
+                <form method="post" th:action="@{|/admin/menusectie/${menuSection.id}|}" th:object="${menuSection}">
+                    <div class="w-100 d-flex justify-content-between">
+                        <label for="name">naam:</label>
+                        <input id="name" type="text" class="card-title" th:field="*{name}">
+                    </div>
+                    <input type="submit" value="opslagen" class="btn btn-dark">
+                </form>
+            </div>
 
+        </div>
     </div>
-</div>
 </th:block>
 <th:block th:unless="${menuSection}">
 
 </th:block>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form th:action="@{/admin/personnel/imagechange}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-12 d-flex flex-row m-2" th:each="image : ${menuImages}"
+                             th:object="${image}">
+                            <img th:src="*{imageLocation}" class="object-cover w-100">
+                            <input type="radio" th:value="*{id}" name="imageId">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" value="opslagen" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

@@ -18,7 +18,7 @@ public class ContactForm {
     @NotBlank
     @Email
     private String email;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private ContactType contactType;
     @Column(length = 500)
     @NotBlank

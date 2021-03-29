@@ -1,6 +1,7 @@
 package be.thomasmore.be.websitelientjes.models;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -11,9 +12,9 @@ public class ContactInfo {
     private int id;
     private String infoName;
     private String infoContent;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Domain domain;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Image image;
 
     public ContactInfo() {

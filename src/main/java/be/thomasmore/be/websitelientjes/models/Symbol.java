@@ -1,9 +1,6 @@
 package be.thomasmore.be.websitelientjes.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
@@ -11,10 +8,10 @@ public class Symbol {
 
     @Id
     private int id;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Image image;
     private String referenceName;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     Collection<Page> pages;
 
     public Symbol() {

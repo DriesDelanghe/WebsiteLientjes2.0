@@ -1,9 +1,6 @@
 package be.thomasmore.be.websitelientjes.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class SocialMedia implements Comparable<SocialMedia> {
@@ -11,10 +8,10 @@ public class SocialMedia implements Comparable<SocialMedia> {
     @Id
     private int id;
     private String socialMediaUrl;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Image image;
     private Integer orderReference;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Domain domain;
 
     public SocialMedia() {

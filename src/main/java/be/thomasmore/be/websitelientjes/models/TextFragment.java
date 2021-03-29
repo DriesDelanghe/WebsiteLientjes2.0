@@ -1,6 +1,7 @@
 package be.thomasmore.be.websitelientjes.models;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -12,7 +13,7 @@ public class TextFragment implements Comparable<TextFragment>{
     private String textContent;
     private Integer orderReference;
     private boolean headerText;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Page page;
 
     public TextFragment() {

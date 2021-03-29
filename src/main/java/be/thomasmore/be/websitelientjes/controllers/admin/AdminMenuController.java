@@ -4,7 +4,10 @@ import be.thomasmore.be.websitelientjes.models.Domain;
 import be.thomasmore.be.websitelientjes.models.Image;
 import be.thomasmore.be.websitelientjes.models.MenuSection;
 import be.thomasmore.be.websitelientjes.repositories.DomainRepository;
+import be.thomasmore.be.websitelientjes.repositories.ImageRepository;
 import be.thomasmore.be.websitelientjes.repositories.MenuSectionRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +26,10 @@ public class AdminMenuController {
     DomainRepository domainRepository;
     @Autowired
     MenuSectionRepository menuSectionRepository;
+    @Autowired
+    ImageRepository imageRepository;
+
+    Logger logger = LoggerFactory.getLogger(AdminMenuController.class);
 
     @ModelAttribute("domainBistro")
     public Domain getDomainBistro(){
@@ -40,6 +47,24 @@ public class AdminMenuController {
     @ModelAttribute("menuSectionListBolo")
     public List<MenuSection> getMenuSectionListBolo(@ModelAttribute("domainBolo") Domain domainBolo){
         return menuSectionRepository.getByDomain(domainBolo);
+    }
+
+    @ModelAttribute("menuSection")
+    public MenuSection getMenuSection(@PathVariable(required = false) Integer menuSectionId){
+        try{
+            Optional<MenuSection> menuSectionOptional = menuSectionRepository.findById(menuSectionId);
+            if(menuSectionOptional.isPresent()){
+                return menuSectionOptional.get();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @ModelAttribute("menuImages")
+    public List<Image> getMenuImages(){
+        return imageRepository.getAllMenuImages();
     }
 
     @GetMapping({"/menulijst", "/menulijst/{id}"})
@@ -65,33 +90,26 @@ public class AdminMenuController {
         return "admin/menulijst";
     }
 
-    @GetMapping({"/menusectie", "/menusectie/{id}"})
-    public String menuSectie(Model model, @PathVariable(required = false) Integer id){
-        model.addAttribute("menuSection", null);
-        try{
-            Optional<MenuSection> menuSectionOptional = menuSectionRepository.findById(id);
-            model.addAttribute("section", null);
-            if(menuSectionOptional.isPresent()){
-                model.addAttribute("menuSection", menuSectionOptional.get());
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    @GetMapping({"/menusectie", "/menusectie/{menuSectionId}"})
+    public String menuSectie(Model model, @PathVariable(required = false) Integer menuSectionId){
 
         return "admin/menusectie";
     }
 
-    @PostMapping("/menusectie/{id}")
-    public String menuSectiePost(@Valid @ModelAttribute("menuSection") MenuSection menuSection,
-                                 @PathVariable Integer id,
+    @PostMapping("/menusectie/{menuSectionId}")
+    public String menuSectiePost(@PathVariable Integer menuSectionId,
                                  Model model,
-                                 @RequestParam String name){
+                                 @Valid @ModelAttribute("menuSection") MenuSection menuSection,
+                                 BindingResult bindingResult){
 
-        menuSection.setName(name);
+        if(bindingResult.hasErrors()){
+            return "redirect:/admin/menusectie";
+        }
+
+        logger.info("domain id -- " + menuSection.getId());
         menuSectionRepository.save(menuSection);
-        model.addAttribute("menuSection", menuSection);
         model.addAttribute("changesSaved", true);
-        return "redirect:/admin/menusectie" +id;
+        return "admin/menusectie";
     }
 
 }

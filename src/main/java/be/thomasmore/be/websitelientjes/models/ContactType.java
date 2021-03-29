@@ -10,7 +10,7 @@ public class ContactType {
     @Id
     private Integer id;
     private String questionType;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Domain domain;
 
     public ContactType() {

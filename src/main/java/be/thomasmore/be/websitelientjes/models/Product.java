@@ -1,9 +1,6 @@
 package be.thomasmore.be.websitelientjes.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,11 +12,11 @@ public class Product {
     private String name;
     private Double priceInEur;
     private String extraInfo;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private MenuSubSection menuSubSection;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Allergie> allergies;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<ProductCategory> categories;
 
     public Product() {

@@ -13,7 +13,7 @@ public class Openingsuur {
     private Date openingsuur;
     @Temporal(TemporalType.TIME)
     private Date sluitingsuur;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Domain domain;
 
     public Openingsuur() {

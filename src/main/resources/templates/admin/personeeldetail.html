@@ -20,38 +20,37 @@
     <th:block th:if="${personnel}">
         <div class="container col-10 col-md-6 col-xl-3 mx-auto my-5">
             <div class="card w-100 h-100 my-2">
-                <form method="post" th:action="@{|/admin/personeeldetail/*{id}|}" enctype="multipart/form-data"
-                      th:object="${personnel}">
-                    <div class="container-fluid d-flex flex-column justify-content-center">
-                        <label for="img">
-                            <img th:src="${personnel.image.imageLocation}" class="object-cover mobile-image"
-                                 alt="personeel afbeelding">
-                            <input class="d-none" type="number" id="img" name="imageId" th:value="${personnel.image.id}">
-                        </label>
+
+                <div class="container-fluid d-flex flex-column justify-content-center">
+                    <img th:src="${personnel.image.imageLocation}" class="object-cover mobile-image"
+                         alt="personeel afbeelding">
+                </div>
+                <div class="card-body">
+                    <form method="post" th:action="@{|/admin/personeeldetail/*{id}|}" enctype="multipart/form-data" th:object="${personnel}">
+                    <div class="w-100 alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">Gelieve
+                        alle velden in te
+                        vullen
                     </div>
-                    <div class="card-body">
-                        <div class="w-100 alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">Gelieve alle velden in te
-                            vullen
-                        </div>
-                        <div class="w-100 d-flex justify-content-between">
-                            <label for="name">naam:</label>
-                            <input id="name" type="text" class="card-title" th:field="*{name}" th:errorclass="alert-danger">
-                        </div>
-                        <div class="w-100 d-flex justify-content-between">
-                            <label for="function">functie:</label>
-                            <input id="function" type="text" class="card-subtitle text-muted"
-                                   th:field="*{functionDescription}" th:errorclass="alert-danger">
-                        </div>
-                        <div class="w-100 d-flex justify-content-start flex-column mt-2">
-                            <label for="description">beschrijving:</label>
-                            <textarea id="description" class="card-text w-100 my-2" cols="12" rows="5"
-                                      th:field="*{extraInfo}" th:errorclass="alert-danger"> </textarea>
-                        </div>
-                        <div class="container-fluid d-flex justify-content-center">
-                            <input type="submit" class="btn btn-dark" value="bevestigen">
-                        </div>
+                    <div class="w-100 d-flex justify-content-between">
+                        <label for="name">naam:</label>
+                        <input id="name" type="text" class="card-title" th:field="*{name}"
+                               th:errorclass="alert-danger">
                     </div>
-                </form>
+                    <div class="w-100 d-flex justify-content-between">
+                        <label for="function">functie:</label>
+                        <input id="function" type="text" class="card-subtitle text-muted"
+                               th:field="*{functionDescription}" th:errorclass="alert-danger">
+                    </div>
+                    <div class="w-100 d-flex justify-content-start flex-column mt-2">
+                        <label for="description">beschrijving:</label>
+                        <textarea id="description" class="card-text w-100 my-2" cols="12" rows="5"
+                                  th:field="*{extraInfo}" th:errorclass="alert-danger"> </textarea>
+                    </div>
+                    <div class="container-fluid d-flex justify-content-center">
+                        <input type="submit" class="btn btn-dark" value="bevestigen">
+                    </div>
+                    </form>
+                </div>
             </div>
         </div>
     </th:block>
