@@ -123,7 +123,7 @@ public class AdminMenuController {
 
         menuSectionRepository.save(menuSection);
 
-        return "redirect:/admin/menusectie";
+        return "redirect:/admin/menusectie/" + menuSectionId;
     }
 
 }
