@@ -59,7 +59,7 @@
                 </form>
                 <hr class="my-2">
                 <h4 class="text-center mt-4">bestaande foto selecteren</h4>
-                <form method="post" th:action="@{/admin/menu/imagechange}" >
+                <form method="post" th:action="@{|/admin/menu/imagechange/${menuSection.id}|}" >
                     <div class="row">
                         <div class="col-lg-3 col-md-6 col-12 d-flex flex-row m-2" th:each="image : ${menuImages}"
                              th:object="${image}">
