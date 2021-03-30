@@ -17,8 +17,8 @@
 
 <header th:replace="/admin/fragments/header :: header"></header>
 
-<th:block th:if="${menuSectionListBolo != null && menuSectionListBistro != null && menuSectionList != null}">
-    <th:block th:unless="${menuSectionList != null}">
+<th:block th:if="${menuSectionListBolo != null && menuSectionListBistro != null}">
+    <th:block th:if="${menuSectionList == null}">
         <div class="container-fluid w-100 mx-auto">
             <h2 class="text-center mt-5">Menu secties Lientjes Bistro</h2>
             <hr class="text-muted mx-auto w-50 my-2">
@@ -91,7 +91,7 @@
                     </div>
                 </th:block>
                 <div class="card col-12 col-sm-6 col-md-4 col-lg-3 m-1">
-                    <form method="post" th:action="@{|/admin/newsectionondomain/${domain.id}|}" th:object="${newSection}">
+                    <form method="post" th:action="@{|/admin/newsectionondomain/${(domain.id)}|}" th:object="${newSection}">
                         <img th:src="${newSection.image.imageLocation}" alt="afbeelding nieuwe menu sectie" class="object-cover mobile-image">
                         <div class="card-body">
                             <h5 class="card-title">Nieuwe sectie</h5>
@@ -107,7 +107,7 @@
         </div>
     </th:block>
 </th:block>
-<th:block th:unless="${menuSectionListBolo != null && menuSectionListBistro != null && menuSectionList != null}">
+<th:block th:unless="${menuSectionListBolo != null && menuSectionListBistro != null}">
     <div class="container-fluid w-100">
         <h2 class="text-center mt-5">Kan menu sectie pagina niet vinden</h2>
         <hr class="text-muted mx-auto w-50 my-2">

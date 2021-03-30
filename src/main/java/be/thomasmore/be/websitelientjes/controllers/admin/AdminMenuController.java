@@ -1,6 +1,7 @@
 package be.thomasmore.be.websitelientjes.controllers.admin;
 
 import be.thomasmore.be.websitelientjes.models.*;
+import be.thomasmore.be.websitelientjes.models.Image;
 import be.thomasmore.be.websitelientjes.repositories.*;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.awt.*;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,7 +25,7 @@ import java.util.Optional;
 
 @RequestMapping("/admin")
 @Controller
-public class AdminMenuController{
+public class AdminMenuController {
 
     @Autowired
     DomainRepository domainRepository;
@@ -46,12 +48,12 @@ public class AdminMenuController{
 
     @ModelAttribute("domainBistro")
     public Domain getDomainBistro() {
-        return domainRepository.getByDomainName("bistro");
+        return domainRepository.findById(1).get();
     }
 
     @ModelAttribute("domainBolo")
     public Domain getDomainBolo() {
-        return domainRepository.getByDomainName("bolo");
+        return domainRepository.findById(2).get();
     }
 
     @ModelAttribute("menuSectionListBistro")
@@ -66,7 +68,7 @@ public class AdminMenuController{
 
     @ModelAttribute("menuSection")
     public MenuSection getMenuSection(@PathVariable(required = false) Integer menuSectionId) {
-        if(menuSectionId != null) {
+        if (menuSectionId != null) {
             try {
                 Optional<MenuSection> menuSectionOptional = menuSectionRepository.findById(menuSectionId);
                 if (menuSectionOptional.isPresent()) {
@@ -85,26 +87,30 @@ public class AdminMenuController{
     }
 
     @ModelAttribute("allergieList")
-    public List<Allergie> getAllergieList(){
+    public List<Allergie> getAllergieList() {
         return (List<Allergie>) allergieRepository.findAll();
     }
 
     @ModelAttribute("categoryList")
-    public List<ProductCategory> categoryList(){
+    public List<ProductCategory> categoryList() {
         return (List<ProductCategory>) categoryRepository.findAll();
     }
+
     @ModelAttribute("newProduct")
-    public Product newProduct(){
+    public Product newProduct(@ModelAttribute("newProduct") Product product) {
+        if(product != null){
+            return product;
+        }
         return new Product();
     }
 
     @ModelAttribute("newSubSection")
-    public MenuSubSection newSubsection(){
+    public MenuSubSection newSubsection() {
         return new MenuSubSection();
     }
 
     @ModelAttribute("newSection")
-    public MenuSection newSection(){
+    public MenuSection newSection() {
         MenuSection newSection = new MenuSection();
         newSection.setImage(imageRepository.findById(1).get());
         logger.info("image id new Section -- " + newSection.getImage().getId());
@@ -132,14 +138,29 @@ public class AdminMenuController{
             return "admin/menulijst";
         }
 
+        logger.info(String.format("menuSectionList is null -- '%s'", model.getAttribute("menuSectionList") == null));
+        logger.info(String.format("menuSectionListBistro is null -- '%s'", model.getAttribute("menuSectionListBistro") == null));
+        logger.info(String.format("menuSectionListBolo is null -- '%s'", model.getAttribute("menuSectionListBolo") == null));
         return "admin/menulijst";
     }
 
     @GetMapping({"/menusectie", "/menusectie/{menuSectionId}"})
     public String menuSectie(Model model, @PathVariable(required = false) Integer menuSectionId) {
         model.addAttribute("changesSaved", false);
+
         return "admin/menusectie";
     }
+
+    @GetMapping("/nieuwproduct")
+    public String newProductGet(){
+
+        return "admin/newproduct";
+    }
+
+
+
+
+
 
     @PostMapping("/menusectie/{menuSectionId}")
     public String menuSectiePost(@PathVariable Integer menuSectionId,
@@ -176,7 +197,7 @@ public class AdminMenuController{
     public String newImageMenu(@ModelAttribute("menuSection") MenuSection menuSection,
                                @PathVariable Integer menuSectionId,
                                @NotNull @RequestParam MultipartFile newImage,
-                               Model model) throws Exception{
+                               Model model) throws Exception {
         model.addAttribute("FileSizeException", null);
         try {
             String newImageName = newImage.getOriginalFilename();
@@ -200,7 +221,7 @@ public class AdminMenuController{
             }
         } catch (FileSizeLimitExceededException fileSizeLimitExceededException) {
             model.addAttribute("FileSizeException", true);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/admin/menusectie/" + menuSectionId;
         }
@@ -218,34 +239,34 @@ public class AdminMenuController{
                                   @RequestParam BigDecimal productPrice,
                                   @RequestParam String productExtraInfo,
                                   @RequestParam(name = "category[]", required = false) List<Integer> categoryIdList,
-                                  @RequestParam(name = "allergy[]", required = false) List<Integer> allergyIdList){
+                                  @RequestParam(name = "allergy[]", required = false) List<Integer> allergyIdList) {
 
         Product product = productRepository.findById(productId).get();
 
-        if(product.getName() != productName){
+        if (product.getName() != productName) {
             product.setName(productName);
         }
-        if(product.getPriceInEur() != productPrice){
+        if (product.getPriceInEur() != productPrice) {
             product.setPriceInEur(productPrice);
         }
-        if(product.getExtraInfo() != productExtraInfo){
+        if (product.getExtraInfo() != productExtraInfo) {
             product.setExtraInfo(productExtraInfo);
         }
 
-        if(allergyIdList != null) {
+        if (allergyIdList != null) {
             List<Allergie> allergieList = (List<Allergie>) allergieRepository.findAllById(allergyIdList);
             allergieList.forEach(allergie -> logger.info(String.format("Category -- %s", allergie.getName())));
             product.setAllergies(allergieList);
         }
-        if(allergyIdList == null){
+        if (allergyIdList == null) {
             product.getAllergies().removeAll(product.getAllergies());
         }
-        if(categoryIdList != null) {
+        if (categoryIdList != null) {
             List<ProductCategory> categoryList = (List<ProductCategory>) categoryRepository.findAllById(categoryIdList);
             categoryList.forEach(category -> logger.info(String.format("Category -- %s", category.getName())));
             product.setCategories(categoryList);
         }
-        if(categoryIdList == null){
+        if (categoryIdList == null) {
             product.getCategories().removeAll(product.getCategories());
         }
         productRepository.save(product);
@@ -256,11 +277,11 @@ public class AdminMenuController{
     @PostMapping("/menu/subsectionnamechange/{menuSectionId}/{subSectionId}")
     public String editSubSection(@PathVariable Integer menuSectionId,
                                  @PathVariable Integer subSectionId,
-                                 @RequestParam String subSectionName){
+                                 @RequestParam String subSectionName) {
 
         MenuSubSection menuSubSection = menuSubSectionRepository.findById(subSectionId).get();
 
-        if(menuSubSection.getName() != subSectionName){
+        if (menuSubSection.getName() != subSectionName) {
             menuSubSection.setName(subSectionName);
         }
 
@@ -273,9 +294,9 @@ public class AdminMenuController{
     public String newMenuProduct(@Valid @ModelAttribute("newProduct") Product product,
                                  BindingResult bindingResult,
                                  @PathVariable Integer menuSectionId,
-                                 @PathVariable Integer subSectionId){
+                                 @PathVariable Integer subSectionId) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "redirect:/admin/menusectie/" + menuSectionId;
         }
 
@@ -292,33 +313,41 @@ public class AdminMenuController{
     public String newMenuSubSection(@Valid @ModelAttribute("newSubSection") MenuSubSection menuSubSection,
                                     BindingResult bindingResult,
                                     @PathVariable Integer menuSectionId,
-                                    @RequestParam String newSubSectionName){
+                                    @RequestParam String newSubSectionName) {
         logger.info("---- start adding new subsection ----");
-        if(bindingResult.hasErrors() || newSubSectionName == null || newSubSectionName.isBlank()){
+        if (bindingResult.hasErrors() || newSubSectionName == null || newSubSectionName.isBlank()) {
             return "redirect:/admin/menusectie/" + menuSectionId;
         }
 
         menuSubSection.setName(newSubSectionName);
-        MenuSection section = menuSectionRepository.findById(menuSectionId).get();
-        MenuSection allproductsSection = menuSectionRepository.findById(8).get();
         menuSubSectionRepository.save(menuSubSection);
 
+        MenuSection section = menuSectionRepository.findById(menuSectionId).get();
+
+        if (section.getDomain().getId() == 1) {
+            MenuSection allproductsSection = menuSectionRepository.findById(1).get();
+            allproductsSection.getMenuSubSectionList().add(menuSubSection);
+            menuSectionRepository.save(allproductsSection);
+        }
+        if (section.getDomain().getId() == 2) {
+            MenuSection allproductsSection = menuSectionRepository.findById(2).get();
+            allproductsSection.getMenuSubSectionList().add(menuSubSection);
+            menuSectionRepository.save(allproductsSection);
+        }
         section.getMenuSubSectionList().add(menuSubSection);
-        allproductsSection.getMenuSubSectionList().add(menuSubSection);
 
         menuSectionRepository.save(section);
-        menuSectionRepository.save(allproductsSection);
 
         logger.info("---- end adding new subsection ----");
         return "redirect:/admin/menusectie/" + menuSectionId;
     }
 
     @PostMapping("/newsectionondomain/{domainId}")
-    public String newSectionOnDomain( @PathVariable Integer domainId,
-                                      @ModelAttribute("newSection") MenuSection menuSection,
-                                      BindingResult bindingResult,
-                                      Model model){
-        if(bindingResult.hasErrors()){
+    public String newSectionOnDomain(@PathVariable Integer domainId,
+                                     @Valid @ModelAttribute("newSection") MenuSection menuSection,
+                                     BindingResult bindingResult,
+                                     Model model) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("newSection", menuSection);
             return "redirect:/admin/menulijst" + domainId;
         }
@@ -331,18 +360,95 @@ public class AdminMenuController{
 
     @PostMapping("/newsection/{domainId}")
     public String newSectionNoDomain(@PathVariable Integer domainId,
-                                     @ModelAttribute("newSection") MenuSection menuSection,
+                                     @Valid @ModelAttribute("newSection") MenuSection menuSection,
                                      BindingResult bindingResult,
-                                     Model model){
+                                     Model model) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("newSection", menuSection);
-            return "redirect:/admin/menulijst/";
+            return "redirect:/admin/menulijst";
         }
 
         menuSection.setDomain(new Domain(domainId));
         menuSectionRepository.save(menuSection);
 
         return "redirect:/admin/menulijst";
+    }
+
+    @PostMapping("/removeproduct/{menuSectionId}/{productId}")
+    public String removeProduct(@PathVariable Integer productId,
+                                @PathVariable Integer menuSectionId) {
+        Product product = productRepository.findById(productId).get();
+        productRepository.delete(product);
+
+        return "redirect:/admin/menusectie/" + menuSectionId;
+    }
+
+    @PostMapping("/removesubsection/{menuSectionId}/{subSectionId}")
+    public String removeSubSection(@PathVariable Integer menuSectionId,
+                                   @PathVariable Integer subSectionId,
+                                   Model model) {
+
+        MenuSubSection subSection = menuSubSectionRepository.findById(subSectionId).get();
+        if (!subSection.getProducts().isEmpty()) {
+            model.addAttribute("subSectionNotEmpty", true);
+            return "redirect:/admin/menusectie/" + menuSectionId;
+        }
+        MenuSection menuSection = menuSectionRepository.findById(menuSectionId).get();
+        menuSection.getMenuSubSectionList().remove(subSection);
+        menuSectionRepository.save(menuSection);
+
+        if (menuSection.getDomain().getId() == 1) {
+            MenuSection alleProducten = menuSectionRepository.findById(1).get();
+            alleProducten.getMenuSubSectionList().remove(subSection);
+            menuSectionRepository.save(alleProducten);
+        }
+        if (menuSection.getDomain().getId() == 2) {
+            MenuSection alleProducten = menuSectionRepository.findById(2).get();
+            alleProducten.getMenuSubSectionList().remove(subSection);
+            menuSectionRepository.save(alleProducten);
+        }
+
+        menuSubSectionRepository.delete(subSection);
+        return "redirect:/admin/menusectie/" + menuSectionId;
+    }
+
+    @PostMapping("/removesection/{menuSectionId}")
+    public String removeMenuSection(@ModelAttribute("menuSection")MenuSection menuSection,
+                                    @PathVariable Integer menuSectionId){
+
+        if(!menuSection.getMenuSubSectionList().isEmpty()){
+            return "redirect:/admin/menusectie/" + menuSectionId;
+        }
+        menuSectionRepository.delete(menuSection);
+
+        return "redirect:/admin/menulijst";
+    }
+
+    @PostMapping("/newproductpost")
+    public String completeNewProductPost(@Valid @ModelAttribute("newProduct") Product product,
+                                         BindingResult bindingResult,
+                                         @RequestParam(required = false) Integer subSectionId,
+                                         Model model){
+
+        if(bindingResult.hasErrors() || subSectionId == null){
+            model.addAttribute("newProduct", product);
+            return "redirect:/admin/nieuwproduct";
+        }
+        MenuSubSection subSection = menuSubSectionRepository.findById(subSectionId).get();
+        product.setMenuSubSection(subSection);
+
+        int sectionId = 1;
+
+        for(MenuSection menuSection : subSection.getMenuSectionList()){
+            if(menuSection.getId() != 1 && menuSection.getId() !=2){
+                sectionId = menuSection.getId();
+            }
+        }
+
+        productRepository.save(product);
+        menuSubSectionRepository.save(subSection);
+
+        return "redirect:/admin/menusectie/" + sectionId;
     }
 }

@@ -18,6 +18,9 @@
 
 <header th:replace="/admin/fragments/header :: header"></header>
 
+<div class="container-fluid alert alert-danger" th:if="${subSectionNotEmpty == true}">
+    <h4>Kan subsectie niet verwijderen als er nog producten aanwezig zijn</h4>
+</div>
 
 <th:block th:if="${menuSection}">
     <div class="container-fluid w-100">
@@ -25,6 +28,12 @@
             <p class="lead">aanpassingen opgeslagen</p>
         </div>
         <div class="card col-12 col-md-6 mx-auto">
+            <div class="container-fluid w-100 p-0">
+                <button type="button" class="btn btn-outline-danger float-end" data-bs-toggle="modal"
+                        data-bs-target="#removeModal">
+                    x
+                </button>
+            </div>
             <img th:src="${menuSection.image.imageLocation}" alt="afbeelding menu sectie">
             <button type="button" class="btn btn-dark w-50 my-2 align-self-center" data-bs-toggle="modal"
                     data-bs-target="#imageModal">
@@ -38,7 +47,8 @@
                     </div>
                     <div class="w-100 d-flex justify-content-between">
                         <label for="name">naam:</label>
-                        <input id="name" type="text" class="card-title" th:field="*{name}" th:errorclass="alert-danger">
+                        <input id="name" type="text" class="card-title" th:field="*{name}"
+                               th:errorclass="alert-danger">
                     </div>
                     <input type="submit" value="opslagen" class="btn btn-dark">
                 </form>
@@ -112,6 +122,10 @@
                             <input type="submit" value="opslagen" class="btn btn-dark my-2 m-lg-2">
                         </div>
                     </form>
+                    <form method="post" class="float-end me-4"
+                          th:action="@{|/admin/removesubsection/${menuSection.id}/${subSection.id}|}">
+                        <input type="submit" value="x" class="btn btn-outline-danger">
+                    </form>
                 </button>
             </div>
             <div th:id="|flush-collapse${subSectionStat.index}|" class="accordion-collapse collapse"
@@ -119,10 +133,14 @@
                  data-bs-parent="#accordion">
                 <div class="accordion-body w-75 mx-auto">
                     <div class="row d-flex justify-content-center">
-                        <div class="card col-12 col-md-4 col-lg-3 m-1" th:each="productLoop : ${subSection.products}">
+                        <div class="card col-12 col-lg-5 col-xl-3 m-1" th:each="productLoop : ${subSection.products}">
+                            <form method="post"
+                                  th:action="@{|/admin/removeproduct/${menuSection.id}/${productLoop.id}|}" class="m-1">
+                                <input type="submit" class="btn btn-outline-danger float-end" value="x">
+                            </form>
                             <form method="post" th:action="@{|/admin/editproduct/${menuSection.id}/${productLoop.id}|}">
                                 <div class="d-flex justify-content-between card-header">
-                                    <label class="w-25" for="nameProduct">Name: </label>
+                                    <label class="w-25" for="nameProduct">naam: </label>
                                     <input class="w-75" id="nameProduct" type="text" name="productName"
                                            th:value="${productLoop.name}">
                                 </div>
@@ -302,16 +320,40 @@
     </th:block>
 </div>
 <div class="accordion-item">
-<div class="accordion-header mb-5 w-100 p-2 d-flex d-flex flex-column flex-lg-row mx-auto w-75 justify-content-start align-items-start align-items-lg-center">
-    <h4>Nieuw menu item:</h4>
-    <form method="post" th:action="@{|/admin/newsubsection/${menuSection.id}|}" th:object="${newSubSection}">
-        <div class="container d-flex d-flex flex-column flex-lg-row mx-auto w-auto justify-content-start justify-content-lg-between align-items-start align-items-lg-center">
-            <label class="my-2 m-lg-2" for="nameSubSection">naam: </label>
-            <input type="text" id="nameSubSection" name="newSubSectionName" class="w-100 my-2 m-lg-2">
-            <input type="submit" value="aanmaken" class="btn btn-dark my-2 m-lg-2">
-        </div>
-    </form>
+    <div class="accordion-header mb-5 w-100 p-2 d-flex d-flex flex-column flex-lg-row mx-auto w-75 justify-content-start align-items-start align-items-lg-center">
+        <h4>Nieuw menu item:</h4>
+        <form method="post" th:action="@{|/admin/newsubsection/${menuSection.id}|}" th:object="${newSubSection}">
+            <div class="container d-flex d-flex flex-column flex-lg-row mx-auto w-auto justify-content-start justify-content-lg-between align-items-start align-items-lg-center">
+                <label class="my-2 m-lg-2" for="nameSubSection">naam: </label>
+                <input type="text" id="nameSubSection" name="newSubSectionName" class="w-100 my-2 m-lg-2">
+                <input type="submit" value="aanmaken" class="btn btn-dark my-2 m-lg-2">
+            </div>
+        </form>
+    </div>
 </div>
+
+
+<!-- remove Modal -->
+<div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removeModalLabel">menu sectie verwijderen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bent u zeker dat u deze sectie wilt verwijderen?</p>
+                <p class="text-muted mt-0">note: zolang er nog subsecties aanwezig zijn kan dit niet verwijderd worden</p>
+                <p><strong>Deze actie is permanent</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form method="post" th:action="@{|/admin/removesection/${menuSection.id}|}">
+                    <input type="submit" value="verwijderen" class="btn btn-danger">
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

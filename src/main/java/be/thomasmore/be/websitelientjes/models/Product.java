@@ -16,6 +16,7 @@ public class Product {
     private int id;
     @NotBlank
     private String name;
+    @NotNull
     @Column(precision=10, scale=2)
     private BigDecimal priceInEur;
     private String extraInfo;

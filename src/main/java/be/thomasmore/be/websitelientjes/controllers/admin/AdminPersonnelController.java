@@ -201,4 +201,13 @@ public class AdminPersonnelController {
         personnelRepository.save(personnel);
         return "redirect:/admin/personeeldetail/" + personnelId;
     }
+
+    @PostMapping("/removepersonnel/{personnelId}")
+    public String removePersonnel(@PathVariable Integer personnelId){
+
+        Personnel personnel = personnelRepository.findById(personnelId).get();
+        personnelRepository.delete(personnel);
+
+        return "redirect:/admin/personeellijst";
+    }
 }
