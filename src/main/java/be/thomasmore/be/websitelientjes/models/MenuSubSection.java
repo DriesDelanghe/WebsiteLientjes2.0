@@ -10,11 +10,19 @@ public class MenuSubSection {
     @Id
     private int id;
     private String name;
+    private String extraInfo;
+
     @ManyToMany(mappedBy = "menuSubSectionList", fetch = FetchType.LAZY)
     private List<MenuSection> menuSectionList;
+    @OneToMany(mappedBy = "menuSubSection", fetch = FetchType.LAZY)
+    private List<Product> productList;
 
 
     public MenuSubSection() {
+    }
+
+    public MenuSubSection(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -41,8 +49,13 @@ public class MenuSubSection {
         this.menuSectionList = menuSectionList;
     }
 
-    @OneToMany(mappedBy = "menuSubSection")
-    private List<Product> productList;
+    public String getExtraInfo() {
+        return extraInfo;
+    }
+
+    public void setExtraInfo(String extraInfo) {
+        this.extraInfo = extraInfo;
+    }
 
     public List<Product> getProducts() {
         return productList;

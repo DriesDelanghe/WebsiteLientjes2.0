@@ -1,10 +1,7 @@
 package be.thomasmore.be.websitelientjes.controllers.admin;
 
 import be.thomasmore.be.websitelientjes.models.*;
-import be.thomasmore.be.websitelientjes.repositories.DomainRepository;
-import be.thomasmore.be.websitelientjes.repositories.ImageRepository;
-import be.thomasmore.be.websitelientjes.repositories.MenuSectionRepository;
-import be.thomasmore.be.websitelientjes.repositories.ProductRepository;
+import be.thomasmore.be.websitelientjes.repositories.*;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +40,12 @@ public class AdminMenuController{
     ImageRepository imageRepository;
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    MenuSubSectionRepository menuSubSectionRepository;
+    @Autowired
+    AllergieRepository allergieRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
     @Value("${upload.images.dir}")
     private String uploadImagesDirString;
 
@@ -85,15 +89,18 @@ public class AdminMenuController{
         return imageRepository.getAllMenuImages();
     }
 
-    @ModelAttribute("product")
-    public Product getProduct(@PathVariable(required = false) Integer productId){
-        if(productId != null){
-            Optional<Product> optionalProduct = productRepository.findById(productId);
-            if(optionalProduct.isPresent()){
-                return optionalProduct.get();
-            }
-        }
-        return null;
+    @ModelAttribute("allergieList")
+    public List<Allergie> getAllergieList(){
+        return (List<Allergie>) allergieRepository.findAll();
+    }
+
+    @ModelAttribute("categoryList")
+    public List<ProductCategory> categoryList(){
+        return (List<ProductCategory>) categoryRepository.findAll();
+    }
+    @ModelAttribute("newProduct")
+    public Product newProduct(){
+        return new Product();
     }
 
     @GetMapping({"/menulijst", "/menulijst/{id}"})
@@ -198,16 +205,72 @@ public class AdminMenuController{
     public String editProductPost(@ModelAttribute("menuSection") MenuSection menuSection,
                                   @PathVariable Integer productId,
                                   @PathVariable Integer menuSectionId,
-                                  @Valid @ModelAttribute("product")Product product,
-                                  BindingResult bindingResult){
+                                  @RequestParam String productName,
+                                  @RequestParam BigDecimal productPrice,
+                                  @RequestParam String productExtraInfo,
+                                  @RequestParam(name = "category[]", required = false) List<Integer> categoryIdList,
+                                  @RequestParam(name = "allergy[]", required = false) List<Integer> allergyIdList){
 
-        if(bindingResult.hasErrors()){
-            return "redirect:/admin/menusectie/" + menuSectionId;
+        Product product = productRepository.findById(productId).get();
+
+        if(product.getName() != productName){
+            product.setName(productName);
+        }
+        if(product.getPriceInEur() != productPrice){
+            product.setPriceInEur(productPrice);
+        }
+        if(product.getExtraInfo() != productExtraInfo){
+            product.setExtraInfo(productExtraInfo);
         }
 
+        if(allergyIdList != null) {
+            List<Allergie> allergieList = (List<Allergie>) allergieRepository.findAllById(allergyIdList);
+            allergieList.forEach(allergie -> logger.info(String.format("Category -- %s", allergie.getName())));
+            product.setAllergies(allergieList);
+        }
+        if(allergyIdList == null){
+            product.getAllergies().removeAll(product.getAllergies());
+        }
+        if(categoryIdList != null) {
+            List<ProductCategory> categoryList = (List<ProductCategory>) categoryRepository.findAllById(categoryIdList);
+            categoryList.forEach(category -> logger.info(String.format("Category -- %s", category.getName())));
+            product.setCategories(categoryList);
+        }
+        if(categoryIdList == null){
+            product.getCategories().removeAll(product.getCategories());
+        }
         productRepository.save(product);
 
         return "redirect:/admin/menusectie/" + menuSectionId;
     }
 
+    @PostMapping("/menu/subsectionnamechange/{menuSectionId}/{subSectionId}")
+    public String editSubSection(@PathVariable Integer menuSectionId,
+                                 @PathVariable Integer subSectionId,
+                                 @RequestParam String subSectionName){
+
+        MenuSubSection menuSubSection = menuSubSectionRepository.findById(subSectionId).get();
+
+        if(menuSubSection.getName() != subSectionName){
+            menuSubSection.setName(subSectionName);
+        }
+
+        menuSubSectionRepository.save(menuSubSection);
+
+        return "redirect:/admin/menusectie/" + menuSectionId;
+    }
+
+    @PostMapping("/newproduct/{menuSectionId}/{subSectionId}")
+    public String newMenuProduct(@ModelAttribute("newProduct") Product product,
+                                 @PathVariable Integer menuSectionId,
+                                 @PathVariable Integer subSectionId){
+
+        MenuSubSection menuSubSection = new MenuSubSection(subSectionId);
+
+        product.setMenuSubSection(menuSubSection);
+
+        productRepository.save(product);
+
+        return "redirect:/admin/menusectie/" + menuSectionId;
+    }
 }

@@ -15,7 +15,7 @@ public class MenuSection {
     private Domain domain;
     @ManyToMany(fetch = FetchType.LAZY)
     private List<MenuSubSection> menuSubSectionList;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Image image;
 
     public MenuSection() {

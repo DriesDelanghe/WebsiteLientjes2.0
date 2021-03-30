@@ -59,7 +59,7 @@ public class Page {
         this.domain = domain;
     }
 
-    @ManyToMany(mappedBy = "pages")
+    @ManyToMany(mappedBy = "pages", fetch = FetchType.LAZY)
     private Collection<Symbol> symbols;
 
     public Collection<Symbol> getSymbols() {

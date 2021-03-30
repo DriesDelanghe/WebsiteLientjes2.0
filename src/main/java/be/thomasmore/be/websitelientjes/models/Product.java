@@ -3,17 +3,21 @@ package be.thomasmore.be.websitelientjes.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 public class Product {
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_generator")
+    @SequenceGenerator(name = "product_generator", sequenceName = "prod_seq", allocationSize = 1)
     @Id
     private int id;
     @NotBlank
     private String name;
-    private Double priceInEur;
+    @Column(precision=10, scale=2)
+    private BigDecimal priceInEur;
     private String extraInfo;
     @ManyToOne(fetch = FetchType.LAZY)
     private MenuSubSection menuSubSection;
@@ -41,11 +45,11 @@ public class Product {
         this.name = name;
     }
 
-    public Double getPriceInEur() {
+    public BigDecimal getPriceInEur() {
         return priceInEur;
     }
 
-    public void setPriceInEur(Double priceInEur) {
+    public void setPriceInEur(BigDecimal priceInEur) {
         this.priceInEur = priceInEur;
     }
 
