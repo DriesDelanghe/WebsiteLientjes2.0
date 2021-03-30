@@ -24,31 +24,43 @@
                 <div class="container-fluid d-flex flex-column justify-content-center">
                     <img th:src="${personnel.image.imageLocation}" class="object-cover mobile-image"
                          alt="personeel afbeelding">
+                    <button type="button" class="btn btn-dark w-75 my-2 align-self-center" data-bs-toggle="modal"
+                            data-bs-target="#imageModal">
+                        afbeelding wijzigen
+                    </button>
                 </div>
                 <div class="card-body">
-                    <form method="post" th:action="@{|/admin/personeeldetail/*{id}|}" enctype="multipart/form-data" th:object="${personnel}">
-                    <div class="w-100 alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">Gelieve
-                        alle velden in te
-                        vullen
-                    </div>
-                    <div class="w-100 d-flex justify-content-between">
-                        <label for="name">naam:</label>
-                        <input id="name" type="text" class="card-title" th:field="*{name}"
-                               th:errorclass="alert-danger">
-                    </div>
-                    <div class="w-100 d-flex justify-content-between">
-                        <label for="function">functie:</label>
-                        <input id="function" type="text" class="card-subtitle text-muted"
-                               th:field="*{functionDescription}" th:errorclass="alert-danger">
-                    </div>
-                    <div class="w-100 d-flex justify-content-start flex-column mt-2">
-                        <label for="description">beschrijving:</label>
-                        <textarea id="description" class="card-text w-100 my-2" cols="12" rows="5"
-                                  th:field="*{extraInfo}" th:errorclass="alert-danger"> </textarea>
-                    </div>
-                    <div class="container-fluid d-flex justify-content-center">
-                        <input type="submit" class="btn btn-dark" value="bevestigen">
-                    </div>
+                    <form method="post" th:action="@{|/admin/personeeldetail/*{id}|}" enctype="multipart/form-data"
+                          th:object="${personnel}">
+                        <div class="w-100 alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">Gelieve
+                            alle velden in te
+                            vullen
+                        </div>
+                        <div class="w-100 d-flex justify-content-between my-1">
+                            <label for="name">naam:</label>
+                            <input id="name" type="text" class="card-title" th:field="*{name}"
+                                   th:errorclass="alert-danger">
+                        </div>
+                        <div class="w-100 d-flex justify-content-between mt-1 mb-3">
+                            <label class="card-subtitle" for="domain">werkt bij:</label>
+                            <select name="domainId" id="domain">
+                                <option value="1" th:selected="${personnel.domain.id == 1}">Lientjes Bistro</option>
+                                <option value="2" th:selected="${personnel.domain.id == 2}">Bolo Lientjes</option>
+                            </select>
+                        </div>
+                        <div class="w-100 d-flex justify-content-between my-1">
+                            <label for="function">functie:</label>
+                            <input id="function" type="text" class="card-subtitle text-muted"
+                                   th:field="*{functionDescription}" th:errorclass="alert-danger">
+                        </div>
+                        <div class="w-100 d-flex justify-content-start flex-column mt-2">
+                            <label for="description">beschrijving:</label>
+                            <textarea id="description" class="card-text w-100 my-2" cols="12" rows="5"
+                                      th:field="*{extraInfo}" th:errorclass="alert-danger"> </textarea>
+                        </div>
+                        <div class="container-fluid d-flex justify-content-center">
+                            <input type="submit" class="btn btn-dark" value="bevestigen">
+                        </div>
                     </form>
                 </div>
             </div>
@@ -57,6 +69,46 @@
     <th:block th:unless="${personnel}">
         <h2>Geen personeellid geselecteerd</h2>
     </th:block>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Foto wijzigen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-center">Nieuwe foto selecteren</h4>
+                <form method="post" th:action="@{|/admin/personnel/newimage/${personnel.id}|}"
+                      enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Upload nieuwe foto</label>
+                        <input class="form-control" type="file" id="formFile" name="newImage">
+                        <p class="text-muted ms-3">File niet groter dan 2Mb</p>
+                        <input type="submit" value="uploaden" class="btn btn-dark m-2">
+                    </div>
+                </form>
+                <hr class="my-2">
+                <h4 class="text-center mt-4">bestaande foto selecteren</h4>
+                <form method="post" th:action="@{|/admin/personnel/imagechange/${personnel.id}|}">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-12 d-flex flex-row m-2" th:each="image : ${personnelImages}"
+                             th:object="${image}">
+                            <img th:src="*{imageLocation}" class="object-cover w-100">
+                            <input type="radio" id="btnLoad" th:value="*{id}" name="imageId"
+                                   th:checked="${personnel.image == image}">
+                        </div>
+                    </div>
+                    <input type="submit" value="opslagen" class="btn btn-dark m-2">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 

@@ -33,7 +33,9 @@
                          alt="personeel afbeelding">
                     <div class="card-body">
                         <h5 class="card-title" th:text="*{name}"></h5>
-                        <h6 class="card-subtitle text-muted" th:text="*{functionDescription}"></h6>
+                        <h6 class="card-subtitle text-muted mt-1"
+                            th:text="${personnel.domain.id == 1}? 'Lientjes Bistro' : 'Lientjes Bolo'"></h6>
+                        <h6 class="card-subtitle text-muted mb-1" th:text="*{functionDescription}"></h6>
                         <p class="card-text" th:text="*{extraInfo}"></p>
                         <div class="container-fluid d-flex justify-content-center">
                             <a th:href="@{|/admin/personeeldetail/*{id}|}" class="btn btn-dark">update info</a>
@@ -43,10 +45,45 @@
             </div>
         </th:block>
     </div>
-    <div class="container-fluid w-75 d-flex justify-content-center">
-        <a href="" class="btn btn-dark my-5">nieuw toevoegen</a>
+    <div class="row">
+        <div class="container w-100 mt-5">
+            <h3>Nieuw personeel toevoegen</h3>
+            <hr>
+        </div>
+        <div class="col-12 col-lg-6 col-xl-4">
+            <div class="card w-100 my-2" th:object="${newPersonnel}">
+                <img th:src="*{image.imageLocation}" class="object-cover mobile-image"
+                     alt="personeel afbeelding">
+                <div class="card-body">
+                    <form method="post" th:action="@{|/admin/newpersonnel|}">
+                        <div class="container d-flex flex-lg-row flex-column justify-content-lg-between justify-content-start mw-100 my-1">
+                            <label class="card-title" for="name">naam: </label>
+                            <input class="w-75" type="text" id="name" th:field="*{name}">
+                        </div>
+                        <div class="container d-flex flex-lg-row flex-column justify-content-lg-between justify-content-start mw-100 my-1">
+                            <label class="card-subtitle" for="domain">werkt bij:</label>
+                            <select name="domainId" id="domain">
+                                <option value="1">Lientjes Bistro</option>
+                                <option value="2">Bolo Lientjes</option>
+                            </select>
+                        </div>
+                        <div class="container d-flex flex-lg-row flex-column justify-content-lg-between justify-content-start mw-100 my-1">
+                            <label class="card-subtitle" for="function">functie: </label>
+                            <input class="w-75" type="text" id="function" th:field="*{functionDescription}">
+                        </div>
+                        <div class="container d-flex flex-column justify-content-start my-1">
+                            <label class="card-text" for="extraInfo">extra info:</label>
+                            <textarea class="card-text" th:field="*{extraInfo}" id="extraInfo" cols="30"
+                                      rows="5"></textarea>
+                        </div>
+                        <div class="container-fluid d-flex justify-content-center">
+                            <input type="submit" value="opslagen" class="btn btn-dark">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 </body>
 </html>

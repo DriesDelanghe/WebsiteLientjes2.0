@@ -1,9 +1,13 @@
 package be.thomasmore.be.websitelientjes.models;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
+@DynamicInsert
 @Entity
 public class MenuSection {
 
@@ -17,7 +21,7 @@ public class MenuSection {
     private Domain domain;
     @ManyToMany(fetch = FetchType.LAZY)
     private List<MenuSubSection> menuSubSectionList;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Image image;
 
     public MenuSection() {

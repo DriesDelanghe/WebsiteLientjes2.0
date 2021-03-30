@@ -25,13 +25,26 @@
             <div class="row w-100 d-flex align-items-center justify-content-center">
                 <th:block th:each="menuSection : ${menuSectionListBistro}" th:object="${menuSection}">
                     <div class="card col-12 col-sm-6 col-md-4 col-lg-3 m-1">
-                        <img th:src="*{image.imageLocation}" class="object-cover mobile-image" alt="">
+                        <img th:src="*{image.imageLocation}" class="object-cover mobile-image" th:alt="|afbeelding menu sectie ${menuSection.name}|">
                         <div class="card-body">
                             <h5 class="card-title" th:text="*{name}"></h5>
                             <a th:href="@{|/admin/menusectie/${menuSection.id}|}" class="btn btn-dark">edit section</a>
                         </div>
                     </div>
                 </th:block>
+                <div class="card col-12 col-sm-6 col-md-4 col-lg-3 m-1">
+                <form method="post" th:action="@{|/admin/newsection/${domainBistro.id}|}" th:object="${newSection}">
+                    <img th:src="${newSection.image.imageLocation}" alt="afbeelding nieuwe menu sectie" class="object-cover mobile-image">
+                    <div class="card-body">
+                        <h5 class="card-title">Nieuwe sectie</h5>
+                        <div class="card-title d-flex flex-column flex-lg-row justify-content-center">
+                            <label for="name">naam: </label>
+                            <input type="text" id="name" th:field="*{name}">
+                        </div>
+                        <input type="submit" value="opslagen" class="btn btn-dark">
+                    </div>
+                </form>
+                </div>
             </div>
         </div>
         <div class="container-fluid w-100 mx-auto">
@@ -40,13 +53,26 @@
             <div class="row w-100 d-flex align-items-center justify-content-center">
                 <th:block th:each="menuSection : ${menuSectionListBolo}" th:object="${menuSection}">
                     <div class="card col-12 col-sm-6 col-md-4 col-lg-3 m-1">
-                        <img th:src="*{image.imageLocation}" class="object-cover mobile-image" alt="">
+                        <img th:src="*{image.imageLocation}" class="object-cover mobile-image" th:alt="|afbeelding menu sectie ${menuSection.name}|">
                         <div class="card-body">
                             <h5 class="card-title" th:text="*{name}"></h5>
                             <a th:href="@{|/admin/menusectie/${menuSection.id}|}" class="btn btn-dark">edit section</a>
                         </div>
                     </div>
                 </th:block>
+                <div class="card col-12 col-sm-6 col-md-4 col-lg-3 m-1">
+                    <form method="post" th:action="@{|/admin/newsection/${domainBolo.id}|}" th:object="${newSection}">
+                        <img th:src="${newSection.image.imageLocation}" alt="afbeelding nieuwe menu sectie" class="object-cover mobile-image">
+                        <div class="card-body">
+                            <h5 class="card-title">Nieuwe sectie</h5>
+                            <div class="card-title d-flex flex-column flex-lg-row justify-content-center">
+                                <label for="name">naam: </label>
+                                <input type="text" id="name" th:field="*{name}">
+                            </div>
+                            <input type="submit" value="opslagen" class="btn btn-dark">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </th:block>
@@ -57,13 +83,26 @@
             <div class="row w-100 d-flex align-items-center justify-content-center">
                 <th:block th:each="menuSection : ${menuSectionList}" th:object="${menuSection}">
                     <div class="card col-12 col-sm-6 col-md-4 col-lg-3 m-1">
-                        <img th:src="*{image.imageLocation}" class="object-cover mobile-image" alt="">
+                        <img th:src="*{image.imageLocation}" class="object-cover mobile-image" th:alt="|afbeelding menu sectie ${menuSection.name}|">
                         <div class="card-body">
                             <h5 class="card-title" th:text="*{name}"></h5>
                             <a th:href="@{|/admin/menusectie/${menuSection.id}|}" class="btn btn-dark">edit section</a>
                         </div>
                     </div>
                 </th:block>
+                <div class="card col-12 col-sm-6 col-md-4 col-lg-3 m-1">
+                    <form method="post" th:action="@{|/admin/newsectionondomain/${domain.id}|}" th:object="${newSection}">
+                        <img th:src="${newSection.image.imageLocation}" alt="afbeelding nieuwe menu sectie" class="object-cover mobile-image">
+                        <div class="card-body">
+                            <h5 class="card-title">Nieuwe sectie</h5>
+                            <div class="d-flex flex-column flex-lg-row justify-content-center">
+                                <label for="name">naam: </label>
+                                <input type="text" id="name" th:field="*{name}">
+                            </div>
+                            <input type="submit" value="opslagen" class="btn btn-dark">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </th:block>

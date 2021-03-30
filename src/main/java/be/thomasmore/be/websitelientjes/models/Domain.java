@@ -14,6 +14,10 @@ public class Domain {
     public Domain() {
     }
 
+    public Domain(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

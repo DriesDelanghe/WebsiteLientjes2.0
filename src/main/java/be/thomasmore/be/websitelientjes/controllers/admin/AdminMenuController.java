@@ -7,26 +7,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,13 +66,15 @@ public class AdminMenuController{
 
     @ModelAttribute("menuSection")
     public MenuSection getMenuSection(@PathVariable(required = false) Integer menuSectionId) {
-        try {
-            Optional<MenuSection> menuSectionOptional = menuSectionRepository.findById(menuSectionId);
-            if (menuSectionOptional.isPresent()) {
-                return menuSectionOptional.get();
+        if(menuSectionId != null) {
+            try {
+                Optional<MenuSection> menuSectionOptional = menuSectionRepository.findById(menuSectionId);
+                if (menuSectionOptional.isPresent()) {
+                    return menuSectionOptional.get();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return null;
     }
@@ -108,6 +101,15 @@ public class AdminMenuController{
     @ModelAttribute("newSubSection")
     public MenuSubSection newSubsection(){
         return new MenuSubSection();
+    }
+
+    @ModelAttribute("newSection")
+    public MenuSection newSection(){
+        MenuSection newSection = new MenuSection();
+        newSection.setImage(imageRepository.findById(1).get());
+        logger.info("image id new Section -- " + newSection.getImage().getId());
+        logger.info(String.format("image location new section -- '%s'", newSection.getImage().getImageLocation()));
+        return newSection;
     }
 
     @GetMapping({"/menulijst", "/menulijst/{id}"})
@@ -289,12 +291,14 @@ public class AdminMenuController{
     @PostMapping("/newsubsection/{menuSectionId}")
     public String newMenuSubSection(@Valid @ModelAttribute("newSubSection") MenuSubSection menuSubSection,
                                     BindingResult bindingResult,
-                                    @PathVariable Integer menuSectionId){
+                                    @PathVariable Integer menuSectionId,
+                                    @RequestParam String newSubSectionName){
         logger.info("---- start adding new subsection ----");
-        if(bindingResult.hasErrors()){
+        if(bindingResult.hasErrors() || newSubSectionName == null || newSubSectionName.isBlank()){
             return "redirect:/admin/menusectie/" + menuSectionId;
         }
 
+        menuSubSection.setName(newSubSectionName);
         MenuSection section = menuSectionRepository.findById(menuSectionId).get();
         MenuSection allproductsSection = menuSectionRepository.findById(8).get();
         menuSubSectionRepository.save(menuSubSection);
@@ -307,5 +311,38 @@ public class AdminMenuController{
 
         logger.info("---- end adding new subsection ----");
         return "redirect:/admin/menusectie/" + menuSectionId;
+    }
+
+    @PostMapping("/newsectionondomain/{domainId}")
+    public String newSectionOnDomain( @PathVariable Integer domainId,
+                                      @ModelAttribute("newSection") MenuSection menuSection,
+                                      BindingResult bindingResult,
+                                      Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("newSection", menuSection);
+            return "redirect:/admin/menulijst" + domainId;
+        }
+
+        menuSection.setDomain(new Domain(domainId));
+        menuSectionRepository.save(menuSection);
+
+        return "redirect:/admin/menulijst/" + domainId;
+    }
+
+    @PostMapping("/newsection/{domainId}")
+    public String newSectionNoDomain(@PathVariable Integer domainId,
+                                     @ModelAttribute("newSection") MenuSection menuSection,
+                                     BindingResult bindingResult,
+                                     Model model){
+
+        if(bindingResult.hasErrors()){
+            model.addAttribute("newSection", menuSection);
+            return "redirect:/admin/menulijst/";
+        }
+
+        menuSection.setDomain(new Domain(domainId));
+        menuSectionRepository.save(menuSection);
+
+        return "redirect:/admin/menulijst";
     }
 }

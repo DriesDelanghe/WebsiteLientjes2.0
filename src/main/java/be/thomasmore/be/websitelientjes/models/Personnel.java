@@ -1,5 +1,7 @@
 package be.thomasmore.be.websitelientjes.models;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -8,6 +10,8 @@ import java.util.Collection;
 @Entity
 public class Personnel {
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personnel_generator")
+    @SequenceGenerator(name = "personnel_generator", sequenceName = "per_seq", allocationSize = 1)
     @Id
     private int id;
     @NotBlank
@@ -20,6 +24,8 @@ public class Personnel {
     private Image image;
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Page> pages;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Domain domain;
 
 
     public Personnel() {
@@ -71,5 +77,13 @@ public class Personnel {
 
     public void setFunctionDescription(String functionDescription) {
         this.functionDescription = functionDescription;
+    }
+
+    public Domain getDomain() {
+        return domain;
+    }
+
+    public void setDomain(Domain domain) {
+        this.domain = domain;
     }
 }

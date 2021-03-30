@@ -1,5 +1,6 @@
 package be.thomasmore.be.websitelientjes.repositories;
 
+import be.thomasmore.be.websitelientjes.models.Domain;
 import be.thomasmore.be.websitelientjes.models.Page;
 import be.thomasmore.be.websitelientjes.models.Personnel;
 import org.springframework.data.jpa.repository.Query;
@@ -14,4 +15,7 @@ public interface PersonnelRepository extends CrudRepository<Personnel, Integer> 
 
     @Query("select p from Personnel p join p.pages pages where :page in (pages)")
     List<Personnel> getByPage(@Param("page") Page page);
+
+    @Query("select p from Personnel p where p.domain = :domain ")
+    List<Personnel> getByDomain(@Param("domain") Domain domain);
 }

@@ -1,13 +1,14 @@
 insert into image(id, image_location)
-values (nextval('IMG_SEQ'), '/images/general/logo-facebook.svg'),
+values (nextval('IMG_SEQ'), '/images/general/default-image.jpg'),
+       (nextval('IMG_SEQ'), '/images/general/logo-facebook.svg'),
        (nextval('IMG_SEQ'), '/images/general/logo-instagram.svg'),
        (nextval('IMG_SEQ'), '/images/general/right-arrow.svg'),
-       (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-1.jpg'),
-       (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-2.jpg'),
-       (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-3.jpg'),
        (nextval('IMG_SEQ'), '/images/general/adress-logo.svg'),
        (nextval('IMG_SEQ'), '/images/general/email-logo.svg'),
        (nextval('IMG_SEQ'), '/images/general/phone-call-logo.svg'),
+       (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-1.jpg'),
+       (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-2.jpg'),
+       (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-3.jpg'),
        (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-4.jpg'),
        (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-5.jpg'),
        (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-6.jpg'),
@@ -19,17 +20,17 @@ values (nextval('IMG_SEQ'), '/images/general/logo-facebook.svg'),
        (nextval('IMG_SEQ'), '/images/food/afbeelding-warme-drank.jpg'),
        (nextval('IMG_SEQ'), '/images/food/afbeelding-alle-gerechten.jpg');
 
-insert into personnel(id, name, image_Id, extra_info, function_description)
-values (1, 'Persona A', 4, 'This is the first test person, these are all here as proof of concept', 'chef-kok'),
-       (2, 'Persona B', 5, 'This is the second test person, these are all here as proof of concept', 'serveur'),
-       (3, 'Persona C', 6, 'This is the third test person, these are all here as proof of concept', 'uitbater'),
-       (4, 'Persona D', 10, 'This is the fourth test person, these are all here as proof of concept', 'sous-chef'),
-       (5, 'Persona E', 11, 'This is the fifth test person, these are all here as proof of concept', 'serveur'),
-       (6, 'Persona F', 12, 'This is the sixth test person, these are all here as proof of concept', 'serveur');
-
 insert into domain(id, name)
 values (1, 'bistro'),
        (2, 'bolo');
+
+insert into personnel(id, name, image_Id, extra_info, function_description, domain_id)
+values (nextval('PER_SEQ'), 'Persona A', 8, 'This is the first test person, these are all here as proof of concept', 'chef-kok', 1),
+       (nextval('PER_SEQ'), 'Persona B', 9, 'This is the second test person, these are all here as proof of concept', 'serveur', 1),
+       (nextval('PER_SEQ'), 'Persona C', 10, 'This is the third test person, these are all here as proof of concept', 'uitbater', 1),
+       (nextval('PER_SEQ'), 'Persona D', 11, 'This is the fourth test person, these are all here as proof of concept', 'sous-chef', 1),
+       (nextval('PER_SEQ'), 'Persona E', 12, 'This is the fifth test person, these are all here as proof of concept', 'serveur', 1),
+       (nextval('PER_SEQ'), 'Persona F', 13, 'This is the sixth test person, these are all here as proof of concept', 'serveur', 1);
 
 insert into page(id, page_name, domain_id)
 values (1, 'Home', 1),
@@ -101,7 +102,8 @@ values (1, 'https://www.flaticon.com/', 'Flaticon', 'Roundicons', 'https://round
        (2, 'https://www.pexels.com/', 'Pexels', 'Negative Space', 'https://www.pexels.com/@negativespace',
         'header image'),
        (3, null, null, 'Dries Delanghe', 'https://www.driesdelanghe.be/', 'site'),
-       (4, 'https://www.pexels.com/', 'Pexels', 'Amine M''Siouri', 'https://www.pexels.com/nl-nl/@amine-m-siouri-1025778',
+       (4, 'https://www.pexels.com/', 'Pexels', 'Amine M''Siouri',
+        'https://www.pexels.com/nl-nl/@amine-m-siouri-1025778',
         'error page header');
 
 insert into contact_info(id, info_name, info_content, domain_id, image_id)
@@ -110,15 +112,15 @@ values (1, 'email', 'info@lientjes-coffeebreak.be', 1, 8),
        (3, 'telefoon', '03 344 85 79', 1, 9);
 
 insert into menu_section(id, domain_id, name, image_id)
-values (1, 1, 'Warme Dranken', 18),
-       (2, 1, 'Koude Dranken', 16),
-       (3, 1, 'Ontbijt', 17),
-       (4, 1, 'Versnaperingen', 13),
-       (5, 1, 'Gerechten', 15),
-       (6, 1, 'Desserten', 14),
-       (7, 2, 'Pasta''s', 9),
-       (8, 1, 'Alle producten', 19),
-       (9, 2, 'Alle producten', 9);
+values (nextval('MSEC_SEQ'), 1, 'Warme Dranken', 18),
+       (nextval('MSEC_SEQ'), 1, 'Koude Dranken', 16),
+       (nextval('MSEC_SEQ'), 1, 'Ontbijt', 17),
+       (nextval('MSEC_SEQ'), 1, 'Versnaperingen', 13),
+       (nextval('MSEC_SEQ'), 1, 'Gerechten', 15),
+       (nextval('MSEC_SEQ'), 1, 'Desserten', 14),
+       (nextval('MSEC_SEQ'), 2, 'Pasta''s', 9),
+       (nextval('MSEC_SEQ'), 1, 'Alle producten', 19),
+       (nextval('MSEC_SEQ'), 2, 'Alle producten', 9);
 
 insert into menu_sub_section(id, name, extra_info)
 values (nextval('MSS_SEQ'), 'Koffie', null),
@@ -412,10 +414,7 @@ values (11, 1),
        (60, 1),
        (69, 2);
 
-insert into CONTACT_TYPE(
- id, question_type, domain_id
-)
-values
-(1, 'Algemene vraag', 1),
-(2, 'Reservering', 1),
-(3, 'Iets anders', 1);
+insert into CONTACT_TYPE(id, question_type, domain_id)
+values (1, 'Algemene vraag', 1),
+       (2, 'Reservering', 1),
+       (3, 'Iets anders', 1);
