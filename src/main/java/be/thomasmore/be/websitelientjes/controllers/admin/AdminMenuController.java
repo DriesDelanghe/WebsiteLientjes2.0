@@ -25,6 +25,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -289,17 +290,22 @@ public class AdminMenuController{
     public String newMenuSubSection(@Valid @ModelAttribute("newSubSection") MenuSubSection menuSubSection,
                                     BindingResult bindingResult,
                                     @PathVariable Integer menuSectionId){
+        logger.info("---- start adding new subsection ----");
         if(bindingResult.hasErrors()){
             return "redirect:/admin/menusectie/" + menuSectionId;
         }
 
-        MenuSection section = new MenuSection(menuSectionId);
+        MenuSection section = menuSectionRepository.findById(menuSectionId).get();
         MenuSection allproductsSection = menuSectionRepository.findById(8).get();
-        MenuSection[] sections = {section, allproductsSection};
-        menuSubSection.setMenuSectionList(Arrays.asList(sections));
-
         menuSubSectionRepository.save(menuSubSection);
 
+        section.getMenuSubSectionList().add(menuSubSection);
+        allproductsSection.getMenuSubSectionList().add(menuSubSection);
+
+        menuSectionRepository.save(section);
+        menuSectionRepository.save(allproductsSection);
+
+        logger.info("---- end adding new subsection ----");
         return "redirect:/admin/menusectie/" + menuSectionId;
     }
 }
