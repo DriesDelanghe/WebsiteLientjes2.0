@@ -99,10 +99,17 @@ public class BistroContactController {
             return "bistro/contact";
         }
 
+        contactForm.setQuestion(saveLineBreaks(contactForm.getQuestion()));
+
         contactForm.setTimestamp(new Date());
         contactForm.setContactType(new ContactType(contactTypeId));
         contactFormRepository.save(contactForm);
 
         return  "bistro/confirmcontactform";
+    }
+
+
+    public String saveLineBreaks(String text) {
+        return text.replaceAll("\n", "<br/>");
     }
 }

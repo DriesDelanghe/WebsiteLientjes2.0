@@ -93,7 +93,14 @@
                     </div>
                 </fieldset>
                 <fieldset class="general-info-fieldset">
-                    <legend class="general-info-legend" th:text="${headerText.get(4).getTextContent()}"></legend>
+                    <div class="contact-form-line">
+                        <label for="onderwerp" th:text="${paragraphText.get(4).getTextContent()}"
+                               class="contact-form-label">textContent
+                            placeholder</label>
+                        <input id="onderwerp" th:field="*{onderwerp}" class="contact-form-input"
+                               th:errorclass="form-error-field" onfocus="removeErrorClass(this)">
+                    </div>
+                    <legend class="general-info-legend" th:text="${headerText.get(5).getTextContent()}"></legend>
                     <textarea id="" cols="30" rows="10" th:field="*{question}" class="contact-form-text-area"
                               th:errorclass="form-error-field" onfocus="removeErrorClass(this)"></textarea>
                 </fieldset>

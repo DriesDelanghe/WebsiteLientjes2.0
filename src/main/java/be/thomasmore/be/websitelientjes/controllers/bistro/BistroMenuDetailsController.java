@@ -44,7 +44,7 @@ public class BistroMenuDetailsController {
 
     @ModelAttribute("domain")
     public Domain getDomain() {
-        Domain domain = domainRepository.getByDomainName("bistro");
+        Domain domain = domainRepository.findById(1).get();
 
         return domain;
     }

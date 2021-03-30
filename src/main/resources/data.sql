@@ -91,17 +91,18 @@ values (1, 'Meer dan een koffiehuis', 1, true, 1),
        (19, 'Je email:', 3, false, 3),
        (20, 'soort vraag:', 4, false, 3),
        (21, 'algemene info', 4, true, 3),
-       (22, 'Je vraag', 5, true, 3),
-       (23, 'Je vraag is verstuurd!', 6, true, 3),
-       (24, 'Gelieve alle velden in te vullen', 5, false, 3),
-       (25, 'Vind makkelijk je weg naar ons!', 1, false, 3);
+       (22, 'onderwerp:', 5, false, 3),
+       (23, 'Je vraag', 5, true, 3),
+       (24, 'Je vraag is verstuurd!', 6, true, 3),
+       (25, 'Gelieve alle velden in te vullen', 5, false, 3),
+       (26, 'Vind makkelijk je weg naar ons!', 1, false, 3);
 
 insert into symbol(id, image_id, reference_name)
-values (1, 3, 'rightArrow');
+values (1, 4, 'rightArrow');
 
 insert into social_media(id, social_media_url, image_id, order_reference, domain_id)
-values (1, 'https://www.facebook.com/Lientjes-Bistro-151107858896317/', 1, 1, 1),
-       (2, 'https://www.instagram.com/lientjesbistro/', 2, 2, 1);
+values (1, 'https://www.facebook.com/Lientjes-Bistro-151107858896317/', 2, 1, 1),
+       (2, 'https://www.instagram.com/lientjesbistro/', 3, 2, 1);
 
 insert into reference(id, site_url, site_name, artist_name, artist_url, product_name)
 values (1, 'https://www.flaticon.com/', 'Flaticon', 'Roundicons', 'https://roundicons.com/', 'symbols'),
@@ -113,9 +114,9 @@ values (1, 'https://www.flaticon.com/', 'Flaticon', 'Roundicons', 'https://round
         'error page header');
 
 insert into contact_info(id, info_name, info_content, domain_id, image_id)
-values (1, 'email', 'info@lientjes-coffeebreak.be', 1, 8),
-       (2, 'adres', 'Stationstraat 143, 2845 Niel', 1, 7),
-       (3, 'telefoon', '03 344 85 79', 1, 9);
+values (1, 'email', 'info@lientjes-coffeebreak.be', 1, 6),
+       (2, 'adres', 'Stationstraat 143, 2845 Niel', 1, 5),
+       (3, 'telefoon', '03 344 85 79', 1, 7);
 
 insert into menu_section(id, domain_id, name, image_id)
 values (nextval('MSEC_SEQ'), 1, 'Alle producten', 20),
@@ -424,3 +425,19 @@ insert into CONTACT_TYPE(id, question_type, domain_id)
 values (1, 'Algemene vraag', 1),
        (2, 'Reservering', 1),
        (3, 'Iets anders', 1);
+
+insert into contact_form(id, name,  onderwerp, email, contact_type_id, question, timestamp)
+values (nextval('CF_SEQ'), 'persona A', 'onderwerp1', 'email1@example.com', 1,
+        'this is a placeholder text merely to show how it works', '2021-03-30 18:34:55.698'),
+       (nextval('CF_SEQ'), 'persona B', 'onderwerp2', 'email2@example.com', 1,
+        'this is a placeholder text merely to show how it works', '2021-02-12 12:37:55.698'),
+       (nextval('CF_SEQ'), 'persona C', 'onderwerp3', 'email3@example.com', 2,
+        'this is a placeholder text merely to show how it works', '2020-12-03 14:56:55.698'),
+       (nextval('CF_SEQ'), 'persona D', 'onderwerp4', 'email4@example.com', 3,
+        'this is a placeholder text merely to show how it works', '2021-03-28 19:12:55.698'),
+       (nextval('CF_SEQ'), 'persona E', 'onderwerp5', 'email5@example.com', 2,
+        'this is a placeholder text merely to show how it works', '2021-03-25 12:35:55.698'),
+       (nextval('CF_SEQ'), 'persona F', 'onderwerp6', 'email6@example.com', 1,
+        'this is a placeholder text merely to show how it works', '2021-03-23 10:45:55.698'),
+       (nextval('CF_SEQ'), 'persona G', 'onderwerp7', 'email7@example.com', 2,
+        'this is a placeholder text merely to show how it works', '2021-03-27 16:24:55.698');

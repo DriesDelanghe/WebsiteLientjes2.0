@@ -1,31 +1,31 @@
 package be.thomasmore.be.websitelientjes.controllers.admin;
 
+import be.thomasmore.be.websitelientjes.models.ContactForm;
 import be.thomasmore.be.websitelientjes.models.Domain;
 import be.thomasmore.be.websitelientjes.models.MenuSection;
-import be.thomasmore.be.websitelientjes.models.Personnel;
+import be.thomasmore.be.websitelientjes.repositories.ContactFormRepository;
 import be.thomasmore.be.websitelientjes.repositories.DomainRepository;
 import be.thomasmore.be.websitelientjes.repositories.MenuSectionRepository;
-import be.thomasmore.be.websitelientjes.repositories.PersonnelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/admin")
 @Controller
-public class AdminController {
-
+public class AdminInboxController {
     @Autowired
-    PersonnelRepository personnelRepository;
-    @Autowired
-    MenuSectionRepository menuSectionRepository;
+    ContactFormRepository contactFormRepository;
     @Autowired
     DomainRepository domainRepository;
-
+    @Autowired
+    MenuSectionRepository menuSectionRepository;
 
     @ModelAttribute("domainBistro")
     public Domain getDomainBistro() {
@@ -47,18 +47,34 @@ public class AdminController {
         return menuSectionRepository.getByDomain(domainBolo);
     }
 
-    @ModelAttribute("personnelList")
-    public List<Personnel> getPersonnelList(){
-        return (List<Personnel>) personnelRepository.findAll();
+    @ModelAttribute("contactFormList")
+    public List<ContactForm> getContactForms(){
+        List<ContactForm> contactFormList = (List<ContactForm>) contactFormRepository.findAll();
+        Collections.sort(contactFormList);
+        return contactFormList;
     }
 
-    @GetMapping({"/", "", "/home"})
-    public String home(Model model, @ModelAttribute("personnelList") List<Personnel> personnelList){
+    @ModelAttribute("message")
+    public ContactForm getMessage(@PathVariable(required = false) Integer messageId){
+        if(messageId != null){
+            Optional<ContactForm> messageOptional = contactFormRepository.findById(messageId);
+            if(messageOptional.isPresent()){
+                return messageOptional.get();
+            }
 
-        Integer listSize = personnelList.size();
-        Integer iterationSize = listSize/4;
+        }
+        return null;
+    }
 
-        model.addAttribute("iterationSize", iterationSize);
-        return "admin/home";
+    @GetMapping("/inbox")
+    public String inboxPage(){
+
+        return "admin/inbox";
+    }
+
+    @GetMapping("/inbox/message/{messageId}")
+    public String messagePage(){
+
+        return "admin/inboxmessage";
     }
 }

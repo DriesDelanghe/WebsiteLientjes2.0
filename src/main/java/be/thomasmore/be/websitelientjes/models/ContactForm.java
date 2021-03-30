@@ -3,11 +3,10 @@ package be.thomasmore.be.websitelientjes.models;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-public class ContactForm {
+public class ContactForm implements Comparable<ContactForm>{
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contact_form_generator")
     @SequenceGenerator(name = "contact_form_generator", sequenceName = "cf_seq", allocationSize = 1)
@@ -18,6 +17,8 @@ public class ContactForm {
     @NotBlank
     @Email
     private String email;
+    @NotBlank
+    private String onderwerp;
     @ManyToOne(fetch = FetchType.LAZY)
     private ContactType contactType;
     @Column(length = 500)
@@ -79,4 +80,18 @@ public class ContactForm {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+    public String getOnderwerp() {
+        return onderwerp;
+    }
+
+    public void setOnderwerp(String onderwerp) {
+        this.onderwerp = onderwerp;
+    }
+
+    @Override
+    public int compareTo(ContactForm c){
+        return c.getTimestamp().compareTo(this.getTimestamp());
+    }
+
 }

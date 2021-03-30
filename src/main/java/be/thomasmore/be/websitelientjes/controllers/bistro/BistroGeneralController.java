@@ -115,7 +115,7 @@ public class BistroGeneralController {
     @GetMapping("/menu")
     public String menu(Model model, HttpServletRequest request) {
 
-        Domain domain = domainRepository.getByDomainName("bistro");
+        Domain domain = domainRepository.findById(1).get();
         Page page = pageRepository.getByDomainAndPageName(domain, "menu");
 
         List<MenuSection> menuSectionList = menuSectionRepository.getByDomain(domain);
