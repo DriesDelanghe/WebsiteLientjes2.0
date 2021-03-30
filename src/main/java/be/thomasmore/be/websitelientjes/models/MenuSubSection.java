@@ -7,6 +7,8 @@ import java.util.List;
 @Entity
 public class MenuSubSection {
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menu_sub_section_generator")
+    @SequenceGenerator(name = "menu_sub_section_generator", sequenceName = "mss_seq", allocationSize = 1)
     @Id
     private int id;
     private String name;

@@ -99,21 +99,21 @@
 
     <th:block th:each="subSection : ${menuSection.menuSubSectionList}">
         <div class="accordion-item">
-            <h2 class="accordion-header" th:id="|flush-heading${subSectionStat.index}|">
+            <div class="accordion-header" th:id="|flush-heading${subSectionStat.index}|">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         th:data-bs-target="|#flush-collapse${subSectionStat.index}|" aria-expanded="false"
                         th:aria-controls="|flush-collapse${subSectionStat.index}|">
                     <form method="post" class="w-100"
                           th:action="@{|/admin/menu/subsectionnamechange/${menuSection.id}/${subSection.id}|}">
                         <div class="container d-flex flex-column flex-lg-row mx-auto w-75 justify-content-start justify-content-lg-between align-items-start align-items-lg-center">
-                            <label class="my-2 m-lg-2" for="subSectionName">name:</label>
+                            <label class="my-2 m-lg-2" for="subSectionName">naam:</label>
                             <input class="my-2 w-75 m-lg-2" type="text" id="subSectionName" name="subSectionName"
                                    th:value="${subSection.name}">
                             <input type="submit" value="opslagen" class="btn btn-dark my-2 m-lg-2">
                         </div>
                     </form>
                 </button>
-            </h2>
+            </div>
             <div th:id="|flush-collapse${subSectionStat.index}|" class="accordion-collapse collapse"
                  th:aria-labelledby="|flush-heading${subSectionStat.index}|"
                  data-bs-parent="#accordion">
@@ -301,6 +301,17 @@
         </div>
     </th:block>
 </div>
-<div class="container my-5"></div>
+<div class="accordion-item">
+<div class="accordion-header mb-5 w-100 p-2 d-flex d-flex flex-column flex-lg-row mx-auto w-75 justify-content-start align-items-start align-items-lg-center">
+    <h4>Nieuw menu item:</h4>
+    <form method="post" th:action="@{|/admin/newsubsection/${menuSection.id}|}" th:object="${newSubSection}">
+        <div class="container d-flex d-flex flex-column flex-lg-row mx-auto w-auto justify-content-start justify-content-lg-between align-items-start align-items-lg-center">
+            <label class="my-2 m-lg-2" for="nameSubSection">naam: </label>
+            <input type="text" id="nameSubSection" th:field="*{name}" class="w-100 my-2 m-lg-2">
+            <input type="submit" value="aanmaken" class="btn btn-dark my-2 m-lg-2">
+        </div>
+    </form>
+</div>
+</div>
 </body>
 </html>

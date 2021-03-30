@@ -25,6 +25,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,6 +102,11 @@ public class AdminMenuController{
     @ModelAttribute("newProduct")
     public Product newProduct(){
         return new Product();
+    }
+
+    @ModelAttribute("newSubSection")
+    public MenuSubSection newSubsection(){
+        return new MenuSubSection();
     }
 
     @GetMapping({"/menulijst", "/menulijst/{id}"})
@@ -261,15 +267,38 @@ public class AdminMenuController{
     }
 
     @PostMapping("/newproduct/{menuSectionId}/{subSectionId}")
-    public String newMenuProduct(@ModelAttribute("newProduct") Product product,
+    public String newMenuProduct(@Valid @ModelAttribute("newProduct") Product product,
+                                 BindingResult bindingResult,
                                  @PathVariable Integer menuSectionId,
                                  @PathVariable Integer subSectionId){
+
+        if(bindingResult.hasErrors()){
+            return "redirect:/admin/menusectie/" + menuSectionId;
+        }
 
         MenuSubSection menuSubSection = new MenuSubSection(subSectionId);
 
         product.setMenuSubSection(menuSubSection);
 
         productRepository.save(product);
+
+        return "redirect:/admin/menusectie/" + menuSectionId;
+    }
+
+    @PostMapping("/newsubsection/{menuSectionId}")
+    public String newMenuSubSection(@Valid @ModelAttribute("newSubSection") MenuSubSection menuSubSection,
+                                    BindingResult bindingResult,
+                                    @PathVariable Integer menuSectionId){
+        if(bindingResult.hasErrors()){
+            return "redirect:/admin/menusectie/" + menuSectionId;
+        }
+
+        MenuSection section = new MenuSection(menuSectionId);
+        MenuSection allproductsSection = menuSectionRepository.findById(8).get();
+        MenuSection[] sections = {section, allproductsSection};
+        menuSubSection.setMenuSectionList(Arrays.asList(sections));
+
+        menuSubSectionRepository.save(menuSubSection);
 
         return "redirect:/admin/menusectie/" + menuSectionId;
     }

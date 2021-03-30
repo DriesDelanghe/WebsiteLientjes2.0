@@ -7,6 +7,8 @@ import java.util.List;
 @Entity
 public class MenuSection {
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menu_section_generator")
+    @SequenceGenerator(name = "menu_section_generator", sequenceName = "msec_seq", allocationSize = 1)
     @Id
     private int id;
     @NotBlank
@@ -19,6 +21,10 @@ public class MenuSection {
     private Image image;
 
     public MenuSection() {
+    }
+
+    public MenuSection(int id) {
+        this.id = id;
     }
 
     public int getId() {
