@@ -64,16 +64,16 @@ public class AdminPersonnelController {
     @ModelAttribute("personnelList")
     public List<Personnel> getPersonnelList(@PathVariable(required = false) Integer domainId){
         if(domainId != null){
-            return personnelRepository.getByDomain(new Domain(domainId));
+            return personnelRepository.getByDomain(domainRepository.findById(domainId).get());
         }
 
         return (List<Personnel>) personnelRepository.findAll();
     }
 
     @ModelAttribute("personnel")
-    public Personnel getPersonnel(@PathVariable(required = false) Integer id){
-        if(id != null) {
-            Optional<Personnel> personnelOptional = personnelRepository.findById(id);
+    public Personnel getPersonnel(@PathVariable(required = false) Integer personnelId){
+        if(personnelId != null) {
+            Optional<Personnel> personnelOptional = personnelRepository.findById(personnelId);
             if (personnelOptional.isPresent()) {
                 return personnelOptional.get();
             }
@@ -100,17 +100,17 @@ public class AdminPersonnelController {
         return "admin/personeellijst";
     }
 
-    @GetMapping({"/personeeldetail", "/personeeldetail/{id}"})
+    @GetMapping({"/personeeldetail", "/personeeldetail/{personnelId}"})
     public String personeeldetail(){
 
         return "admin/personeeldetail";
     }
 
-    @PostMapping("/personeeldetail/{id}")
+    @PostMapping("/personeeldetail/{personnelId}")
     public String personeeldetailPost(Model model,
                                       @Valid @ModelAttribute("personnel") Personnel personnel,
                                       BindingResult bindingResult,
-                                      @PathVariable Integer id,
+                                      @PathVariable Integer personnelId,
                                       @RequestParam Integer domainId){
 
         logger.info(String.format("image is null -- %s", personnel.getImage() == null));
@@ -118,7 +118,7 @@ public class AdminPersonnelController {
 
         if(bindingResult.hasErrors()){
             model.addAttribute("personnel", personnel);
-            return "redirect:/admin/personeeldetail/" + id;
+            return "redirect:/admin/personeeldetail/" + personnelId;
         }
         if(domainId != personnel.getDomain().getId()){
             personnel.setDomain(new Domain(domainId));
@@ -149,10 +149,10 @@ public class AdminPersonnelController {
         return "redirect:/admin/personeellijst";
     }
 
-    @PostMapping("/personnel/imagechange/{id}")
+    @PostMapping("/personnel/imagechange/{personnelId}")
     public String changeImagePersonnel(@ModelAttribute("personnel") Personnel personnel,
                                   @RequestParam Integer imageId,
-                                  @PathVariable Integer id,
+                                  @PathVariable Integer personnelId,
                                   Model model) {
 
         if (imageId != null && personnel.getImage().getId() != imageId) {
@@ -161,12 +161,12 @@ public class AdminPersonnelController {
 
         personnelRepository.save(personnel);
         model.addAttribute("changesSaved", true);
-        return "redirect:/admin/menusectie/" + id;
+        return "redirect:/admin/personeeldetail/" + personnelId;
     }
 
-    @PostMapping("/personnel/newimage/{id}")
+    @PostMapping("/personnel/newimage/{personnelId}")
     public String newImagePersonnel(@ModelAttribute("Personnel") Personnel personnel,
-                               @PathVariable Integer id,
+                               @PathVariable Integer personnelId,
                                @NotNull @RequestParam MultipartFile newImage,
                                Model model) throws Exception {
 
@@ -192,13 +192,13 @@ public class AdminPersonnelController {
             }
         } catch (FileSizeLimitExceededException fileSizeLimitExceededException) {
             model.addAttribute("FileSizeException", true);
-            return "redirect:/admin/personeeldetail/" + id;
+            return "redirect:/admin/personeeldetail/" + personnelId;
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/admin/personeeldetail/" + id;
+            return "redirect:/admin/personeeldetail/" + personnelId;
         }
 
         personnelRepository.save(personnel);
-        return "redirect:/admin/personeeldetail/" + id;
+        return "redirect:/admin/personeeldetail/" + personnelId;
     }
 }
