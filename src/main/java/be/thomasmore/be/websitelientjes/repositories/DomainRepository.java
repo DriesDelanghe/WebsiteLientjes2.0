@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DomainRepository extends CrudRepository<Domain, Integer> {
-    @Query("select d from Domain d where d.name like :domainName")
+    @Query("select d from Domain d where d.domainName like :domainName")
     Domain getByDomainName(@Param("domainName") String domainName);
 }

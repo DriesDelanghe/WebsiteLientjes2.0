@@ -20,7 +20,7 @@ values (nextval('IMG_SEQ'), '/images/general/default-image.jpg'),
        (nextval('IMG_SEQ'), '/images/food/afbeelding-warme-drank.jpg'),
        (nextval('IMG_SEQ'), '/images/food/afbeelding-alle-gerechten.jpg');
 
-insert into domain(id, name)
+insert into domain(id, domain_name)
 values (1, 'bistro'),
        (2, 'bolo');
 

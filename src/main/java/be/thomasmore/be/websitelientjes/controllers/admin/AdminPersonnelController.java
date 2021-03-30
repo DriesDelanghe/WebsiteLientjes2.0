@@ -44,20 +44,22 @@ public class AdminPersonnelController {
     Logger logger = LoggerFactory.getLogger(AdminPersonnelController.class);
 
     @ModelAttribute("domainBistro")
-    public Domain getDomainBistro(){
-        return domainRepository.getByDomainName("bistro");
+    public Domain getDomainBistro() {
+        return domainRepository.findById(1).get();
     }
+
     @ModelAttribute("domainBolo")
-    public Domain getDomainBolo(){
-        return domainRepository.getByDomainName("bolo");
+    public Domain getDomainBolo() {
+        return domainRepository.findById(2).get();
     }
 
     @ModelAttribute("menuSectionListBistro")
-    public List<MenuSection> getMenuSectionListBistro(@ModelAttribute("domainBistro") Domain domainBistro){
+    public List<MenuSection> getMenuSectionListBistro(@ModelAttribute("domainBistro") Domain domainBistro) {
         return menuSectionRepository.getByDomain(domainBistro);
     }
+
     @ModelAttribute("menuSectionListBolo")
-    public List<MenuSection> getMenuSectionListBolo(@ModelAttribute("domainBolo") Domain domainBolo){
+    public List<MenuSection> getMenuSectionListBolo(@ModelAttribute("domainBolo") Domain domainBolo) {
         return menuSectionRepository.getByDomain(domainBolo);
     }
 

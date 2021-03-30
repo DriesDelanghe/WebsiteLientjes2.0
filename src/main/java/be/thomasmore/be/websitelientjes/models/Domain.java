@@ -2,14 +2,13 @@ package be.thomasmore.be.websitelientjes.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Domain {
 
     @Id
     private int id;
-    private String name;
+    private String domainName;
 
     public Domain() {
     }
@@ -26,11 +25,11 @@ public class Domain {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getDomainName() {
+        return domainName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDomainName(String name) {
+        this.domainName = name;
     }
 }

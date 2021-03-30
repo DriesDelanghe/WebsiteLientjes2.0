@@ -38,8 +38,8 @@
                     <div class="card-body">
                         <h5 class="card-title">Nieuwe sectie</h5>
                         <div class="card-title d-flex flex-column flex-lg-row justify-content-center">
-                            <label for="name">naam: </label>
-                            <input type="text" id="name" th:field="*{name}">
+                            <label class="form-label" for="name">naam: </label>
+                            <input class="form-control" type="text" id="name" th:field="*{name}">
                         </div>
                         <input type="submit" value="opslagen" class="btn btn-dark">
                     </div>
@@ -66,8 +66,8 @@
                         <div class="card-body">
                             <h5 class="card-title">Nieuwe sectie</h5>
                             <div class="card-title d-flex flex-column flex-lg-row justify-content-center">
-                                <label for="name">naam: </label>
-                                <input type="text" id="name" th:field="*{name}">
+                                <label class="form-label" for="name">naam: </label>
+                                <input class="form-control" type="text" id="name" th:field="*{name}">
                             </div>
                             <input type="submit" value="opslagen" class="btn btn-dark">
                         </div>
@@ -78,7 +78,7 @@
     </th:block>
     <th:block th:if="${menuSectionList != null}" >
         <div class="container-fluid w-100 mx-auto">
-            <h2 class="text-center mt-5">Menu secties <span th:text="${domain.name.equals('bistro')} ? 'Lientjes Bistro' : 'Bolo Lientjes'"></span> </h2>
+            <h2 class="text-center mt-5">Menu secties <span th:text="${domain.id == 1} ? 'Lientjes Bistro' : 'Bolo Lientjes'"></span> </h2>
             <hr class="text-muted mx-auto w-50 my-2">
             <div class="row w-100 d-flex align-items-center justify-content-center">
                 <th:block th:each="menuSection : ${menuSectionList}" th:object="${menuSection}">
@@ -96,8 +96,8 @@
                         <div class="card-body">
                             <h5 class="card-title">Nieuwe sectie</h5>
                             <div class="d-flex flex-column flex-lg-row justify-content-center">
-                                <label for="name">naam: </label>
-                                <input type="text" id="name" th:field="*{name}">
+                                <label class="form-label" for="name">naam: </label>
+                                <input class="form-control" type="text" id="name" th:field="*{name}">
                             </div>
                             <input type="submit" value="opslagen" class="btn btn-dark">
                         </div>

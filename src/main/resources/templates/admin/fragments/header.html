@@ -9,7 +9,8 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" th:href="@{|/admin|}">Adminpage</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -21,19 +22,27 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{|/admin/inbox|}">inbox</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{|/admin/allergielijst|}">allergielijst</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{|/admin/categorielijst|}">categorielijst</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
                             Personeel
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" th:href="@{|/admin/personeellijst|}"> algemeen overzicht</a></li>
-                            <li><a class="dropdown-item" th:href="@{|/admin/personeellijst/1|}"> overzicht Bistro</a></li>
+                            <li><a class="dropdown-item" th:href="@{|/admin/personeellijst|}"> algemeen overzicht</a>
+                            </li>
+                            <li><a class="dropdown-item" th:href="@{|/admin/personeellijst/1|}"> overzicht Bistro</a>
+                            </li>
                             <li><a class="dropdown-item" th:href="@{|/admin/personeellijst/2|}"> overzicht Bolo</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">nieuw toevoegen</a></li>
+                            <li><a class="dropdown-item" th:href="@{|/admin/personeellijst#nieuwpersoneel|}">nieuw toevoegen</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -44,16 +53,23 @@
                         <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown1">
                             <li><a class="dropdown-item" th:href="@{|/admin/menulijst|}"> Algemeen overzicht</a></li>
                             <li>
-                                <a class="dropdown-item mt-2" th:href="@{|/admin/menulijst/1|}"><strong>Lientjes Bistro</strong></a>
+                                <a class="dropdown-item mt-2" th:href="@{|/admin/menulijst/1|}"><strong>Lientjes
+                                    Bistro</strong></a>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" th:href="@{|/admin/menusectie/${menuSection.id}|}" th:each="menuSection : ${menuSectionListBistro}" th:text="${menuSection.name}">placeholder</a></li>
+                            <li><a class="dropdown-item" th:href="@{|/admin/menusectie/${menuSection.id}|}"
+                                   th:each="menuSection : ${menuSectionListBistro}" th:text="${menuSection.name}">placeholder</a>
+                            </li>
                             <li>
-                                <a class="dropdown-item mt-2" th:href="@{|/admin/menulijst/2|}"><strong>Lientjes Bolo</strong></a>
+                                <a class="dropdown-item mt-2" th:href="@{|/admin/menulijst/2|}"><strong>Lientjes
+                                    Bolo</strong></a>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" th:href="@{|/admin/menusectie/${menuSection.id}|}" th:each="menuSection : ${menuSectionListBolo}" th:text="${menuSection.name}">placeholder</a></li>
+                            <li><a class="dropdown-item" th:href="@{|/admin/menusectie/${menuSection.id}|}"
+                                   th:each="menuSection : ${menuSectionListBolo}" th:text="${menuSection.name}">placeholder</a>
+                            </li>
                         </ul>
+                    </li>
                 </ul>
             </div>
         </div>
