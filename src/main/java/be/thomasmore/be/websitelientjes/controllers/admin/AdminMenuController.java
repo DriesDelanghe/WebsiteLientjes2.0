@@ -144,10 +144,20 @@ public class AdminMenuController {
         return "admin/menulijst";
     }
 
-    @GetMapping({"/menusectie", "/menusectie/{menuSectionId}"})
-    public String menuSectie(Model model, @PathVariable(required = false) Integer menuSectionId) {
-        model.addAttribute("changesSaved", false);
+    @GetMapping({"/menusectie", "/menusectie/{menuSectionId}", "/menusectie/{menuSectionId}/{subSectionId}"})
+    public String menuSectie(Model model,
+                             @PathVariable(required = false) Integer subSectionId,
+                             @PathVariable(required = false) Integer menuSectionId) {
 
+        Integer targetId = (Integer) model.getAttribute("targetId");
+        logger.info(String.format("value target id -- '%d'", targetId));
+
+        if(subSectionId != null){
+            logger.info("I am the problem child");
+            model.addAttribute("targetId", subSectionId);
+            logger.info("setting targetId to -- '%d'", subSectionId);
+            return  "redirect:/admin/menusectie/" + menuSectionId + "#" + subSectionId;
+        }
         return "admin/menusectie";
     }
 
@@ -231,10 +241,11 @@ public class AdminMenuController {
         return "redirect:/admin/menusectie/" + menuSectionId;
     }
 
-    @PostMapping("/editproduct/{menuSectionId}/{productId}")
+    @PostMapping("/editproduct/{menuSectionId}/{subSectionId}/{productId}")
     public String editProductPost(@ModelAttribute("menuSection") MenuSection menuSection,
                                   @PathVariable Integer productId,
                                   @PathVariable Integer menuSectionId,
+                                  @PathVariable Integer subSectionId,
                                   @RequestParam String productName,
                                   @RequestParam BigDecimal productPrice,
                                   @RequestParam String productExtraInfo,
@@ -271,7 +282,7 @@ public class AdminMenuController {
         }
         productRepository.save(product);
 
-        return "redirect:/admin/menusectie/" + menuSectionId;
+        return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId;
     }
 
     @PostMapping("/menu/subsectionnamechange/{menuSectionId}/{subSectionId}")
@@ -287,7 +298,7 @@ public class AdminMenuController {
 
         menuSubSectionRepository.save(menuSubSection);
 
-        return "redirect:/admin/menusectie/" + menuSectionId;
+        return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId;
     }
 
     @PostMapping("/newproduct/{menuSectionId}/{subSectionId}")
@@ -297,7 +308,7 @@ public class AdminMenuController {
                                  @PathVariable Integer subSectionId) {
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/admin/menusectie/" + menuSectionId;
+            return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId;
         }
 
         MenuSubSection menuSubSection = new MenuSubSection(subSectionId);
@@ -306,7 +317,7 @@ public class AdminMenuController {
 
         productRepository.save(product);
 
-        return "redirect:/admin/menusectie/" + menuSectionId;
+        return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId;
     }
 
     @PostMapping("/newsubsection/{menuSectionId}")
@@ -339,7 +350,7 @@ public class AdminMenuController {
         menuSectionRepository.save(section);
 
         logger.info("---- end adding new subsection ----");
-        return "redirect:/admin/menusectie/" + menuSectionId;
+        return "redirect:/admin/menusectie/" + menuSectionId + "/" + menuSubSection.getId();
     }
 
     @PostMapping("/newsectionondomain/{domainId}")
@@ -375,13 +386,14 @@ public class AdminMenuController {
         return "redirect:/admin/menulijst";
     }
 
-    @PostMapping("/removeproduct/{menuSectionId}/{productId}")
+    @PostMapping("/removeproduct/{menuSectionId}/{subSectionId}/{productId}")
     public String removeProduct(@PathVariable Integer productId,
+                                @PathVariable Integer subSectionId,
                                 @PathVariable Integer menuSectionId) {
         Product product = productRepository.findById(productId).get();
         productRepository.delete(product);
 
-        return "redirect:/admin/menusectie/" + menuSectionId;
+        return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId;
     }
 
     @PostMapping("/removesubsection/{menuSectionId}/{subSectionId}")
@@ -392,7 +404,7 @@ public class AdminMenuController {
         MenuSubSection subSection = menuSubSectionRepository.findById(subSectionId).get();
         if (!subSection.getProducts().isEmpty()) {
             model.addAttribute("subSectionNotEmpty", true);
-            return "redirect:/admin/menusectie/" + menuSectionId;
+            return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId;
         }
         MenuSection menuSection = menuSectionRepository.findById(menuSectionId).get();
         menuSection.getMenuSubSectionList().remove(subSection);
@@ -449,6 +461,6 @@ public class AdminMenuController {
         productRepository.save(product);
         menuSubSectionRepository.save(subSection);
 
-        return "redirect:/admin/menusectie/" + sectionId;
+        return "redirect:/admin/menusectie/" + sectionId + "/" + subSectionId;
     }
 }
