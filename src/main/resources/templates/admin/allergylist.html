@@ -36,6 +36,22 @@
             </div>
         </th:block>
     </div>
+
+    <div class="row mt-5 w-100">
+        <h5>Nieuwe allergie aanmaken</h5>
+        <hr>
+        <form method="post" th:action="@{|/admin/newallergy|}" class="d-flex justify-content-center">
+            <div class="card col-12 col-lg-4 col-xl-3 m-2" th:object="${newAllergy}">
+                <div class="card-header">
+                    <input type="text" th:field="*{name}" class="form-control">
+                </div>
+                <div class="card-body">
+                    <input type="submit" value="aanmaken" class="btn btn-dark">
+                </div>
+            </div>
+        </form>
+    </div>
+
 </div>
 
 </body>

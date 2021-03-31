@@ -1,16 +1,17 @@
 package be.thomasmore.be.websitelientjes.models;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
 public class Allergie {
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "allergy_generator")
+    @SequenceGenerator(name = "allergy_generator", sequenceName = "al_seq", allocationSize = 1)
     @Id
     private int id;
+    @NotBlank
     private String name;
     @ManyToMany(mappedBy = "allergies", fetch = FetchType.LAZY)
     private List<Product> products;

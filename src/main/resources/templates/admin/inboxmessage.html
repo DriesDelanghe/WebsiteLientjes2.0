@@ -26,13 +26,20 @@
         </svg>
         naar inbox</a>
 </div>
-<div class="container-fluid mt-5 mx-0 px-0">
+<div class="container-fluid mt-5">
+
     <h5 class="px-4">onderwerp: <span class="lead" th:text="${message.onderwerp}"></span></h5>
     <hr>
 
     <div class="container-fluid w-75 mx-auto px-0">
         <div class="w-100 border px-3">
-            <p class="lead" th:utext="${message.question}"></p>
+            <div class="container-fluid w-100 p-0">
+                <button type="button" class="btn btn-outline-danger float-end" data-bs-toggle="modal"
+                        data-bs-target="#removeModal">
+                    x
+                </button>
+            </div>
+            <p class="lead my-3" th:utext="${message.question}"></p>
         </div>
         <div class="w-100 d-flex flex-lg-row-reverse flex-column justify-content-lg-between">
             <p class="text-muted text-end">verstuurd op <span
@@ -44,5 +51,28 @@
     </div>
 
 </div>
+
+<!-- remove Modal-->
+<div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removeModalLabel">Bericht verwijderen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bent u zeker dat u dit bericht wilt verwijderen?</p>
+                <p><strong>Deze actie is permanent</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form method="post" th:action="@{|/admin/removemessage/${message.id}|}">
+                    <input type="submit" value="verwijderen" class="btn btn-danger">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

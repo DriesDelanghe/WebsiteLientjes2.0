@@ -8,10 +8,7 @@ import be.thomasmore.be.websitelientjes.repositories.DomainRepository;
 import be.thomasmore.be.websitelientjes.repositories.MenuSectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -76,5 +73,13 @@ public class AdminInboxController {
     public String messagePage(){
 
         return "admin/inboxmessage";
+    }
+
+    @PostMapping("/removemessage/{messageId}")
+    public String removeMessage(@PathVariable Integer messageId){
+        ContactForm message = contactFormRepository.findById(messageId).get();
+        contactFormRepository.delete(message);
+
+        return "redirect:/admin/inbox";
     }
 }

@@ -1,0 +1,23 @@
+/* HIDE RADIO */
+[type=checkbox] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* IMAGE STYLES */
+[type=checkbox] + .card {
+    cursor: pointer;
+}
+
+/* CHECKED STYLES */
+[type=checkbox]:checked + .add-product {
+    outline: 2px solid #45cd5c;
+    box-shadow: 0 0 15px 5px #72e7b0;
+}
+
+[type=checkbox]:checked + .remove-product {
+    outline: 2px solid #cd4545;
+    box-shadow: 0 0 15px 5px #e77272;
+}

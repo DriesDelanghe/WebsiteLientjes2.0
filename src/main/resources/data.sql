@@ -338,12 +338,12 @@ values (1, 3),
        (29, 2);
 
 INSERT into ALLERGIE(id, name)
-values (1, 'lactose'),
-       (2, 'noten'),
-       (3, 'gluten'),
-       (4, 'soya'),
-       (5, 'pinda'),
-       (6, 'eieren');
+values (nextval('AL_SEQ'), 'lactose'),
+       (nextval('AL_SEQ'), 'noten'),
+       (nextval('AL_SEQ'), 'gluten'),
+       (nextval('AL_SEQ'), 'soya'),
+       (nextval('AL_SEQ'), 'pinda'),
+       (nextval('AL_SEQ'), 'eieren');
 
 insert into PRODUCT_ALLERGIES(PRODUCTS_ID, ALLERGIES_ID)
 
@@ -381,8 +381,8 @@ values (1, 1),
        (70, 1);
 
 insert into product_category(id, name)
-values (1, 'alcoholisch'),
-       (2, 'vegetarisch');
+values (nextval('CAT_SEQ'), 'alcoholisch'),
+       (nextval('CAT_SEQ'), 'vegetarisch');
 
 insert into product_categories(products_id, categories_id)
 values (11, 1),

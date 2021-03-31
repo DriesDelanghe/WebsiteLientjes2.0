@@ -8,10 +8,14 @@ import be.thomasmore.be.websitelientjes.repositories.AllergieRepository;
 import be.thomasmore.be.websitelientjes.repositories.DomainRepository;
 import be.thomasmore.be.websitelientjes.repositories.MenuSectionRepository;
 import be.thomasmore.be.websitelientjes.repositories.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +30,8 @@ public class AdminAllergieController {
     MenuSectionRepository menuSectionRepository;
     @Autowired
     ProductRepository productRepository;
+
+    Logger logger = LoggerFactory.getLogger(AdminAllergieController.class);
 
 
     @ModelAttribute("domainBistro")
@@ -48,47 +54,115 @@ public class AdminAllergieController {
         return menuSectionRepository.getByDomain(domainBolo);
     }
 
+    @ModelAttribute("allProductsBistro")
+    public MenuSection getAllProductsBistro(){
+        return menuSectionRepository.findById(1).get();
+    }
+    @ModelAttribute("allProductsBolo")
+    public MenuSection getAllProductsBolo(){
+        return menuSectionRepository.findById(2).get();
+    }
+
     @ModelAttribute("allergyList")
-    public List<Allergie> getAllergieList(){
+    public List<Allergie> getAllergieList() {
         return (List<Allergie>) allergieRepository.findAll();
     }
 
     @ModelAttribute("allergy")
-    public Allergie getAllergy(@PathVariable(required = false) Integer allergyId){
-        if(allergyId != null){
+    public Allergie getAllergy(@PathVariable(required = false) Integer allergyId) {
+        if (allergyId != null) {
             Optional<Allergie> allergieOptional = allergieRepository.findById(allergyId);
-            if(allergieOptional.isPresent()){
+            if (allergieOptional.isPresent()) {
                 return allergieOptional.get();
             }
         }
         return null;
     }
 
+    @ModelAttribute("newAllergy")
+    public Allergie newAllergie(){
+        return new Allergie();
+    }
+
+
+
 
     @GetMapping("/allergielijst")
-    public String allergieLijstPage(){
+    public String allergieLijstPage() {
 
         return "admin/allergylist";
     }
 
     @GetMapping("/allergie/{allergyId}")
-    public String allergieItemPage(){
+    public String allergieItemPage() {
 
         return "admin/allergie";
     }
 
 
-
-    @PostMapping("/removeproductfromallergie/{allergyId}/{productId}")
+    @PostMapping("/removeproductfromallergie/{allergyId}")
     public String removeProductFromAllergie(@ModelAttribute("allergy") Allergie allergie,
-                                            @PathVariable Integer productId){
+                                            @RequestParam(name = "productId[]") List<Integer> productIds) {
 
-        Product product = productRepository.findById(productId).get();
-        product.getAllergies().remove(allergie);
-        allergie.getProducts().remove(product);
+        List<Product> productsToRemove = (List<Product>) productRepository.findAllById(productIds);
+        for (Product p : productsToRemove) {
+            p.getAllergies().remove(allergie);
+            productRepository.save(p);
+        }
+        allergie.getProducts().removeAll(productsToRemove);
         allergieRepository.save(allergie);
-        productRepository.save(product);
 
         return "redirect:/admin/allergie/" + allergie.getId();
+    }
+
+    @PostMapping("/addproducttoallergie/{allergyId}")
+    public String adProductToAllergie(@ModelAttribute("allergy") Allergie allergie,
+                                            @RequestParam(name = "productId[]") List<Integer> productIds) {
+
+        List<Product> productsToAdd = (List<Product>) productRepository.findAllById(productIds);
+        for (Product p : productsToAdd) {
+            p.getAllergies().add(allergie);
+            productRepository.save(p);
+        }
+        allergie.getProducts().addAll(productsToAdd);
+        allergieRepository.save(allergie);
+
+        return "redirect:/admin/allergie/" + allergie.getId();
+    }
+
+    @PostMapping("/updateallergie/{allergyId}")
+    public String updateAllergie(@Valid @ModelAttribute("allergy") Allergie allergie,
+                                 BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            return "redirect:/admin/allergie/" + allergie.getId();
+        }
+        allergieRepository.save(allergie);
+
+        return "redirect:/admin/allergie/" + allergie.getId();
+    }
+
+    @PostMapping("/newallergy")
+    public String newAllergiePost(@Valid @ModelAttribute("newAllergy") Allergie allergie,
+                                  BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "redirect:/admin/allergielijst";
+        }
+        allergieRepository.save(allergie);
+
+        return "redirect:/admin/allergielijst";
+    }
+
+    @PostMapping("/removeallergy/{allergyId}")
+    public String removeAllergiePost(@PathVariable Integer allergyId){
+        Allergie allergie = allergieRepository.findById(allergyId).get();
+        logger.info(allergie.getName());
+        List<Product> productList = allergie.getProducts();
+        for(Product p : productList){
+            p.getAllergies().remove(allergie);
+        }
+        allergieRepository.delete(allergie);
+
+        return "redirect:/admin/allergielijst";
     }
 }
