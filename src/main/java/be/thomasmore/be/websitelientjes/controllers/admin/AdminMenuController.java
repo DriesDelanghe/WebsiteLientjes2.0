@@ -155,8 +155,8 @@ public class AdminMenuController {
         if(subSectionId != null){
             logger.info("I am the problem child");
             model.addAttribute("targetId", subSectionId);
-            logger.info("setting targetId to -- '%d'", subSectionId);
-            return  "redirect:/admin/menusectie/" + menuSectionId + "#" + subSectionId;
+            logger.info(String.format("targetid"), subSectionId);
+            return  "admin/menusectie";
         }
         return "admin/menusectie";
     }
@@ -282,7 +282,7 @@ public class AdminMenuController {
         }
         productRepository.save(product);
 
-        return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId;
+        return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId + "#" + subSectionId;
     }
 
     @PostMapping("/menu/subsectionnamechange/{menuSectionId}/{subSectionId}")
@@ -308,7 +308,7 @@ public class AdminMenuController {
                                  @PathVariable Integer subSectionId) {
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId;
+            return "redirect:/admin/menusectie/" + "/" + subSectionId + "#" + subSectionId;
         }
 
         MenuSubSection menuSubSection = new MenuSubSection(subSectionId);
@@ -317,7 +317,7 @@ public class AdminMenuController {
 
         productRepository.save(product);
 
-        return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId;
+        return "redirect:/admin/menusectie/" + "/" + subSectionId + "#" + subSectionId;
     }
 
     @PostMapping("/newsubsection/{menuSectionId}")
@@ -350,7 +350,7 @@ public class AdminMenuController {
         menuSectionRepository.save(section);
 
         logger.info("---- end adding new subsection ----");
-        return "redirect:/admin/menusectie/" + menuSectionId + "/" + menuSubSection.getId();
+        return "redirect:/admin/menusectie/" + menuSectionId + "/" + menuSubSection.getId() + "#" + menuSubSection.getId();
     }
 
     @PostMapping("/newsectionondomain/{domainId}")
@@ -393,7 +393,7 @@ public class AdminMenuController {
         Product product = productRepository.findById(productId).get();
         productRepository.delete(product);
 
-        return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId;
+        return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId + "#" + subSectionId;
     }
 
     @PostMapping("/removesubsection/{menuSectionId}/{subSectionId}")
@@ -404,7 +404,7 @@ public class AdminMenuController {
         MenuSubSection subSection = menuSubSectionRepository.findById(subSectionId).get();
         if (!subSection.getProducts().isEmpty()) {
             model.addAttribute("subSectionNotEmpty", true);
-            return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId;
+            return "redirect:/admin/menusectie/" + menuSectionId + "/" + subSectionId + "#" + subSectionId;
         }
         MenuSection menuSection = menuSectionRepository.findById(menuSectionId).get();
         menuSection.getMenuSubSectionList().remove(subSection);
@@ -461,6 +461,6 @@ public class AdminMenuController {
         productRepository.save(product);
         menuSubSectionRepository.save(subSection);
 
-        return "redirect:/admin/menusectie/" + sectionId + "/" + subSectionId;
+        return "redirect:/admin/menusectie/" + sectionId + "/" + subSectionId + "#" + subSectionId;
     }
 }
