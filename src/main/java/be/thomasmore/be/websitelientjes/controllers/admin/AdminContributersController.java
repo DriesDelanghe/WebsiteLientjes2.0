@@ -51,7 +51,7 @@ public class AdminContributersController {
         }
 
         referenceRepository.save(reference);
-        return "admin/contributerdetail";
+        return "redirect:/admin/contributers";
     }
 
     @PostMapping("/newcontributer")

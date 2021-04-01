@@ -140,7 +140,7 @@ public class AdminPersonnelController {
         }
 
         personnelRepository.save(personnel);
-        return "admin/personeeldetail";
+        return "redirect:/admin/personeellijst";
     }
 
     @PostMapping("/personnel/imagechange")
