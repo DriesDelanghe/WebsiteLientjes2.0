@@ -45,25 +45,25 @@
                             vullen
                         </div>
                         <div class="w-100 d-flex justify-content-between my-1">
-                            <label for="name">naam:</label>
-                            <input id="name" type="text" class="card-title" th:field="*{name}"
+                            <label class="form-label" for="name">naam:</label>
+                            <input id="name" type="text" class="card-title form-control" th:field="*{name}"
                                    th:errorclass="alert-danger">
                         </div>
                         <div class="w-100 d-flex justify-content-between mt-1 mb-3">
-                            <label class="card-subtitle" for="domain">werkt bij:</label>
-                            <select name="domainId" id="domain">
+                            <label class="card-subtitle form-label" for="domain">werkt bij:</label>
+                            <select class="form-select" name="domainId" id="domain">
                                 <option value="1" th:selected="${personnel.domain.id == 1}">Lientjes Bistro</option>
                                 <option value="2" th:selected="${personnel.domain.id == 2}">Bolo Lientjes</option>
                             </select>
                         </div>
                         <div class="w-100 d-flex justify-content-between my-1">
-                            <label for="function">functie:</label>
-                            <input id="function" type="text" class="card-subtitle text-muted"
+                            <label class="form-label" for="function">functie:</label>
+                            <input id="function" type="text" class="card-subtitle text-muted form-control"
                                    th:field="*{functionDescription}" th:errorclass="alert-danger">
                         </div>
                         <div class="w-100 d-flex justify-content-start flex-column mt-2">
-                            <label for="description">beschrijving:</label>
-                            <textarea id="description" class="card-text w-100 my-2" cols="12" rows="5"
+                            <label class="form-label" for="description">beschrijving:</label>
+                            <textarea id="description" class="card-text w-100 my-2 form-control" cols="12" rows="5"
                                       th:field="*{extraInfo}" th:errorclass="alert-danger"> </textarea>
                         </div>
                         <div class="container-fluid d-flex justify-content-center">

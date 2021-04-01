@@ -13,13 +13,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
             crossorigin="anonymous"></script>
-
-    <script th:inline="javascript">
-        function getFragmentIdentifier(){
-            var frag_id =
-        }
-    </script>
-
 </head>
 <body>
 
@@ -27,6 +20,10 @@
 
 <div class="container-fluid alert alert-danger" th:if="${subSectionNotEmpty == true}">
     <h4>Kan subsectie niet verwijderen als er nog producten aanwezig zijn</h4>
+</div>
+
+<div class="container-fluid alert alert-danger" th:if="${FileSizeException == true}">
+    <h4>File is te groot, maximum grootte is 1Mb</h4>
 </div>
 
 <th:block th:if="${menuSection}">
@@ -83,7 +80,7 @@
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Upload nieuwe foto</label>
                         <input class="form-control" type="file" id="formFile" name="newImage">
-                        <p class="text-muted ms-3">File niet groter dan 2Mb</p>
+                        <p class="text-muted ms-3">File niet groter dan 1Mb</p>
                         <input type="submit" value="uploaden" class="btn btn-dark m-2">
                     </div>
                 </form>

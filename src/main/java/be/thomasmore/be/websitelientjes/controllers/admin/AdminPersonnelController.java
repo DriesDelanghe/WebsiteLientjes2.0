@@ -120,14 +120,14 @@ public class AdminPersonnelController {
 
         if(bindingResult.hasErrors()){
             model.addAttribute("personnel", personnel);
-            return "redirect:/admin/personeeldetail/" + personnelId;
+            return "admin/personeeldetail";
         }
         if(domainId != personnel.getDomain().getId()){
             personnel.setDomain(new Domain(domainId));
         }
 
         personnelRepository.save(personnel);
-        return"redirect:/admin/personeellijst";
+        return "admin/personeeldetail";
     }
 
     @PostMapping("/personnel/imagechange")
@@ -138,7 +138,7 @@ public class AdminPersonnelController {
 
         personnelRepository.save(personnel);
 
-        return "redirect:/admin/personeeldetail" + personnel.getId();
+        return "admin/personeeldetail";
     }
 
     @PostMapping("/newpersonnel")
@@ -148,7 +148,7 @@ public class AdminPersonnelController {
         personnel.setDomain(new Domain(domainId));
         personnelRepository.save(personnel);
 
-        return "redirect:/admin/personeellijst";
+        return "redirect:/admin/personeeldetail/" + personnel.getId();
     }
 
     @PostMapping("/personnel/imagechange/{personnelId}")
@@ -163,7 +163,7 @@ public class AdminPersonnelController {
 
         personnelRepository.save(personnel);
         model.addAttribute("changesSaved", true);
-        return "redirect:/admin/personeeldetail/" + personnelId;
+        return "admin/personeeldetail";
     }
 
     @PostMapping("/personnel/newimage/{personnelId}")
@@ -194,14 +194,14 @@ public class AdminPersonnelController {
             }
         } catch (FileSizeLimitExceededException fileSizeLimitExceededException) {
             model.addAttribute("FileSizeException", true);
-            return "redirect:/admin/personeeldetail/" + personnelId;
+            return "admin/personeeldetail";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/admin/personeeldetail/" + personnelId;
+            return "admin/personeeldetail";
         }
 
         personnelRepository.save(personnel);
-        return "redirect:/admin/personeeldetail/" + personnelId;
+        return "admin/personeeldetail";
     }
 
     @PostMapping("/removepersonnel/{personnelId}")
