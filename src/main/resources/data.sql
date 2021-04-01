@@ -36,14 +36,21 @@ values (nextval('PER_SEQ'), 'Persona A', 8, 'This is the first test person, thes
        (nextval('PER_SEQ'), 'Persona E', 12, 'This is the fifth test person, these are all here as proof of concept',
         'serveur', 1),
        (nextval('PER_SEQ'), 'Persona F', 13, 'This is the sixth test person, these are all here as proof of concept',
-        'serveur', 1);
+        'serveur', 1),
+       (nextval('PER_SEQ'), 'Persona A', 8, 'This is the first test person, these are all here as proof of concept',
+        'chef-kok', 2),
+       (nextval('PER_SEQ'), 'Persona B', 9, 'This is the second test person, these are all here as proof of concept',
+        'serveur', 2),
+       (nextval('PER_SEQ'), 'Persona C', 10, 'This is the third test person, these are all here as proof of concept',
+        'uitbater', 2);
 
 insert into page(id, page_name, domain_id)
 values (1, 'Home', 1),
        (2, 'References', 1),
        (3, 'Contact', 1),
        (4, 'personeel', 1),
-       (5, 'menu', 1);
+       (5, 'menu', 1),
+       (6, 'Home', 2);
 
 insert into personnel_pages(personnel_id, pages_id)
 values (1, 1),
@@ -54,7 +61,10 @@ values (1, 1),
        (3, 4),
        (4, 4),
        (5, 4),
-       (6, 4);
+       (6, 4),
+       (7,6),
+       (8,6),
+       (9,6);
 
 insert into openingsuur(id, dag, openingsuur, sluitingsuur, domain_id)
 values (1, 'maandag', null, null, 1),
@@ -105,11 +115,11 @@ values (1, 'https://www.facebook.com/Lientjes-Bistro-151107858896317/', 2, 1, 1)
        (2, 'https://www.instagram.com/lientjesbistro/', 3, 2, 1);
 
 insert into reference(id, site_url, site_name, artist_name, artist_url, product_name)
-values (1, 'https://www.flaticon.com/', 'Flaticon', 'Roundicons', 'https://roundicons.com/', 'symbols'),
-       (2, 'https://www.pexels.com/', 'Pexels', 'Negative Space', 'https://www.pexels.com/@negativespace',
+values (nextval('REF_SEQ'), 'https://www.flaticon.com/', 'Flaticon', 'Roundicons', 'https://roundicons.com/', 'symbols'),
+       (nextval('REF_SEQ'), 'https://www.pexels.com/', 'Pexels', 'Negative Space', 'https://www.pexels.com/@negativespace',
         'header image'),
-       (3, null, null, 'Dries Delanghe', 'https://www.driesdelanghe.be/', 'site'),
-       (4, 'https://www.pexels.com/', 'Pexels', 'Amine M''Siouri',
+       (nextval('REF_SEQ'), null, null, 'Dries Delanghe', 'https://www.driesdelanghe.be/', 'site'),
+       (nextval('REF_SEQ'), 'https://www.pexels.com/', 'Pexels', 'Amine M''Siouri',
         'https://www.pexels.com/nl-nl/@amine-m-siouri-1025778',
         'error page header');
 

@@ -23,8 +23,12 @@
         <hr class="mx-5 my-4">
     </div>
 </div>
+<div th:if="${countNoMatch == true}" class="container-fluid alert alert-danger">
+        <h4>per home pagina moeten er <strong>3</strong> personeelleden aanwezig zijn</h4>
+</div>
 
 <div class="container-fluid w-75">
+    <form method="post" th:action="${domain} ? @{|/admin/personnel/updatehomepage/${domain.id}|} : @{|/admin/personnel/updatehomepage|}">
     <div class="row justify-content-start">
         <th:block th:each="personnel : ${personnelList}" th:object="${personnel}">
             <div class="col-12 col-lg-4 col-xl-3">
@@ -37,6 +41,14 @@
                             th:text="${personnel.domain.id == 1}? 'Lientjes Bistro' : 'Lientjes Bolo'"></h6>
                         <h6 class="card-subtitle text-muted mb-1" th:text="*{functionDescription}"></h6>
                         <p class="card-text" th:text="*{extraInfo}"></p>
+                        <div class="form-check my-2">
+                            <input type="checkbox" id="onHomePage" name="onHomePage[]"
+                                   th:value="${personnel.id}"
+                                   th:checked="${personnel.domain.id == 1} ? ${personnel.pages.contains(homepageBistro)} : ${personnel.pages.contains(homepageBolo)}"
+                                   class="form-check-input">
+                            <label for="onHomePage" class="form-check-label"
+                                   th:text="${personnel.domain.id == 1} ? 'Op homepagina Bistro' : 'Op homepagina Bolo' "></label>
+                        </div>
                         <div class="container-fluid d-flex justify-content-center">
                             <a th:href="@{|/admin/personeeldetail/*{id}|}" class="btn btn-dark">update info</a>
                         </div>
@@ -45,6 +57,10 @@
             </div>
         </th:block>
     </div>
+        <div class="row d-flex justify-content-center">
+        <input type="submit" value="opslagen" class="btn btn-dark w-25">
+        </div>
+    </form>
     <a id="nieuwpersoneel">
         <div class="row">
             <div class="container w-100 mt-5">

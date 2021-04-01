@@ -16,41 +16,21 @@
 <body>
 
 <header th:replace="admin/fragments/header :: header"></header>
+<a th:href="@{|/admin/contributers|}" class="btn btn-dark m-2">naar overzicht contributers</a>
 
 <div class="container-fluid mt-5 mx-auto px-0 row d-flex justify-content-center">
-    <th:block th:each="contributer : ${contributers}">
-        <div class="card col-12 col-lg-4 col-xl-3 m-2">
-            <div class="card-header">
-                <div>
-                    <h5 th:text="${contributer.artistName}"
-                       class="card-title"></h5>
-                </div>
-                <div>
-                    <h6 th:text="${contributer.siteName}"
-                       class="mb-2 card-subtitle text-muted"></h6>
-                    <br th:unless="${contributer.siteName}">
-                </div>
-            </div>
-            <div class="card-body">
-                <p class="card-text">contribution: <span th:text="${contributer.productName}"></span></p>
-                <a th:href="${contributer.artistUrl}" class="card-link" target="_blank">Naar site Artist</a>
-                <a th:href="${contributer.siteUrl}" class="card-link" target="_blank" th:if="${contributer.siteUrl}">Naar site platform</a>
-            </div>
-            <div class="m-3">
-            <a th:href="@{|/admin/contributerdetail/${contributer.id}|}" class="btn btn-dark">Aanpassen</a>
-            </div>
-        </div>
-    </th:block>
-</div>
-
-<div class="container-fluid mt-5 mx-auto px-0 row d-flex justify-content-center">
-    <h4>Nieuwe contributer toevoegen</h4>
-    <hr>
     <div class="card col-12 col-lg-4 col-xl-3 m-2">
-        <form method="post" th:action="@{|/admin/newcontributer|}" th:object="${newContributer}">
+        <form method="post" th:action="@{|/admin/updatecontributer/${contributer.id}|}" th:object="${contributer}">
             <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">data kan niet worden opgeslagen</div>
             <p>
             <div class="card-header">
+            <!-- Button trigger remove modal -->
+            <div class="container-fluid w-100 p-0">
+                <button type="button" class="btn btn-outline-danger float-end" data-bs-toggle="modal"
+                        data-bs-target="#removeModal">
+                    x
+                </button>
+            </div>
                 <label for="name" class="form-label">Naam:</label>
                 <input id="name" type="text" class="form-control" th:field="*{artistName}"
                        th:errorclass="|alert-danger|">
@@ -70,6 +50,28 @@
                 <input type="submit" value="opslaan" class="btn btn-dark">
             </div>
         </form>
+    </div>
+</div>
+
+<!-- remove Modal -->
+<div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removeModalLabel">Contributer verwijderen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bent u zeker dat u deze contributer wilt verwijderen?</p>
+                <p><strong>Deze actie is permanent</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form method="post" th:action="@{|/admin/removecontributer/${contributer.id}|}">
+                    <input type="submit" value="verwijderen" class="btn btn-danger">
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 

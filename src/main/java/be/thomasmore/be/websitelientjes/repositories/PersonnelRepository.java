@@ -18,4 +18,7 @@ public interface PersonnelRepository extends CrudRepository<Personnel, Integer> 
 
     @Query("select p from Personnel p where p.domain = :domain ")
     List<Personnel> getByDomain(@Param("domain") Domain domain);
+
+    @Query("select p from Personnel p where not(p in (:personnelList))")
+    List<Personnel> getPersonnelExludeList(@Param("personnelList") List<Personnel> personnelToExclude);
 }

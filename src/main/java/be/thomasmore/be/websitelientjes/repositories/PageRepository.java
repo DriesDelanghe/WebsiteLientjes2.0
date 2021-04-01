@@ -13,4 +13,8 @@ public interface PageRepository extends CrudRepository<Page, Integer> {
     @Query("select p from Page p where (:domain is null or p.domain = :domain) and (:pageName is null or lower(p.pageName) like lower(:pageName))")
     Page getByDomainAndPageName(@Param("domain")Domain domain,
                                 @Param("pageName") String pageName);
+
+    @Query("select p from Page p where (:domain is null or p.domain = :domain) and (:pageId is null or p.id = :pageId)")
+    Page getByDomainAndPageId(@Param("domain")Domain domain,
+                              @Param("pageId") Integer pageId);
 }

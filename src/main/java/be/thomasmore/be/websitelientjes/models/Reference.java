@@ -1,17 +1,21 @@
 package be.thomasmore.be.websitelientjes.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Reference {
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reference_generator")
+    @SequenceGenerator(name = "reference_generator", sequenceName = "ref_seq", allocationSize = 1)
     @Id
     private int id;
     private String siteUrl;
     private String siteName;
+    @NotBlank
     private String artistName;
     private String artistUrl;
+    @NotBlank
     private String productName;
 
     public Reference() {

@@ -27,7 +27,7 @@
             <th:block th:each="reference : ${referenceList}">
                 <p><span th:text="${reference.getProductName()}">product placeholder</span>
                     made by <a th:href="${reference.getArtistUrl()}" th:title="${reference.getArtistName()}" th:text="${reference.getArtistName()}">name palceholder</a>
-                    <span th:if="${reference.getSiteName() != null}">
+                    <span th:if="${reference.getSiteName() != null && !reference.siteName.isBlank()}">
                         from <a th:href="${reference.getSiteUrl()}" th:title="${reference.getSiteName()}" th:text="${reference.getSiteName()}">site name placeholder</a>
                     </span>
                 </p>
