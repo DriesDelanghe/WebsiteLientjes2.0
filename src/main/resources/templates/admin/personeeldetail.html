@@ -78,9 +78,11 @@
         </div>
     </th:block>
     <th:block th:unless="${personnel}">
-        <h2>Geen personeellid geselecteerd</h2>
+        <h2 class="text-center">Geen personeellid geselecteerd</h2>
     </th:block>
 </div>
+
+<th:block th:if="${personnel != null}">
 
 <!-- image Modal -->
 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
@@ -146,6 +148,8 @@
         </div>
     </div>
 </div>
+
+</th:block>
 
 
 </body>
