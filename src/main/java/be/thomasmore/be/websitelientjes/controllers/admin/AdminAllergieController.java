@@ -135,7 +135,7 @@ public class AdminAllergieController {
                                  BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
-            return "redirect:/admin/allergie/" + allergie.getId();
+            return "admin/allergie";
         }
         allergieRepository.save(allergie);
 
@@ -146,7 +146,7 @@ public class AdminAllergieController {
     public String newAllergiePost(@Valid @ModelAttribute("newAllergy") Allergie allergie,
                                   BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return "redirect:/admin/allergielijst";
+            return "admin/allergylist";
         }
         allergieRepository.save(allergie);
 

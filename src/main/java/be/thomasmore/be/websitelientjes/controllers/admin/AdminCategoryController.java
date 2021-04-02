@@ -140,7 +140,7 @@ public class AdminCategoryController {
     public String newAllergiePost(@Valid @ModelAttribute("newCategory") ProductCategory productCategory,
                                   BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return "redirect:/admin/categorielijst";
+            return "admin/categorylist";
         }
         categoryRepository.save(productCategory);
 

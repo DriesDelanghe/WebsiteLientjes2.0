@@ -151,7 +151,7 @@ public class AdminPersonnelController {
 
         personnelRepository.save(personnel);
 
-        return "admin/personeeldetail";
+        return "redirect:/admin/personeeldetail/" + personnel.getId();
     }
 
     @PostMapping("/newpersonnel")
@@ -176,7 +176,7 @@ public class AdminPersonnelController {
 
         personnelRepository.save(personnel);
         model.addAttribute("changesSaved", true);
-        return "admin/personeeldetail";
+        return "redirect:/admin/personeeldetail/" + personnelId;
     }
 
     @PostMapping("/personnel/newimage/{personnelId}")
@@ -214,7 +214,7 @@ public class AdminPersonnelController {
         }
 
         personnelRepository.save(personnel);
-        return "admin/personeeldetail";
+        return "redirect:/admin/personeeldetail/" + personnelId;
     }
 
     @PostMapping("/removepersonnel/{personnelId}")

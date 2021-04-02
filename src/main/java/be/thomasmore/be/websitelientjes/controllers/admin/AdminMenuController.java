@@ -179,13 +179,13 @@ public class AdminMenuController {
                                  BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/admin/menusectie/" + menuSectionId;
+            return "admin/menusectie" ;
         }
 
         logger.info("domain id -- " + menuSection.getId());
         menuSectionRepository.save(menuSection);
         model.addAttribute("changesSaved", true);
-        return "admin/menusectie";
+        return "redirect:/admin/menusectie/" + menuSectionId;
     }
 
     @PostMapping("/menu/imagechange/{menuSectionId}")
@@ -200,7 +200,7 @@ public class AdminMenuController {
 
         menuSectionRepository.save(menuSection);
         model.addAttribute("changesSaved", true);
-        return "admin/menusectie";
+        return "redirect:/admin/menusectie/" + menuSectionId;
     }
 
     @PostMapping("/menu/newimage/{menuSectionId}")
@@ -239,7 +239,7 @@ public class AdminMenuController {
 
         menuSectionRepository.save(menuSection);
         model.addAttribute("changesSaved", true);
-        return "admin/menusectie";
+        return "redirect:/admin/menusectie/" + menuSectionId;
     }
 
     @PostMapping("/editproduct/{menuSectionId}/{subSectionId}/{productId}")
@@ -361,7 +361,7 @@ public class AdminMenuController {
                                      Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("newSection", menuSection);
-            return "redirect:/admin/menulijst/" + domainId;
+            return "admin/menulijst";
         }
 
         menuSection.setDomain(new Domain(domainId));
@@ -384,7 +384,7 @@ public class AdminMenuController {
         menuSection.setDomain(new Domain(domainId));
         menuSectionRepository.save(menuSection);
 
-        return "admin/menulijst";
+        return "redirect:/admin/menulijst";
     }
 
     @PostMapping("/removeproduct/{menuSectionId}/{subSectionId}/{productId}")
@@ -423,7 +423,7 @@ public class AdminMenuController {
         }
 
         menuSubSectionRepository.delete(subSection);
-        return "admin/menusectie";
+        return "redirect:/admin/menusectie/" + menuSectionId;
     }
 
     @PostMapping("/removesection/{menuSectionId}")
