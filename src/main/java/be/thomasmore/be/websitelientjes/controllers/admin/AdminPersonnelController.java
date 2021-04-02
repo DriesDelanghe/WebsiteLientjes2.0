@@ -53,25 +53,35 @@ public class AdminPersonnelController {
     @ModelAttribute("domain")
     public Domain getReferencedDomain(@PathVariable(required = false) Integer domainId) {
         if (domainId != null) {
-            return domainRepository.findById(domainId).get();
+            Optional<Domain> domainOptional = domainRepository.findById(domainId);
+
+            if(domainOptional.isPresent()) {
+                return domainOptional.get();
+            }
         }
         return null;
     }
 
     @ModelAttribute("menuSectionListBistro")
     public List<MenuSection> getMenuSectionListBistro(@ModelAttribute("domainBistro") Domain domainBistro) {
+
         return menuSectionRepository.getByDomain(domainBistro);
     }
 
     @ModelAttribute("menuSectionListBolo")
     public List<MenuSection> getMenuSectionListBolo(@ModelAttribute("domainBolo") Domain domainBolo) {
+
         return menuSectionRepository.getByDomain(domainBolo);
     }
 
     @ModelAttribute("personnelList")
-    public List<Personnel> getPersonnelList(@ModelAttribute("domain") Domain domain) {
-        if (domain != null) {
-            return personnelRepository.getByDomain(domain);
+    public List<Personnel> getPersonnelList(@ModelAttribute("domain") Domain domain,
+                                            @PathVariable(required = false) Integer domainId) {
+        if (domainId != null) {
+            if(domain !=null) {
+                return personnelRepository.getByDomain(domain);
+            }
+            return null;
         }
         return (List<Personnel>) personnelRepository.findAll();
     }
