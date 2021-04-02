@@ -66,20 +66,21 @@ public class BistroMenuDetailsController {
                                                 @ModelAttribute("domain") Domain domain,
                                                 @ModelAttribute("menuSection") MenuSection menuSection) {
 
+
         List<MenuSection> menuSectionList = menuSectionRepository.getByDomain(domain);
+        if(menuSection != null) {
+            int indexMenuSection = menuSectionList.indexOf(menuSection);
+            int prevId = (indexMenuSection != 0) ?
+                    menuSectionList.get(indexMenuSection - 1).getId() :
+                    menuSectionList.get(menuSectionList.size() - 1).getId();
+            int nextId = (indexMenuSection != menuSectionList.size() - 1) ?
+                    menuSectionList.get(indexMenuSection + 1).getId() :
+                    menuSectionList.get(0).getId();
+            model.addAttribute("prevId", prevId);
+            model.addAttribute("nextId", nextId);
 
-        int indexMenuSection = menuSectionList.indexOf(menuSection);
-        int prevId = (indexMenuSection != 0) ?
-                menuSectionList.get(indexMenuSection - 1).getId() :
-                menuSectionList.get(menuSectionList.size() - 1).getId();
-        int nextId = (indexMenuSection != menuSectionList.size() - 1) ?
-                menuSectionList.get(indexMenuSection + 1).getId() :
-                menuSectionList.get(0).getId();
-        model.addAttribute("prevId", prevId);
-        model.addAttribute("nextId", nextId);
-
-        menuSectionList.remove(menuSection);
-
+            menuSectionList.remove(menuSection);
+        }
         return menuSectionList;
     }
 
@@ -92,16 +93,22 @@ public class BistroMenuDetailsController {
 
     @ModelAttribute("categoryList")
     public List<ProductCategory> getCategoryList(@ModelAttribute("menuSection") MenuSection menuSection) {
-        List<ProductCategory> categoryList = categoryRepository.getAllCategoryByMenuSubSections(menuSection.getMenuSubSectionList());
+        if(menuSection != null) {
+            List<ProductCategory> categoryList = categoryRepository.getAllCategoryByMenuSubSections(menuSection.getMenuSubSectionList());
 
-        return categoryList;
+            return categoryList;
+        }
+        return null;
     }
 
     @ModelAttribute("allergieList")
     public List<Allergie> getAllergieList(@ModelAttribute("menuSection") MenuSection menuSection) {
-        List<Allergie> allergieList = allergieRepository.getAllAllergiesByMenuSubSections(menuSection.getMenuSubSectionList());
+        if(menuSection != null) {
+            List<Allergie> allergieList = allergieRepository.getAllAllergiesByMenuSubSections(menuSection.getMenuSubSectionList());
 
-        return allergieList;
+            return allergieList;
+        }
+        return null;
     }
 
     @ModelAttribute("productList")

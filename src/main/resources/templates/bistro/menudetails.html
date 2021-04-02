@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{|/css/stylePrefix.css|}">
 
-    <title th:text="|Lientjes Bistro - menu - ${menuSection.name}|">placeholder</title>
+    <title th:text="|Lientjes Bistro - menu - ${menuSection != null ? menuSection.name : 'sectie not found'}|">placeholder</title>
 
     <script>
         function toggleFilter(filterTextShownId, filterTextHiddenId, filterSectionId) {
@@ -31,16 +31,18 @@
 
 <header th:replace="bistro/fragments/header :: header"></header>
 
-<div class="arrow-section">
-    <a th:href="@{|/bistro/menudetails/${nextId}|}" class="right-arrow">
-        <img class="inline-logo" th:src="@{${rightArrow.image.imageLocation}}" alt="">
-    </a>
-    <a th:href="@{|/bistro/menudetails/${prevId}|}" class="left-arrow">
-        <img class="inline-logo" th:src="@{${rightArrow.image.imageLocation}}" alt="">
-    </a>
-</div>
+<th:block th:if="${menuSection != null}">
+    <div class="arrow-section">
+        <a th:href="@{|/bistro/menudetails/${nextId}|}" class="right-arrow">
+            <img class="inline-logo" th:src="@{${rightArrow.image.imageLocation}}" alt="">
+        </a>
+        <a th:href="@{|/bistro/menudetails/${prevId}|}" class="left-arrow">
+            <img class="inline-logo" th:src="@{${rightArrow.image.imageLocation}}" alt="">
+        </a>
+    </div>
+</th:block>
 
-<section th:fragment="firstsection" class="page-header">
+<section class="page-header">
     <div class="header-image">
         <img src="/images/general/pexels-negative-space-134577.jpg" alt="">
     </div>
@@ -53,50 +55,50 @@
 
 <section class="homepage-first-section">
     <div class="menu-header">
-
-        <div class="menu-filter-container">
-            <div class="filter-show-button" onclick="toggleFilter('shown-text', 'hidden-text', 'filter-field')">
-                <p class="filter-text-hidden" id="hidden-text"> show filters </p>
-                <p class="filter-text-shown hide" id="shown-text"> hide filters </p>
-            </div>
-            <form class="menu-filters hide" method="post" id="filter-field">
-                <div class="filter-block">
-                    <h3>Zoeken op naam:</h3>
-                    <input type="text" list="productNames" name="productSearch" th:value="${productSearch}">
-                    <datalist id="productNames">
-                        <option th:each="product : ${productList}" th:value="${product.name}">
-                        </option>
-                    </datalist>
+        <th:block th:if="${menuSection != null}">
+            <div class="menu-filter-container">
+                <div class="filter-show-button" onclick="toggleFilter('shown-text', 'hidden-text', 'filter-field')">
+                    <p class="filter-text-hidden" id="hidden-text"> show filters </p>
+                    <p class="filter-text-shown hide" id="shown-text"> hide filters </p>
                 </div>
-
-                <div class="filter-block" th:if="${!allergieList.isEmpty()}">
-                    <h3>Allergie:</h3>
-                    <div class="filter-line" th:each="allergie : ${allergieList}">
-                        <input type="checkbox" name="allergieFilter[]" th:value="${allergie.id}"
-                               th:text="${allergie.name}" th:checked="${allergieFilters != null and
-                                allergieFilters.contains(allergie.id)}">
+                <form class="menu-filters hide" method="post" id="filter-field">
+                    <div class="filter-block">
+                        <h3>Zoeken op naam:</h3>
+                        <input type="text" list="productNames" name="productSearch" th:value="${productSearch}">
+                        <datalist id="productNames">
+                            <option th:each="product : ${productList}" th:value="${product.name}">
+                            </option>
+                        </datalist>
                     </div>
 
-                </div>
+                    <div class="filter-block" th:if="${!allergieList.isEmpty()}">
+                        <h3>Allergie:</h3>
+                        <div class="filter-line" th:each="allergie : ${allergieList}">
+                            <input type="checkbox" name="allergieFilter[]" th:value="${allergie.id}"
+                                   th:text="${allergie.name}" th:checked="${allergieFilters != null and
+                                allergieFilters.contains(allergie.id)}">
+                        </div>
 
-                <div class="filter-block" th:if="${!categoryList.isEmpty()}">
-                    <h3>Categorie:</h3>
-                    <div class="filter-line" th:each="category : ${categoryList}">
-                        <div class="input-line">
-                            <input type="checkbox" th:id="${category.id}" name="categoryFilter[]"
-                                   th:value="${category.id}" th:text="${category.name}"
-                                   th:checked="${filteredCategoryList != null} ? ${filteredCategoryList.contains(category)} : 0==1">
+                    </div>
+
+                    <div class="filter-block" th:if="${!categoryList.isEmpty()}">
+                        <h3>Categorie:</h3>
+                        <div class="filter-line" th:each="category : ${categoryList}">
+                            <div class="input-line">
+                                <input type="checkbox" th:id="${category.id}" name="categoryFilter[]"
+                                       th:value="${category.id}" th:text="${category.name}"
+                                       th:checked="${filteredCategoryList != null} ? ${filteredCategoryList.contains(category)} : 0==1">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="submit-filter">
-                    <input type="submit" value="zoeken" class="filter-button">
-                </div>
+                    <div class="submit-filter">
+                        <input type="submit" value="zoeken" class="filter-button">
+                    </div>
 
-            </form>
-        </div>
-
+                </form>
+            </div>
+        </th:block>
         <h1 th:if="${menuSection != null}" th:text="${menuSection.name}">name placeholder</h1>
         <h1 th:if="${menuSection == null}">Geen menuonderdeel geselecteerd</h1>
     </div>
