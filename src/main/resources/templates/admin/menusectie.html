@@ -62,11 +62,15 @@
     </div>
 </th:block>
 <th:block th:unless="${menuSection}">
-
+    <div class="container-fluid mt-5">
+        <h4>Menusectie kan niet gevonden worden</h4>
+        <hr>
+    </div>
 </th:block>
 
 <!-- Modal -->
-<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true"
+     th:if="${menuSection}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -107,12 +111,12 @@
         </div>
     </div>
 </div>
-<div class="container-fluid mt-5">
+<div class="container-fluid mt-5" th:if="${menuSection}">
     <h2 class="ms-4">Producten</h2>
     <hr>
 </div>
 
-<div class="accordion accordion-flush" id="accordion">
+<div class="accordion accordion-flush" id="accordion" th:if="${menuSection}">
 
     <th:block th:each="subSection : ${menuSection.menuSubSectionList}">
         <div class="accordion-item">
@@ -125,8 +129,8 @@
                     <form method="post" class="w-100"
                           th:action="@{|/admin/menu/subsectionnamechange/${menuSection.id}/${subSection.id}|}">
                         <div class="container d-flex flex-column flex-lg-row mx-auto w-75 justify-content-start justify-content-lg-between align-items-start align-items-lg-center">
-                            <label class="my-2 m-lg-2" for="subSectionName">naam:</label>
-                            <input class="my-2 w-75 m-lg-2" type="text" id="subSectionName" name="subSectionName"
+                            <label class="form-label" for="subSectionName">naam:</label>
+                            <input class="form-control" type="text" id="subSectionName" name="subSectionName"
                                    th:value="${subSection.name}">
                             <input type="submit" value="opslagen" class="btn btn-dark my-2 m-lg-2">
                         </div>
@@ -153,21 +157,21 @@
                                 </form>
                                 <form method="post"
                                       th:action="@{|/admin/editproduct/${menuSection.id}/${subSection.id}/${productLoop.id}|}">
-                                    <div class="d-flex justify-content-between card-header">
-                                        <label class="w-25" for="nameProduct">naam: </label>
-                                        <input class="w-75" id="nameProduct" type="text" name="productName"
+                                    <div class="card-header">
+                                        <label class="form-label" for="nameProduct">naam: </label>
+                                        <input class="form-control" id="nameProduct" type="text" name="productName"
                                                th:value="${productLoop.name}">
                                     </div>
                                     <div class="card-body">
-                                        <div class="d-flex justify-content-between card-title">
-                                            <label class="w-25" for="priceProduct">prijs:</label>
-                                            <input class="w-75" type="number" id="priceProduct"
+                                        <div class="card-title">
+                                            <label class="form-label" for="priceProduct">prijs:</label>
+                                            <input class="form-control" type="number" id="priceProduct"
                                                    name="productPrice" th:value="${productLoop.priceInEur}" min="0"
                                                    step="0.01">
                                         </div>
-                                        <div class="d-flex flex-column align-items-start card-text">
-                                            <label class="w-100 text-start" for="extraInfo">extra info:</label>
-                                            <textarea class="w-100" name="productExtraInfo"
+                                        <div class="card-text">
+                                            <label class="form-label" for="extraInfo">extra info:</label>
+                                            <textarea class="form-control" name="productExtraInfo"
                                                       th:utext="${productLoop.extraInfo}" id="extraInfo" cols="30"
                                                       rows="10"></textarea>
                                         </div>
@@ -190,7 +194,7 @@
                                                         <div class="row">
                                                             <th:block th:each="allergie : ${allergieList}">
                                                                 <div class="col-12">
-                                                                    <input class="mx-2 my-1" type="checkbox"
+                                                                    <input class="mx-2 my-1 form-check-input" type="checkbox"
                                                                            name="allergy[]"
                                                                            th:value="${allergie.id}"
                                                                            th:text="${allergie.name}"
@@ -222,7 +226,7 @@
                                                         <div class="row">
                                                             <th:block th:each="category : ${categoryList}">
                                                                 <div class="col-12">
-                                                                    <input class="mx-2 my-1" type="checkbox"
+                                                                    <input class="mx-2 my-1 form-check-input" type="checkbox"
                                                                            name="category[]"
                                                                            th:value="${category.id}"
                                                                            th:text="${category.name}"
@@ -247,20 +251,20 @@
                             <div class="card col-12 col-md-4 col-lg-3 m-1" th:object="${newProduct}">
                                 <form method="post"
                                       th:action="@{|/admin/newproduct/${menuSection.id}/${subSection.id}|}">
-                                    <div class="d-flex justify-content-between card-header">
-                                        <label class="w-25" for="newName">Name: </label>
-                                        <input class="w-75" id="newName" type="text" th:field="*{name}">
+                                    <div class="card-header">
+                                        <label class="form-label" for="newName">Name: </label>
+                                        <input class="form-control" id="newName" type="text" th:field="*{name}">
                                     </div>
                                     <div class="card-body">
-                                        <div class="d-flex justify-content-between card-title">
-                                            <label class="w-25" for="newPrice">prijs:</label>
-                                            <input class="w-75" type="number" id="newPrice"
+                                        <div class="card-title">
+                                            <label class="form-label" for="newPrice">prijs:</label>
+                                            <input class="form-control" type="number" id="newPrice"
                                                    th:field="*{priceInEur}" min="0"
                                                    step="0.01">
                                         </div>
-                                        <div class="d-flex flex-column align-items-start card-text">
-                                            <label class="w-100 text-start" for="newExtraInfo">extra info:</label>
-                                            <textarea class="w-100" th:field="*{extraInfo}" id="newExtraInfo" cols="30"
+                                        <div class="card-text">
+                                            <label class="form-label" for="newExtraInfo">extra info:</label>
+                                            <textarea class="w-100 form-control" th:field="*{extraInfo}" id="newExtraInfo" cols="30"
                                                       rows="10"></textarea>
                                         </div>
                                         <div class="accordion" th:id="|allergieAccordion|">
@@ -282,7 +286,7 @@
                                                         <div class="row">
                                                             <th:block th:each="allergie : ${allergieList}">
                                                                 <div class="col-12">
-                                                                    <input class="mx-2 my-1" type="checkbox"
+                                                                    <input class="mx-2 my-1 form-check-input" type="checkbox"
                                                                            name="allergy[]"
                                                                            th:value="${allergie.id}"
                                                                            th:text="${allergie.name}">
@@ -313,7 +317,7 @@
                                                         <div class="row">
                                                             <th:block th:each="category : ${categoryList}">
                                                                 <div class="col-12">
-                                                                    <input class="mx-2 my-1" type="checkbox"
+                                                                    <input class="mx-2 my-1 form-check-input" type="checkbox"
                                                                            name="category[]"
                                                                            th:value="${category.id}"
                                                                            th:text="${category.name}">
@@ -334,23 +338,24 @@
             </a>
         </div>
     </th:block>
-</div>
-<div class="accordion-item">
-    <div class="accordion-header mb-5 w-100 p-2 d-flex d-flex flex-column flex-lg-row mx-auto w-75 justify-content-start align-items-start align-items-lg-center">
-        <h4>Nieuw menu item:</h4>
-        <form method="post" th:action="@{|/admin/newsubsection/${menuSection.id}|}" th:object="${newSubSection}">
-            <div class="container d-flex d-flex flex-column flex-lg-row mx-auto w-auto justify-content-start justify-content-lg-between align-items-start align-items-lg-center">
-                <label class="my-2 m-lg-2" for="nameSubSection">naam: </label>
-                <input type="text" id="nameSubSection" name="newSubSectionName" class="w-100 my-2 m-lg-2">
-                <input type="submit" value="aanmaken" class="btn btn-dark my-2 m-lg-2">
-            </div>
-        </form>
+    <div class="accordion-item">
+        <div class="accordion-header mb-5 w-100 p-2 d-flex d-flex flex-column flex-lg-row mx-auto w-75 justify-content-start align-items-start align-items-lg-center">
+            <h4>Nieuw menu item:</h4>
+            <form method="post" th:action="@{|/admin/newsubsection/${menuSection.id}|}" th:object="${newSubSection}">
+                <div class="container d-flex d-flex flex-column flex-lg-row mx-auto w-auto justify-content-start justify-content-lg-between align-items-start align-items-lg-center">
+                    <label class="my-2 m-lg-2" for="nameSubSection">naam: </label>
+                    <input type="text" id="nameSubSection" name="newSubSectionName" class="w-100 my-2 m-lg-2 form-control">
+                    <input type="submit" value="aanmaken" class="btn btn-dark my-2 m-lg-2">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 
 <!-- remove Modal -->
-<div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
+<div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true"
+     th:if="${menuSection}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

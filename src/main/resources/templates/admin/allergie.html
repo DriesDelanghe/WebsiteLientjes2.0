@@ -23,6 +23,9 @@
     <hr>
 </div>
 
+<th:block th:if="${allergy != null}">
+
+
 <div class="row mt-2">
     <div class="card col-12 col-lg-6 col-xl-4 mx-auto" th:object="${allergy}">
         <div class="container-fluid w-100 p-0">
@@ -87,6 +90,7 @@
                                         <h4 th:text="${product.name}">name placeholder</h4>
                                     </div>
                                     <div class="card-body">
+                                        <h6 class="card-subtitle text-muted">menu onderdeel: <span th:text="${product.menuSubSection.name}"></span></h6>
                                         <h5 class="card-title">alle allergieën:</h5>
                                         <p th:each="allergieProduct : ${product.allergies}"
                                            th:text="${allergieProduct.name}"></p>
@@ -143,6 +147,20 @@
                                                         <h4 th:text="${product.name}">name placeholder</h4>
                                                     </div>
                                                     <div class="card-body">
+                                                        <h5 class="card-title">alle allergieën:</h5>
+                                                        <p th:each="allergieProduct : ${product.allergies}"
+                                                           th:text="${allergieProduct.name}"></p>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <label class="col-12 col-lg-4 col-xl-3 m-2"
+                                                   th:if="${allergy.products.contains(product)}">
+                                                <input type="checkbox" name="productId[]" th:value="${product.id}" disabled>
+                                                <div class="card w-100 add-product">
+                                                    <div class="card-header">
+                                                        <h4 th:text="${product.name}" class="text-muted">name placeholder</h4>
+                                                    </div>
+                                                    <div class="card-body alert-secondary">
                                                         <h5 class="card-title">alle allergieën:</h5>
                                                         <p th:each="allergieProduct : ${product.allergies}"
                                                            th:text="${allergieProduct.name}"></p>
@@ -212,6 +230,20 @@
                                                     </div>
                                                 </div>
                                             </label>
+                                            <label class="col-12 col-lg-4 col-xl-3 m-2"
+                                                   th:if="${allergy.products.contains(product)}">
+                                                <input type="checkbox" name="productId[]" th:value="${product.id}" disabled>
+                                                <div class="card w-100 add-product">
+                                                    <div class="card-header">
+                                                        <h4 th:text="${product.name}" class="text-muted">name placeholder</h4>
+                                                    </div>
+                                                    <div class="card-body alert-secondary">
+                                                        <h5 class="card-title">alle allergieën:</h5>
+                                                        <p th:each="allergieProduct : ${product.allergies}"
+                                                           th:text="${allergieProduct.name}"></p>
+                                                    </div>
+                                                </div>
+                                            </label>
                                         </th:block>
                                     </div>
 
@@ -232,6 +264,10 @@
 
 </div>
 
+</th:block>
+<th:block th:unless="${allergy != null}">
+    <h4 class="text-center">Allergie kan niet gevonden worden</h4>
+</th:block>
 
 
 

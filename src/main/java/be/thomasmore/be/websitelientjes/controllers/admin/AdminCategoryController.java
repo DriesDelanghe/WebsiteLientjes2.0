@@ -133,7 +133,7 @@ public class AdminCategoryController {
 
         categoryRepository.save(category);
 
-        return "redirect:/admin/categorie/" + category.getId();
+        return "redirect:/admin/categorielijst";
     }
 
     @PostMapping("/newcategory")
