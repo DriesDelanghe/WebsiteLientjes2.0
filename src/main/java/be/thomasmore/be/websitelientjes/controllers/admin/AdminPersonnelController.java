@@ -177,15 +177,14 @@ public class AdminPersonnelController {
     @PostMapping("/personnel/imagechange/{personnelId}")
     public String changeImagePersonnel(@ModelAttribute("personnel") Personnel personnel,
                                        @RequestParam Integer imageId,
-                                       @PathVariable Integer personnelId,
-                                       Model model) {
+                                       @PathVariable Integer personnelId) {
 
         if (imageId != null && personnel.getImage().getId() != imageId) {
             personnel.setImage(new Image(imageId));
         }
 
         personnelRepository.save(personnel);
-        model.addAttribute("changesSaved", true);
+
         return "redirect:/admin/personeeldetail/" + personnelId;
     }
 

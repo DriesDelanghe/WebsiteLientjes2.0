@@ -8,4 +8,8 @@
     width: 100%;
 }
 
-
+.inline-logo {
+    height: 2rem;
+    width: auto;
+    padding: 0;
+}

@@ -1,7 +1,7 @@
 insert into image(id, image_location)
 values (nextval('IMG_SEQ'), '/images/general/default-image.jpg'),
-       (nextval('IMG_SEQ'), '/images/general/logo-facebook.svg'),
-       (nextval('IMG_SEQ'), '/images/general/logo-instagram.svg'),
+       (nextval('IMG_SEQ'), '/images/socialmedia/logo-facebook.svg'),
+       (nextval('IMG_SEQ'), '/images/socialmedia/logo-instagram.svg'),
        (nextval('IMG_SEQ'), '/images/general/right-arrow.svg'),
        (nextval('IMG_SEQ'), '/images/general/adress-logo.svg'),
        (nextval('IMG_SEQ'), '/images/general/email-logo.svg'),
@@ -111,8 +111,8 @@ insert into symbol(id, image_id, reference_name)
 values (1, 4, 'rightArrow');
 
 insert into social_media(id, social_media_url, image_id, order_reference, domain_id)
-values (1, 'https://www.facebook.com/Lientjes-Bistro-151107858896317/', 2, 1, 1),
-       (2, 'https://www.instagram.com/lientjesbistro/', 3, 2, 1);
+values (nextval('sm_seq'), 'https://www.facebook.com/Lientjes-Bistro-151107858896317/', 2, 1, 1),
+       (nextval('sm_seq'), 'https://www.instagram.com/lientjesbistro/', 3, 2, 1);
 
 insert into reference(id, site_url, site_name, artist_name, artist_url, product_name)
 values (nextval('REF_SEQ'), 'https://www.flaticon.com/', 'Flaticon', 'Roundicons', 'https://roundicons.com/', 'symbols'),
