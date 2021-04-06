@@ -293,4 +293,13 @@ public class AdminSocialMediaController {
         return "redirect:/admin/socialmedia/" + socialmediaId;
     }
 
+    @PostMapping("/removesocialmedia/{socialmediaId}")
+    public String removeSocialMediaPost(@ModelAttribute("socialMedia") SocialMedia socialMedia,
+                                        @PathVariable Integer socialmediaId){
+
+        socialMediaRepository.delete(socialMedia);
+
+        return "redirect:/admin/socialmedialijst";
+    }
+
 }

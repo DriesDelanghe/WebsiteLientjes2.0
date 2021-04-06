@@ -21,7 +21,7 @@
 
 <a th:href="@{|/admin/socialmedialijst|}" class="btn btn-dark">Terug naar overzicht</a>
 <div class="container-fluid alert alert-danger" th:if="${falseFileFormat}">
-    <p>Afbeelding moet fileformaat .svg hebben</p>
+    <p>Afbeelding moet file-formaat .svg hebben</p>
 </div>
 <th:block th:if="${socialMedia}">
 
@@ -83,7 +83,7 @@
                             <label>
                                 <input type="radio" id="btnLoad" th:value="*{id}" name="imageId"
                                        th:checked="${socialMedia.image == image}">
-                                <img th:src="*{imageLocation}" class="p-2 bg-secondary inline-logo">
+                                <img th:src="*{imageLocation}" class="p-2 bg-secondary w-50">
                             </label>
                         </div>
                     </div>

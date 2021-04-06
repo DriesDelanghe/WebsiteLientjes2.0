@@ -3,9 +3,9 @@ values (nextval('IMG_SEQ'), '/images/general/default-image.jpg'),
        (nextval('IMG_SEQ'), '/images/socialmedia/logo-facebook.svg'),
        (nextval('IMG_SEQ'), '/images/socialmedia/logo-instagram.svg'),
        (nextval('IMG_SEQ'), '/images/general/right-arrow.svg'),
-       (nextval('IMG_SEQ'), '/images/general/adress-logo.svg'),
-       (nextval('IMG_SEQ'), '/images/general/email-logo.svg'),
-       (nextval('IMG_SEQ'), '/images/general/phone-call-logo.svg'),
+       (nextval('IMG_SEQ'), '/images/contactinfo/adress-logo.svg'),
+       (nextval('IMG_SEQ'), '/images/contactinfo/email-logo.svg'),
+       (nextval('IMG_SEQ'), '/images/contactinfo/phone-call-logo.svg'),
        (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-1.jpg'),
        (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-2.jpg'),
        (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-3.jpg'),
@@ -124,9 +124,9 @@ values (nextval('REF_SEQ'), 'https://www.flaticon.com/', 'Flaticon', 'Roundicons
         'error page header');
 
 insert into contact_info(id, info_name, info_content, domain_id, image_id)
-values (1, 'email', 'info@lientjes-coffeebreak.be', 1, 6),
-       (2, 'adres', 'Stationstraat 143, 2845 Niel', 1, 5),
-       (3, 'telefoon', '03 344 85 79', 1, 7);
+values (nextval('ci_seq'), 'email', 'info@lientjes-coffeebreak.be', 1, 6),
+       (nextval('ci_seq'), 'adres', 'Stationstraat 143, 2845 Niel', 1, 5),
+       (nextval('ci_seq'), 'telefoon', '03 344 85 79', 1, 7);
 
 insert into menu_section(id, domain_id, name, image_id)
 values (nextval('MSEC_SEQ'), 1, 'Alle producten', 20),

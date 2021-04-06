@@ -1,16 +1,18 @@
 package be.thomasmore.be.websitelientjes.models;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class ContactInfo {
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contact_info_generator")
+    @SequenceGenerator(name = "contact_info_generator", sequenceName = "ci_seq", allocationSize = 1)
     @Id
     private int id;
+    @NotBlank
     private String infoName;
+    @NotBlank
     private String infoContent;
     @ManyToOne(fetch = FetchType.LAZY)
     private Domain domain;
