@@ -15,6 +15,10 @@ public class Page {
     private Collection<Personnel> personnel;
     @ManyToOne(fetch = FetchType.LAZY)
     private Domain domain;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Image image;
+    @ManyToMany(mappedBy = "pages", fetch = FetchType.LAZY)
+    private Collection<Symbol> symbols;
 
     public Page() {
     }
@@ -59,8 +63,13 @@ public class Page {
         this.domain = domain;
     }
 
-    @ManyToMany(mappedBy = "pages", fetch = FetchType.LAZY)
-    private Collection<Symbol> symbols;
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 
     public Collection<Symbol> getSymbols() {
         return symbols;

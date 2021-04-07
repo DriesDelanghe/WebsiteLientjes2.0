@@ -6,6 +6,8 @@ import be.thomasmore.be.websitelientjes.models.MenuSection;
 import be.thomasmore.be.websitelientjes.repositories.ContactFormRepository;
 import be.thomasmore.be.websitelientjes.repositories.DomainRepository;
 import be.thomasmore.be.websitelientjes.repositories.MenuSectionRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,8 @@ public class AdminInboxController {
     DomainRepository domainRepository;
     @Autowired
     MenuSectionRepository menuSectionRepository;
+
+    Logger logger = LoggerFactory.getLogger(AdminInboxController.class);
 
     @ModelAttribute("domainBistro")
     public Domain getDomainBistro() {
@@ -70,8 +74,10 @@ public class AdminInboxController {
     }
 
     @GetMapping("/inbox/message/{messageId}")
-    public String messagePage(){
-
+    public String messagePage(@ModelAttribute("message") ContactForm message){
+        message.setRead(true);
+        logger.info(String.format("set read on message with id %d to -- %s", message.getId(), message.isRead()));
+        contactFormRepository.save(message);
         return "admin/inboxmessage";
     }
 

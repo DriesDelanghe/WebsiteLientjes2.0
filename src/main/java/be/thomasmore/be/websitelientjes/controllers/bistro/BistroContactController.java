@@ -103,6 +103,7 @@ public class BistroContactController {
 
         contactForm.setTimestamp(new Date());
         contactForm.setContactType(new ContactType(contactTypeId));
+        contactForm.setRead(false);
         contactFormRepository.save(contactForm);
 
         return  "bistro/confirmcontactform";

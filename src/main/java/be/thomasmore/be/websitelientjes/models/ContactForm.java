@@ -25,6 +25,7 @@ public class ContactForm implements Comparable<ContactForm>{
     @NotBlank
     private String question;
     private Date timestamp;
+    private boolean read;
 
     public ContactForm() {
     }
@@ -83,6 +84,14 @@ public class ContactForm implements Comparable<ContactForm>{
 
     public String getOnderwerp() {
         return onderwerp;
+    }
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
     }
 
     public void setOnderwerp(String onderwerp) {

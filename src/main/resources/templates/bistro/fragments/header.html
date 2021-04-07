@@ -6,8 +6,8 @@
 </head>
 <body>
 
-<header th:fragment="header">
-    <nav>
+<header class="header-navigation" th:fragment="header">
+    <nav class="navigation">
         <ul>
             <li><a th:classappend="${page != null} ? (${page.getPageName().toLowerCase().equals('home')} ? active-page-header)" href="/bistro/home">Home</a></li>
             <li><a th:classappend="${page != null} ? (${page.getPageName().toLowerCase().equals('menu')} ? active-page-header)" href="/bistro/menu">Menu</a></li>

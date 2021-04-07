@@ -53,7 +53,7 @@ p {
 /* =============================
         navigation bar
    ============================= */
-header {
+.header-navigation {
     width: 100%;
     min-height: 8vh;
     height: auto;
@@ -72,7 +72,7 @@ header {
     pointer-events: none;
 }
 
-header::after{
+.header-navigation::after{
     content: "";
     position: absolute;
     top: 0;
@@ -84,14 +84,14 @@ header::after{
     border-bottom-right-radius: 5rem 2rem;
 }
 
-nav {
+.navigation {
     max-width: 100%;
     width: auto;
     height: auto;
     z-index: 5;
 }
 
-nav ul {
+.navigation ul {
     width: auto;
     list-style: none;
     display: -webkit-box;
@@ -111,7 +111,7 @@ nav ul {
     padding: 0;
 }
 
-nav a {
+.navigation a {
     text-decoration: none;
     color: #eee;
     display: block;
@@ -126,13 +126,13 @@ nav a {
 }
 
 
-nav a:hover:after {
+.navigation a:hover:after {
     -webkit-transform: scaleX(1);
     -ms-transform: scaleX(1);
     transform: scaleX(1);
 }
 
-nav a::after {
+.navigation a::after {
     display: block;
     position: relative;
     content: "";
@@ -197,6 +197,7 @@ nav a::after {
 
 .header-title {
     font-family: 'Norican', cursive, sans-serif;
+    text-transform: capitalize;
     font-size: 6vh;
     max-font-size: 6rem;
     color: #fff6eb;
@@ -1363,11 +1364,11 @@ footer a:hover {
 
     /*        header
    ============================= */
-    header {
+    .header-navigation {
         width: 100%;
     }
 
-    header::after{
+    .header-navigation::after{
         display: none;
     }
 

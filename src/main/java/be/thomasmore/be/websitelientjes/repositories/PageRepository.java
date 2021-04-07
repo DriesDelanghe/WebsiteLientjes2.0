@@ -7,6 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface PageRepository extends CrudRepository<Page, Integer> {
 
@@ -17,4 +19,7 @@ public interface PageRepository extends CrudRepository<Page, Integer> {
     @Query("select p from Page p where (:domain is null or p.domain = :domain) and (:pageId is null or p.id = :pageId)")
     Page getByDomainAndPageId(@Param("domain")Domain domain,
                               @Param("pageId") Integer pageId);
+
+    @Query("select p from Page p where (:domain is null or p.domain = :domain)")
+    List<Page> getByDomain(@Param("domain")Domain domain);
 }

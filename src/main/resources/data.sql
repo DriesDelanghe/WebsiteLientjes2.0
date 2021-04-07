@@ -1,5 +1,6 @@
 insert into image(id, image_location)
 values (nextval('IMG_SEQ'), '/images/general/default-image.jpg'),
+       (nextval('IMG_SEQ'), '/images/general/pexels-negative-space-134577.jpg'),
        (nextval('IMG_SEQ'), '/images/socialmedia/logo-facebook.svg'),
        (nextval('IMG_SEQ'), '/images/socialmedia/logo-instagram.svg'),
        (nextval('IMG_SEQ'), '/images/general/right-arrow.svg'),
@@ -25,32 +26,32 @@ values (1, 'bistro'),
        (2, 'bolo');
 
 insert into personnel(id, name, image_Id, extra_info, function_description, domain_id)
-values (nextval('PER_SEQ'), 'Persona A', 8, 'This is the first test person, these are all here as proof of concept',
+values (nextval('PER_SEQ'), 'Persona A', 9, 'This is the first test person, these are all here as proof of concept',
         'chef-kok', 1),
-       (nextval('PER_SEQ'), 'Persona B', 9, 'This is the second test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona B', 10, 'This is the second test person, these are all here as proof of concept',
         'serveur', 1),
-       (nextval('PER_SEQ'), 'Persona C', 10, 'This is the third test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona C', 11, 'This is the third test person, these are all here as proof of concept',
         'uitbater', 1),
-       (nextval('PER_SEQ'), 'Persona D', 11, 'This is the fourth test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona D', 12, 'This is the fourth test person, these are all here as proof of concept',
         'sous-chef', 1),
-       (nextval('PER_SEQ'), 'Persona E', 12, 'This is the fifth test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona E', 13, 'This is the fifth test person, these are all here as proof of concept',
         'serveur', 1),
-       (nextval('PER_SEQ'), 'Persona F', 13, 'This is the sixth test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona F', 14, 'This is the sixth test person, these are all here as proof of concept',
         'serveur', 1),
-       (nextval('PER_SEQ'), 'Persona A', 8, 'This is the first test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona A', 9, 'This is the first test person, these are all here as proof of concept',
         'chef-kok', 2),
-       (nextval('PER_SEQ'), 'Persona B', 9, 'This is the second test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona B', 10, 'This is the second test person, these are all here as proof of concept',
         'serveur', 2),
-       (nextval('PER_SEQ'), 'Persona C', 10, 'This is the third test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona C', 11, 'This is the third test person, these are all here as proof of concept',
         'uitbater', 2);
 
-insert into page(id, page_name, domain_id)
-values (1, 'Home', 1),
-       (2, 'References', 1),
-       (3, 'Contact', 1),
-       (4, 'personeel', 1),
-       (5, 'menu', 1),
-       (6, 'Home', 2);
+insert into page(id, page_name, domain_id, image_id)
+values (1, 'home', 1, 2),
+       (2, 'references', 1, 2),
+       (3, 'contact', 1, 2),
+       (4, 'personeel', 1, 2),
+       (5, 'menu', 1, 2),
+       (6, 'home', 2, null);
 
 insert into personnel_pages(personnel_id, pages_id)
 values (1, 1),
@@ -62,9 +63,9 @@ values (1, 1),
        (4, 4),
        (5, 4),
        (6, 4),
-       (7,6),
-       (8,6),
-       (9,6);
+       (7, 6),
+       (8, 6),
+       (9, 6);
 
 insert into openingsuur(id, dag, openingsuur, sluitingsuur, domain_id)
 values (1, 'maandag', null, null, 1),
@@ -108,15 +109,17 @@ values (1, 'Meer dan een koffiehuis', 1, true, 1),
        (26, 'Vind makkelijk je weg naar ons!', 1, false, 3);
 
 insert into symbol(id, image_id, reference_name)
-values (1, 4, 'rightArrow');
+values (1, 5, 'rightArrow');
 
 insert into social_media(id, social_media_url, image_id, order_reference, domain_id)
-values (nextval('sm_seq'), 'https://www.facebook.com/Lientjes-Bistro-151107858896317/', 2, 1, 1),
-       (nextval('sm_seq'), 'https://www.instagram.com/lientjesbistro/', 3, 2, 1);
+values (nextval('sm_seq'), 'https://www.facebook.com/Lientjes-Bistro-151107858896317/', 3, 1, 1),
+       (nextval('sm_seq'), 'https://www.instagram.com/lientjesbistro/', 4, 2, 1);
 
 insert into reference(id, site_url, site_name, artist_name, artist_url, product_name)
-values (nextval('REF_SEQ'), 'https://www.flaticon.com/', 'Flaticon', 'Roundicons', 'https://roundicons.com/', 'symbols'),
-       (nextval('REF_SEQ'), 'https://www.pexels.com/', 'Pexels', 'Negative Space', 'https://www.pexels.com/@negativespace',
+values (nextval('REF_SEQ'), 'https://www.flaticon.com/', 'Flaticon', 'Roundicons', 'https://roundicons.com/',
+        'symbols'),
+       (nextval('REF_SEQ'), 'https://www.pexels.com/', 'Pexels', 'Negative Space',
+        'https://www.pexels.com/@negativespace',
         'header image'),
        (nextval('REF_SEQ'), null, null, 'Dries Delanghe', 'https://www.driesdelanghe.be/', 'site'),
        (nextval('REF_SEQ'), 'https://www.pexels.com/', 'Pexels', 'Amine M''Siouri',
@@ -124,19 +127,19 @@ values (nextval('REF_SEQ'), 'https://www.flaticon.com/', 'Flaticon', 'Roundicons
         'error page header');
 
 insert into contact_info(id, info_name, info_content, domain_id, image_id)
-values (nextval('ci_seq'), 'email', 'info@lientjes-coffeebreak.be', 1, 6),
-       (nextval('ci_seq'), 'adres', 'Stationstraat 143, 2845 Niel', 1, 5),
-       (nextval('ci_seq'), 'telefoon', '03 344 85 79', 1, 7);
+values (nextval('ci_seq'), 'email', 'info@lientjes-coffeebreak.be', 1, 7),
+       (nextval('ci_seq'), 'adres', 'Stationstraat 143, 2845 Niel', 1, 6),
+       (nextval('ci_seq'), 'telefoon', '03 344 85 79', 1, 8);
 
 insert into menu_section(id, domain_id, name, image_id)
-values (nextval('MSEC_SEQ'), 1, 'Alle producten', 20),
+values (nextval('MSEC_SEQ'), 1, 'Alle producten', 21),
        (nextval('MSEC_SEQ'), 2, 'Alle producten', 1),
-       (nextval('MSEC_SEQ'), 1, 'Warme Dranken', 19),
-       (nextval('MSEC_SEQ'), 1, 'Koude Dranken', 17),
-       (nextval('MSEC_SEQ'), 1, 'Ontbijt', 19),
-       (nextval('MSEC_SEQ'), 1, 'Versnaperingen', 14),
-       (nextval('MSEC_SEQ'), 1, 'Gerechten', 16),
-       (nextval('MSEC_SEQ'), 1, 'Desserten', 15),
+       (nextval('MSEC_SEQ'), 1, 'Warme Dranken', 20),
+       (nextval('MSEC_SEQ'), 1, 'Koude Dranken', 18),
+       (nextval('MSEC_SEQ'), 1, 'Ontbijt', 20),
+       (nextval('MSEC_SEQ'), 1, 'Versnaperingen', 15),
+       (nextval('MSEC_SEQ'), 1, 'Gerechten', 17),
+       (nextval('MSEC_SEQ'), 1, 'Desserten', 16),
        (nextval('MSEC_SEQ'), 2, 'Pasta''s', 1);
 
 insert into menu_sub_section(id, name, extra_info)
@@ -436,18 +439,18 @@ values (1, 'Algemene vraag', 1),
        (2, 'Reservering', 1),
        (3, 'Iets anders', 1);
 
-insert into contact_form(id, name,  onderwerp, email, contact_type_id, question, timestamp)
+insert into contact_form(id, name, onderwerp, email, contact_type_id, question, timestamp, read)
 values (nextval('CF_SEQ'), 'persona A', 'onderwerp1', 'email1@example.com', 1,
-        'this is a placeholder text merely to show how it works', '2021-03-30 18:34:55.698'),
+        'this is a placeholder text merely to show how it works', '2021-03-30 18:34:55.698', false),
        (nextval('CF_SEQ'), 'persona B', 'onderwerp2', 'email2@example.com', 1,
-        'this is a placeholder text merely to show how it works', '2021-02-12 12:37:55.698'),
+        'this is a placeholder text merely to show how it works', '2021-02-12 12:37:55.698', false),
        (nextval('CF_SEQ'), 'persona C', 'onderwerp3', 'email3@example.com', 2,
-        'this is a placeholder text merely to show how it works', '2020-12-03 14:56:55.698'),
+        'this is a placeholder text merely to show how it works', '2020-12-03 14:56:55.698', false),
        (nextval('CF_SEQ'), 'persona D', 'onderwerp4', 'email4@example.com', 3,
-        'this is a placeholder text merely to show how it works', '2021-03-28 19:12:55.698'),
+        'this is a placeholder text merely to show how it works', '2021-03-28 19:12:55.698', false),
        (nextval('CF_SEQ'), 'persona E', 'onderwerp5', 'email5@example.com', 2,
-        'this is a placeholder text merely to show how it works', '2021-03-25 12:35:55.698'),
+        'this is a placeholder text merely to show how it works', '2021-03-25 12:35:55.698', false),
        (nextval('CF_SEQ'), 'persona F', 'onderwerp6', 'email6@example.com', 1,
-        'this is a placeholder text merely to show how it works', '2021-03-23 10:45:55.698'),
+        'this is a placeholder text merely to show how it works', '2021-03-23 10:45:55.698', false),
        (nextval('CF_SEQ'), 'persona G', 'onderwerp7', 'email7@example.com', 2,
-        'this is a placeholder text merely to show how it works', '2021-03-27 16:24:55.698');
+        'this is a placeholder text merely to show how it works', '2021-03-27 16:24:55.698', false);

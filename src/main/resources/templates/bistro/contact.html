@@ -67,7 +67,7 @@
                 <fieldset class="general-info-fieldset">
                     <legend th:text="${headerText.get(3).getTextContent()}" class="general-info-legend"></legend>
                     <div class="form-error-text" th:if="${#fields.hasErrors('*')}"
-                         th:text="${paragraphText.get(4).getTextContent()}"></div>
+                         th:text="${paragraphText.get(5).getTextContent()}"></div>
                     <div class="contact-form-line">
                         <label for="name" th:text="${paragraphText.get(1).getTextContent()}" class="contact-form-label">textContent
                             placeholder</label>
@@ -100,7 +100,7 @@
                         <input id="onderwerp" th:field="*{onderwerp}" class="contact-form-input"
                                th:errorclass="form-error-field" onfocus="removeErrorClass(this)">
                     </div>
-                    <legend class="general-info-legend" th:text="${headerText.get(5).getTextContent()}"></legend>
+                    <legend class="general-info-legend" th:text="${headerText.get(4).getTextContent()}"></legend>
                     <textarea id="" cols="30" rows="10" th:field="*{question}" class="contact-form-text-area"
                               th:errorclass="form-error-field" onfocus="removeErrorClass(this)"></textarea>
                 </fieldset>
