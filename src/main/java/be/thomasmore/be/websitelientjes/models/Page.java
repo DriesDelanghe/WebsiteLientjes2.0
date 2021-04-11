@@ -9,6 +9,7 @@ public class Page {
     @Id
     private int id;
     private String pageName;
+    private String pageReference;
     @OneToMany(fetch = FetchType.LAZY)
     private Collection<TextFragment> textFragments;
     @ManyToMany(mappedBy = "pages", fetch = FetchType.LAZY)
@@ -77,5 +78,13 @@ public class Page {
 
     public void setSymbols(Collection<Symbol> symbols) {
         this.symbols = symbols;
+    }
+
+    public String getPageReference() {
+        return pageReference;
+    }
+
+    public void setPageReference(String pageReference) {
+        this.pageReference = pageReference;
     }
 }

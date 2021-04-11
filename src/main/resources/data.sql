@@ -45,13 +45,13 @@ values (nextval('PER_SEQ'), 'Persona A', 9, 'This is the first test person, thes
        (nextval('PER_SEQ'), 'Persona C', 11, 'This is the third test person, these are all here as proof of concept',
         'uitbater', 2);
 
-insert into page(id, page_name, domain_id, image_id)
-values (1, 'home', 1, 2),
-       (2, 'references', 1, 2),
-       (3, 'contact', 1, 2),
-       (4, 'personeel', 1, 2),
-       (5, 'menu', 1, 2),
-       (6, 'home', 2, null);
+insert into page(id, page_name, page_reference, domain_id, image_id)
+values (1, 'home', 'bistrohome', 1, 2),
+       (2, 'references', null, 1, 2),
+       (3, 'contact', 'bistrocontact', 1, 2),
+       (4, 'personeel', 'bistropersoneel', 1, 2),
+       (5, 'menu', 'bistromenu', 1, 2),
+       (6, 'home','bolohome', 2, null);
 
 insert into personnel_pages(personnel_id, pages_id)
 values (1, 1),
@@ -78,18 +78,18 @@ values (1, 'maandag', null, null, 1),
 
 insert into text_fragment(id, text_content, order_reference, header_text, page_id)
 values (1, 'Meer dan een koffiehuis', 1, true, 1),
-       (2, 'Lientje''s bistro is meer dan enkel een koffiehuis.
-                Lientjes bistro is ook een thuishaven voor iedereen wie
-                rustig een koffie wilt drinken of wilt genieten van
-                kwaliteitvol eten.', 1, false, 1),
+       (2, 'Lientje''s bistro is meer dan enkel een koffiehuis. ' ||
+       'Lientjes bistro is ook een thuishaven voor iedereen wie ' ||
+                'rustig een koffie wilt drinken of wilt genieten van ' ||
+                'kwaliteitvol eten.', 1, false, 1),
        (3, 'Het team', 2, true, 1),
        (4, 'Het vaste team staat altijd klaar om je te helpen met een glimlach.', 2, false, 1),
        (5, 'bekijk het team', 3, false, 1),
        (6, 'Bekijk ons menu', 3, true, 1),
        (7, 'Naar menu', 4, false, 1),
        (8, 'Contact', 4, true, 1),
-       (9, 'Heb je vragen of wil je reserveren? <br>
-                neem dan gerust contact op met ons!', 5, false, 1),
+       (9, 'Heb je vragen of wil je reserveren? ' ||
+                'neem dan gerust contact op met ons!', 5, false, 1),
        (10, 'Naar contact', 6, false, 1),
        (11, 'Openingsuren', 5, true, 1),
        (12, 'Onze sociale media', 6, true, 1),

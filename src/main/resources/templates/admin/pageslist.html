@@ -24,15 +24,26 @@
         <h4>Pagina's Lientjes Bistro</h4>
         <hr>
     </div>
-    <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2" th:each="page : ${pageListBistro}">
+    <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2">
         <div class="card-header p-0 ">
-            <img class="card-img-top" th:src="@{${page.image.imageLocation}}" alt="">
+            <img class="card-img-top" th:src="@{${pageListBistro.get(0).image.imageLocation}}" alt="">
             <div class="card-img-overlay d-flex justify-content-center align-items-center flex-column">
-                <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize" th:text="${page.pageName}"></h2>
-                <a th:href="@{|/admin/pagina/${page.id}|}" class="btn btn-dark align-self-start  mt-auto">Aanpassen</a>
+                <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize" th:text="'home'"></h2>
+                <a th:href="@{|/admin/pagina/1|}" class="btn btn-dark align-self-start  mt-auto">Aanpassen</a>
             </div>
         </div>
     </div>
 
+    <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2">
+        <div class="card-header p-0 ">
+            <img class="card-img-top" th:src="@{${pageListBistro.get(0).image.imageLocation}}" alt="">
+            <div class="card-img-overlay d-flex justify-content-center align-items-center flex-column">
+                <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize" th:text="'contact'"></h2>
+                <a th:href="@{|/admin/pagina/3|}" class="btn btn-dark align-self-start  mt-auto">Aanpassen</a>
+            </div>
+        </div>
+    </div>
+
+</div>
 </body>
 </html>

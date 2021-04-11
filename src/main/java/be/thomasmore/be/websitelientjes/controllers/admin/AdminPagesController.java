@@ -1,13 +1,13 @@
 package be.thomasmore.be.websitelientjes.controllers.admin;
 
+import be.thomasmore.be.websitelientjes.controllers.wrapperclass.TextWrapper;
 import be.thomasmore.be.websitelientjes.models.*;
 import be.thomasmore.be.websitelientjes.repositories.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +28,14 @@ public class AdminPagesController {
     SymbolRepository symbolRepository;
     @Autowired
     PersonnelRepository personnelRepository;
+    @Autowired
+    OpeningsuurRepository openingsuurRepository;
+    @Autowired
+    SocialMediaRepository socialMediaRepository;
+    @Autowired
+    ContactInfoRepository contactInfoRepository;
+
+    Logger logger = LoggerFactory.getLogger(AdminPagesController.class);
 
     @ModelAttribute("personnelList")
     public List<Personnel> getPersonnelList(@ModelAttribute("page") Page page){
@@ -64,6 +72,18 @@ public class AdminPagesController {
         return menuSectionRepository.getByDomain(domainBolo);
     }
 
+    @ModelAttribute("textWrapper")
+    public TextWrapper getTextWrapper(@ModelAttribute("page") Page page){
+        if(page != null) {
+            TextWrapper wrapper = new TextWrapper();
+            wrapper.addHeaders(textFragmentRepository.getByPageAndHeaderText(page, true));
+            wrapper.addParagraphs(textFragmentRepository.getByPageAndHeaderText(page, false));
+            return wrapper;
+        }
+
+        return null;
+    }
+
     @ModelAttribute("pageListBistro")
     public List<Page> getPageListBistro(@ModelAttribute("domainBistro") Domain domain){
         return pageRepository.getByDomain(domain);
@@ -84,18 +104,26 @@ public class AdminPagesController {
         return null;
     }
 
-    @ModelAttribute("headerText")
-    public List<TextFragment> getHeaderText(@ModelAttribute("page") Page page){
+    @ModelAttribute("openingsuren")
+    public List<Openingsuur> getOpeningsuren(@ModelAttribute("page") Page page){
         if(page != null){
-            return textFragmentRepository.getByPageAndHeaderText(page, true);
+            return openingsuurRepository.getByDomain(page.getDomain());
         }
         return null;
     }
 
-    @ModelAttribute("paragraphText")
-    public List<TextFragment> getParagraphText(@ModelAttribute("page") Page page){
+    @ModelAttribute("socialmediaList")
+    public List<SocialMedia> getSocialmediaList(@ModelAttribute("page") Page page){
         if(page != null){
-            return textFragmentRepository.getByPageAndHeaderText(page, false);
+            return socialMediaRepository.findByDomain(page.getDomain());
+        }
+        return null;
+    }
+
+    @ModelAttribute("contactInfoList")
+    public List<ContactInfo> getContactInfo(@ModelAttribute("page") Page page){
+        if(page != null){
+            return contactInfoRepository.getByDomain(page.getDomain());
         }
         return null;
     }
@@ -108,6 +136,23 @@ public class AdminPagesController {
     @GetMapping("/pagina/{pageId}")
     public String pageView(@PathVariable(required = false) Integer pageId,
                            @ModelAttribute("page") Page page){
-        return "admin/pages/" + page.getPageName();
+        if(page.getId() == 1){
+            return "admin/pages/bistrohome";
+        }
+        if(page.getId() == 3){
+            return "admin/pages/bistrocontact";
+        }
+
+        return "admin/pages/nopage";
+    }
+
+    @PostMapping("/updatetext/{pageId}")
+    public String updateTextPost(@ModelAttribute("textWrapper") TextWrapper textWrapper,
+                                 @PathVariable Integer pageId,
+                                 @ModelAttribute("page") Page page){
+
+        textFragmentRepository.saveAll(textWrapper.getHeaderText());
+        textFragmentRepository.saveAll(textWrapper.getParagraphText());
+        return "redirect:/admin/pagina/" + page.getId();
     }
 }
