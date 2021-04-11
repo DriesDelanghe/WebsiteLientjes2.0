@@ -52,3 +52,43 @@
     -o-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
 }
+
+.map-section {
+    align-self: center;
+    min-height: 65vh;
+    height: auto;
+    width: 100%;
+    margin: 10% auto;
+    display: flex;
+    flex-flow: column nowrap;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.map-section iframe {
+    width: 75%;
+    height: 45vh;
+    background-color: #222222;
+    border: 2px solid #222222;
+    z-index: 2;
+}
+
+.adjusted-z-index{
+    z-index: 3;
+}
+
+.map-section::before {
+    position: absolute;
+    content: "";
+    background-color: #eee;
+    height: 65vh;
+    width: 90%;
+    z-index: 1;
+    left: 5%;
+    -webkit-box-shadow: 2px 2px 5px #222;
+    box-shadow: 2px 2px 5px #222;
+}

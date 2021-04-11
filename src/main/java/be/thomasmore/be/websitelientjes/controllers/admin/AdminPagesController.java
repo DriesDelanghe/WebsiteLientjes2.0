@@ -34,6 +34,8 @@ public class AdminPagesController {
     SocialMediaRepository socialMediaRepository;
     @Autowired
     ContactInfoRepository contactInfoRepository;
+    @Autowired
+    ContactTypeRepository contactTypeRepository;
 
     Logger logger = LoggerFactory.getLogger(AdminPagesController.class);
 
@@ -124,6 +126,14 @@ public class AdminPagesController {
     public List<ContactInfo> getContactInfo(@ModelAttribute("page") Page page){
         if(page != null){
             return contactInfoRepository.getByDomain(page.getDomain());
+        }
+        return null;
+    }
+
+    @ModelAttribute("contactTypeList")
+    public List<ContactType> getContactTypeList(@ModelAttribute("page") Page page){
+        if(page != null){
+            return contactTypeRepository.getByDomain(page.getDomain());
         }
         return null;
     }

@@ -3,6 +3,7 @@ package be.thomasmore.be.websitelientjes.controllers.wrapperclass;
 import be.thomasmore.be.websitelientjes.models.TextFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TextWrapper {
@@ -22,6 +23,7 @@ public class TextWrapper {
     }
 
     public ArrayList<TextFragment> getHeaderText() {
+        Collections.sort(headerText);
         return headerText;
     }
 
@@ -30,6 +32,7 @@ public class TextWrapper {
     }
 
     public ArrayList<TextFragment> getParagraphText() {
+        Collections.sort(paragraphText);
         return paragraphText;
     }
 

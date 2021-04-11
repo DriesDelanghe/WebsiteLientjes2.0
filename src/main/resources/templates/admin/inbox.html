@@ -26,6 +26,7 @@
         <thead class="table-dark">
         <tr>
             <th scope="col"></th>
+            <th scope="col">Soort vraag</th>
             <th scope="col">onderwerp</th>
             <th scope="col">verzender</th>
             <th scope="col">datum</th>
@@ -34,6 +35,7 @@
         <tbody>
         <tr th:each="contactForm : ${contactFormList}" style="transform: rotate(0);" th:classappend="${contactForm.read == false} ? 'fw-bold'">
             <th scope="row"><a th:href="@{|/admin/inbox/message/${contactForm.id}|}" class="stretched-link"></a></th>
+            <td th:text="${contactForm.contactType.questionType}"></td>
             <td th:text="${contactForm.onderwerp}">onderwerp</td>
             <td th:text="${contactForm.name}">Otto</td>
             <td th:text="${#dates.format(contactForm.timestamp, 'dd/MM/yyyy')}">@mdo</td>
