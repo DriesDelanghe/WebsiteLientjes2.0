@@ -92,3 +92,10 @@
     -webkit-box-shadow: 2px 2px 5px #222;
     box-shadow: 2px 2px 5px #222;
 }
+
+.ellipsis{
+    white-space: nowrap;
+    overflow: hidden;
+    width:50vw;
+    text-overflow: ellipsis;
+}

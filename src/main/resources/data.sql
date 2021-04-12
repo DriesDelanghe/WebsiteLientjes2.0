@@ -455,10 +455,10 @@ values (nextval('CF_SEQ'), 'persona A', 'onderwerp1', 'email1@example.com', 1,
        (nextval('CF_SEQ'), 'persona C', 'onderwerp3', 'email3@example.com', 2,
         'this is a placeholder text merely to show how it works', '2020-12-03 14:56:55.698', false),
        (nextval('CF_SEQ'), 'persona D', 'onderwerp4', 'email4@example.com', 3,
-        'this is a placeholder text merely to show how it works', '2021-03-28 19:12:55.698', false),
+        'this is a placeholder text merely to show how it works', '2021-03-12 19:12:55.698', false),
        (nextval('CF_SEQ'), 'persona E', 'onderwerp5', 'email5@example.com', 2,
         'this is a placeholder text merely to show how it works', '2021-03-25 12:35:55.698', false),
        (nextval('CF_SEQ'), 'persona F', 'onderwerp6', 'email6@example.com', 1,
         'this is a placeholder text merely to show how it works', '2021-03-23 10:45:55.698', false),
        (nextval('CF_SEQ'), 'persona G', 'onderwerp7', 'email7@example.com', 2,
-        'this is a placeholder text merely to show how it works', '2021-03-27 16:24:55.698', false);
+        'this is a placeholder text merely to show how it works', '2020-04-12 16:24:55.698', false);

@@ -1,9 +1,11 @@
 package be.thomasmore.be.websitelientjes.controllers.admin;
 
 import be.thomasmore.be.websitelientjes.models.ContactForm;
+import be.thomasmore.be.websitelientjes.models.ContactType;
 import be.thomasmore.be.websitelientjes.models.Domain;
 import be.thomasmore.be.websitelientjes.models.MenuSection;
 import be.thomasmore.be.websitelientjes.repositories.ContactFormRepository;
+import be.thomasmore.be.websitelientjes.repositories.ContactTypeRepository;
 import be.thomasmore.be.websitelientjes.repositories.DomainRepository;
 import be.thomasmore.be.websitelientjes.repositories.MenuSectionRepository;
 import org.slf4j.Logger;
@@ -21,6 +23,8 @@ import java.util.Optional;
 public class AdminInboxController {
     @Autowired
     ContactFormRepository contactFormRepository;
+    @Autowired
+    ContactTypeRepository contactTypeRepository;
     @Autowired
     DomainRepository domainRepository;
     @Autowired
@@ -49,10 +53,17 @@ public class AdminInboxController {
     }
 
     @ModelAttribute("contactFormList")
-    public List<ContactForm> getContactForms(){
-        List<ContactForm> contactFormList = (List<ContactForm>) contactFormRepository.findAll();
-        Collections.sort(contactFormList);
-        return contactFormList;
+    public List<ContactForm> getContactForms(@PathVariable(required = false) Integer contactTypeId){
+        if(contactTypeId == null) {
+            List<ContactForm> contactFormList = (List<ContactForm>) contactFormRepository.findAll();
+            Collections.sort(contactFormList);
+            return contactFormList;
+        }
+        Optional<ContactType> optionalContactType = contactTypeRepository.findById(contactTypeId);
+        if(optionalContactType.isPresent()){
+            return contactFormRepository.getByContactType(optionalContactType.get());
+        }
+        return null;
     }
 
     @ModelAttribute("message")
@@ -67,8 +78,13 @@ public class AdminInboxController {
         return null;
     }
 
-    @GetMapping("/inbox")
-    public String inboxPage(){
+    @ModelAttribute("contactTypeList")
+    public List<ContactType> getContactTypeList(){
+        return (List<ContactType>) contactTypeRepository.findAll();
+    }
+
+    @GetMapping({"/inbox", "/inbox/{contactTypeId}"})
+    public String inboxPage(@PathVariable(required = false) Integer contactTypeId){
 
         return "admin/inbox";
     }
@@ -85,6 +101,14 @@ public class AdminInboxController {
     public String removeMessage(@PathVariable Integer messageId){
         ContactForm message = contactFormRepository.findById(messageId).get();
         contactFormRepository.delete(message);
+
+        return "redirect:/admin/inbox";
+    }
+
+    @PostMapping("/removemessages")
+    public String removeMessages(@RequestParam("messageId") List<Integer> messageIds){
+        List<ContactForm> contactFormList = (List<ContactForm>) contactFormRepository.findAllById(messageIds);
+        contactFormRepository.deleteAll(contactFormList);
 
         return "redirect:/admin/inbox";
     }
