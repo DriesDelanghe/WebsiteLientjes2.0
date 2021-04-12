@@ -1,17 +1,23 @@
 package be.thomasmore.be.websitelientjes.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 public class Openingsuur {
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "openingsuur_generator")
+    @SequenceGenerator(name = "openingsuur_generator", sequenceName = "op_seq", allocationSize = 1)
     @Id
     private int id;
     private String dag;
     @Temporal(TemporalType.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
     private Date openingsuur;
     @Temporal(TemporalType.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
     private Date sluitingsuur;
     @ManyToOne(fetch = FetchType.LAZY)
     private Domain domain;

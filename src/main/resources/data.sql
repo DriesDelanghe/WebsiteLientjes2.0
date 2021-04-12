@@ -68,13 +68,21 @@ values (1, 1),
        (9, 6);
 
 insert into openingsuur(id, dag, openingsuur, sluitingsuur, domain_id)
-values (1, 'maandag', null, null, 1),
-       (2, 'dinsdag', null, null, 1),
-       (3, 'woensdag', '10:00', '21:00', 1),
-       (4, 'donderdag', '10:00', '21:00', 1),
-       (5, 'vrijdag', '10:00', '21:00', 1),
-       (6, 'zaterdag', '10:00', '21:00', 1),
-       (7, 'zondag', '10:00', '21:00', 1);
+values (nextval('OP_SEQ'), 'maandag', null, null, 1),
+       (nextval('OP_SEQ'), 'dinsdag', null, null, 1),
+       (nextval('OP_SEQ'), 'woensdag', '10:00', '21:00', 1),
+       (nextval('OP_SEQ'), 'donderdag', '10:00', '21:00', 1),
+       (nextval('OP_SEQ'), 'vrijdag', '10:00', '21:00', 1),
+       (nextval('OP_SEQ'), 'zaterdag', '10:00', '21:00', 1),
+       (nextval('OP_SEQ'), 'zondag', '10:00', '21:00', 1),
+       (nextval('OP_SEQ'), 'maandag', null, null, 2),
+       (nextval('OP_SEQ'), 'dinsdag', null, null, 2),
+       (nextval('OP_SEQ'), 'woensdag', '10:00', '21:00', 2),
+       (nextval('OP_SEQ'), 'donderdag', '10:00', '21:00', 2),
+       (nextval('OP_SEQ'), 'vrijdag', '10:00', '21:00', 2),
+       (nextval('OP_SEQ'), 'zaterdag', '10:00', '21:00', 2),
+       (nextval('OP_SEQ'), 'zondag', '10:00', '21:00', 2);
+
 
 insert into text_fragment(id, text_content, order_reference, header_text, page_id)
 values (1, 'Meer dan een koffiehuis', 1, true, 1),
