@@ -1,5 +1,6 @@
 package be.thomasmore.be.websitelientjes.controllers.admin;
 
+import be.thomasmore.be.websitelientjes.controllers.wrapperclass.ContactTypeWrapper;
 import be.thomasmore.be.websitelientjes.models.ContactForm;
 import be.thomasmore.be.websitelientjes.models.ContactType;
 import be.thomasmore.be.websitelientjes.models.Domain;
@@ -81,6 +82,18 @@ public class AdminInboxController {
     @ModelAttribute("contactTypeList")
     public List<ContactType> getContactTypeList(){
         return (List<ContactType>) contactTypeRepository.findAll();
+    }
+
+    @ModelAttribute("contactTypeWrapper")
+    public ContactTypeWrapper getContactWrapper(@ModelAttribute("contactTypeList") List<ContactType> contactTypeList){
+        ContactTypeWrapper wrapper = new ContactTypeWrapper();
+        wrapper.setContactTypeList(contactTypeList);
+        return wrapper;
+    }
+
+    @ModelAttribute("newContactType")
+    public ContactType getNewContactType(){
+        return new ContactType();
     }
 
     @GetMapping({"/inbox", "/inbox/{contactTypeId}"})

@@ -443,9 +443,10 @@ values (11, 1),
        (69, 2);
 
 insert into CONTACT_TYPE(id, question_type, domain_id)
-values (1, 'Algemene vraag', 1),
-       (2, 'Reservering', 1),
-       (3, 'Iets anders', 1);
+values (nextval('CT_SEQ'), 'Algemene vraag', 1),
+       (nextval('CT_SEQ'), 'Reservering', 1),
+       (nextval('CT_SEQ'), 'Iets anders', 1),
+       (nextval('CT_SEQ'), 'Algemeen', 2);
 
 insert into contact_form(id, name, onderwerp, email, contact_type_id, question, timestamp, read)
 values (nextval('CF_SEQ'), 'persona A', 'onderwerp1', 'email1@example.com', 1,

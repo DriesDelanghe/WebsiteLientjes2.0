@@ -28,6 +28,48 @@
                th:each="contactType : ${contactTypeList}">
                 <p th:text="${contactType.questionType}"></p>
             </a>
+            <div class="container-fluid w-100 p-0 d-flex justify-content-center my-2">
+                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+                        data-bs-target="#updateModal">
+                    aanpassen
+                </button>
+            </div>
+
+            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateModalLabel">Persoon verwijderen</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                            <form method="post">
+                        <div class="modal-body" th:object="${contactTypeWrapper}">
+                            <h6>Update bestaande vraagsoorten:</h6>
+                            <div class="row my-2" th:each="contactType : ${contactTypeWrapper.contactTypeList}">
+                            <input type="text" class="form-control w-50" th:field="*{contactTypeList[__${contactTypeStat.index}__].questionType}">
+                                <select th:field="*{contactTypeList[__${contactTypeStat.index}__].domain}" class="form-select w-50">
+                                    <option value="1" th:text="|Lientjes Bistro|" th:selected="${contactType.domain.id == 1}"></option>
+                                    <option value="2" th:text="|Lientjes Bolo|" th:selected="${contactType.domain.id == 2}"></option>
+                                </select>
+                            </div>
+                            <h6>Nieuwe vraagsoort toevoegen</h6>
+                            <div class="row" th:object="${newContactType}">
+                                <input type="text" class="form-control w-50" th:field="*{questionType}">
+                                <select th:field="*{domain}" class="form-select w-50">
+                                    <option value="1" th:text="|Lientjes Bistro|"></option>
+                                    <option value="2" th:text="|Lientjes Bolo|"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" value="verwijderen" class="btn btn-danger">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <form method="post" th:action="@{|/admin/removemessages|}" class="w-100">
 
