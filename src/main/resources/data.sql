@@ -51,7 +51,7 @@ values (1, 'home', 'bistrohome', 1, 2),
        (3, 'contact', 'bistrocontact', 1, 2),
        (4, 'personeel', 'bistropersoneel', 1, 2),
        (5, 'menu', 'bistromenu', 1, 2),
-       (6, 'home','bolohome', 2, null);
+       (6, 'home', 'bolohome', 2, null);
 
 insert into personnel_pages(personnel_id, pages_id)
 values (1, 1),
@@ -87,9 +87,9 @@ values (nextval('OP_SEQ'), 'maandag', null, null, 1),
 insert into text_fragment(id, text_content, order_reference, header_text, page_id)
 values (1, 'Meer dan een koffiehuis', 1, true, 1),
        (2, 'Lientje''s bistro is meer dan enkel een koffiehuis. ' ||
-       'Lientjes bistro is ook een thuishaven voor iedereen wie ' ||
-                'rustig een koffie wilt drinken of wilt genieten van ' ||
-                'kwaliteitvol eten.', 1, false, 1),
+           'Lientjes bistro is ook een thuishaven voor iedereen wie ' ||
+           'rustig een koffie wilt drinken of wilt genieten van ' ||
+           'kwaliteitvol eten.', 1, false, 1),
        (3, 'Het team', 2, true, 1),
        (4, 'Het vaste team staat altijd klaar om je te helpen met een glimlach.', 2, false, 1),
        (5, 'bekijk het team', 3, false, 1),
@@ -97,7 +97,7 @@ values (1, 'Meer dan een koffiehuis', 1, true, 1),
        (7, 'Naar menu', 4, false, 1),
        (8, 'Contact', 4, true, 1),
        (9, 'Heb je vragen of wil je reserveren? ' ||
-                'neem dan gerust contact op met ons!', 5, false, 1),
+           'neem dan gerust contact op met ons!', 5, false, 1),
        (10, 'Naar contact', 6, false, 1),
        (11, 'Openingsuren', 5, true, 1),
        (12, 'Onze sociale media', 6, true, 1),
@@ -463,3 +463,7 @@ values (nextval('CF_SEQ'), 'persona A', 'onderwerp1', 'email1@example.com', 1,
         'this is a placeholder text merely to show how it works', '2021-03-23 10:45:55.698', false),
        (nextval('CF_SEQ'), 'persona G', 'onderwerp7', 'email7@example.com', 2,
         'this is a placeholder text merely to show how it works', '2020-04-12 16:24:55.698', false);
+
+
+insert into user(id, username, password, role)
+values (nextval('U_SEQ'), 'admin', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy', 'ADMIN');
