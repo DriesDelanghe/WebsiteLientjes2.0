@@ -6,16 +6,26 @@ import java.util.List;
 
 public class ContactTypeWrapper {
 
-    private List<ContactType> contactTypeList;
+    private List<ContactType> contactTypeListBistro;
+    private List<ContactType> contactTypeListBolo;
+
 
     public ContactTypeWrapper() {
     }
 
-    public List<ContactType> getContactTypeList() {
-        return contactTypeList;
+    public List<ContactType> getContactTypeListBistro() {
+        return contactTypeListBistro;
     }
 
-    public void setContactTypeList(List<ContactType> contactTypeList) {
-        this.contactTypeList = contactTypeList;
+    public void setContactTypeListBistro(List<ContactType> contactTypeListBistro) {
+        this.contactTypeListBistro = contactTypeListBistro;
+    }
+
+    public List<ContactType> getContactTypeListBolo() {
+        return contactTypeListBolo;
+    }
+
+    public void setContactTypeListBolo(List<ContactType> contactTypeListBolo) {
+        this.contactTypeListBolo = contactTypeListBolo;
     }
 }

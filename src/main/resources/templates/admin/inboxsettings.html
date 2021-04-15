@@ -1,0 +1,95 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/admin.css">
+    <title>admin - inbox - settings</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6e9f44a530.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header th:replace="admin/fragments/header :: header"></header>
+
+<div class="container-fluid">
+    <a th:href="@{|/admin/inbox|}" class="btn btn-dark my-3">naar inbox</a>
+</div>
+
+<div class="alert alert-danger" th:if="${notEmpty}">
+    <h4>Kan object niet verwijderen als er nog berichten bijhoren</h4>
+</div>
+
+<div class="container-fluid w-75 mx-auto mt-4">
+    <h4>Lientjes bistro</h4>
+    <hr>
+  <ul class="list-group" >
+      <li class="list-group-item " th:each="contact, stat : ${contactTypeWrapper.contactTypeListBistro}" th:object="${contactTypeWrapper}">
+          <form method="post" th:action="@{|/admin/removecontacttype/${contact.id}|}">
+              <div class="container-fluid">
+                  <input type="submit" class="float-end btn btn-outline-danger my-2" value="x">
+              </div>
+          </form>
+        <form method="post" th:action="@{|/admin/changecontacttypes|}">
+          <label for="name" class="form-label mt-3">naam:</label>
+          <input type="text" class="form-control" th:field="*{contactTypeListBistro[__${stat.index}__].questionType}" id="name">
+          <div class="container-fluid">
+            <input type="submit" value="opslagen" class="btn btn-dark float-end my-2">
+          </div>
+        </form>
+      </li>
+      <li class="list-group-item">
+          <form method="post" th:action="@{|/admin/changecontacttypes|}" th:object="${newContactType}">
+              <label for="name" class="form-label">naam:</label>
+              <input type="text" th:field="*{questionType}" class="form-control">
+              <select type="number" th:field="*{domain}" class="d-none">
+                  <option th:value="${domainBistro.id}" selected></option>
+              </select>
+              <div class="container-fluid">
+                  <input type="submit" value="opslagen" class="btn btn-dark float-end my-2">
+              </div>
+          </form>
+      </li>
+  </ul>
+</div>
+
+<div class="container-fluid w-75 mx-auto my-5">
+    <h4>Lientjes bolo</h4>
+    <hr>
+    <ul class="list-group" >
+        <li class="list-group-item " th:each="contact, stat : ${contactTypeWrapper.contactTypeListBolo}" th:object="${contactTypeWrapper}">
+            <form method="post" th:action="@{|/admin/removecontacttype/${contact.id}|}">
+                <div class="container-fluid">
+                    <input type="submit" class="float-end btn btn-outline-danger my-2" value="x">
+                </div>
+            </form>
+            <form method="post" th:action="@{|/admin/changecontacttypes|}">
+                <label for="name" class="form-label mt-3">naam:</label>
+                <input type="text" class="form-control" th:field="*{contactTypeListBolo[__${stat.index}__].questionType}" id="name">
+                <div class="container-fluid">
+                    <input type="submit" value="opslagen" class="btn btn-dark float-end my-2">
+                </div>
+            </form>
+        </li>
+        <li class="list-group-item">
+            <form method="post" th:action="@{|/admin/changecontacttypes|}" th:object="${newContactType}">
+                <label for="name" class="form-label">naam:</label>
+                <input type="text" th:field="*{questionType}" class="form-control">
+                <select type="number" th:field="*{domain}" class="d-none">
+                    <option th:value="${domainBolo.id}" selected></option>
+                </select>
+                <div class="container-fluid">
+                    <input type="submit" value="opslagen" class="btn btn-dark float-end my-2">
+                </div>
+            </form>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

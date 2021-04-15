@@ -22,15 +22,15 @@
     <h2>Nieuw product toevoegen</h2>
     <hr class="w-50">
     <form method="post" th:action="@{|/admin/newproductpost|}" th:object="${newProduct}">
-        <div class="w-25 d-flex align-items-start justify-content-start justify-content-lg-between flex-lg-row flex-column my-3">
+        <div class="my-3">
             <label class="form-label" for="name">naam:</label>
             <input class="form-control" type="text" th:field="*{name}" id="name">
         </div>
-        <div class="w-25 d-flex align-items-start justify-content-start justify-content-lg-between flex-lg-row flex-column my-2">
+        <div class="my-2">
             <label class="form-label" for="price">prijs:</label>
             <input class="form-control" type="number" min="0" step="0.01" th:field="*{priceInEur}" id="price">
         </div>
-        <div class="w-100 d-flex align-items-start justify-content-start flex-column my-4">
+        <div class="my-4">
             <label class="form-label" for="extraInfo">extra info:</label>
             <textarea  th:field="*{extraInfo}" id="extraInfo" class="form-control"></textarea>
         </div>

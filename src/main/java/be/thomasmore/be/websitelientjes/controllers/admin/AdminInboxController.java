@@ -13,9 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,16 +88,54 @@ public class AdminInboxController {
         return (List<ContactType>) contactTypeRepository.findAll();
     }
 
+    @ModelAttribute("contactTypeListBistro")
+    public List<ContactType> getContactTypeListBistro(@ModelAttribute("domainBistro") Domain domain){
+        return contactTypeRepository.getByDomain(domain);
+    }
+
+    @ModelAttribute("unreadList")
+    public HashMap<Integer, Integer> getListUnreads(@ModelAttribute("contactTypeList") List<ContactType> contactTypeList){
+        HashMap<Integer, Integer> unreadList= new HashMap<>();
+        for(ContactType ct : contactTypeList){
+            Integer count = contactFormRepository.getUnreadBycontactType(ct).size();
+            unreadList.put(ct.getId(), count);
+        }
+        return unreadList;
+    }
+
+    @ModelAttribute("allUnreads")
+    public Integer getAllUnreads(){
+        return  contactFormRepository.getUnreadBycontactType(null).size();
+    }
+
+    @ModelAttribute("contactTypeListBolo")
+    public List<ContactType> getContactTypeListBolo(@ModelAttribute("domainBolo") Domain domain){
+        return  contactTypeRepository.getByDomain(domain);
+    }
+
     @ModelAttribute("contactTypeWrapper")
-    public ContactTypeWrapper getContactWrapper(@ModelAttribute("contactTypeList") List<ContactType> contactTypeList){
+    public ContactTypeWrapper getContactWrapper(@ModelAttribute("contactTypeListBistro") List<ContactType> contactTypeListBistro,
+                                                @ModelAttribute("contactTypeListBolo") List<ContactType> contactTypeListBolo){
         ContactTypeWrapper wrapper = new ContactTypeWrapper();
-        wrapper.setContactTypeList(contactTypeList);
+        wrapper.setContactTypeListBistro(contactTypeListBistro);
+        wrapper.setContactTypeListBolo(contactTypeListBolo);
         return wrapper;
     }
 
     @ModelAttribute("newContactType")
     public ContactType getNewContactType(){
         return new ContactType();
+    }
+
+    @ModelAttribute("contactType")
+    public ContactType getContactType(@PathVariable(required = false) Integer contactTypeId){
+        if(contactTypeId != null){
+            Optional<ContactType> optionalContactType = contactTypeRepository.findById(contactTypeId);
+            if(optionalContactType.isPresent()){
+                return optionalContactType.get();
+            }
+        }
+        return null;
     }
 
     @GetMapping({"/inbox", "/inbox/{contactTypeId}"})
@@ -110,6 +152,12 @@ public class AdminInboxController {
         return "admin/inboxmessage";
     }
 
+    @GetMapping("/inbox/instellingen")
+    public String inboxSettings(){
+
+        return "admin/inboxsettings";
+    }
+
     @PostMapping("/removemessage/{messageId}")
     public String removeMessage(@PathVariable Integer messageId){
         ContactForm message = contactFormRepository.findById(messageId).get();
@@ -124,5 +172,46 @@ public class AdminInboxController {
         contactFormRepository.deleteAll(contactFormList);
 
         return "redirect:/admin/inbox";
+    }
+
+    @PostMapping("/changecontacttypes")
+    public String updateContactTypesPost(@ModelAttribute("contactTypeWrapper") ContactTypeWrapper wrapper,
+                                         @ModelAttribute("newContactType") ContactType newContactType){
+
+        contactTypeRepository.saveAll(wrapper.getContactTypeListBistro());
+        contactTypeRepository.saveAll(wrapper.getContactTypeListBolo());
+
+        if(newContactType.getDomain() != null && !newContactType.getQuestionType().isBlank()){
+            contactTypeRepository.save(newContactType);
+        }
+
+        return "redirect:/admin/inbox/instellingen";
+    }
+
+    @PostMapping("/changecontacttype/{contactTypeId}")
+    public String updateContactTypePost(@PathVariable Integer contactTypeId,
+                                        @Valid @ModelAttribute("contactType") ContactType contactType,
+                                        BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "admin/inboxsettings";
+        }
+
+        contactTypeRepository.save(contactType);
+
+        return "redirect:/admin/inbox/instellingen";
+
+    }
+
+    @PostMapping("/removecontacttype/{contactTypeId}")
+    public String removeContactTypePost(@PathVariable Integer contactTypeId,
+                                        @ModelAttribute("contactType") ContactType contactType,
+                                        Model model){
+        if(!contactFormRepository.getByContactType(contactType).isEmpty()){
+            model.addAttribute("notEmpty", true);
+            return "admin/inboxsettings";
+        }
+
+        contactTypeRepository.delete(contactType);
+        return "redirect:/admin/inbox/instellingen";
     }
 }

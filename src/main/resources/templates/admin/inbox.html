@@ -21,93 +21,85 @@
 <div class="container-fluid row mt-5 mx-0 px-0">
     <h5 class="px-4">Inbox</h5>
     <hr>
-    <div class="container-fluid col-12 d-flex flex-lg-row flex-column">
-        <div class="container-fluid p-0 col-lg-2 col-12 d-flex flex-row justify-content-center justify-content-lg-start flex-lg-column flex-wrap m-lg-0 my-2">
-            <a th:href="@{|/admin/inbox|}" class="btn btn-light">Alles</a>
-            <a th:href="@{|/admin/inbox/${contactType.id}|}" class="btn btn-light"
-               th:each="contactType : ${contactTypeList}">
-                <p th:text="${contactType.questionType}"></p>
-            </a>
+    <div class="container-fluid col-lg-2 col-12 d-flex flex-lg-row flex-column">
+        <div class="container-fluid p-0 d-flex flex-row justify-content-center justify-content-lg-start flex-lg-column flex-wrap m-lg-0 my-2">
+
+            <ul class="list-group">
+                <li class="list-group-item" th:classappend="${contactType == null} ? 'list-group-item-primary'">
+                    <a th:href="@{|/admin/inbox|}"
+                       class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
+                        <p>Alles</p>
+                        <span class="badge bg-info rounded-pill" th:if="${allUnreads != null && allUnreads > 0}"
+                              th:text="${allUnreads}"></span>
+                    </a>
+                </li>
+                <h6 class="mt-2">Berichten Bistro</h6>
+                <li class="list-group-item" th:each="contact : ${contactTypeListBistro}" th:classappend="${contactType != null && contact == contactType} ? 'list-group-item-primary'">
+                    <a th:href="@{|/admin/inbox/${contact.id}|}"
+                       class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
+                        <p th:text="${contact.questionType}"></p>
+                        <span class="badge bg-info rounded-pill"
+                              th:if="${unreadList.get(contact.id) != null && unreadList.get(contact.id) > 0}"
+                              th:text="${unreadList.get(contact.id)}"></span>
+                    </a>
+                </li>
+                <h6 class="mt-2">Berichten Bolo</h6>
+                <li class="list-group-item" th:each="contact : ${contactTypeListBolo}" th:classappend="${contactType != null && contact == contactType} ? 'list-group-item-primary'">
+                    <a th:href="@{|/admin/inbox/${contact.id}|}"
+                       class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
+                        <p th:text="${contact.questionType}"></p>
+                        <span class="badge bg-info rounded-pill"
+                              th:if="${unreadList.get(contact.id) != null && unreadList.get(contact.id) > 0}"
+                              th:text="${unreadList.get(contact.id)}"></span>
+                    </a>
+                </li>
+            </ul>
+
+
             <div class="container-fluid w-100 p-0 d-flex justify-content-center my-2">
-                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
-                        data-bs-target="#updateModal">
-                    aanpassen
-                </button>
+                <a th:href="@{|/admin/inbox/instellingen|}" class="btn btn-outline-success"><i
+                        class="fas fa-cog"></i> instellingen</a>
             </div>
-
-            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="updateModalLabel">Persoon verwijderen</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                            <form method="post">
-                        <div class="modal-body" th:object="${contactTypeWrapper}">
-                            <h6>Update bestaande vraagsoorten:</h6>
-                            <div class="row my-2" th:each="contactType : ${contactTypeWrapper.contactTypeList}">
-                            <input type="text" class="form-control w-50" th:field="*{contactTypeList[__${contactTypeStat.index}__].questionType}">
-                                <select th:field="*{contactTypeList[__${contactTypeStat.index}__].domain}" class="form-select w-50">
-                                    <option value="1" th:text="|Lientjes Bistro|" th:selected="${contactType.domain.id == 1}"></option>
-                                    <option value="2" th:text="|Lientjes Bolo|" th:selected="${contactType.domain.id == 2}"></option>
-                                </select>
-                            </div>
-                            <h6>Nieuwe vraagsoort toevoegen</h6>
-                            <div class="row" th:object="${newContactType}">
-                                <input type="text" class="form-control w-50" th:field="*{questionType}">
-                                <select th:field="*{domain}" class="form-select w-50">
-                                    <option value="1" th:text="|Lientjes Bistro|"></option>
-                                    <option value="2" th:text="|Lientjes Bolo|"></option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <input type="submit" value="verwijderen" class="btn btn-danger">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
-        <form method="post" th:action="@{|/admin/removemessages|}" class="w-100">
-
-            <label for="submitform" class="form-label col-1 d-flex justify-content-center btn btn-outline-dark">
-                <i class="fas fa-trash" ></i>
-                <input type="submit" id="submitform" class="d-none">
-            </label>
-            <div class="container-fluid p-0">
-                <div class="row p-1 bg-light" th:each="message : ${contactFormList}"
-                     th:classappend="${message.read == false} ? 'fw-bold'">
-
-                    <div class="col-2 p-0">
-                        <label th:for="|checkbox${message.id}|"
-                               class="h-100 w-100 d-flex justify-content-center align-content-around">
-                            <input type="checkbox" name="messageId" class="form-check" th:value="${message.id}" th:id="|checkbox${message.id}|">
-                        </label>
-                    </div>
-                    <div class="col-7 col-lg-8" style="transform: rotate(0)">
-                        <a th:href="@{|/admin/inbox/message/${message.id}|}"
-                           class="stretched-link text-decoration-none"></a>
-                        <h6 th:text="${message.onderwerp}" class="text-dark"></h6>
-                        <p class="ellipsis"><small
-                                th:classappend="${message.read == false} ? 'text-dark' : 'text-muted'"
-                                th:text="${message.question.replaceAll('<br/>', ' ')}"></small></p>
-
-                    </div>
-                    <div class="col-3 col-lg-1" style="transform: rotate(0)">
-                        <a th:href="@{|/admin/inbox/message/${message.id}|}"
-                           class="stretched-link text-decoration-none"></a>
-                        <p><small th:classappend="${message.read == false} ? 'text-dark' : 'text-muted'"
-                                  th:text="${#dates.createNow().day == message.timestamp.day} ? ${#dates.format(message.timestamp, 'HH:mm')} : ${#dates.format(message.timestamp, 'dd MMM')}"></small>
-                        </p>
-                    </div>
-                    <hr class="text-secondary">
-                </div>
-            </div>
-        </form>
     </div>
+    <form method="post" th:action="@{|/admin/removemessages|}" class="col-lg-10 col-12">
+
+        <label for="submitform" class="form-label col-1 d-flex justify-content-center btn btn-outline-dark">
+            <i class="fas fa-trash"></i>
+            <input type="submit" id="submitform" class="d-none">
+        </label>
+        <div class="container-fluid p-0">
+            <div class="row p-1 bg-light" th:each="message : ${contactFormList}"
+                 th:classappend="${message.read == false} ? 'fw-bold'">
+
+                <div class="col-2 p-0">
+                    <label th:for="|checkbox${message.id}|"
+                           class="h-100 w-100 d-flex justify-content-center align-content-around">
+                        <input type="checkbox" name="messageId" class="form-check" th:value="${message.id}"
+                               th:id="|checkbox${message.id}|">
+                    </label>
+                </div>
+                <div class="col-7 col-lg-8" style="transform: rotate(0)">
+                    <a th:href="@{|/admin/inbox/message/${message.id}|}"
+                       class="stretched-link text-decoration-none"></a>
+                    <h6 th:text="${message.onderwerp}" class="text-dark"></h6>
+                    <p class="ellipsis"><small
+                            th:classappend="${message.read == false} ? 'text-dark' : 'text-muted'"
+                            th:text="${message.question.replaceAll('<br/>', ' ')}"></small></p>
+
+                </div>
+                <div class="col-3 col-lg-1" style="transform: rotate(0)">
+                    <a th:href="@{|/admin/inbox/message/${message.id}|}"
+                       class="stretched-link text-decoration-none"></a>
+                    <p><small th:classappend="${message.read == false} ? 'text-dark' : 'text-muted'"
+                              th:text="${#dates.createNow().day == message.timestamp.day} ? ${#dates.format(message.timestamp, 'HH:mm')} : ${#dates.format(message.timestamp, 'dd MMM')}"></small>
+                    </p>
+                </div>
+                <hr class="text-secondary">
+            </div>
+        </div>
+    </form>
+</div>
 </div>
 
 
