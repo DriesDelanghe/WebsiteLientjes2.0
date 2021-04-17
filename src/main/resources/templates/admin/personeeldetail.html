@@ -51,7 +51,7 @@
                 <div class="card-body">
                     <form method="post" th:action="@{|/admin/personeeldetail/*{id}|}" enctype="multipart/form-data"
                           th:object="${personnel}">
-                        <div class="w-100 alert alert-danger" role="alert" th:if="${#fields.hasErrors('*')}">Gelieve
+                        <div class="w-100 alert alert-danger" userRole="alert" th:if="${#fields.hasErrors('*')}">Gelieve
                             alle velden in te
                             vullen
                         </div>

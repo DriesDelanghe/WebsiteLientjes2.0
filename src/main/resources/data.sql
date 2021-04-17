@@ -19,7 +19,8 @@ values (nextval('IMG_SEQ'), '/images/general/default-image.jpg'),
        (nextval('IMG_SEQ'), '/images/food/afbeelding-koude-drank.jpg'),
        (nextval('IMG_SEQ'), '/images/food/afbeelding-ontbijt.jpg'),
        (nextval('IMG_SEQ'), '/images/food/afbeelding-warme-drank.jpg'),
-       (nextval('IMG_SEQ'), '/images/food/afbeelding-alle-gerechten.jpg');
+       (nextval('IMG_SEQ'), '/images/food/afbeelding-alle-gerechten.jpg'),
+       (nextval('IMG_SEQ'), '/images/general/header-bolo.jpg');
 
 insert into domain(id, domain_name)
 values (1, 'bistro'),
@@ -51,7 +52,7 @@ values (1, 'home', 'bistrohome', 1, 2),
        (3, 'contact', 'bistrocontact', 1, 2),
        (4, 'personeel', 'bistropersoneel', 1, 2),
        (5, 'menu', 'bistromenu', 1, 2),
-       (6, 'home', 'bolohome', 2, null);
+       (6, 'home', 'bolohome', 2, 22);
 
 insert into personnel_pages(personnel_id, pages_id)
 values (1, 1),
@@ -128,11 +129,12 @@ values (nextval('REF_SEQ'), 'https://www.flaticon.com/', 'Flaticon', 'Roundicons
         'symbols'),
        (nextval('REF_SEQ'), 'https://www.pexels.com/', 'Pexels', 'Negative Space',
         'https://www.pexels.com/@negativespace',
-        'header image'),
+        'header image lientjes''s bistro'),
        (nextval('REF_SEQ'), null, null, 'Dries Delanghe', 'https://www.driesdelanghe.be/', 'site'),
        (nextval('REF_SEQ'), 'https://www.pexels.com/', 'Pexels', 'Amine M''Siouri',
         'https://www.pexels.com/nl-nl/@amine-m-siouri-1025778',
-        'error page header');
+        'error page header'),
+       (nextval('REF_SEQ'), 'https://www.pexels.com/', 'Pexels', 'Rachel Claire', 'https://www.pexels.com/nl-nl/@rachel-claire', 'header image bolo lientjes');
 
 insert into contact_info(id, info_name, info_content, domain_id, image_id)
 values (nextval('ci_seq'), 'email', 'info@lientjes-coffeebreak.be', 1, 7),
@@ -465,5 +467,13 @@ values (nextval('CF_SEQ'), 'persona A', 'onderwerp1', 'email1@example.com', 1,
         'this is a placeholder text merely to show how it works', '2020-04-12 16:24:55.698', false);
 
 
-insert into user(id, username, password, role)
-values (nextval('U_SEQ'), 'admin', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy', 'ADMIN');
+insert into user(id, username, password)
+values (nextval('U_SEQ'), 'admin', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy');
+
+insert into USER_ROLE(id, role_name)
+values(1, 'bistro'),
+       (2, 'bolo');
+
+insert into user_user_role(users_id, user_role_id)
+values(1, 1),
+       (1,2);

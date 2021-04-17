@@ -1,0 +1,9 @@
+.object-cover{
+    object-fit: cover;
+}
+
+.header-image{
+    height: 60vh;
+    object-position: 50% 50%;
+    opacity: 0.7;
+}
