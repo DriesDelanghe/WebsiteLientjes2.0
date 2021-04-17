@@ -27,7 +27,7 @@
 </div>
 
 <div class="container-fluid p-0 row mt-4">
-    <div class="col-5">
+    <div class="col-lg-5 col-12">
         <div class="row">
 
             <h4 class="display-4 text-center">Personeel</h4>
@@ -36,7 +36,8 @@
             <a href="" class="btn btn-dark">Bekijk het personeel <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <div id="personnelCarousel" class="carousel slide w-100 mx-auto h-auto carousel-dark mt-4" data-bs-ride="carousel">
+            <!-- carousel desktop -->
+            <div id="personnelCarousel" class="carousel slide w-100 mx-auto h-auto carousel-dark my-4 d-none d-lg-block" data-bs-ride="carousel">
                 <div class="carousel-inner h-auto">
                     <th:block th:each="iteration : ${#numbers.sequence(0, iterationSize)}">
                         <div class="carousel-item h-auto" th:classappend="${iteration == 0} ? active">
@@ -44,9 +45,9 @@
                                 <th:block th:each="i : ${#numbers.sequence(0 + (2*iteration), 1 + (2*iteration))}">
                                     <th:block th:if="${i < personnelList.size}">
                                         <div class="card w-50" th:object="${personnelList.get(i)}">
-                                            <img class="h-75 m-0 object-cover" th:src="*{image.imageLocation}"
+                                            <img class="h-50 m-0 object-cover" th:src="*{image.imageLocation}"
                                                  alt="personeel foto">
-                                            <div class="card-body d-flex flex-column justify-content-end">
+                                            <div class="card-body d-flex flex-column justify-content-start">
                                                 <h4 class="card-title" th:text="*{name}"></h4>
                                                 <h5 class="card-subtitle mb-2 text-muted" th:text="*{functionDescription}"></h5>
                                                 <p class="card-text" th:text="*{extraInfo}"></p>
@@ -63,6 +64,40 @@
                         <span class="visually-hidden">Previous</span>
                     </button>
                     <button class="carousel-control-next mt-5" type="button" data-bs-target="#personnelCarousel"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- carousel mobile -->
+            <div class="container-fluid w-75 mx-auto">
+                <div class="carousel slide carousel-dark my-4 d-lg-none d-block" id="carouselPersoneelMobile" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <th:block th:each="personnel : ${personnelList}" th:object="${personnel}">
+                            <div class="carousel-item" th:classappend="${personnelStat.index == 0} ? active">
+                                <div class="card w-100">
+                                    <img th:src="*{image.imageLocation}" class="object-cover mobile-image"
+                                         alt="personeel afbeelding">
+                                    <div class="card-body">
+                                        <h5 class="card-title" th:text="*{name}"></h5>
+                                        <h6 class="card-subtitle text-muted" th:text="*{functionDescription}"></h6>
+                                        <p class="card-text" th:text="*{extraInfo}"></p>
+                                        <div class="container-fluid d-flex justify-content-center">
+                                            <a th:href="@{|/admin/personeeldetail/*{id}|}"  class="btn btn-dark">update info</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPersoneelMobile"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselPersoneelMobile"
                             data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
