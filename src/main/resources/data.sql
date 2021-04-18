@@ -39,7 +39,7 @@ values (nextval('PER_SEQ'), 'Persona A', 9, 'This is the first test person, thes
         'serveur', 1),
        (nextval('PER_SEQ'), 'Persona F', 14, 'This is the sixth test person, these are all here as proof of concept',
         'serveur', 1),
-       (nextval('PER_SEQ'), 'Persona A', 9, 'This is the first test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona A', 9, 'This is the first test person, these are all here as proof of concept This is the first test person, these are all here as proof of concept This is the first test person, these are all here as proof of concept',
         'chef-kok', 2),
        (nextval('PER_SEQ'), 'Persona B', 10, 'This is the second test person, these are all here as proof of concept',
         'serveur', 2),
@@ -467,8 +467,8 @@ values (nextval('CF_SEQ'), 'persona A', 'onderwerp1', 'email1@example.com', 1,
         'this is a placeholder text merely to show how it works', '2020-04-12 16:24:55.698', false);
 
 
-insert into user(id, username, password)
-values (nextval('U_SEQ'), 'admin', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy');
+insert into user(id, username, password, role)
+values (nextval('U_SEQ'), 'admin', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy', 'ADMIN');
 
 insert into USER_ROLE(id, role_name)
 values(1, 'bistro'),

@@ -1,8 +1,10 @@
 package be.thomasmore.be.websitelientjes.controllers.bolo;
 
 import be.thomasmore.be.websitelientjes.models.Domain;
+import be.thomasmore.be.websitelientjes.models.Openingsuur;
 import be.thomasmore.be.websitelientjes.models.Personnel;
 import be.thomasmore.be.websitelientjes.repositories.DomainRepository;
+import be.thomasmore.be.websitelientjes.repositories.OpeningsuurRepository;
 import be.thomasmore.be.websitelientjes.repositories.PageRepository;
 import be.thomasmore.be.websitelientjes.repositories.PersonnelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class BoloGeneralController {
     DomainRepository domainRepository;
     @Autowired
     PersonnelRepository personnelRepository;
+    @Autowired
+    OpeningsuurRepository openingsuurRepository;
 
     @ModelAttribute("domain")
     public Domain getdomain(){
@@ -35,11 +39,21 @@ public class BoloGeneralController {
         return personnelRepository.getByDomain(domain);
     }
 
+    @ModelAttribute("openingsuren")
+    public List<Openingsuur> getOpeningsuren(@ModelAttribute("domain") Domain domain){
+        return openingsuurRepository.getByDomain(domain);
+    }
+
     @GetMapping({"", "/", "/home"})
     public String home(Model model,
-                       @ModelAttribute("domain") Domain domain){
+                       @ModelAttribute("domain") Domain domain,
+                       @ModelAttribute("personnelList") List<Personnel> personnelList){
+
+        Integer listSize = personnelList.size();
+        Integer iterationSize = listSize/2;
+
         model.addAttribute("page", pageRepository.getByDomainAndPageId(domain, 6));
-        model.addAttribute("iterationSize", 2);
+        model.addAttribute("iterationSize", iterationSize);
         return "bolo/home";
     }
 }

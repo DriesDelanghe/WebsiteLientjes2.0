@@ -60,7 +60,9 @@ public class AdminController {
 
         Integer listSize = personnelList.size();
         Integer iterationSize = listSize/4;
+        Integer iterationSizeTablet = listSize/2;
 
+        model.addAttribute("iterationSizeTablet", iterationSizeTablet);
         model.addAttribute("iterationSize", iterationSize);
         return "admin/home";
     }
