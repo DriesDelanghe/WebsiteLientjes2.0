@@ -136,6 +136,16 @@ values (nextval('REF_SEQ'), 'https://www.flaticon.com/', 'Flaticon', 'Roundicons
         'error page header'),
        (nextval('REF_SEQ'), 'https://www.pexels.com/', 'Pexels', 'Rachel Claire', 'https://www.pexels.com/nl-nl/@rachel-claire', 'header image bolo lientjes');
 
+insert into reference_domain(references_id, domain_id)
+values(1,1),
+(2,1),
+(3,1),
+(3,2),
+(4,1),
+(5,2);
+
+
+
 insert into contact_info(id, info_name, info_content, domain_id, image_id)
 values (nextval('ci_seq'), 'email', 'info@lientjes-coffeebreak.be', 1, 7),
        (nextval('ci_seq'), 'adres', 'Stationstraat 143, 2845 Niel', 1, 6),

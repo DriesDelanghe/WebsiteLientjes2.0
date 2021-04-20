@@ -8,6 +8,7 @@ import be.thomasmore.be.websitelientjes.repositories.MenuSectionRepository;
 import be.thomasmore.be.websitelientjes.repositories.ReferenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,11 +75,15 @@ public class AdminContributersController {
 
     @PostMapping("/updatecontributer/{contributerId}")
     public String updateContributer(@Valid @ModelAttribute("contributer") Reference reference,
-                                    BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+                                    BindingResult bindingResult,
+                                    @RequestParam(name = "domain[]", required = false) List<Integer> domainIds,
+                                    Model model){
+        if(bindingResult.hasErrors() || domainIds == null ||domainIds.isEmpty()){
+            model.addAttribute("isError", true);
             return "admin/contributerdetail";
         }
 
+        reference.setDomain((List<Domain>) domainRepository.findAllById(domainIds));
         referenceRepository.save(reference);
         return "redirect:/admin/contributers";
     }

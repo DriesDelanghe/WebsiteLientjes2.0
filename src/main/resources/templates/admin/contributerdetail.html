@@ -22,7 +22,7 @@
 <div class="container-fluid mt-5 mx-auto px-0 row d-flex justify-content-center">
     <div class="card col-12 col-lg-4 col-xl-3 m-2">
         <form method="post" th:action="@{|/admin/updatecontributer/${contributer.id}|}" th:object="${contributer}">
-            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">data kan niet worden opgeslagen</div>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('*') || (isError !=null && isError)}">data kan niet worden opgeslagen</div>
             <p>
             <div class="card-header">
             <!-- Button trigger remove modal -->
@@ -46,6 +46,15 @@
                 <input type="text" id="siteArtist" class="form-control" th:field="*{artistUrl}">
                 <label for="sitePlatform" class="form-label">Site url platform:</label>
                 <input type="text" id="sitePlatform" class="form-control" th:field="*{siteUrl}">
+                <p class="form-label">voor site:</p>
+                <div class="d-flex justify-content-start">
+                <input type="checkbox" id="domain" class="form-check" name="domain[]" th:value="${domainBistro.id}"
+                       th:checked="${contributer.domain.contains(domainBistro)}"> Lientjes Bistro
+                </div>
+                <div class="d-flex justify-content-start">
+                <input type="checkbox" id="domain" class="form-check" name="domain[]" th:value="${domainBolo.id}"
+                       th:checked="${contributer.domain.contains(domainBolo)}">Lientjes Bolo
+                </div>
             </div>
             <div class="m-3">
                 <input type="submit" value="opslaan" class="btn btn-dark">

@@ -49,6 +49,11 @@ public class BistroGeneralController {
     ProductRepository productRepository;
 
 
+    @ModelAttribute("domain")
+    public Domain getDomain(){
+        return domainRepository.findById(1).get();
+    }
+
     @RequestMapping(value = {"", "/", "/home"}, method = RequestMethod.GET)
     public String home(Model model, HttpServletRequest request) {
         Domain domain = domainRepository.getByDomainName("bistro");
@@ -80,11 +85,11 @@ public class BistroGeneralController {
     }
 
     @GetMapping("/references")
-    public String reference(Model model, HttpServletRequest request) {
+    public String reference(Model model, HttpServletRequest request,
+                            @ModelAttribute("domain") Domain domain) {
 
-        Domain domain = domainRepository.getByDomainName("bistro");
         Page page = pageRepository.getByDomainAndPageName(domain, "references");
-        List<Reference> referenceList = (List<Reference>) referenceRepository.findAll();
+        List<Reference> referenceList = referenceRepository.getByDomain(domain);
 
         model.addAttribute("page", page);
         model.addAttribute("referenceList", referenceList);

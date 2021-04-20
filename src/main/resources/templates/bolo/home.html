@@ -137,18 +137,6 @@
             <a href="" class="btn btn-danger">Naar contact <i class="fas fa-arrow-right"></i></a>
         </div>
     </div>
-
-    <div class="col-12 col-md-6 mx-auto my-3">
-        <div class="w-75 mx-auto">
-            <h4 class="heading-4 text-center text-light">Sociale Media</h4>
-            <div class="d-flex justify-content-center my-2" th:if="${!socialMediaList.isEmpty()}">
-                <a th:each="socialMedia : ${socialMediaList}" th:href="@{${socialMedia.socialMediaUrl}}" class="btn btn-danger mx-2">
-                    <img th:src="@{${socialMedia.image.imageLocation}}" alt="social media image" class="img-fluid">
-                </a>
-            </div>
-            <p th:if="${socialMediaList.isEmpty()}" class="lead text-center text-light">Nog geen sociale media</p>
-        </div>
-    </div>
 </div>
 
 <div class="container-fluid row my-4">
@@ -157,15 +145,28 @@
             <h4 class="heading-4 text-center my-3">Openingsuren</h4>
             <th:block th:each="opening : ${openingsuren}">
                 <div class="d-flex justify-content-between" th:object="${opening}">
-                    <p class="lead" th:text="|*{dag}:|"></p>
-                    <p class="lead"><span
+                    <p class="lead m-1" th:text="|*{dag}:|"></p>
+                    <p class="lead m-1"><span
                             th:text="${opening.openingsuur != null} ? |${#dates.format(opening.openingsuur, 'HH:mm')} - ${#dates.format(opening.sluitingsuur, 'HH:mm')}| : 'gesloten'"></span>
                     </p>
                 </div>
             </th:block>
         </div>
     </div>
-    <div class="col-12 col-md-6 my-4">
+
+    <div class="col-12 col-md-6 mx-auto my-3">
+        <div class="w-75 mx-auto">
+            <h4 class="heading-4 text-center ">Sociale Media</h4>
+            <div class="d-flex justify-content-center my-2" th:if="${!socialMediaList.isEmpty()}">
+                <a th:each="socialMedia : ${socialMediaList}" th:href="@{${socialMedia.socialMediaUrl}}" class="btn btn-danger mx-2">
+                    <img th:src="@{${socialMedia.image.imageLocation}}" alt="social media image" class="img-fluid">
+                </a>
+            </div>
+            <p th:if="${socialMediaList.isEmpty()}" class="lead text-center ">Nog geen sociale media</p>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 my-5 mx-auto">
         <div class="w-75 mx-auto">
             <h4 class="heading-4 text-center">Bezoek ook onze zustersite:</h4>
             <div class="d-flex justify-content-center my-3">
@@ -174,6 +175,8 @@
         </div>
     </div>
 </div>
+
+<footer th:replace="bolo/fragments/footer :: footer"></footer>
 
 </body>
 </html>

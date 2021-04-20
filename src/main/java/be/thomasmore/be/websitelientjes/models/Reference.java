@@ -2,6 +2,7 @@ package be.thomasmore.be.websitelientjes.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 public class Reference {
@@ -17,6 +18,8 @@ public class Reference {
     private String artistUrl;
     @NotBlank
     private String productName;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Domain> domain;
 
     public Reference() {
     }
@@ -67,5 +70,13 @@ public class Reference {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public List<Domain> getDomain() {
+        return domain;
+    }
+
+    public void setDomain(List<Domain> domain) {
+        this.domain = domain;
     }
 }

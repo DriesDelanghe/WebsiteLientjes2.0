@@ -2,6 +2,8 @@ package be.thomasmore.be.websitelientjes.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.Collection;
 
 @Entity
 public class Domain {
@@ -31,5 +33,16 @@ public class Domain {
 
     public void setDomainName(String name) {
         this.domainName = name;
+    }
+
+    @ManyToMany(mappedBy = "domain")
+    private Collection<Reference> references;
+
+    public Collection<Reference> getReferences() {
+        return references;
+    }
+
+    public void setReferences(Collection<Reference> references) {
+        this.references = references;
     }
 }

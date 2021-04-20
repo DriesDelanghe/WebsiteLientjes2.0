@@ -33,6 +33,8 @@
                 </div>
             </div>
             <div class="card-body">
+                <p class="card-text text-muted"
+                   th:text="${contributer.domain.contains(domainBistro)} ? (${contributer.domain.contains(domainBolo)} ? 'algemeen' : 'lientjes Bistro' ) : 'Bolo lientjes'"></p>
                 <p class="card-text">contribution: <span th:text="${contributer.productName}"></span></p>
                 <a th:href="${contributer.artistUrl}" class="card-link" target="_blank">Naar site Artist</a>
                 <a th:href="${contributer.siteUrl}" class="card-link" target="_blank" th:if="${contributer.siteUrl}">Naar site platform</a>
@@ -66,6 +68,13 @@
                 <input type="text" id="siteArtist" class="form-control" th:field="*{artistUrl}">
                 <label for="sitePlatform" class="form-label">Site url platform:</label>
                 <input type="text" id="sitePlatform" class="form-control" th:field="*{siteUrl}">
+                <p class="form-label">voor site:</p>
+                <div class="d-flex justify-content-start">
+                    <input type="checkbox" id="domain" class="form-check" name="domain[]" th:value="${domainBistro.id}"> Lientjes Bistro
+                </div>
+                <div class="d-flex justify-content-start">
+                    <input type="checkbox" id="domain" class="form-check" name="domain[]" th:value="${domainBolo.id}">Lientjes Bolo
+                </div>
             </div>
             <div class="m-3">
                 <input type="submit" value="opslaan" class="btn btn-dark">
