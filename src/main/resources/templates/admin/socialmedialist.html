@@ -67,22 +67,23 @@
 <div class="container-fluid mt-5" th:if="${domain == null || domain == domainBolo}">
     <h4>Sociale media Bolo</h4>
     <hr>
+    <div class="container-fluid alert alert-danger" th:if="${duplicates}">
+        <p>volgorde index kan niet hetzelfde zijn</p>
+    </div>
     <form method="post" th:action="@{/admin/orderchangebolo}" class="row d-flex justify-content-center">
         <div class="card col-12 col-lg-4 col-xl-3" th:each="socialmedia : ${socialMediaBolo}">
             <div class="card-header bg-secondary d-flex justify-content-center">
-                <img th:src="${socialmedia.image.imageLocation}" alt="">
+                <img th:src="${socialmedia.image.imageLocation}" class="inline-logo" alt="">
             </div>
             <div class="card-body">
                 <a th:href="${socialmedia.getSocialMediaUrl()}" target="_blank" class="card-link">Naar social media pagina</a>
                 <br>
-                <form action="">
-                    <label class="form-label" for="order">plaats in links:</label>
-                    <select class="form-select" name="orderReference" id="order">
-                        <option th:each="order : ${socialMediaBolo}" th:value="${orderStat.index +1}"
-                                th:text="${orderStat.index + 1}"
-                                th:selected="${(orderStat.index + 1 ) == socialmedia.orderReference}"></option>
-                    </select>
-                </form>
+                <label class="form-label" for="order">plaats in links:</label>
+                <select class="form-select" name="orderReference" id="order">
+                    <option th:each="order : ${socialMediaBolo}" th:value="${orderStat.index +1}"
+                            th:text="${orderStat.index + 1}"
+                            th:selected="${(orderStat.index + 1 ) == socialmedia.orderReference}"></option>
+                </select>
                 <a th:href="@{|/admin/socialmedia/${socialmedia.id}|}" class="btn btn-dark mt-3">Aanpassen</a>
             </div>
         </div>

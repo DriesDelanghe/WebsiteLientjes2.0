@@ -3,10 +3,8 @@ package be.thomasmore.be.websitelientjes.controllers.bolo;
 import be.thomasmore.be.websitelientjes.models.Domain;
 import be.thomasmore.be.websitelientjes.models.Openingsuur;
 import be.thomasmore.be.websitelientjes.models.Personnel;
-import be.thomasmore.be.websitelientjes.repositories.DomainRepository;
-import be.thomasmore.be.websitelientjes.repositories.OpeningsuurRepository;
-import be.thomasmore.be.websitelientjes.repositories.PageRepository;
-import be.thomasmore.be.websitelientjes.repositories.PersonnelRepository;
+import be.thomasmore.be.websitelientjes.models.SocialMedia;
+import be.thomasmore.be.websitelientjes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +26,8 @@ public class BoloGeneralController {
     PersonnelRepository personnelRepository;
     @Autowired
     OpeningsuurRepository openingsuurRepository;
+    @Autowired
+    SocialMediaRepository socialMediaRepository;
 
     @ModelAttribute("domain")
     public Domain getdomain(){
@@ -42,6 +42,11 @@ public class BoloGeneralController {
     @ModelAttribute("openingsuren")
     public List<Openingsuur> getOpeningsuren(@ModelAttribute("domain") Domain domain){
         return openingsuurRepository.getByDomain(domain);
+    }
+
+    @ModelAttribute("socialMediaList")
+    public List<SocialMedia> getSocialMediaList(@ModelAttribute("domain") Domain domain){
+        return socialMediaRepository.findByDomain(domain);
     }
 
     @GetMapping({"", "/", "/home"})
