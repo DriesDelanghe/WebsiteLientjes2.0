@@ -35,7 +35,6 @@ public class BoloContactController {
 
     @GetMapping("/contact")
     public String contact(){
-
         return "bolo/contact";
     }
 }
