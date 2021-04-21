@@ -10,6 +10,7 @@ public class Icon {
     @Id
     private Integer id;
     private String iconCode;
+    private String referenceName;
 
     public Icon() {
     }
@@ -32,5 +33,13 @@ public class Icon {
 
     public void setIconCode(String iconCode) {
         this.iconCode = iconCode;
+    }
+
+    public String getReferenceName() {
+        return referenceName;
+    }
+
+    public void setReferenceName(String referenceName) {
+        this.referenceName = referenceName;
     }
 }

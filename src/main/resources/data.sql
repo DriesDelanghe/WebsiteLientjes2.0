@@ -115,12 +115,12 @@ values (1, 'Meer dan een koffiehuis', 1, true, 1),
 insert into symbol(id, image_id, reference_name)
 values (1, 3, 'rightArrow');
 
-insert into icon(id, icon_code)
-values (nextval('IC_SEQ'), '<i class="fas fa-map-marker-alt"></i>'),
-       (nextval('IC_SEQ'), '<i class="fas fa-envelope-open-text"></i>'),
-       (nextval('IC_SEQ'), '<i class="fas fa-phone-alt"></i>'),
-       (nextval('IC_SEQ'), '<i class="fab fa-facebook-f"></i>'),
-       (nextval('IC_SEQ'), '<i class="fab fa-instagram"></i>');
+insert into icon(id, icon_code, reference_name)
+values (nextval('IC_SEQ'), '<i class="fas fa-map-marker-alt"></i>', 'contactInfo'),
+       (nextval('IC_SEQ'), '<i class="fas fa-envelope-open-text"></i>', 'contactInfo'),
+       (nextval('IC_SEQ'), '<i class="fas fa-phone-alt"></i>', 'contactInfo'),
+       (nextval('IC_SEQ'), '<i class="fab fa-facebook-f"></i>', 'socialMedia'),
+       (nextval('IC_SEQ'), '<i class="fab fa-instagram"></i>', 'socialMedia');
 
 insert into social_media(id, social_media_url, order_reference, domain_id, icon_id)
 values (nextval('sm_seq'), 'https://www.facebook.com/Lientjes-Bistro-151107858896317/', 1, 1, 4),

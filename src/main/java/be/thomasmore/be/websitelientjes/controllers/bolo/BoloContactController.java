@@ -1,17 +1,14 @@
 package be.thomasmore.be.websitelientjes.controllers.bolo;
 
-import be.thomasmore.be.websitelientjes.models.ContactInfo;
-import be.thomasmore.be.websitelientjes.models.Domain;
-import be.thomasmore.be.websitelientjes.models.SocialMedia;
-import be.thomasmore.be.websitelientjes.repositories.ContactInfoRepository;
-import be.thomasmore.be.websitelientjes.repositories.DomainRepository;
-import be.thomasmore.be.websitelientjes.repositories.SocialMediaRepository;
+import be.thomasmore.be.websitelientjes.models.*;
+import be.thomasmore.be.websitelientjes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @RequestMapping("/bolo")
@@ -24,6 +21,10 @@ public class BoloContactController {
     ContactInfoRepository contactInfoRepository;
     @Autowired
     DomainRepository domainRepository;
+    @Autowired
+    ContactFormRepository contactFormRepository;
+    @Autowired
+    ContactTypeRepository contactTypeRepository;
 
     @ModelAttribute("domain")
     public Domain getDomain(){
@@ -35,8 +36,37 @@ public class BoloContactController {
         return contactInfoRepository.getByDomain(domain);
     }
 
+    @ModelAttribute("socialMediaList")
+    public List<SocialMedia> getSocialMediaList(@ModelAttribute("domain") Domain domain){
+        return socialMediaRepository.findByDomain(domain);
+    }
+
+    @ModelAttribute("contactForm")
+    public ContactForm newContactForm(){
+        return new ContactForm();
+    }
+
+    @ModelAttribute("contactTypeList")
+    public List<ContactType> getContactTypeList(@ModelAttribute("domain") Domain domain){
+        return contactTypeRepository.getByDomain(domain);
+    }
+
     @GetMapping("/contact")
     public String contact(){
         return "bolo/contact";
+    }
+
+    @PostMapping("/contactform")
+    public String contactformPost(@Valid @ModelAttribute("contactForm") ContactForm contactForm,
+                                  BindingResult bindingResult,
+                                  @RequestParam Integer contactTypeId){
+        if(bindingResult.hasErrors()){
+            return "bolo/contact";
+        }
+
+        contactForm.setContactType(new ContactType(contactTypeId));
+        contactForm.setTimestamp(new Date());
+        contactFormRepository.save(contactForm);
+        return "redirect:/bolo/home";
     }
 }

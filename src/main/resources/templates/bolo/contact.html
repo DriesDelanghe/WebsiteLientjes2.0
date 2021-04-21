@@ -33,13 +33,64 @@
         <div class="row p-4">
             <h5 class="display-6 text-center">Contact Gegevens</h5>
             <th:block th:each="contact : ${contactInfoList}">
-            <p class="lead text-center">
-                <span th:utext="${contact.icon.iconCode}"></span>
-                <span th:text="${contact.infoName}"></span>: <span th:text="${contact.infoContent}"></span>
-            </p>
+                <p class="lead text-center">
+                    <span th:utext="${contact.icon.iconCode}"></span>
+                    <span th:text="${contact.infoName}"></span>: <span th:text="${contact.infoContent}"></span>
+                </p>
             </th:block>
         </div>
     </div>
+
+    <div class="col-lg-5 col-md-6 col-12 me-auto p-4 mb-5">
+        <div class="row p-4">
+            <h5 class="display-6 text-center">sociale media</h5>
+            <div class="d-flex justify-content-center my-2" th:if="${!socialMediaList.isEmpty()}">
+                <a th:each="socialMedia : ${socialMediaList}" th:href="@{${socialMedia.socialMediaUrl}}"
+                   class="btn btn-danger mx-2">
+                    <span th:utext="${socialMedia.icon.iconCode}" class="h4"></span>
+                </a>
+            </div>
+            <p th:if="${socialMediaList.isEmpty()}" class="lead text-center ">Nog geen sociale media</p>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="container-fluid m-0 bg-dark py-4">
+    <h4 class="display-4 text-light text-center">Contacteer ons</h4>
+</div>
+
+<div class="container-fluid mb-5">
+    <form method="post" th:action="@{|/bolo/contactform|}" th:object="${contactForm}">
+        <div class="col-10 col-md-6 mx-auto">
+            <div th:if="${#fields.hasErrors('*')}" class="alert-danger alert">
+                <p class="lead">Alle velden moeten ingevuld zijn</p>
+            </div>
+            <fieldset class="mx-auto my-4">
+                <legend>algemene Info</legend>
+                <label for="name" class="form-label">Je naam:</label>
+                <input type="text" id="name" class="form-control" th:field="*{name}" th:errorclass="|alert-danger|">
+                <label for="email" class="form-label">Je email:</label>
+                <input type="text" id="email" class="form-control" th:field="*{email}" th:errorclass="|alert-danger|">
+                <label for="question" class="form-label">Soort vraag:</label>
+                <select id="question" class="form-select" name="contactTypeId">
+                    <option th:each="contactType : ${contactTypeList}" th:value="${contactType.id}"
+                            th:text="${contactType.questionType}"></option>
+                </select>
+            </fieldset>
+            <fieldset class="mx-auto my-4">
+                <legend>Je vraag</legend>
+                <label for="subject" class="form-label">Onderwerp:</label>
+                <input type="text" id="subject" class="form-control" th:field="*{onderwerp}"
+                       th:errorclass="|alert-danger|">
+                <label for="vraag" class="form-label">Je vraag:</label>
+                <textarea id="vraag" class="form-control" rows="6" th:field="*{question}"
+                          th:errorclass="|alert-danger|"></textarea>
+            </fieldset>
+
+            <input type="submit" class="btn btn-dark" value="versturen">
+        </div>
+    </form>
 </div>
 
 <footer th:replace="bolo/fragments/footer :: footer"></footer>

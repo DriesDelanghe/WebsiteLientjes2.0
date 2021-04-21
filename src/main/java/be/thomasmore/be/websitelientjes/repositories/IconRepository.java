@@ -10,9 +10,9 @@ import java.util.List;
 @Repository
 public interface IconRepository extends CrudRepository<Icon, Integer> {
 
-    @Query("select i from Icon i where i in (select sm.icon from SocialMedia sm)")
+    @Query("select i from Icon i where i.referenceName = 'socialMedia'")
     List<Icon> getSocialMediaIcons();
 
-    @Query("select i from Icon i where i in (select ic.icon from ContactInfo ic)")
+    @Query("select i from Icon i where i.referenceName = 'contactInfo' ")
     List<Icon> getInfoContentIcons();
 }
