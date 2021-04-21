@@ -16,8 +16,8 @@ public class ContactInfo {
     private String infoContent;
     @ManyToOne(fetch = FetchType.LAZY)
     private Domain domain;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Image image;
+    @ManyToOne
+    private Icon icon;
 
     public ContactInfo() {
     }
@@ -54,11 +54,11 @@ public class ContactInfo {
         this.domain = domain;
     }
 
-    public Image getImage() {
-        return image;
+    public Icon getIcon() {
+        return icon;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setIcon(Icon icon) {
+        this.icon = icon;
     }
 }

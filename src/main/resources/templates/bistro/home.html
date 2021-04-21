@@ -13,6 +13,8 @@
     <link rel="stylesheet" th:href="@{|/css/stylePrefix.css|}">
 
     <title>Lientjes Bistro - Home</title>
+
+    <script src="https://kit.fontawesome.com/6e9f44a530.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -128,7 +130,7 @@
             <div class="button-container">
                 <th:block th:each="socialMedia : ${socialMediaList}">
                     <a th:href="${socialMedia.getSocialMediaUrl()}" class="social-media-button" target="_blank">
-                        <img th:src="${socialMedia.getImage().getImageLocation()}" alt="">
+                        <span th:utext="${socialMedia.icon.iconCode}" class="icon-markup"></span>
                     </a>
                 </th:block>
             </div>

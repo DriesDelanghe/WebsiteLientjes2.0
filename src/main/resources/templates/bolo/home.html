@@ -159,7 +159,7 @@
             <h4 class="heading-4 text-center ">Sociale Media</h4>
             <div class="d-flex justify-content-center my-2" th:if="${!socialMediaList.isEmpty()}">
                 <a th:each="socialMedia : ${socialMediaList}" th:href="@{${socialMedia.socialMediaUrl}}" class="btn btn-danger mx-2">
-                    <img th:src="@{${socialMedia.image.imageLocation}}" alt="social media image" class="img-fluid">
+                    <span th:utext="${socialMedia.icon.iconCode}" class="h4"></span>
                 </a>
             </div>
             <p th:if="${socialMediaList.isEmpty()}" class="lead text-center ">Nog geen sociale media</p>

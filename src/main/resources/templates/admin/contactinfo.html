@@ -8,13 +8,17 @@
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/admin.css">
     <link rel="stylesheet" th:href="@{|/css/customCheckBoxStyle.css|}">
+    <link rel="stylesheet" th:href="@{|/css/customRadioStyle.css|}">
 
-    <title th:if="${contactInfo}" th:text="|admin - contact info - ${contactInfo.infoName}|">admin - contact info</title>
+    <title th:if="${contactInfo}" th:text="|admin - contact info - ${contactInfo.infoName}|">admin - contact
+        info</title>
     <title th:unless="${contactInfo}">Admin - contact info</title>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
             crossorigin="anonymous"></script>
+
+    <script src="https://kit.fontawesome.com/6e9f44a530.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -32,19 +36,20 @@
     </div>
 
     <div class="row w-100" th:object="${contactInfo}">
-        <div class="col-12 alert-danger" th:if="${#fields.hasErrors('*')}" >
+        <div class="col-12 alert-danger" th:if="${#fields.hasErrors('*')}">
             <p>ERROR - data kan niet opgeslagen worden</p>
         </div>
         <div class="card col-8 col-lg-6 mx-auto p-0 mt-5">
             <div class="card-header bg-secondary d-flex flex-lg-row flex-column">
-                <img th:src="${contactInfo.image.imageLocation}" class="mx-auto inline-logo align-self-center" alt="">
+                <h4></h4>
+                <span th:utext="${contactInfo.icon.iconCode}" class="text-light h4 mx-auto align-self-center"></span>
                 <!-- Button trigger remove modal -->
                 <button type="button" class="btn btn-dark mt-2 mt-lg-0" data-bs-toggle="modal"
                         data-bs-target="#imageModal">
                     afbeelding wijzigen
                 </button>
             </div>
-            <div class="card-body" >
+            <div class="card-body">
                 <div class="container-fluid p-0 d-flex justify-content-end">
                     <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
                             data-bs-target="#removeModal">
@@ -53,9 +58,11 @@
                 </div>
                 <form method="post" th:action="@{|/admin/changecontactinfo/${contactInfo.id}|}">
                     <label for="name" class="form-label">Naam:</label>
-                    <input class="form-control" type="text" id="name" th:field="*{infoName}" th:errorclass="alert-danger">
+                    <input class="form-control" type="text" id="name" th:field="*{infoName}"
+                           th:errorclass="alert-danger">
                     <label for="content" class="form-label">Inhoud:</label>
-                    <input class="form-control" type="text" id="content" th:field="*{infoContent}" th:errorclass="alert-danger">
+                    <input class="form-control" type="text" id="content" th:field="*{infoContent}"
+                           th:errorclass="alert-danger">
                     <input type="submit" value="opslagen" class="btn btn-dark m-3">
                 </form>
             </div>
@@ -71,36 +78,25 @@
                     <h5 class="modal-title" id="imageModalLabel">Foto wijzigen</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <h4 class="text-center">Nieuwe foto selecteren</h4>
-                    <form method="post" th:action="@{|/admin/contactinfo/newimage/${contactInfo.id}|}"
-                          enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="formFile" class="form-label">Upload nieuwe foto</label>
-                            <input class="form-control" type="file" id="formFile" name="newImage">
-                            <p class="text-muted ms-3">File niet groter dan 2Mb en het fileformaat .svg hebben</p>
-                            <input type="submit" value="uploaden" class="btn btn-dark m-2">
-                        </div>
-                    </form>
-                    <hr class="my-2">
-                    <h4 class="text-center mt-4">bestaande foto selecteren</h4>
-                    <form method="post" th:action="@{|/admin/contactinfo/imagechange/${contactInfo.id}|}">
+                <form method="post" th:action="@{|/admin/contactinfo/iconchange/${contactInfo.id}|}">
+                    <div class="modal-body">
+                        <h4 class="text-center mt-4">icoon selecteren</h4>
                         <div class="row">
-                            <div class="col-lg-3 col-md-6 col-8 d-flex flex-row mx-auto my-3" th:each="image : ${contactInfoImageList}"
-                                 th:object="${image}">
-                                <label>
-                                    <input type="radio" id="btnLoad" th:value="*{id}" name="imageId"
-                                           th:checked="${contactInfo.image == image}">
-                                    <img th:src="*{imageLocation}" class="p-2 bg-secondary w-50">
+                            <div class="col-lg-3 col-md-6 col-8 d-flex flex-row mx-auto my-3"
+                                 th:each="icon : ${contactInfoIcons}"
+                                 th:object="${icon}">
+                                <input type="radio" th:id="|icon${icon.id}|" th:value="*{id}" name="iconId"
+                                       th:checked="${contactInfo.icon == icon}">
+                                <label class="h2" th:for="|icon${icon.id}|" th:utext="*{iconCode}">
                                 </label>
                             </div>
                         </div>
-                        <input type="submit" value="opslagen" class="btn btn-dark m-2">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" value="opslagen" class="btn btn-success m-2">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

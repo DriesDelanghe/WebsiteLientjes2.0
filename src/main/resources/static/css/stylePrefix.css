@@ -612,7 +612,7 @@ footer a:hover {
 
 .social-media-button {
     margin: 1rem 2rem;
-    padding: 0.5rem 0.7rem;
+    padding: 0.2rem 0.2rem;
     border: #eeeeee solid 1px;
     border-radius: 1rem;
     display: -webkit-box;
@@ -625,7 +625,7 @@ footer a:hover {
     -webkit-transition: all 0.2s ease-out;
     -o-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
-
+    text-decoration: none;
 }
 
 .social-media-button:hover {
@@ -688,6 +688,16 @@ footer a:hover {
     height: 1.2rem;
     width: auto;
     padding: 0;
+}
+
+.icon-markup{
+    height: 2rem;
+    width: 2rem;
+    color: #eeeeee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 
 /*     personel images

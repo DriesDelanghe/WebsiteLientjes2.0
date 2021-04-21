@@ -2,10 +2,7 @@ package be.thomasmore.be.websitelientjes.controllers.admin;
 
 
 import be.thomasmore.be.websitelientjes.models.*;
-import be.thomasmore.be.websitelientjes.repositories.DomainRepository;
-import be.thomasmore.be.websitelientjes.repositories.ImageRepository;
-import be.thomasmore.be.websitelientjes.repositories.MenuSectionRepository;
-import be.thomasmore.be.websitelientjes.repositories.SocialMediaRepository;
+import be.thomasmore.be.websitelientjes.repositories.*;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +32,8 @@ public class AdminSocialMediaController {
     @Autowired
     SocialMediaRepository socialMediaRepository;
     @Autowired
-    ImageRepository imageRepository;
+    IconRepository iconRepository;
+
     @Value("${upload.images.dir}")
     private String uploadImagesDirString;
 
@@ -93,15 +91,16 @@ public class AdminSocialMediaController {
         return null;
     }
 
-    @ModelAttribute("images")
-    public List<Image> getImages() {
-        return imageRepository.getAllSocialMediaImages();
-    }
-
     @ModelAttribute("newSocialMedia")
     public SocialMedia newSocialMediaAttribute() {
         return new SocialMedia();
     }
+
+    @ModelAttribute("socialMediaIcons")
+    public List<Icon> getSocialMediaIcons(){
+        return iconRepository.getSocialMediaIcons();
+    }
+
 
     @GetMapping({"/socialmedialijst", "/socialmedialijst/{domainId}"})
     public String getSocialMediaLijst(Model model) {
@@ -111,19 +110,6 @@ public class AdminSocialMediaController {
     @GetMapping("/socialmedia/{socialmediaId}")
     public String getSocialMediaPage(Model model, @ModelAttribute("socialMedia") SocialMedia socialMedia) {
         return "admin/socialmedia";
-    }
-
-    @PostMapping("/socialmedia/imagechange/{socialmediaId}")
-    public String changeImageSocialMedia(@ModelAttribute("socialMedia") SocialMedia socialMedia,
-                                         @RequestParam Integer imageId,
-                                         @PathVariable Integer socialmediaId) {
-        if (imageId != null && socialMedia.getImage().getId() != imageId) {
-            socialMedia.setImage(new Image(imageId));
-        }
-
-        socialMediaRepository.save(socialMedia);
-
-        return "redirect:/admin/socialmedia/" + socialmediaId;
     }
 
     @PostMapping("/orderchangebistro")
@@ -190,8 +176,8 @@ public class AdminSocialMediaController {
             return "admin/socialmedialist";
         }
         socialMedia.setDomain(new Domain(domainId));
-        List<Image> imageList = imageRepository.getAllSocialMediaImages();
-        socialMedia.setImage(imageList.get(0));
+        List<Icon> iconList = iconRepository.getSocialMediaIcons();
+        socialMedia.setIcon(iconList.get(0));
         if (domainId == 1) {
             socialMedia.setOrderReference(socialMediaBistro.size() + 1);
         }
@@ -204,95 +190,6 @@ public class AdminSocialMediaController {
         return "redirect:/admin/socialmedialijst";
     }
 
-    @PostMapping("/socialmedia/newimage/{socialmediaId}")
-    public String newImagePersonnel(@ModelAttribute("socialMedia") SocialMedia socialMedia,
-                                    @PathVariable Integer socialmediaId,
-                                    @NotNull @RequestParam MultipartFile newImage,
-                                    Model model) throws Exception {
-
-        try {
-            String newImageName = newImage.getOriginalFilename();
-            String path = uploadImagesDirString + "/images/socialmedia";
-            logger.info(newImageName);
-
-            String[] nameparts = newImageName.split("\\.");
-
-            logger.info(nameparts[nameparts.length - 1]);
-
-            if (!nameparts[nameparts.length - 1].toLowerCase(Locale.ROOT).equals("svg")) {
-                model.addAttribute("falseFileFormat", true);
-                return "admin/socialmedia";
-            }
-
-            if (!newImageName.isEmpty()) {
-                File imageFileDir = new File(path);
-                if (!imageFileDir.exists()) imageFileDir.mkdirs();
-                File imageFile = new File(path, newImageName);
-                int i = 1;
-                while(imageFile.exists()){
-                    newImageName = newImageName.replaceAll("\\.svg", "").replaceAll("[\\d]+", "").replaceAll("\\(", "").replaceAll("\\)", "");
-                    newImageName += "" + i;
-                    newImageName += ".svg";
-                    imageFile = new File(path, newImageName);
-                    i++;
-                }
-                newImage.transferTo(imageFile);
-                logger.info(imageFile.getPath());
-
-                if (imageFile.canRead() && imageFile.canWrite()) {
-                    logger.info("this crazy idea might just work");
-
-                    ArrayList<String> dataParts = new ArrayList<>();
-                    Scanner myScanner = new Scanner(imageFile);
-                    while (myScanner.hasNext()) {
-                        String data = myScanner.next();
-                        dataParts.addAll(Arrays.asList(data.split("\\s")));
-                    }
-
-                    String newData = "";
-                    i = 0;
-                    for (String s : dataParts) {
-                        if (s.contains("fill")) {
-                            s = "";
-                        }
-
-                        if (s.equals("<svg")) {
-                            s += " fill=\"#eee\"";
-                        }
-                        logger.info(String.format("datapart %d -- %s", i, s));
-                        i++;
-                        if (!s.isBlank()) {
-                            newData += s + " ";
-                        }
-                    }
-                    logger.info(newData);
-                    FileWriter myWriter = new FileWriter(imageFile.getAbsolutePath(), false);
-                    myWriter.append(newData);
-                    myWriter.close();
-                }
-
-                Optional<Image> imageOptional = imageRepository.getByImageLocation(imageFile.getPath());
-                if (!imageOptional.isPresent()) {
-                    Image image = new Image("/images/socialmedia/" + newImageName);
-                    socialMedia.setImage(image);
-                    imageRepository.save(image);
-                } else {
-                    socialMedia.setImage(imageOptional.get());
-                }
-
-            }
-        } catch (FileSizeLimitExceededException fileSizeLimitExceededException) {
-            model.addAttribute("FileSizeException", true);
-            return "admin/socialmedia";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "admin/socialmedia";
-        }
-
-        socialMediaRepository.save(socialMedia);
-        return "redirect:/admin/socialmedia/" + socialmediaId;
-    }
-
     @PostMapping("/removesocialmedia/{socialmediaId}")
     public String removeSocialMediaPost(@ModelAttribute("socialMedia") SocialMedia socialMedia,
                                         @PathVariable Integer socialmediaId){
@@ -300,6 +197,15 @@ public class AdminSocialMediaController {
         socialMediaRepository.delete(socialMedia);
 
         return "redirect:/admin/socialmedialijst";
+    }
+
+    @PostMapping("/socialmedia/iconchange/{socialmediaId}")
+    public String updateIconSocialMedia(@ModelAttribute("socialMedia") SocialMedia socialMedia,
+                                        @PathVariable Integer socialmediaId,
+                                        @RequestParam Integer iconId){
+        socialMedia.setIcon(new Icon(iconId));
+        socialMediaRepository.save(socialMedia);
+        return "redirect:/admin/socialmedia/" + socialMedia.getId();
     }
 
 }

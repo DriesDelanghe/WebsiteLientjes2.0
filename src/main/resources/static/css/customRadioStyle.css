@@ -16,3 +16,15 @@
     outline: 2px solid #4585cd;
     box-shadow: 0 0 15px 5px #72a8e7;
 }
+
+/* IMAGE STYLES */
+[type=radio] + label {
+    cursor: pointer;
+}
+
+/* CHECKED STYLES */
+[type=radio]:checked + label {
+    background-color: rgba(114, 168, 231, 0.6);
+    border-radius: 50%;
+    box-shadow: 0 0 20px 10px rgba(114, 168, 231, 0.8);
+}

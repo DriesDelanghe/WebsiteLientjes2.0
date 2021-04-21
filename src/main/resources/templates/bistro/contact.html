@@ -14,6 +14,8 @@
 
     <title>Lientjes Bistro - contact</title>
 
+    <script src="https://kit.fontawesome.com/6e9f44a530.js" crossorigin="anonymous"></script>
+
     <script>
         function removeErrorClass(element) {
             element.classList.remove("form-error-field")
@@ -32,7 +34,7 @@
         <div class="contact-info-section">
             <h1 th:text="${headerText.get(0).getTextContent()}">header placeholder</h1>
             <div th:each="contactInfo : ${contactInfoList}" class="contact-line">
-                <img th:class="inline-logo" th:src="${contactInfo.getImage().getImageLocation()}">
+                <span th:utext="${contactInfo.icon.iconCode}" class="inline-logo"></span>
                 <div class="contact-info-text">
                     <p><span th:text="${contactInfo.getInfoName()}">name placeholder</span>:</p>
                     <p th:text="${contactInfo.getInfoContent()}">content placeholder </p>
@@ -44,7 +46,7 @@
             <div class="button-container">
                 <th:block th:each="socialMedia : ${socialMediaList}">
                     <a th:href="${socialMedia.getSocialMediaUrl()}" class="social-media-button" target="_blank">
-                        <img th:src="${socialMedia.getImage().getImageLocation()}" alt="">
+                        <span th:utext="${socialMedia.icon.iconCode}" class="inline-logo icon-markup"></span>
                     </a>
                 </th:block>
             </div>

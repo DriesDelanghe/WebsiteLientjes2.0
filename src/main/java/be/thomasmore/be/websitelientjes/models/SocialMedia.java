@@ -15,8 +15,8 @@ public class SocialMedia implements Comparable<SocialMedia> {
     @NotBlank
     @URL
     private String socialMediaUrl;
-    @OneToOne(fetch = FetchType.LAZY)
-    private Image image;
+    @ManyToOne
+    private Icon icon;
     private Integer orderReference;
     @ManyToOne(fetch = FetchType.LAZY)
     private Domain domain;
@@ -40,14 +40,6 @@ public class SocialMedia implements Comparable<SocialMedia> {
         this.socialMediaUrl = socialMediaUrl;
     }
 
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
     public Integer getOrderReference() {
         return orderReference;
     }
@@ -62,6 +54,14 @@ public class SocialMedia implements Comparable<SocialMedia> {
 
     public void setDomain(Domain domain) {
         this.domain = domain;
+    }
+
+    public Icon getIcon() {
+        return icon;
+    }
+
+    public void setIcon(Icon icon) {
+        this.icon = icon;
     }
 
     @Override
