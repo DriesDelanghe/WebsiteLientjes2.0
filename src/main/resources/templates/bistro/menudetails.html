@@ -61,7 +61,7 @@
                     <p class="filter-text-hidden" id="hidden-text"> show filters </p>
                     <p class="filter-text-shown hide" id="shown-text"> hide filters </p>
                 </div>
-                <form class="menu-filters hide" method="post" id="filter-field">
+                <form class="menu-filters hide" method="post" th:action="@{|/bistro/menudetails/${menuSection.id}|}" id="filter-field">
                     <div class="filter-block">
                         <h3>Zoeken op naam:</h3>
                         <input type="text" list="productNames" name="productSearch" th:value="${productSearch}">
@@ -87,7 +87,7 @@
                             <div class="input-line">
                                 <input type="checkbox" th:id="${category.id}" name="categoryFilter[]"
                                        th:value="${category.id}" th:text="${category.name}"
-                                       th:checked="${filteredCategoryList != null} ? ${filteredCategoryList.contains(category)} : 0==1">
+                                       th:checked="${filteredCategoryList != null} ? ${filteredCategoryList.contains(category)}">
                             </div>
                         </div>
                     </div>
@@ -109,6 +109,7 @@
                     th:if="${productListFiltered != null} ? (${productListFiltered.containsAll(productList)} ? 1==1 : ${!productListFiltered.containsAll(subSection.products)}) : 1==1">
                 <div class="menu-section">
                     <h2 th:text="${subSection.name}"> placeholder</h2>
+                    <p th:text="${subSection.extraInfo}" class="product-extra-info">placeholder</p>
                     <div class="product-line" th:each="product : ${subSection.getProducts()}"
                          th:if="${productListFiltered != null} ? (${productListFiltered.containsAll(productList)} ? 1==1 : ${!productListFiltered.contains(product)}) : 1==1">
                         <p class="product-name" th:text="${product.name}"> placeholder</p>
@@ -133,6 +134,7 @@
                             th:if="${productListFiltered != null} ? (${productListFiltered.containsAll(productList)} ? 1==1 : ${!productListFiltered.containsAll(subSection.products)}) : 1==1">
                         <div class="menu-section">
                             <h2 th:text="${subSection.name}">name sub placeholder</h2>
+                            <p th:text="${subSection.extraInfo}" class="product-extra-info">placeholder</p>
                             <div class="product-line" th:each="product : ${subSection.getProducts()}"
                                  th:if="${productListFiltered != null} ? (${productListFiltered.containsAll(productList)} ? 1==1 : ${!productListFiltered.contains(product)}) : 1==1">
                                 <p class="product-name" th:text="${product.name}"> product name placeholder</p>

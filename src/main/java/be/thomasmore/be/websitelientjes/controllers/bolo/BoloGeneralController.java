@@ -58,6 +58,7 @@ public class BoloGeneralController {
                        @ModelAttribute("domain") Domain domain,
                        @ModelAttribute("personnelList") List<Personnel> personnelList){
 
+        model.addAttribute("pageName", "home");
         Integer listSize = personnelList.size();
         Integer iterationSize = listSize/2;
 
@@ -68,6 +69,7 @@ public class BoloGeneralController {
 
     @GetMapping("/references")
     public String reference(Model model){
+        model.addAttribute("pageName", "reference");
         return "bolo/references";
     }
 }

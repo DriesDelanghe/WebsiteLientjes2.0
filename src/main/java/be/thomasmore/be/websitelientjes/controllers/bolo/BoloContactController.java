@@ -51,6 +51,11 @@ public class BoloContactController {
         return contactTypeRepository.getByDomain(domain);
     }
 
+    @ModelAttribute("pageName")
+    public String getPagename(){
+        return "contact";
+    }
+
     @GetMapping("/contact")
     public String contact(){
         return "bolo/contact";

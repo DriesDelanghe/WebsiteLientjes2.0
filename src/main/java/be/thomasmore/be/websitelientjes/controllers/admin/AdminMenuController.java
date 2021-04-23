@@ -41,6 +41,7 @@ public class AdminMenuController {
     AllergieRepository allergieRepository;
     @Autowired
     CategoryRepository categoryRepository;
+
     @Value("${upload.images.dir}")
     private String uploadImagesDirString;
 
@@ -117,6 +118,7 @@ public class AdminMenuController {
         logger.info(String.format("image location new section -- '%s'", newSection.getImage().getImageLocation()));
         return newSection;
     }
+
 
     @GetMapping({"/menulijst", "/menulijst/{id}"})
     public String productLijst(Model model, @PathVariable(required = false) Integer id) {
@@ -289,13 +291,15 @@ public class AdminMenuController {
     @PostMapping("/menu/subsectionnamechange/{menuSectionId}/{subSectionId}")
     public String editSubSection(@PathVariable Integer menuSectionId,
                                  @PathVariable Integer subSectionId,
-                                 @RequestParam String subSectionName) {
+                                 @RequestParam String subSectionName,
+                                 @RequestParam(required = false) String extraInfo) {
 
         MenuSubSection menuSubSection = menuSubSectionRepository.findById(subSectionId).get();
 
-        if (menuSubSection.getName() != subSectionName) {
+        if (!menuSubSection.getName().equals(subSectionName)) {
             menuSubSection.setName(subSectionName);
         }
+        menuSubSection.setExtraInfo(extraInfo);
 
         menuSubSectionRepository.save(menuSubSection);
 
@@ -309,7 +313,7 @@ public class AdminMenuController {
                                  @PathVariable Integer subSectionId) {
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/admin/menusectie/" + "/" + subSectionId + "#" + subSectionId;
+            return "redirect:/admin/menusectie/" + subSectionId + "#" + subSectionId;
         }
 
         MenuSubSection menuSubSection = new MenuSubSection(subSectionId);
@@ -318,7 +322,7 @@ public class AdminMenuController {
 
         productRepository.save(product);
 
-        return "redirect:/admin/menusectie/" + "/" + menuSectionId + "#" + subSectionId;
+        return "redirect:/admin/menusectie/" + menuSectionId + "#" + subSectionId;
     }
 
     @PostMapping("/newsubsection/{menuSectionId}")

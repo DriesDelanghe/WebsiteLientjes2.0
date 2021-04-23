@@ -17,13 +17,13 @@
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item mx-3">
-            <a class="nav-link active" aria-current="page" th:href="@{|/bolo/home|}">Home</a>
+            <a class="nav-link" th:classappend="${pageName.equals('home')} ? 'active'" th:href="@{|/bolo/home|}">Home</a>
           </li>
           <li class="nav-item mx-3">
-            <a class="nav-link" th:href="@{|#|}">Menu</a>
+            <a class="nav-link" th:classappend="${pageName.equals('menu')} ? 'active'" th:href="@{|/bolo/menuoverzicht|}">Menu</a>
           </li>
           <li class="nav-item mx-3">
-            <a class="nav-link" th:href="@{|/bolo/contact|}">Contact</a>
+            <a class="nav-link" th:classappend="${pageName.equals('contact')} ? 'active'" th:href="@{|/bolo/contact|}">Contact</a>
           </li>
         </ul>
       </div>

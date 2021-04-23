@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,8 @@ public class BistroMenuDetailsController {
     MenuSubSectionRepository menuSubSectionRepository;
     @Autowired
     SymbolRepository symbolRepository;
+    @Autowired
+    PageRepository pageRepository;
 
     Logger logger = LoggerFactory.getLogger(BistroMenuDetailsController.class);
 
@@ -50,8 +53,8 @@ public class BistroMenuDetailsController {
     }
 
     @ModelAttribute("menuSection")
-    public MenuSection getMenuSection(@PathVariable(required = false) Integer id) {
-        Optional<MenuSection> menuSectionOptional = menuSectionRepository.findById(id);
+    public MenuSection getMenuSection(@PathVariable(required = false) Integer menuSectionId) {
+        Optional<MenuSection> menuSectionOptional = menuSectionRepository.findById(menuSectionId);
         if (menuSectionOptional.isPresent()) {
             MenuSection menuSection = menuSectionOptional.get();
 
@@ -60,6 +63,11 @@ public class BistroMenuDetailsController {
         return null;
     }
 
+
+    @ModelAttribute("page")
+    public Page getPage(){
+        return pageRepository.findById(5).get();
+    }
 
     @ModelAttribute("menuSectionList")
     public List<MenuSection> getMenuSectionList(Model model,
@@ -119,8 +127,9 @@ public class BistroMenuDetailsController {
     }
 
 
-    @GetMapping({"/menudetails", "/menudetails/{id}"})
-    public String menudetails(Model model, @ModelAttribute("categoryList") List<ProductCategory> categoryList) {
+    @GetMapping({"/menudetails", "/menudetails/{menuSectionId}"})
+    public String menudetails(Model model, @ModelAttribute("categoryList") List<ProductCategory> categoryList,
+                              @PathVariable(required = false) Integer menuSectionId) {
 
         model.addAttribute("productSearch", null);
         model.addAttribute("allergieFilters", null);
@@ -131,16 +140,20 @@ public class BistroMenuDetailsController {
     }
 
 
-    @PostMapping({"/menudetails", "/menudetails/{id}"})
+    @PostMapping({"/menudetails", "/menudetails/{menuSectionId}"})
     public String menudetailspost(Model model,
                                   @RequestParam(required = false) String productSearch,
                                   @RequestParam(required = false, name = "allergieFilter[]") List<Integer> allergieFilters,
                                   @RequestParam(required = false, name = "categoryFilter[]") List<Integer> categoryFilter,
+                                  @PathVariable(required = false) Integer menuSectionId,
                                   @ModelAttribute("categoryList") List<ProductCategory> categoryList,
                                   @ModelAttribute("menuSection") MenuSection menuSection) {
 
         model.addAttribute("productSearch", productSearch);
         model.addAttribute("allergieFilters", allergieFilters);
+        model.addAttribute("categoryList", categoryList);
+
+        categoryList.forEach(productCategory -> logger.info(String.format("\t\t!!category -- %s", productCategory.getName())));
 
         List<ProductCategory> filteredCategoryList = null;
 
@@ -153,10 +166,16 @@ public class BistroMenuDetailsController {
             logger.info("No shown category");
         }
 
-        List<ProductCategory> missingCategories = categoryList;
-        if (filteredCategoryList != null) {
-            missingCategories.removeAll(filteredCategoryList);
+        ArrayList<ProductCategory> missingCategories = new ArrayList<>();
+
+        for(ProductCategory productCategory : categoryList){
+            if(!filteredCategoryList.contains(productCategory)){
+                missingCategories.add(productCategory);
+            }
         }
+        
+
+        categoryList.forEach(productCategory -> logger.info(String.format("\t\t!!category -- %s", productCategory.getName())));
 
         if (!missingCategories.isEmpty()) {
             missingCategories.forEach(category -> logger.info(String.format("Hiding category -- %s", category.getName())));
@@ -199,6 +218,9 @@ public class BistroMenuDetailsController {
         }
 
         model.addAttribute("filteredCategoryList", filteredCategoryList);
+
+
+        logger.info("menuSection: " + menuSection.getName());
 
         return "bistro/menudetails";
     }

@@ -129,10 +129,12 @@
                         th:aria-controls="|flush-collapse${subSectionStat.index}|">
                     <form method="post" class="w-100"
                           th:action="@{|/admin/menu/subsectionnamechange/${menuSection.id}/${subSection.id}|}">
-                        <div class="container d-flex flex-column flex-lg-row mx-auto w-75 justify-content-start justify-content-lg-between align-items-start align-items-lg-center">
+                        <div class="container mx-auto w-75">
                             <label class="form-label" for="subSectionName">naam:</label>
                             <input class="form-control" type="text" id="subSectionName" name="subSectionName"
                                    th:value="${subSection.name}">
+                            <label for="extraInfoSection" class="form-label">Extra info:</label>
+                            <input type="text" class="form-control" id="extraInfoSection" name="extraInfo" th:value="${subSection.extraInfo}">
                             <input type="submit" value="opslagen" class="btn btn-dark my-2 m-lg-2">
                         </div>
                     </form>
