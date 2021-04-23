@@ -309,11 +309,21 @@ public class AdminMenuController {
     @PostMapping("/newproduct/{menuSectionId}/{subSectionId}")
     public String newMenuProduct(@Valid @ModelAttribute("newProduct") Product product,
                                  BindingResult bindingResult,
+                                 @RequestParam(required = false, name = "allergy[]") List<Integer> allergyIdList,
+                                 @RequestParam(required = false, name = "category[]") List<Integer> categoryIdList,
                                  @PathVariable Integer menuSectionId,
                                  @PathVariable Integer subSectionId) {
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/admin/menusectie/" + subSectionId + "#" + subSectionId;
+            return "redirect:/admin/menusectie/" + menuSectionId + "#" + subSectionId;
+        }
+
+        if(!allergyIdList.isEmpty()){
+            product.setAllergies((List<Allergie>) allergieRepository.findAllById(allergyIdList));
+        }
+
+        if(!categoryIdList.isEmpty()){
+            product.setCategories((List<ProductCategory>) categoryRepository.findAllById(categoryIdList));
         }
 
         MenuSubSection menuSubSection = new MenuSubSection(subSectionId);

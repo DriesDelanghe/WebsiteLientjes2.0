@@ -213,7 +213,12 @@ public class BistroMenuDetailsController {
 
             model.addAttribute("productListFiltered", productListFiltered);
         }else{
-            List<Product> productListFiltered = productRepository.filterOnlyOnCategory(missingCategories, menuSection);
+
+            List<Product> productListFiltered = productRepository.filterOnAllergieAndName(null, productSearch, menuSection);
+            List<Product> productListCategoryFilter = productRepository.filterListOnCategory(productListFiltered, missingCategories, menuSection);
+
+            productListFiltered.addAll(productListCategoryFilter);
+
             model.addAttribute("productListFiltered", productListFiltered);
         }
 

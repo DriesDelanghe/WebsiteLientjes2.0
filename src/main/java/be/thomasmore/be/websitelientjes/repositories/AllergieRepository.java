@@ -11,7 +11,7 @@ import java.util.List;
 public interface AllergieRepository extends CrudRepository<Allergie, Integer> {
     @Query("select distinct a from Allergie a join a.products p " +
             "where p in (" +
-            "select distinct p from Product p where p.menuSubSection in :menuSubSections )")
+            "select distinct p from Product p where p.menuSubSection in (:menuSubSections) )")
     List<Allergie> getAllAllergiesByMenuSubSections(@Param("menuSubSections") List<MenuSubSection> menuSubSections);
 
 }

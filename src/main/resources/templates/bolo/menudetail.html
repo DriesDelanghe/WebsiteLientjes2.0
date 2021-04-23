@@ -40,7 +40,7 @@
 
     <div class="collapse" id="collapseExample">
         <div class="card card-body">
-            <form method="post" th:action="@{|/bolo/menu/filters|}" th:object="${filterWrapper}">
+            <form method="post" th:action="@{|/bolo/menudetail/${menuSection.id}|}" th:object="${filterWrapper}">
                 <div class="row d-flex justify-content-center">
                     <div class="col-12 col-md-4 my-3">
                         <h6 class="form-label card-title">product naam:</h6>
@@ -54,18 +54,18 @@
                     <div class="col-12 col-md-4 d-flex flex-column my-3" th:if="*{!categoryList.isEmpty()}">
                         <h6 class="card-title">categoriëen:</h6>
                         <div th:each="category : *{categoryList}">
-                            <input type="checkbox" class="form-check-inline" name="categoryList[]"
+                            <input type="checkbox" class="form-check-inline" name="category[]"
                                    th:value="${category.id}" th:id="|category${category.id}|"
-                                   th:checked="${filterWrapper.categoryIdList.contains(category.id)}">
+                                   th:checked="${filterWrapper.categoryIdList != null} ? ${filterWrapper.categoryIdList.contains(category.id)}">
                             <label th:for="|category${category.id}|" th:text="${category.name}" class="form-label me-auto"></label>
                         </div>
                     </div>
                     <div class="col-12 col-md-4 d-flex flex-column my-3" th:if="*{!allergieList.isEmpty()}">
                         <h6 class="card-title">allergenen:</h6>
                         <div th:each="allergie : *{allergieList}">
-                            <input type="checkbox" class="form-check-inline" name="allergieList[]"
+                            <input type="checkbox" class="form-check-inline" name="allergy[]"
                                    th:value="${allergie.id}" th:id="|allergy${allergie.id}|"
-                                   th:checked="${filterWrapper.allergyIdList.contains(allergie.id)}">
+                                   th:checked="${filterWrapper.allergyIdList != null} ? ${filterWrapper.allergyIdList.contains(allergie.id)}">
                             <label th:for="|allergy${allergie.id}|" th:text="${allergie.name}" class="form-label"></label>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                        th:text="${menuSubSection.extraInfo}"></p>
                 </div>
                 <div class="card-body">
-                    <div th:each="product : ${menuSubSection.products}" class="m-1">
+                    <div th:each="product : ${menuSubSection.products}" class="m-1" th:if="${filteredProductList == null || !filteredProductList.contains(product)}">
                         <div class="d-flex justify-content-between my-1">
                             <p th:text="${product.name}" class="m-0"></p>
                             <p th:text="|€ ${product.priceInEur}|" class="m-0"></p>
