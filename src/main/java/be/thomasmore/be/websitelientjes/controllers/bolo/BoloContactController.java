@@ -56,6 +56,11 @@ public class BoloContactController {
         return "bolo/contact";
     }
 
+    @GetMapping("/contactbevestiging")
+    public String contactbevestiging(){
+        return "bolo/contactconfirmation";
+    }
+
     @PostMapping("/contactform")
     public String contactformPost(@Valid @ModelAttribute("contactForm") ContactForm contactForm,
                                   BindingResult bindingResult,
@@ -67,6 +72,6 @@ public class BoloContactController {
         contactForm.setContactType(new ContactType(contactTypeId));
         contactForm.setTimestamp(new Date());
         contactFormRepository.save(contactForm);
-        return "redirect:/bolo/home";
+        return "redirect:/bolo/contactbevestiging";
     }
 }
