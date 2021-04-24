@@ -1,4 +1,4 @@
-package be.thomasmore.be.websitelientjes.models;
+package be.thomasmore.be.websitelientjes.user;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
