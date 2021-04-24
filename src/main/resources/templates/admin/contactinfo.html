@@ -29,11 +29,8 @@
 </div>
 
 
-<th:block th:if="${contactInfo}">
+<th:block th:if="${contactInfo.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')') && contactInfo} : ${#authorization.expression('hasAuthority(''BOLO'')' && contactInfo)}">
     <a th:href="@{|/admin/contactinfolijst|}" class="btn btn-dark">Terug naar overzicht</a>
-    <div class="container-fluid alert alert-danger" th:if="${falseFileFormat}">
-        <p>Afbeelding moet file-formaat .svg hebben</p>
-    </div>
 
     <div class="row w-100" th:object="${contactInfo}">
         <div class="col-12 alert-danger" th:if="${#fields.hasErrors('*')}">
