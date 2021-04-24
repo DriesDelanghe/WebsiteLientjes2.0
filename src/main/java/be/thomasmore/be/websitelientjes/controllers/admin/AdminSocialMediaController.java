@@ -103,12 +103,15 @@ public class AdminSocialMediaController {
 
 
     @GetMapping({"/socialmedialijst", "/socialmedialijst/{domainId}"})
-    public String getSocialMediaLijst(Model model) {
+    public String getSocialMediaLijst(Model model,
+                                      @PathVariable(required = false) Integer domainId) {
         return "admin/socialmedialist";
     }
 
-    @GetMapping("/socialmedia/{socialmediaId}")
-    public String getSocialMediaPage(Model model, @ModelAttribute("socialMedia") SocialMedia socialMedia) {
+    @GetMapping({"/socialmedia/{socialmediaId}", "/socialmedia", "/socialmedia/"})
+    public String getSocialMediaPage(Model model,
+                                     @ModelAttribute("socialMedia") SocialMedia socialMedia,
+                                     @PathVariable(required = false) Integer socialMediaId ) {
         return "admin/socialmedia";
     }
 

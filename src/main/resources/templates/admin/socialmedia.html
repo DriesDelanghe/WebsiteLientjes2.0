@@ -23,94 +23,113 @@
 <header th:replace="admin/fragments/header :: header"></header>
 
 <a th:href="@{|/admin/socialmedialijst|}" class="btn btn-dark">Terug naar overzicht</a>
-<th:block th:if="${socialMedia}">
+<th:block sec:authorize="hasAuthority('SOCIAL_MEDIA')">
 
-<div class="row w-100" th:object="${socialMedia}">
-<div class="col-12 alert-danger" th:if="${#fields.hasErrors('*')}" >
-    <p>ERROR - data kan niet opgeslagen worden</p>
-</div>
-    <div class="card col-8 col-lg-6 mx-auto p-0 mt-5">
-        <div class="card-header bg-secondary d-flex flex-lg-row flex-column">
-            <span th:utext="${socialMedia.icon.iconCode}" class="text-light h4 mx-auto align-self-center"></span>
-            <!-- Button trigger remove modal -->
-            <button type="button" class="btn btn-dark mt-2 mt-lg-0" data-bs-toggle="modal"
-                    data-bs-target="#imageModal">
-                afbeelding wijzigen
-            </button>
-        </div>
-        <div class="card-body" >
-            <div class="container-fluid p-0 d-flex justify-content-end">
-                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                        data-bs-target="#removeModal">
-                    x
-                </button>
-            </div>
-            <form method="post" th:action="@{|/admin/changesocialmedia/${socialMedia.id}|}">
-                <label for="urlSocialMedia" class="form-label">Url:</label>
-                <input class="form-control" type="text" id="urlSocialMedia" th:field="*{socialMediaUrl}" th:errorclass="alert-danger">
-                <input type="submit" value="opslagen" class="btn btn-dark m-3">
-            </form>
-        </div>
-    </div>
-</div>
-
-
-<!-- image Modal -->
-    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="imageModalLabel">Foto wijzigen</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <th:block th:if="${socialMedia}">
+        <th:block
+                th:if="${socialMedia.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
+            <div class="row w-100" th:object="${socialMedia}">
+                <div class="col-12 alert-danger" th:if="${#fields.hasErrors('*')}">
+                    <p>ERROR - data kan niet opgeslagen worden</p>
                 </div>
-                <form method="post" th:action="@{|/admin/socialmedia/iconchange/${socialMedia.id}|}">
-                    <div class="modal-body">
-                        <h4 class="text-center mt-4">icoon selecteren</h4>
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 col-8 d-flex flex-row mx-auto my-3"
-                                 th:each="icon : ${socialMediaIcons}"
-                                 th:object="${icon}">
-                                <input type="radio" th:id="|icon${icon.id}|" th:value="*{id}" name="iconId"
-                                       th:checked="${socialMedia.icon == icon}">
-                                <label class="h2" th:for="|icon${icon.id}|" th:utext="*{iconCode}">
-                                </label>
+                <div class="card col-8 col-lg-6 mx-auto p-0 mt-5">
+                    <div class="card-header bg-secondary d-flex flex-lg-row flex-column">
+                    <span th:utext="${socialMedia.icon.iconCode}"
+                          class="text-light h4 mx-auto align-self-center"></span>
+                        <!-- Button trigger remove modal -->
+                        <button type="button" class="btn btn-dark mt-2 mt-lg-0" data-bs-toggle="modal"
+                                data-bs-target="#imageModal">
+                            afbeelding wijzigen
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="container-fluid p-0 d-flex justify-content-end">
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                    data-bs-target="#removeModal">
+                                x
+                            </button>
+                        </div>
+                        <form method="post" th:action="@{|/admin/changesocialmedia/${socialMedia.id}|}">
+                            <label for="urlSocialMedia" class="form-label">Url:</label>
+                            <input class="form-control" type="text" id="urlSocialMedia" th:field="*{socialMediaUrl}"
+                                   th:errorclass="alert-danger">
+                            <input type="submit" value="opslagen" class="btn btn-dark m-3">
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- image Modal -->
+            <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="imageModalLabel">Foto wijzigen</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" th:action="@{|/admin/socialmedia/iconchange/${socialMedia.id}|}">
+                            <div class="modal-body">
+                                <h4 class="text-center mt-4">icoon selecteren</h4>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-6 col-8 d-flex flex-row mx-auto my-3"
+                                         th:each="icon : ${socialMediaIcons}"
+                                         th:object="${icon}">
+                                        <input type="radio" th:id="|icon${icon.id}|" th:value="*{id}" name="iconId"
+                                               th:checked="${socialMedia.icon == icon}">
+                                        <label class="h2" th:for="|icon${icon.id}|" th:utext="*{iconCode}">
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="modal-footer">
+                                <input type="submit" value="opslagen" class="btn btn-success m-2">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- remove Modal -->
+            <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="removeModalLabel">social media verwijderen</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Bent u zeker dat u deze social media wilt verwijderen?</p>
+                            <p><strong>Deze actie is permanent</strong></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <form method="post" th:action="@{|/admin/removesocialmedia/${socialMedia.id}|}">
+                                <input type="submit" value="verwijderen" class="btn btn-danger">
+                            </form>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <input type="submit" value="opslagen" class="btn btn-success m-2">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </form>
+                </div>
             </div>
-        </div>
-    </div>
+        </th:block>
+        <th:block th:unless="${socialMedia.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
+            <div class="container-fluid mx-auto mt-5">
+                <h5>Geen rechten om deze pagina te bekijken</h5>
+            </div>
+        </th:block>
 
-<!-- remove Modal -->
-<div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="removeModalLabel">social media verwijderen</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Bent u zeker dat u deze social media wilt verwijderen?</p>
-                <p><strong>Deze actie is permanent</strong></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <form method="post" th:action="@{|/admin/removesocialmedia/${socialMedia.id}|}">
-                    <input type="submit" value="verwijderen" class="btn btn-danger">
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-</th:block>
-<th:block th:unless="${socialMedia}">
-    <h2>Sociale media kan niet gevonden</h2>
-</th:block>
+    </th:block>
+    <th:block th:unless="${socialMedia}">
+        <h2>Sociale media kan niet gevonden</h2>
+    </th:block>
 
+</th:block>
+<th:block th:unless="${#authorization.expression('hasAuthority(''SOCIAL_MEDIA'')')}">
+    <div class="container-fluid">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</th:block>
 </body>
 </html>
