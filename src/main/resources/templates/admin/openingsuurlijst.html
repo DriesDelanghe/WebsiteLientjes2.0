@@ -20,9 +20,9 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
-<div class="row container-fluid">
+<div class="row container-fluid" sec:authorize="hasAuthority('OPENINGUUR')">
 
-    <th:block th:if="${domain == null || domain == domainBistro}">
+    <th:block th:if="${domain == null || domain == domainBistro}" sec:authorize="hasAuthority('BISTRO')">
             <div class="card col-12 col-lg-8 mx-auto p-0 my-5" id="bistro">
                 <div class="card-header">
                     <h4 class="card-title">Openingsuren Bistro</h4>
@@ -57,8 +57,14 @@
                 </div>
             </div>
     </th:block>
+    <th:block th:if="${domain == domainBistro && !#authorization.expression('hasAuthority(''BISTRO'')') ||
+    domain == domainBolo && !#authorization.expression('hasAuthority(''BOLO'')')}">
+        <div class="container-fluid">
+            <h5>Geen rechten om deze pagina te bekijken</h5>
+        </div>
+    </th:block>
 
-    <th:block th:if="${domain == null || domain == domainBolo}">
+    <th:block th:if="${domain == null || domain == domainBolo}" sec:authorize="hasAuthority('BOLO')">
             <div class="card col-12 col-lg-8 mx-auto p-0 my-5" id="bolo">
                 <div class="card-header">
                     <h4 class="card-title">Openingsuren Bolo</h4>
@@ -94,7 +100,10 @@
                 </div>
             </div>
     </th:block>
+</div>
 
+<div class="container-fluid" th:unless="${#authorization.expression('hasAuthority(''OPENINGUUR'')')}">
+    <h5>Geen rechten om deze pagina te bekijken</h5>
 </div>
 
 </body>
