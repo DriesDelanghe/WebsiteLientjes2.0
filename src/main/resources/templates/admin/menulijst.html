@@ -18,9 +18,9 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
-<th:block th:if="${menuSectionListBolo != null && menuSectionListBistro != null}">
+<th:block th:if="${menuSectionListBolo != null && menuSectionListBistro != null}" sec:authorize="hasAuthority('MENU')">
     <th:block th:if="${menuSectionList == null}">
-        <div class="container-fluid w-100 mx-auto">
+        <div class="container-fluid w-100 mx-auto" sec:authorize="hasAuthority('BISTRO')">
             <h2 class="text-center mt-5">Menu secties Lientjes Bistro</h2>
             <hr class="text-muted mx-auto w-50 my-2">
             <div class="row w-100 d-flex align-items-center justify-content-center">
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid w-100 mx-auto">
+        <div class="container-fluid w-100 mx-auto"sec:authorize="hasAuthority('BOLO')">
             <h2 class="text-center mt-5">Menu secties Bolo Lientjes</h2>
             <hr class="text-muted mx-auto w-50 my-2">
             <div class="row w-100 d-flex align-items-center justify-content-center">
@@ -78,7 +78,7 @@
         </div>
     </th:block>
     <th:block th:if="${menuSectionList != null}" >
-        <div class="container-fluid w-100 mx-auto">
+        <div class="container-fluid w-100 mx-auto" th:if="${domain.id == 1} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
             <h2 class="text-center mt-5">Menu secties <span th:text="${domain.id == 1} ? 'Lientjes Bistro' : 'Bolo Lientjes'"></span> </h2>
             <hr class="text-muted mx-auto w-50 my-2">
             <div class="row w-100 d-flex align-items-center justify-content-center">
@@ -106,15 +106,23 @@
                 </div>
             </div>
         </div>
+        <div class="container-fluid w-100 mx-auto" th:unless="${domain.id == 1} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
+            <h5>Geen rechten om deze pagina te bekijken</h5>
+        </div>
     </th:block>
 </th:block>
-<th:block th:unless="${menuSectionListBolo != null && menuSectionListBistro != null}">
+<th:block th:unless="${menuSectionListBolo != null && menuSectionListBistro != null}" sec:authorize="hasAuthority('MENU')">
     <div class="container-fluid w-100">
         <h2 class="text-center mt-5">Kan menu sectie pagina niet vinden</h2>
         <hr class="text-muted mx-auto w-50 my-2">
     </div>
 </th:block>
 
+<th:block th:unless="${#authorization.expression('hasAuthority(''MENU'')')}">
+    <div class="container-fluid mt-5">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</th:block>
 </div>
 
 </body>

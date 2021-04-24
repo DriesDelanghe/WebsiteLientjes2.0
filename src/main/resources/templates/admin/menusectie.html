@@ -18,367 +18,380 @@
 <body>
 
 <header th:replace="admin/fragments/header :: header"></header>
-
-<div class="container-fluid alert alert-danger" th:if="${subSectionNotEmpty == true}">
-    <h4>Kan subsectie niet verwijderen als er nog producten aanwezig zijn</h4>
-</div>
-
-<div class="container-fluid alert alert-danger" th:if="${FileSizeException == true}">
-    <h4>File is te groot, maximum grootte is 1Mb</h4>
-</div>
-
-<th:block th:if="${menuSection}">
-    <div class="container-fluid w-100">
-        <div class="alert alert-success" userRole="alert" th:if="${changesSaved != null && changesSaved}">
-            <p class="lead">aanpassingen opgeslagen</p>
-        </div>
-        <div class="card col-12 col-md-6 mx-auto">
-            <div class="container-fluid w-100 p-0">
-                <button type="button" class="btn btn-outline-danger float-end" data-bs-toggle="modal"
-                        data-bs-target="#removeModal">
-                    x
-                </button>
-            </div>
-            <img th:src="${menuSection.image.imageLocation}" alt="afbeelding menu sectie">
-            <button type="button" class="btn btn-dark w-50 my-2 align-self-center" data-bs-toggle="modal"
-                    data-bs-target="#imageModal">
-                afbeelding wijzigen
-            </button>
-            <div class="card-body">
-                <form method="post" th:action="@{|/admin/menusectie/${menuSection.id}|}" th:object="${menuSection}">
-
-                    <div class="w-100 alert alert-danger" userRole="alert" th:if="${#fields.hasErrors('*')}">
-                        Fout bij ingeven data
-                    </div>
-                    <div class="w-100 d-flex justify-content-between">
-                        <label for="name">naam:</label>
-                        <input id="name" type="text" class="card-title" th:field="*{name}"
-                               th:errorclass="alert-danger">
-                    </div>
-                    <input type="submit" value="opslagen" class="btn btn-dark">
-                </form>
-            </div>
-
-        </div>
+<th:block sec:authorize="hasAuthority('MENU')" th:if="${menuSection != null && menuSection.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
+    <div class="container-fluid alert alert-danger" th:if="${subSectionNotEmpty == true}">
+        <h4>Kan subsectie niet verwijderen als er nog producten aanwezig zijn</h4>
     </div>
-</th:block>
-<th:block th:unless="${menuSection}">
-    <div class="container-fluid mt-5">
-        <h4>Menusectie kan niet gevonden worden</h4>
-        <hr>
+
+    <div class="container-fluid alert alert-danger" th:if="${FileSizeException == true}">
+        <h4>File is te groot, maximum grootte is 1Mb</h4>
     </div>
-</th:block>
 
-<!-- Modal -->
-<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true"
-     th:if="${menuSection}">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Foto wijzigen</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <th:block th:if="${menuSection}">
+        <div class="container-fluid w-100">
+            <div class="alert alert-success" role="alert" th:if="${changesSaved != null && changesSaved}">
+                <p class="lead">aanpassingen opgeslagen</p>
             </div>
-            <div class="modal-body">
-                <h4 class="text-center">Nieuwe foto selecteren</h4>
-                <form method="post" th:action="@{|/admin/menu/newimage/${menuSection.id}|}"
-                      enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="formFile" class="form-label">Upload nieuwe foto</label>
-                        <input class="form-control" type="file" id="formFile" name="newImage">
-                        <p class="text-muted ms-3">File niet groter dan 1Mb</p>
-                        <input type="submit" value="uploaden" class="btn btn-dark m-2">
-                    </div>
-                </form>
-                <hr class="my-2">
-                <h4 class="text-center mt-4">bestaande foto selecteren</h4>
-                <form method="post" th:action="@{|/admin/menu/imagechange/${menuSection.id}|}">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 col-8 d-flex flex-row mx-auto my-3"
-                             th:each="image : ${menuImages}"
-                             th:object="${image}">
-                            <label>
-                                <input type="radio" id="btnLoad" th:value="*{id}" name="imageId"
-                                       th:checked="${menuSection.image == image}">
-                                <img th:src="*{imageLocation}" class="object-cover w-100">
-                            </label>
-                        </div>
-                    </div>
-                    <input type="submit" value="opslagen" class="btn btn-dark m-2">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container-fluid mt-5" th:if="${menuSection}">
-    <h2 class="ms-4">Producten</h2>
-    <hr>
-</div>
-
-<div class="accordion accordion-flush" id="accordion" th:if="${menuSection}">
-
-    <th:block th:each="subSection : ${menuSection.menuSubSectionList}">
-        <div class="accordion-item">
-            <div class="accordion-header" th:id="|flush-heading${subSectionStat.index}|">
-                <button class="accordion-button collapsed"
-                        th:classappend="${targetId == null || targetId != subSection.id} ? collapsed" type="button"
-                        data-bs-toggle="collapse"
-                        th:data-bs-target="|#flush-collapse${subSectionStat.index}|" aria-expanded="false"
-                        th:aria-controls="|flush-collapse${subSectionStat.index}|">
-                    <form method="post" class="w-100"
-                          th:action="@{|/admin/menu/subsectionnamechange/${menuSection.id}/${subSection.id}|}">
-                        <div class="container mx-auto w-75">
-                            <label class="form-label" for="subSectionName">naam:</label>
-                            <input class="form-control" type="text" id="subSectionName" name="subSectionName"
-                                   th:value="${subSection.name}">
-                            <label for="extraInfoSection" class="form-label">Extra info:</label>
-                            <input type="text" class="form-control" id="extraInfoSection" name="extraInfo" th:value="${subSection.extraInfo}">
-                            <input type="submit" value="opslagen" class="btn btn-dark my-2 m-lg-2">
-                        </div>
-                    </form>
-                    <form method="post" class="float-end me-4"
-                          th:action="@{|/admin/removesubsection/${menuSection.id}/${subSection.id}|}">
-                        <input type="submit" value="x" class="btn btn-outline-danger">
-                    </form>
-                </button>
-            </div>
-            <a th:id="${subSection.id}">
-                <div th:id="|flush-collapse${subSectionStat.index}|" class="accordion-collapse collapse"
-                     th:aria-labelledby="|flush-heading${subSectionStat.index}|"
-                     th:classappend="${targetId != null && targetId == subSection.id} ? show"
-                     data-bs-parent="#accordion">
-                    <div class="accordion-body w-75 mx-auto">
-                        <div class="row d-flex justify-content-center">
-                            <div class="card col-12 col-lg-5 col-xl-3 m-1"
-                                 th:each="productLoop : ${subSection.products}">
-                                <form method="post"
-                                      th:action="@{|/admin/removeproduct/${menuSection.id}/${subSection.id}/${productLoop.id}|}"
-                                      class="m-1">
-                                    <input type="submit" class="btn btn-outline-danger float-end" value="x">
-                                </form>
-                                <form method="post"
-                                      th:action="@{|/admin/editproduct/${menuSection.id}/${subSection.id}/${productLoop.id}|}">
-                                    <div class="card-header">
-                                        <label class="form-label" for="nameProduct">naam: </label>
-                                        <input class="form-control" id="nameProduct" type="text" name="productName"
-                                               th:value="${productLoop.name}">
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="card-title">
-                                            <label class="form-label" for="priceProduct">prijs:</label>
-                                            <input class="form-control" type="number" id="priceProduct"
-                                                   name="productPrice" th:value="${productLoop.priceInEur}" min="0"
-                                                   step="0.01">
-                                        </div>
-                                        <div class="card-text">
-                                            <label class="form-label" for="extraInfo">extra info:</label>
-                                            <textarea class="form-control" name="productExtraInfo"
-                                                      th:utext="${productLoop.extraInfo}" id="extraInfo" cols="30"
-                                                      rows="10"></textarea>
-                                        </div>
-                                        <div class="accordion" th:id="|allergieAccordion${productLoop.id}|">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" th:id="|allergieheading${productLoop.id}|">
-                                                    <button class="accordion-button collapsed" type="button"
-                                                            data-bs-toggle="collapse"
-                                                            th:data-bs-target="|#allergiecollapse${productLoop.id}|"
-                                                            aria-expanded="false"
-                                                            th:aria-controls="|allergiecollapse${productLoop.id}|">
-                                                        Allergieën
-                                                    </button>
-                                                </h2>
-                                                <div th:id="|allergiecollapse${productLoop.id}|"
-                                                     class="accordion-collapse collapse"
-                                                     th:aria-labelledby="|allergieheading${productLoop.id}|"
-                                                     th:data-bs-parent="|#allergieAccordion${productLoop.id}|">
-                                                    <div class="accordion-body">
-                                                        <div class="row">
-                                                            <th:block th:each="allergie : ${allergieList}">
-                                                                <div class="col-12">
-                                                                    <input class="mx-2 my-1 form-check-input" type="checkbox"
-                                                                           name="allergy[]"
-                                                                           th:value="${allergie.id}"
-                                                                           th:text="${allergie.name}"
-                                                                           th:checked="${productLoop.allergies.contains(allergie)}">
-                                                                </div>
-                                                            </th:block>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="accordion" th:id="|categoryAccordion${productLoop.id}|">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" th:id="|categoryheading${productLoop.id}|">
-                                                    <button class="accordion-button collapsed" type="button"
-                                                            data-bs-toggle="collapse"
-                                                            th:data-bs-target="|#categorycollapse${productLoop.id}|"
-                                                            aria-expanded="false"
-                                                            th:aria-controls="|categorycollapse${productLoop.id}|">
-                                                        Categorieën
-                                                    </button>
-                                                </h2>
-                                                <div th:id="|categorycollapse${productLoop.id}|"
-                                                     class="accordion-collapse collapse"
-                                                     th:aria-labelledby="|categoryheading${productLoop.id}|"
-                                                     th:data-bs-parent="|#categoryAccordion${productLoop.id}|">
-                                                    <div class="accordion-body">
-                                                        <div class="row">
-                                                            <th:block th:each="category : ${categoryList}">
-                                                                <div class="col-12">
-                                                                    <input class="mx-2 my-1 form-check-input" type="checkbox"
-                                                                           name="category[]"
-                                                                           th:value="${category.id}"
-                                                                           th:text="${category.name}"
-                                                                           th:checked="${productLoop.categories.contains(category)}">
-                                                                </div>
-                                                            </th:block>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input type="submit" value="opslagen" class="btn btn-dark m-2">
-                                </form>
-                            </div>
-                        </div>
-                        <div class="row d-flex justify-content-center">
-                            <div class="container w-100 mt-4">
-                                <h4 class="text-center">Nieuw product</h4>
-                                <hr>
-                            </div>
-                            <div class="card col-12 col-md-4 col-lg-3 m-1" th:object="${newProduct}">
-                                <form method="post"
-                                      th:action="@{|/admin/newproduct/${menuSection.id}/${subSection.id}|}">
-                                    <div class="card-header">
-                                        <label class="form-label" for="newName">Name: </label>
-                                        <input class="form-control" id="newName" type="text" th:field="*{name}">
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="card-title">
-                                            <label class="form-label" for="newPrice">prijs:</label>
-                                            <input class="form-control" type="number" id="newPrice"
-                                                   th:field="*{priceInEur}" min="0"
-                                                   step="0.01">
-                                        </div>
-                                        <div class="card-text">
-                                            <label class="form-label" for="newExtraInfo">extra info:</label>
-                                            <textarea class="w-100 form-control" th:field="*{extraInfo}" id="newExtraInfo" cols="30"
-                                                      rows="10"></textarea>
-                                        </div>
-                                        <div class="accordion" th:id="|allergieAccordion|">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" th:id="|allergieheading|">
-                                                    <button class="accordion-button collapsed" type="button"
-                                                            data-bs-toggle="collapse"
-                                                            th:data-bs-target="|#allergiecollapse|"
-                                                            aria-expanded="false"
-                                                            th:aria-controls="|allergiecollapse|">
-                                                        Allergieën
-                                                    </button>
-                                                </h2>
-                                                <div th:id="|allergiecollapse|"
-                                                     class="accordion-collapse collapse"
-                                                     th:aria-labelledby="|allergieheading|"
-                                                     th:data-bs-parent="|#allergieAccordion|">
-                                                    <div class="accordion-body">
-                                                        <div class="row">
-                                                            <th:block th:each="allergie : ${allergieList}">
-                                                                <div class="col-12">
-                                                                    <input class="mx-2 my-1 form-check-input" type="checkbox"
-                                                                           name="allergy[]"
-                                                                           th:value="${allergie.id}"
-                                                                           th:text="${allergie.name}">
-                                                                </div>
-                                                            </th:block>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="accordion" th:id="|categoryAccordion|">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" th:id="|categoryheading|">
-                                                    <button class="accordion-button collapsed" type="button"
-                                                            data-bs-toggle="collapse"
-                                                            th:data-bs-target="|#categorycollapse|"
-                                                            aria-expanded="false"
-                                                            th:aria-controls="|categorycollapse|">
-                                                        Categorieën
-                                                    </button>
-                                                </h2>
-                                                <div th:id="|categorycollapse|"
-                                                     class="accordion-collapse collapse"
-                                                     th:aria-labelledby="|categoryheading|"
-                                                     th:data-bs-parent="|#categoryAccordion|">
-                                                    <div class="accordion-body">
-                                                        <div class="row">
-                                                            <th:block th:each="category : ${categoryList}">
-                                                                <div class="col-12">
-                                                                    <input class="mx-2 my-1 form-check-input" type="checkbox"
-                                                                           name="category[]"
-                                                                           th:value="${category.id}"
-                                                                           th:text="${category.name}">
-                                                                </div>
-                                                            </th:block>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input type="submit" value="nieuw toevoegen" class="btn btn-dark m-2">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+            <div class="card col-12 col-md-6 mx-auto">
+                <div class="container-fluid w-100 p-0">
+                    <button type="button" class="btn btn-outline-danger float-end" data-bs-toggle="modal"
+                            data-bs-target="#removeModal">
+                        x
+                    </button>
                 </div>
-            </a>
+                <img th:src="${menuSection.image.imageLocation}" alt="afbeelding menu sectie">
+                <button type="button" class="btn btn-dark w-50 my-2 align-self-center" data-bs-toggle="modal"
+                        data-bs-target="#imageModal">
+                    afbeelding wijzigen
+                </button>
+                <div class="card-body">
+                    <form method="post" th:action="@{|/admin/menusectie/${menuSection.id}|}" th:object="${menuSection}">
+
+                        <div class="w-100 alert alert-danger" userRole="alert" th:if="${#fields.hasErrors('*')}">
+                            Fout bij ingeven data
+                        </div>
+                        <div class="w-100 d-flex justify-content-between">
+                            <label for="name">naam:</label>
+                            <input id="name" type="text" class="card-title" th:field="*{name}"
+                                   th:errorclass="alert-danger">
+                        </div>
+                        <input type="submit" value="opslagen" class="btn btn-dark">
+                    </form>
+                </div>
+
+            </div>
         </div>
     </th:block>
-    <div class="accordion-item">
-        <div class="accordion-header mb-5 w-100 p-2 d-flex d-flex flex-column flex-lg-row mx-auto w-75 justify-content-start align-items-start align-items-lg-center">
-            <h4>Nieuw menu item:</h4>
-            <form method="post" th:action="@{|/admin/newsubsection/${menuSection.id}|}" th:object="${newSubSection}">
-                <div class="container d-flex d-flex flex-column flex-lg-row mx-auto w-auto justify-content-start justify-content-lg-between align-items-start align-items-lg-center">
-                    <label class="my-2 m-lg-2" for="nameSubSection">naam: </label>
-                    <input type="text" id="nameSubSection" name="newSubSectionName" class="w-100 my-2 m-lg-2 form-control">
-                    <input type="submit" value="aanmaken" class="btn btn-dark my-2 m-lg-2">
+    <th:block th:unless="${menuSection}">
+        <div class="container-fluid mt-5">
+            <h4>Menusectie kan niet gevonden worden</h4>
+            <hr>
+        </div>
+    </th:block>
+
+    <!-- Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true"
+         th:if="${menuSection}">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Foto wijzigen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </form>
+                <div class="modal-body">
+                    <h4 class="text-center">Nieuwe foto selecteren</h4>
+                    <form method="post" th:action="@{|/admin/menu/newimage/${menuSection.id}|}"
+                          enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Upload nieuwe foto</label>
+                            <input class="form-control" type="file" id="formFile" name="newImage">
+                            <p class="text-muted ms-3">File niet groter dan 1Mb</p>
+                            <input type="submit" value="uploaden" class="btn btn-dark m-2">
+                        </div>
+                    </form>
+                    <hr class="my-2">
+                    <h4 class="text-center mt-4">bestaande foto selecteren</h4>
+                    <form method="post" th:action="@{|/admin/menu/imagechange/${menuSection.id}|}">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-8 d-flex flex-row mx-auto my-3"
+                                 th:each="image : ${menuImages}"
+                                 th:object="${image}">
+                                <label>
+                                    <input type="radio" id="btnLoad" th:value="*{id}" name="imageId"
+                                           th:checked="${menuSection.image == image}">
+                                    <img th:src="*{imageLocation}" class="object-cover w-100">
+                                </label>
+                            </div>
+                        </div>
+                        <input type="submit" value="opslagen" class="btn btn-dark m-2">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+    <div class="container-fluid mt-5" th:if="${menuSection}">
+        <h2 class="ms-4">Producten</h2>
+        <hr>
+    </div>
 
+    <div class="accordion accordion-flush" id="accordion" th:if="${menuSection}">
 
-<!-- remove Modal -->
-<div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true"
-     th:if="${menuSection}">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="removeModalLabel">menu sectie verwijderen</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <th:block th:each="subSection : ${menuSection.menuSubSectionList}">
+            <div class="accordion-item">
+                <div class="accordion-header" th:id="|flush-heading${subSectionStat.index}|">
+                    <button class="accordion-button collapsed"
+                            th:classappend="${targetId == null || targetId != subSection.id} ? collapsed" type="button"
+                            data-bs-toggle="collapse"
+                            th:data-bs-target="|#flush-collapse${subSectionStat.index}|" aria-expanded="false"
+                            th:aria-controls="|flush-collapse${subSectionStat.index}|">
+                        <form method="post" class="w-100"
+                              th:action="@{|/admin/menu/subsectionnamechange/${menuSection.id}/${subSection.id}|}">
+                            <div class="container mx-auto w-75">
+                                <label class="form-label" for="subSectionName">naam:</label>
+                                <input class="form-control" type="text" id="subSectionName" name="subSectionName"
+                                       th:value="${subSection.name}">
+                                <label for="extraInfoSection" class="form-label">Extra info:</label>
+                                <input type="text" class="form-control" id="extraInfoSection" name="extraInfo" th:value="${subSection.extraInfo}">
+                                <input type="submit" value="opslagen" class="btn btn-dark my-2 m-lg-2">
+                            </div>
+                        </form>
+                        <form method="post" class="float-end me-4"
+                              th:action="@{|/admin/removesubsection/${menuSection.id}/${subSection.id}|}">
+                            <input type="submit" value="x" class="btn btn-outline-danger">
+                        </form>
+                    </button>
+                </div>
+                <a th:id="${subSection.id}">
+                    <div th:id="|flush-collapse${subSectionStat.index}|" class="accordion-collapse collapse"
+                         th:aria-labelledby="|flush-heading${subSectionStat.index}|"
+                         th:classappend="${targetId != null && targetId == subSection.id} ? show"
+                         data-bs-parent="#accordion">
+                        <div class="accordion-body w-75 mx-auto">
+                            <div class="row d-flex justify-content-center">
+                                <div class="card col-12 col-lg-5 col-xl-3 m-1"
+                                     th:each="productLoop : ${subSection.products}">
+                                    <form method="post"
+                                          th:action="@{|/admin/removeproduct/${menuSection.id}/${subSection.id}/${productLoop.id}|}"
+                                          class="m-1">
+                                        <input type="submit" class="btn btn-outline-danger float-end" value="x">
+                                    </form>
+                                    <form method="post"
+                                          th:action="@{|/admin/editproduct/${menuSection.id}/${subSection.id}/${productLoop.id}|}">
+                                        <div class="card-header">
+                                            <label class="form-label" for="nameProduct">naam: </label>
+                                            <input class="form-control" id="nameProduct" type="text" name="productName"
+                                                   th:value="${productLoop.name}">
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="card-title">
+                                                <label class="form-label" for="priceProduct">prijs:</label>
+                                                <input class="form-control" type="number" id="priceProduct"
+                                                       name="productPrice" th:value="${productLoop.priceInEur}" min="0"
+                                                       step="0.01">
+                                            </div>
+                                            <div class="card-text">
+                                                <label class="form-label" for="extraInfo">extra info:</label>
+                                                <textarea class="form-control" name="productExtraInfo"
+                                                          th:utext="${productLoop.extraInfo}" id="extraInfo" cols="30"
+                                                          rows="10"></textarea>
+                                            </div>
+                                            <div class="accordion" th:id="|allergieAccordion${productLoop.id}|">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" th:id="|allergieheading${productLoop.id}|">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                th:data-bs-target="|#allergiecollapse${productLoop.id}|"
+                                                                aria-expanded="false"
+                                                                th:aria-controls="|allergiecollapse${productLoop.id}|">
+                                                            Allergieën
+                                                        </button>
+                                                    </h2>
+                                                    <div th:id="|allergiecollapse${productLoop.id}|"
+                                                         class="accordion-collapse collapse"
+                                                         th:aria-labelledby="|allergieheading${productLoop.id}|"
+                                                         th:data-bs-parent="|#allergieAccordion${productLoop.id}|">
+                                                        <div class="accordion-body">
+                                                            <div class="row">
+                                                                <th:block th:each="allergie : ${allergieList}">
+                                                                    <div class="col-12">
+                                                                        <input class="mx-2 my-1 form-check-input" type="checkbox"
+                                                                               name="allergy[]"
+                                                                               th:value="${allergie.id}"
+                                                                               th:text="${allergie.name}"
+                                                                               th:checked="${productLoop.allergies.contains(allergie)}">
+                                                                    </div>
+                                                                </th:block>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="accordion" th:id="|categoryAccordion${productLoop.id}|">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" th:id="|categoryheading${productLoop.id}|">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                th:data-bs-target="|#categorycollapse${productLoop.id}|"
+                                                                aria-expanded="false"
+                                                                th:aria-controls="|categorycollapse${productLoop.id}|">
+                                                            Categorieën
+                                                        </button>
+                                                    </h2>
+                                                    <div th:id="|categorycollapse${productLoop.id}|"
+                                                         class="accordion-collapse collapse"
+                                                         th:aria-labelledby="|categoryheading${productLoop.id}|"
+                                                         th:data-bs-parent="|#categoryAccordion${productLoop.id}|">
+                                                        <div class="accordion-body">
+                                                            <div class="row">
+                                                                <th:block th:each="category : ${categoryList}">
+                                                                    <div class="col-12">
+                                                                        <input class="mx-2 my-1 form-check-input" type="checkbox"
+                                                                               name="category[]"
+                                                                               th:value="${category.id}"
+                                                                               th:text="${category.name}"
+                                                                               th:checked="${productLoop.categories.contains(category)}">
+                                                                    </div>
+                                                                </th:block>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="submit" value="opslagen" class="btn btn-dark m-2">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-center">
+                                <div class="container w-100 mt-4">
+                                    <h4 class="text-center">Nieuw product</h4>
+                                    <hr>
+                                </div>
+                                <div class="card col-12 col-md-4 col-lg-3 m-1" th:object="${newProduct}">
+                                    <form method="post"
+                                          th:action="@{|/admin/newproduct/${menuSection.id}/${subSection.id}|}">
+                                        <div class="card-header">
+                                            <label class="form-label" for="newName">Name: </label>
+                                            <input class="form-control" id="newName" type="text" th:field="*{name}">
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="card-title">
+                                                <label class="form-label" for="newPrice">prijs:</label>
+                                                <input class="form-control" type="number" id="newPrice"
+                                                       th:field="*{priceInEur}" min="0"
+                                                       step="0.01">
+                                            </div>
+                                            <div class="card-text">
+                                                <label class="form-label" for="newExtraInfo">extra info:</label>
+                                                <textarea class="w-100 form-control" th:field="*{extraInfo}" id="newExtraInfo" cols="30"
+                                                          rows="10"></textarea>
+                                            </div>
+                                            <div class="accordion" th:id="|allergieAccordion|">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" th:id="|allergieheading|">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                th:data-bs-target="|#allergiecollapse|"
+                                                                aria-expanded="false"
+                                                                th:aria-controls="|allergiecollapse|">
+                                                            Allergieën
+                                                        </button>
+                                                    </h2>
+                                                    <div th:id="|allergiecollapse|"
+                                                         class="accordion-collapse collapse"
+                                                         th:aria-labelledby="|allergieheading|"
+                                                         th:data-bs-parent="|#allergieAccordion|">
+                                                        <div class="accordion-body">
+                                                            <div class="row">
+                                                                <th:block th:each="allergie : ${allergieList}">
+                                                                    <div class="col-12">
+                                                                        <input class="mx-2 my-1 form-check-input" type="checkbox"
+                                                                               name="allergy[]"
+                                                                               th:value="${allergie.id}"
+                                                                               th:text="${allergie.name}">
+                                                                    </div>
+                                                                </th:block>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="accordion" th:id="|categoryAccordion|">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" th:id="|categoryheading|">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                th:data-bs-target="|#categorycollapse|"
+                                                                aria-expanded="false"
+                                                                th:aria-controls="|categorycollapse|">
+                                                            Categorieën
+                                                        </button>
+                                                    </h2>
+                                                    <div th:id="|categorycollapse|"
+                                                         class="accordion-collapse collapse"
+                                                         th:aria-labelledby="|categoryheading|"
+                                                         th:data-bs-parent="|#categoryAccordion|">
+                                                        <div class="accordion-body">
+                                                            <div class="row">
+                                                                <th:block th:each="category : ${categoryList}">
+                                                                    <div class="col-12">
+                                                                        <input class="mx-2 my-1 form-check-input" type="checkbox"
+                                                                               name="category[]"
+                                                                               th:value="${category.id}"
+                                                                               th:text="${category.name}">
+                                                                    </div>
+                                                                </th:block>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="submit" value="nieuw toevoegen" class="btn btn-dark m-2">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
             </div>
-            <div class="modal-body">
-                <p>Bent u zeker dat u deze sectie wilt verwijderen?</p>
-                <p class="text-muted mt-0">note: zolang er nog subsecties aanwezig zijn kan dit niet verwijderd
-                    worden</p>
-                <p><strong>Deze actie is permanent</strong></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <form method="post" th:action="@{|/admin/removesection/${menuSection.id}|}">
-                    <input type="submit" value="verwijderen" class="btn btn-danger">
+        </th:block>
+        <div class="accordion-item">
+            <div class="accordion-header mb-5 w-100 p-2 d-flex d-flex flex-column flex-lg-row mx-auto w-75 justify-content-start align-items-start align-items-lg-center">
+                <h4>Nieuw menu item:</h4>
+                <form method="post" th:action="@{|/admin/newsubsection/${menuSection.id}|}" th:object="${newSubSection}">
+                    <div class="container d-flex d-flex flex-column flex-lg-row mx-auto w-auto justify-content-start justify-content-lg-between align-items-start align-items-lg-center">
+                        <label class="my-2 m-lg-2" for="nameSubSection">naam: </label>
+                        <input type="text" id="nameSubSection" name="newSubSectionName" class="w-100 my-2 m-lg-2 form-control">
+                        <input type="submit" value="aanmaken" class="btn btn-dark my-2 m-lg-2">
+                    </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
+
+
+    <!-- remove Modal -->
+    <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true"
+         th:if="${menuSection}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="removeModalLabel">menu sectie verwijderen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bent u zeker dat u deze sectie wilt verwijderen?</p>
+                    <p class="text-muted mt-0">note: zolang er nog subsecties aanwezig zijn kan dit niet verwijderd
+                        worden</p>
+                    <p><strong>Deze actie is permanent</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <form method="post" th:action="@{|/admin/removesection/${menuSection.id}|}">
+                        <input type="submit" value="verwijderen" class="btn btn-danger">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<th:block th:unless="${menuSection != null && menuSection.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
+    <div class="container-fluid mt-5">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</th:block>
+
+<th:block th:unless="${#authorization.expression('hasAuthority(''MENU'')')}">
+    <div class="container-fluid mt-5">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</th:block>
+
 </body>
 </html>
