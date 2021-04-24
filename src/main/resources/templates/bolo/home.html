@@ -43,7 +43,7 @@
             <h4 class="display-4 text-center" th:text="${textWrapper.headerText[2].textContent}">placeholder headerText 2</h4>
             <p class="lead text-center" th:text="${textWrapper.paragraphText[1].textContent}">placeholder paragraphText 2</p>
             <div class="d-flex justify-content-center my-2">
-                <a href="" class="btn btn-dark"><span th:text="${textWrapper.paragraphText[2].textContent}">placeholder paragraphText 3</span> <i class="fas fa-arrow-right"></i></a>
+                <a th:href="@{|/bolo/personeeloverzicht|}" class="btn btn-dark"><span th:text="${textWrapper.paragraphText[2].textContent}">placeholder paragraphText 3</span> <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <!-- carousel desktop -->

@@ -23,6 +23,11 @@
 
 <th:block sec:authorize="hasAuthority('PAGE_EDIT') and hasAuthority('BOLO')">
 
+  <div class="col-12 col-lg-8 mx-auto py-4">
+    <a th:href="@{|/bolo/contact|}" class="float-end btn btn-dark my-3">Naar pagina</a>
+    <a th:href="@{|/admin/paginaoverzicht|}" class="float-start btn btn-dark my-3">naar overzicht</a>
+  </div>
+
   <form method="post" th:action="@{|/admin/updatetext/${page.id}|}">
 
     <div class="container-fluid w-75 mx-auto my-5 p-0 border-secondary border-1 border" th:object="${textWrapper}">
