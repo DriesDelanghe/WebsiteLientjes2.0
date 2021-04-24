@@ -83,7 +83,7 @@
                 <form method="post"
                       th:action="@{|/admin/removeproductfromallergie/${allergy.id}|}">
                     <div class="row d-flex justify-content-center">
-                        <th:block th:each="product : ${allergy.getProducts()}" sec:authorize="${product.menuSubSection.menuSectionList[0].domain.id == 1} ? hasAuthority('BISTRO') : hasAuthority('BOLO')">
+                        <th:block th:each="product : ${allergy.getProducts()}" sec:authorize="${product.menuSubSection.menuSectionList[0].domain.id == 1} ? ">
                             <label class="col-12 col-lg-4 col-xl-3 m-2">
                                 <input type="checkbox" name="productId[]" th:value="${product.id}">
                                 <div class="card w-100 remove-product">
