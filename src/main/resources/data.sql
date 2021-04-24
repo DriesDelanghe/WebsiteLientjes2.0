@@ -503,7 +503,6 @@ values(1, 'BISTRO'),
 insert into user_user_role(users_id, user_role_id)
 values(1, 1),
        (1,3),
-       (1,4),
        (1,5),
        (1,6),
        (1,7),

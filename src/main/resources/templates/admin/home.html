@@ -24,10 +24,10 @@
         <hr class="mx-5 my-4">
         <p class="text-center">quick acces buttons</p>
         <div class="container d-flex flex-wrap justify-content-center mx-auto">
-            <a th:href="@{|/admin/nieuwproduct|}" class="btn btn-outline-dark m-1">nieuw product</a>
-            <a th:href="@{|/admin/allergielijst#new|}" class="btn btn-outline-dark m-1">allergie toevoegen</a>
-            <a th:href="@{|/admin/paginaoverzicht|}" class="btn btn-outline-dark m-1">update pagina's</a>
-            <a th:href="@{|/admin/personeellijst#nieuwpersoneel|}" class="btn btn-outline-dark m-1">nieuwe collega</a>
+            <a th:href="@{|/admin/nieuwproduct|}" sec:authorize="hasAuthority('MENU')" class="btn btn-outline-dark m-1">nieuw product</a>
+            <a th:href="@{|/admin/allergielijst#new|}" sec:authorize="hasAuthority('MENU')" class="btn btn-outline-dark m-1">allergie toevoegen</a>
+            <a th:href="@{|/admin/paginaoverzicht|}" sec:authorize="hasAuthority('PAGE_EDIT')" class="btn btn-outline-dark m-1">update pagina's</a>
+            <a th:href="@{|/admin/personeellijst#nieuwpersoneel|}" sec:authorize="hasAuthority('PERSONNEL')" class="btn btn-outline-dark m-1">nieuwe collega</a>
         </div>
     </div>
 </div>

@@ -24,7 +24,7 @@
     <hr>
 </div>
 
-<th:block th:if="${category !=null}">
+<th:block th:if="${category !=null&& #authorization.expression('hasAuthority(''MENU'')')}">
 
 
     <div class="row mt-2">
@@ -268,7 +268,7 @@
     </div>
 </th:block>
 
-<th:block th:unless="${category != null}">
+<th:block th:unless="${category != null && #authorization.expression('hasAuthority(''MENU'')')}">
     <h4 class="text-center">Categorie kan niet gevonden worden</h4>
 </th:block>
 

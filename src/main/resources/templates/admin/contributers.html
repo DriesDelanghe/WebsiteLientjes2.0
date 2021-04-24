@@ -18,70 +18,75 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
-<div class="container-fluid mt-5 mx-auto px-0 row d-flex justify-content-center">
-    <th:block th:each="contributer : ${contributers}">
-        <div class="card col-12 col-lg-4 col-xl-3 m-2" th:if="${contributer.domain.contains(domainBistro) && contributer.domain.contains(domainBolo)} ? ${#authorization.expression('hasAuthority(''BOLO'') or hasAuthority(''BISTRO'')')} :(${contributer.domain.contains(domainBistro)} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')})">
-            <div class="card-header">
-                <div>
-                    <h5 th:text="${contributer.artistName}"
-                       class="card-title"></h5>
+<th:block sec:authorize="hasAuthority('CONTRIBUTERS')">
+    <div class="container-fluid mt-5 mx-auto px-0 row d-flex justify-content-center">
+        <th:block th:each="contributer : ${contributers}">
+            <div class="card col-12 col-lg-4 col-xl-3 m-2" th:if="${contributer.domain.contains(domainBistro) && contributer.domain.contains(domainBolo)} ? ${#authorization.expression('hasAuthority(''BOLO'') or hasAuthority(''BISTRO'')')} :(${contributer.domain.contains(domainBistro)} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')})">
+                <div class="card-header">
+                    <div>
+                        <h5 th:text="${contributer.artistName}"
+                            class="card-title"></h5>
+                    </div>
+                    <div>
+                        <h6 th:text="${contributer.siteName}"
+                            class="mb-2 card-subtitle text-muted"></h6>
+                        <br th:unless="${contributer.siteName}">
+                    </div>
                 </div>
-                <div>
-                    <h6 th:text="${contributer.siteName}"
-                       class="mb-2 card-subtitle text-muted"></h6>
-                    <br th:unless="${contributer.siteName}">
+                <div class="card-body">
+                    <p class="card-text text-muted"
+                       th:text="${contributer.domain.contains(domainBistro)} ? (${contributer.domain.contains(domainBolo)} ? 'algemeen' : 'lientjes Bistro' ) : 'Bolo lientjes'"></p>
+                    <p class="card-text">contribution: <span th:text="${contributer.productName}"></span></p>
+                    <a th:href="${contributer.artistUrl}" class="card-link" target="_blank">Naar site Artist</a>
+                    <a th:href="${contributer.siteUrl}" class="card-link" target="_blank" th:if="${contributer.siteUrl}">Naar site platform</a>
                 </div>
-            </div>
-            <div class="card-body">
-                <p class="card-text text-muted"
-                   th:text="${contributer.domain.contains(domainBistro)} ? (${contributer.domain.contains(domainBolo)} ? 'algemeen' : 'lientjes Bistro' ) : 'Bolo lientjes'"></p>
-                <p class="card-text">contribution: <span th:text="${contributer.productName}"></span></p>
-                <a th:href="${contributer.artistUrl}" class="card-link" target="_blank">Naar site Artist</a>
-                <a th:href="${contributer.siteUrl}" class="card-link" target="_blank" th:if="${contributer.siteUrl}">Naar site platform</a>
-            </div>
-            <div class="m-3">
-            <a th:href="@{|/admin/contributerdetail/${contributer.id}|}" class="btn btn-dark">Aanpassen</a>
-            </div>
-        </div>
-    </th:block>
-</div>
-
-<div class="container-fluid mt-5 mx-auto px-0 row d-flex justify-content-center">
-    <h4>Nieuwe contributer toevoegen</h4>
-    <hr>
-    <div class="card col-12 col-lg-4 col-xl-3 m-2">
-        <form method="post" th:action="@{|/admin/newcontributer|}" th:object="${newContributer}">
-            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">data kan niet worden opgeslagen</div>
-            <p>
-            <div class="card-header">
-                <label for="name" class="form-label">Naam:</label>
-                <input id="name" type="text" class="form-control" th:field="*{artistName}"
-                       th:errorclass="|alert-danger|">
-                <label for="platform" class="form-label">platform:</label>
-                <input type="text" id="platform" class="form-control" th:field="*{siteName}">
-            </div>
-            <div class="card-body">
-                <label for="contribution" class="form-label">Bijdrage:</label>
-                <input type="text" class="form-control" id="contribution" th:field="*{productName}"
-                       th:errorclass="|alert-danger|">
-                <label for="siteArtist" class="form-label">Site url artist:</label>
-                <input type="text" id="siteArtist" class="form-control" th:field="*{artistUrl}">
-                <label for="sitePlatform" class="form-label">Site url platform:</label>
-                <input type="text" id="sitePlatform" class="form-control" th:field="*{siteUrl}">
-                <p class="form-label">voor site:</p>
-                <div class="d-flex justify-content-start" sec:authorize="hasAuthority('BISTRO')">
-                    <input type="checkbox" id="domain" class="form-check" name="domain[]" th:value="${domainBistro.id}"> Lientjes Bistro
-                </div>
-                <div class="d-flex justify-content-start" sec:authorize="hasAuthority('BOLO')">
-                    <input type="checkbox" id="domain" class="form-check" name="domain[]" th:value="${domainBolo.id}">Lientjes Bolo
+                <div class="m-3">
+                    <a th:href="@{|/admin/contributerdetail/${contributer.id}|}" class="btn btn-dark">Aanpassen</a>
                 </div>
             </div>
-            <div class="m-3">
-                <input type="submit" value="opslaan" class="btn btn-dark">
-            </div>
-        </form>
+        </th:block>
     </div>
-</div>
 
+    <div class="container-fluid mt-5 mx-auto px-0 row d-flex justify-content-center">
+        <h4>Nieuwe contributer toevoegen</h4>
+        <hr>
+        <div class="card col-12 col-lg-4 col-xl-3 m-2">
+            <form method="post" th:action="@{|/admin/newcontributer|}" th:object="${newContributer}">
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">data kan niet worden opgeslagen</div>
+                <p>
+                <div class="card-header">
+                    <label for="name" class="form-label">Naam:</label>
+                    <input id="name" type="text" class="form-control" th:field="*{artistName}"
+                           th:errorclass="|alert-danger|">
+                    <label for="platform" class="form-label">platform:</label>
+                    <input type="text" id="platform" class="form-control" th:field="*{siteName}">
+                </div>
+                <div class="card-body">
+                    <label for="contribution" class="form-label">Bijdrage:</label>
+                    <input type="text" class="form-control" id="contribution" th:field="*{productName}"
+                           th:errorclass="|alert-danger|">
+                    <label for="siteArtist" class="form-label">Site url artist:</label>
+                    <input type="text" id="siteArtist" class="form-control" th:field="*{artistUrl}">
+                    <label for="sitePlatform" class="form-label">Site url platform:</label>
+                    <input type="text" id="sitePlatform" class="form-control" th:field="*{siteUrl}">
+                    <p class="form-label">voor site:</p>
+                    <div class="d-flex justify-content-start" sec:authorize="hasAuthority('BISTRO')">
+                        <input type="checkbox" id="domain" class="form-check" name="domain[]" th:value="${domainBistro.id}"> Lientjes Bistro
+                    </div>
+                    <div class="d-flex justify-content-start" sec:authorize="hasAuthority('BOLO')">
+                        <input type="checkbox" id="domain" class="form-check" name="domain[]" th:value="${domainBolo.id}">Lientjes Bolo
+                    </div>
+                </div>
+                <div class="m-3">
+                    <input type="submit" value="opslaan" class="btn btn-dark">
+                </div>
+            </form>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:unless="${#authorization.expression('hasAuthority(''CONTRIBUTERS'')')}">
+    <h5>Geen rechten om deze pagina te bekijken</h5>
+</th:block>
 </body>
 </html>

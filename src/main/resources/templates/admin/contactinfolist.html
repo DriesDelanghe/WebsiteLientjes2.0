@@ -21,66 +21,74 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
-<div class="container-fluid mt-5" th:if="${(domain == null || domain == domainBistro) && #authorization.expression('hasAuthority(''BISTRO'')')}">
-    <h4>Algemene info Bistro</h4>
-    <hr>
-    <div class="row d-flex justify-content-center">
-        <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2" th:each="infoContent : ${contactInfoListBistro}">
-            <div class="card-header bg-secondary d-flex align-items-center">
-                <h4 class="text-center text-light"><span th:utext="${infoContent.icon.iconCode}" class="me-5"></span><span th:text="${infoContent.infoName}"></span></h4>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title" th:text="${infoContent.infoContent}"></h5>
-                <a th:href="@{|/admin/contactinfo/${infoContent.id}|}" class="btn btn-dark m-2">Aanpassen</a>
+<th:block sec:authorize="hasAuthority('CONTACT')">
+
+    <div class="container-fluid mt-5" th:if="${(domain == null || domain == domainBistro) && #authorization.expression('hasAuthority(''BISTRO'')')}">
+        <h4>Algemene info Bistro</h4>
+        <hr>
+        <div class="row d-flex justify-content-center">
+            <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2" th:each="infoContent : ${contactInfoListBistro}">
+                <div class="card-header bg-secondary d-flex align-items-center">
+                    <h4 class="text-center text-light"><span th:utext="${infoContent.icon.iconCode}" class="me-5"></span><span th:text="${infoContent.infoName}"></span></h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${infoContent.infoContent}"></h5>
+                    <a th:href="@{|/admin/contactinfo/${infoContent.id}|}" class="btn btn-dark m-2">Aanpassen</a>
+                </div>
             </div>
         </div>
+        <form method="post" th:action="@{|/admin/newcontactinfo|}" class="row d-flex justify-content-center mt-3">
+            <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2" th:object="${newContactInfo}">
+                <div class="card-header d-flex align-items-center">
+                    <label for="name" class="form-label">naam:</label>
+                    <input type="text" id="name" th:field="*{infoName}" class="form-control" th:errorclass="alert-danger">
+                </div>
+                <div class="card-body">
+                    <label for="content" class="form-label">inhoud:</label>
+                    <input type="text" id="content" th:field="*{infoContent}" class="form-control" th:errorclass="alert-danger">
+                    <input type="number" name="domainId" th:value="${domainBistro.id}" class="d-none">
+                    <input type="submit" class="btn btn-dark m-2" value="opslaan">
+                </div>
+            </div>
+        </form>
+
     </div>
-    <form method="post" th:action="@{|/admin/newcontactinfo|}" class="row d-flex justify-content-center mt-3">
-        <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2" th:object="${newContactInfo}">
-            <div class="card-header d-flex align-items-center">
-                <label for="name" class="form-label">naam:</label>
-                <input type="text" id="name" th:field="*{infoName}" class="form-control" th:errorclass="alert-danger">
-            </div>
-            <div class="card-body">
-                <label for="content" class="form-label">inhoud:</label>
-                <input type="text" id="content" th:field="*{infoContent}" class="form-control" th:errorclass="alert-danger">
-                <input type="number" name="domainId" th:value="${domainBistro.id}" class="d-none">
-                <input type="submit" class="btn btn-dark m-2" value="opslaan">
+
+    <div class="container-fluid mt-5" th:if="${(domain == null || domain == domainBolo) && #authorization.expression('hasAuthority(''BOLO'')')}">
+        <h4>Algemene info Bolo</h4>
+        <hr>
+        <div class="row d-flex justify-content-center">
+            <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2" th:each="infoContent : ${contactInfoListBolo}">
+                <div class="card-header bg-secondary d-flex align-items-center">
+                    <h4 class="text-center text-light"><span th:utext="${infoContent.icon.iconCode}" class="inline-logo me-5"></span><span th:text="${infoContent.infoName}"></span></h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${infoContent.infoContent}"></h5>
+                    <a th:href="@{|/admin/contactinfo/${infoContent.id}|}" class="btn btn-dark m-2">Aanpassen</a>
+                </div>
             </div>
         </div>
-    </form>
-
-</div>
-
-<div class="container-fluid mt-5" th:if="${(domain == null || domain == domainBolo) && #authorization.expression('hasAuthority(''BOLO'')')}">
-    <h4>Algemene info Bolo</h4>
-    <hr>
-    <div class="row d-flex justify-content-center">
-        <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2" th:each="infoContent : ${contactInfoListBolo}">
-            <div class="card-header bg-secondary d-flex align-items-center">
-                <h4 class="text-center text-light"><span th:utext="${infoContent.icon.iconCode}" class="inline-logo me-5"></span><span th:text="${infoContent.infoName}"></span></h4>
+        <form method="post" th:action="@{|/admin/newcontactinfo|}" class="row d-flex justify-content-center mt-3">
+            <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2" th:object="${newContactInfo}">
+                <div class="card-header d-flex align-items-center">
+                    <label for="name" class="form-label">naam:</label>
+                    <input type="text" id="name" th:field="*{infoName}" class="form-control" th:errorclass="alert-danger">
+                </div>
+                <div class="card-body">
+                    <label for="content" class="form-label">inhoud:</label>
+                    <input type="text" id="content" th:field="*{infoContent}" class="form-control" th:errorclass="alert-danger">
+                    <input type="number" name="domainId" th:value="${domainBolo.id}" class="d-none">
+                    <input type="submit" class="btn btn-dark m-2" value="opslaan">
+                </div>
             </div>
-            <div class="card-body">
-                <h5 class="card-title" th:text="${infoContent.infoContent}"></h5>
-                <a th:href="@{|/admin/contactinfo/${infoContent.id}|}" class="btn btn-dark m-2">Aanpassen</a>
-            </div>
-        </div>
+        </form>
     </div>
-    <form method="post" th:action="@{|/admin/newcontactinfo|}" class="row d-flex justify-content-center mt-3">
-        <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2" th:object="${newContactInfo}">
-            <div class="card-header d-flex align-items-center">
-                <label for="name" class="form-label">naam:</label>
-                <input type="text" id="name" th:field="*{infoName}" class="form-control" th:errorclass="alert-danger">
-            </div>
-            <div class="card-body">
-                <label for="content" class="form-label">inhoud:</label>
-                <input type="text" id="content" th:field="*{infoContent}" class="form-control" th:errorclass="alert-danger">
-                <input type="number" name="domainId" th:value="${domainBolo.id}" class="d-none">
-                <input type="submit" class="btn btn-dark m-2" value="opslaan">
-            </div>
-        </div>
-    </form>
-</div>
+</th:block>
 
+<th:block th:unless="${#authorization.expression('hasAuthority(''CONTACT'')')}">
+    <div class="container-fluid mt-5">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</th:block>
 </body>
 </html>

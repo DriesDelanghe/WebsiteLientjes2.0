@@ -23,103 +23,112 @@
 <body>
 
 <header th:replace="admin/fragments/header :: header"></header>
+<th:block sec:authorize="hasAuthority('CONTACT')">
 
-<div class="container-fluid" th:unless="${contactInfo.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')') && contactInfo != null} : ${#authorization.expression('hasAuthority(''BOLO'')') && contactInfo != null}">
-    <h5>Contact info kan niet gevonden worden</h5>
-</div>
+    <div class="container-fluid" th:unless="${contactInfo.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')') && contactInfo != null} : ${#authorization.expression('hasAuthority(''BOLO'')') && contactInfo != null}">
+        <h5>Contact info kan niet gevonden worden</h5>
+    </div>
 
 
-<th:block th:if="${contactInfo.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')') && contactInfo != null} : ${#authorization.expression('hasAuthority(''BOLO'')') && contactInfo != null}">
-    <a th:href="@{|/admin/contactinfolijst|}" class="btn btn-dark">Terug naar overzicht</a>
+    <th:block th:if="${contactInfo.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')') && contactInfo != null} : ${#authorization.expression('hasAuthority(''BOLO'')') && contactInfo != null}">
+        <a th:href="@{|/admin/contactinfolijst|}" class="btn btn-dark">Terug naar overzicht</a>
 
-    <div class="row w-100" th:object="${contactInfo}">
-        <div class="col-12 alert-danger" th:if="${#fields.hasErrors('*')}">
-            <p>ERROR - data kan niet opgeslagen worden</p>
-        </div>
-        <div class="card col-8 col-lg-6 mx-auto p-0 mt-5">
-            <div class="card-header bg-secondary d-flex flex-lg-row flex-column">
-                <h4></h4>
-                <span th:utext="${contactInfo.icon.iconCode}" class="text-light h4 mx-auto align-self-center"></span>
-                <!-- Button trigger remove modal -->
-                <button type="button" class="btn btn-dark mt-2 mt-lg-0" data-bs-toggle="modal"
-                        data-bs-target="#imageModal">
-                    afbeelding wijzigen
-                </button>
+        <div class="row w-100" th:object="${contactInfo}">
+            <div class="col-12 alert-danger" th:if="${#fields.hasErrors('*')}">
+                <p>ERROR - data kan niet opgeslagen worden</p>
             </div>
-            <div class="card-body">
-                <div class="container-fluid p-0 d-flex justify-content-end">
-                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                            data-bs-target="#removeModal">
-                        x
+            <div class="card col-8 col-lg-6 mx-auto p-0 mt-5">
+                <div class="card-header bg-secondary d-flex flex-lg-row flex-column">
+                    <h4></h4>
+                    <span th:utext="${contactInfo.icon.iconCode}" class="text-light h4 mx-auto align-self-center"></span>
+                    <!-- Button trigger remove modal -->
+                    <button type="button" class="btn btn-dark mt-2 mt-lg-0" data-bs-toggle="modal"
+                            data-bs-target="#imageModal">
+                        afbeelding wijzigen
                     </button>
                 </div>
-                <form method="post" th:action="@{|/admin/changecontactinfo/${contactInfo.id}|}">
-                    <label for="name" class="form-label">Naam:</label>
-                    <input class="form-control" type="text" id="name" th:field="*{infoName}"
-                           th:errorclass="alert-danger">
-                    <label for="content" class="form-label">Inhoud:</label>
-                    <input class="form-control" type="text" id="content" th:field="*{infoContent}"
-                           th:errorclass="alert-danger">
-                    <input type="submit" value="opslagen" class="btn btn-dark m-3">
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- image Modal -->
-    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="imageModalLabel">Foto wijzigen</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form method="post" th:action="@{|/admin/contactinfo/iconchange/${contactInfo.id}|}">
-                    <div class="modal-body">
-                        <h4 class="text-center mt-4">icoon selecteren</h4>
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 col-8 d-flex flex-row mx-auto my-3"
-                                 th:each="icon : ${contactInfoIcons}"
-                                 th:object="${icon}">
-                                <input type="radio" th:id="|icon${icon.id}|" th:value="*{id}" name="iconId"
-                                       th:checked="${contactInfo.icon == icon}">
-                                <label class="h2" th:for="|icon${icon.id}|" th:utext="*{iconCode}">
-                                </label>
-                            </div>
-                        </div>
+                <div class="card-body">
+                    <div class="container-fluid p-0 d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                data-bs-target="#removeModal">
+                            x
+                        </button>
                     </div>
-                    <div class="modal-footer">
-                        <input type="submit" value="opslagen" class="btn btn-success m-2">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- remove Modal -->
-    <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="removeModalLabel">contact info verwijderen</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Bent u zeker dat u deze contact info wilt verwijderen?</p>
-                    <p><strong>Deze actie is permanent</strong></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <form method="post" th:action="@{|/admin/removecontactinfo/${contactInfo.id}|}">
-                        <input type="submit" value="verwijderen" class="btn btn-danger">
+                    <form method="post" th:action="@{|/admin/changecontactinfo/${contactInfo.id}|}">
+                        <label for="name" class="form-label">Naam:</label>
+                        <input class="form-control" type="text" id="name" th:field="*{infoName}"
+                               th:errorclass="alert-danger">
+                        <label for="content" class="form-label">Inhoud:</label>
+                        <input class="form-control" type="text" id="content" th:field="*{infoContent}"
+                               th:errorclass="alert-danger">
+                        <input type="submit" value="opslagen" class="btn btn-dark m-3">
                     </form>
                 </div>
             </div>
         </div>
-    </div>
+
+
+        <!-- image Modal -->
+        <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">Foto wijzigen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post" th:action="@{|/admin/contactinfo/iconchange/${contactInfo.id}|}">
+                        <div class="modal-body">
+                            <h4 class="text-center mt-4">icoon selecteren</h4>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 col-8 d-flex flex-row mx-auto my-3"
+                                     th:each="icon : ${contactInfoIcons}"
+                                     th:object="${icon}">
+                                    <input type="radio" th:id="|icon${icon.id}|" th:value="*{id}" name="iconId"
+                                           th:checked="${contactInfo.icon == icon}">
+                                    <label class="h2" th:for="|icon${icon.id}|" th:utext="*{iconCode}">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" value="opslagen" class="btn btn-success m-2">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- remove Modal -->
+        <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="removeModalLabel">contact info verwijderen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bent u zeker dat u deze contact info wilt verwijderen?</p>
+                        <p><strong>Deze actie is permanent</strong></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <form method="post" th:action="@{|/admin/removecontactinfo/${contactInfo.id}|}">
+                            <input type="submit" value="verwijderen" class="btn btn-danger">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+
 </th:block>
+
+<div th:unless="${#authorization.expression('hasAuthority(''CONTACT'')')}">
+    <div class="container-fluid">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</div>
 
 </body>
 </html>

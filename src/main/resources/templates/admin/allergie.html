@@ -24,7 +24,7 @@
     <hr>
 </div>
 
-<th:block th:if="${allergy != null}">
+<th:block th:if="${allergy != null && #authorization.expression('hasAuthority(''MENU'')')}">
 
 
     <div class="row mt-2">
@@ -272,7 +272,7 @@
     </div>
 
 </th:block>
-<th:block th:unless="${allergy != null}">
+<th:block th:unless="${allergy != null && #authorization.expression('hasAuthority(''MENU'')')}">
     <h4 class="text-center">Allergie kan niet gevonden worden</h4>
 </th:block>
 
