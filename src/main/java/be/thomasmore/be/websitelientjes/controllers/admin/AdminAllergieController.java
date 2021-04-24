@@ -11,6 +11,7 @@ import be.thomasmore.be.websitelientjes.repositories.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -35,10 +36,15 @@ public class AdminAllergieController {
     Logger logger = LoggerFactory.getLogger(AdminAllergieController.class);
 
 
-
+    @PreAuthorize("hasRole('BOLO')")
     @ModelAttribute("hasRoleBolo")
-    public Principal getUser(Principal principal){
-        return principal;
+    public boolean isHasRoleBolo(){
+        return true;
+    }
+    @PreAuthorize("hasRole('BISTRO')")
+    @ModelAttribute("hasRoleBistro")
+    public boolean isHasRoleBistro(){
+        return true;
     }
 
     @ModelAttribute("domainBistro")
