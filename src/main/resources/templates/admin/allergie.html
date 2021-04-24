@@ -83,7 +83,7 @@
                 <form method="post"
                       th:action="@{|/admin/removeproductfromallergie/${allergy.id}|}">
                     <div class="row d-flex justify-content-center">
-                        <th:block th:each="product : ${allergy.getProducts()}">
+                        <th:block th:each="product : ${allergy.getProducts()}" sec:authorize="${product.menuSubSection.menuSectionList[0].domain.id == 1} ? hasAuthority('BISTRO') : hasAuthority('BOLO')">
                             <label class="col-12 col-lg-4 col-xl-3 m-2">
                                 <input type="checkbox" name="productId[]" th:value="${product.id}">
                                 <div class="card w-100 remove-product">
@@ -108,7 +108,7 @@
         </div>
     </div>
 
-    <div class="accordion-item">
+    <div class="accordion-item" sec:authorize="hasAuthority('BISTRO')">
         <h2 class="accordion-header" id="flush-headingTwo">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
@@ -185,7 +185,7 @@
         </div>
     </div>
 
-    <div class="accordion-item">
+    <div class="accordion-item" sec:authorize="hasAuthority('BOLO')">
         <h2 class="accordion-header" id="flush-headingThree">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">

@@ -484,15 +484,30 @@ values (nextval('CF_SEQ'), 'persona A', 'onderwerp1', 'email1@example.com', 1,
         'this is a placeholder text merely to show how it works', '2020-04-12 16:24:55.698', false);
 
 
-insert into user(id, username, password, role)
-values (nextval('U_SEQ'), 'admin', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy', 'ADMIN');
+insert into user(id, username, password)
+values (nextval('U_SEQ'), 'admin', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy');
 
 insert into USER_ROLE(id, role_name)
-values(1, 'bistro'),
-       (2, 'bolo'),
-       (3, 'ADMIN');
+values(1, 'BISTRO'),
+       (2, 'BOLO'),
+       (3, 'ADMIN'),
+       (4, 'CONTRIBUTERS'),
+       (5, 'SOCIAL_MEDIA'),
+       (6,'CONTACT'),
+       (7, 'OPENINGUUR'),
+       (8, 'PAGE_EDIT'),
+       (9, 'MENU'),
+       (10, 'PERSONNEL'),
+       (11, 'INBOX');
 
 insert into user_user_role(users_id, user_role_id)
 values(1, 1),
-       (1,2),
-       (1,3);
+       (1,3),
+       (1,4),
+       (1,5),
+       (1,6),
+       (1,7),
+       (1,8),
+       (1,9),
+       (1,10),
+       (1,11);

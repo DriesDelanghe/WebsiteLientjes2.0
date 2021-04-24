@@ -1,5 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -19,22 +20,22 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" th:href="@{|/admin/home|}">Home</a>
                     </li>
-                    <li class="nav-item">
+                    <li sec:authorize="hasAuthority('INBOX')" class="nav-item">
                         <a class="nav-link" th:href="@{|/admin/inbox|}">inbox</a>
                     </li>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" userRole="button"
+                    <li class="nav-item dropdown" sec:authorize="hasAuthority('PERSONNEL')">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
                             Personeel
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
 
-                            <li><a class="dropdown-item" th:href="@{|/admin/personeellijst|}"> algemeen overzicht</a>
+                            <li><a class="dropdown-item" th:href="@{|/admin/personeellijst|}" sec:authorize="hasAuthority('BOLO') and hasAuthority('BISTRO')"> algemeen overzicht</a>
                             </li>
-                            <li><a class="dropdown-item" th:href="@{|/admin/personeellijst/1|}"> overzicht Bistro</a>
+                            <li><a class="dropdown-item" th:href="@{|/admin/personeellijst/1|}" sec:authorize="hasAuthority('BISTRO')"> overzicht Bistro</a>
                             </li>
-                            <li><a class="dropdown-item" th:href="@{|/admin/personeellijst/2|}"> overzicht Bolo</a></li>
+                            <li><a class="dropdown-item" th:href="@{|/admin/personeellijst/2|}" sec:authorize="hasAuthority('BOLO')"> overzicht Bolo</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -42,8 +43,8 @@
                                 toevoegen</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" userRole="button"
+                    <li class="nav-item dropdown" sec:authorize="hasAuthority('MENU')">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
                             Menu
                         </a>
@@ -58,63 +59,65 @@
                             </li>
 
                             <li><a class="dropdown-item" th:href="@{|/admin/menulijst|}"> Algemeen overzicht</a></li>
-                            <li>
+                            <li sec:authorize="hasAuthority('BISTRO')">
                                 <hr class="dropdown-divider">
                                 <a class="dropdown-item mt-2"
                                    th:href="@{|/admin/menulijst/1|}"><strong>Lientjes
                                     Bistro</strong></a>
                             </li>
-                            <li><a class="dropdown-item" th:href="@{|/admin/menusectie/${menuSection.id}|}"
+                            <li sec:authorize="hasAuthority('BISTRO')"><a class="dropdown-item" th:href="@{|/admin/menusectie/${menuSection.id}|}"
                                    th:each="menuSection : ${menuSectionListBistro}" th:text="${menuSection.name}">placeholder</a>
                             </li>
-                            <li>
+                            <li sec:authorize="hasAuthority('BOLO')">
                                 <hr class="dropdown-divider">
                                 <a class="dropdown-item mt-2" th:href="@{|/admin/menulijst/2|}"><strong>
                                     Bolo Lientjes</strong></a>
                             </li>
-                            <li><a class="dropdown-item" th:href="@{|/admin/menusectie/${menuSection.id}|}"
+                            <li sec:authorize="hasAuthority('BOLO')"><a class="dropdown-item" th:href="@{|/admin/menusectie/${menuSection.id}|}"
                                    th:each="menuSection : ${menuSectionListBolo}" th:text="${menuSection.name}">placeholder</a>
                             </li>
                         </ul>
                     </li>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownExtra" userRole="button"
+                    <li class="nav-item dropdown" sec:authorize="hasAuthority('CONTRIBUTERS') or hasAuthority('SOCIAL_MEDIA') or hasAuthority('CONTACT')
+                    or hasAuthority('OPENINGUUR') or hasAuthority('PAGE_EDIT')">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownExtra" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
                             pagina info
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdownExtra">
-                            <li><a class="dropdown-item" th:href="@{|/admin/contributers|}"> Contributers</a>
+                            <li sec:authorize="hasAuthority('CONTRIBUTERS')"><a class="dropdown-item" th:href="@{|/admin/contributers|}"> Contributers</a>
                             </li>
-                            <li>
+                            <li sec:authorize="hasAuthority('SOCIAL_MEDIA') and hasAuthority('BISTRO') and hasAuthority('BOLO')">
                                 <hr class="dropdown-divider">
                                 <a class="dropdown-item" th:href="@{|/admin/socialmedialijst|}"><strong>Sociale
                                     media</strong></a>
                             </li>
-                            <li><a th:href="@{|/admin/socialmedialijst/1|}" class="dropdown-item">Sociale
+                            <li sec:authorize="hasAuthority('SOCIAL_MEDIA') and hasAuthority('BISTRO')" ><a th:href="@{|/admin/socialmedialijst/1|}" class="dropdown-item">Sociale
                                 media Bistro</a></li>
-                            <li><a th:href="@{|/admin/socialmedialijst/2|}" class="dropdown-item">Sociale
+                            <li sec:authorize="hasAuthority('SOCIAL_MEDIA') and hasAuthority('BOLO')"><a th:href="@{|/admin/socialmedialijst/2|}" class="dropdown-item">Sociale
                                 media Bolo</a></li>
-                            <li>
+                            <li sec:authorize="hasAuthority('CONTACT') and hasAuthority('BISTRO') and hasAuthority('BOLO')">
                                 <hr class="dropdown-divider">
                                 <a th:href="@{|/admin/contactinfolijst|}" class="dropdown-item"><strong>Contact
                                     info</strong></a>
                             </li>
-                            <li><a th:href="@{|/admin/contactinfolijst/1|}" class="dropdown-item">Contact
+                            <li sec:authorize="hasAuthority('CONTACT') and hasAuthority('BISTRO')"><a th:href="@{|/admin/contactinfolijst/1|}" class="dropdown-item">Contact
                                 info Bistro</a></li>
-                            <li><a th:href="@{|/admin/contactinfolijst/2|}" class="dropdown-item">Contact
+                            <li sec:authorize="hasAuthority('CONTACT') and hasAuthority('BOLO')"><a th:href="@{|/admin/contactinfolijst/2|}" class="dropdown-item">Contact
                                 info Bolo</a></li>
                             <li>
-                            <li>
+                            <li sec:authorize="hasAuthority('OPENINGUUR') and hasAuthority('BISTRO') and hasAuthority('BOLO')">
                                 <hr class="dropdown-divider">
                                 <a th:href="@{|/admin/openingsuurlijst|}" class="dropdown-item"><strong>openingsuren</strong></a>
                             </li>
-                            <li>
+                            <li sec:authorize="hasAuthority('OPENINGUUR') and hasAuthority('BISTRO')">
                                 <a th:href="@{|/admin/openingsuurlijst/1|}" class="dropdown-item">openingsuren Bistro</a>
                             </li>
-                            <li>
+                            <li sec:authorize="hasAuthority('OPENINGUUR')and hasAuthority('BOLO')">
                                 <a th:href="@{|/admin/openingsuurlijst/2|}" class="dropdown-item">openingsuren Bolo</a>
                             </li>
+                            <li sec:authorize="hasAuthority('PAGE_EDIT')">
                             <hr class="dropdown-divider">
                             <a th:href="@{|/admin/paginaoverzicht|}" class="dropdown-item">pagina overzicht</a>
                             </li>
