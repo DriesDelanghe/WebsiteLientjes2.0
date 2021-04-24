@@ -24,12 +24,12 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
-<div class="container-fluid" th:unless="${contactInfo}">
+<div class="container-fluid" th:unless="${contactInfo.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')') && contactInfo != null} : ${#authorization.expression('hasAuthority(''BOLO'')') && contactInfo != null}">
     <h5>Contact info kan niet gevonden worden</h5>
 </div>
 
 
-<th:block th:if="${contactInfo.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')') && contactInfo} : ${#authorization.expression('hasAuthority(''BOLO'')' && contactInfo)}">
+<th:block th:if="${contactInfo.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')') && contactInfo != null} : ${#authorization.expression('hasAuthority(''BOLO'')') && contactInfo != null}">
     <a th:href="@{|/admin/contactinfolijst|}" class="btn btn-dark">Terug naar overzicht</a>
 
     <div class="row w-100" th:object="${contactInfo}">

@@ -21,7 +21,7 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
-<div class="container-fluid mt-5" th:if="${domain == null || domain == domainBistro}">
+<div class="container-fluid mt-5" th:if="${(domain == null || domain == domainBistro) && #authorization.expression('hasAuthority(''BISTRO'')')}">
     <h4>Algemene info Bistro</h4>
     <hr>
     <div class="row d-flex justify-content-center">
@@ -52,7 +52,7 @@
 
 </div>
 
-<div class="container-fluid mt-5" th:if="${domain == null || domain == domainBolo}">
+<div class="container-fluid mt-5" th:if="${(domain == null || domain == domainBolo) && #authorization.expression('hasAuthority(''BOLO'')')}">
     <h4>Algemene info Bolo</h4>
     <hr>
     <div class="row d-flex justify-content-center">
