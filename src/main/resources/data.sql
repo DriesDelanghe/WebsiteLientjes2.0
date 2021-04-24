@@ -489,8 +489,10 @@ values (nextval('U_SEQ'), 'admin', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGE
 
 insert into USER_ROLE(id, role_name)
 values(1, 'bistro'),
-       (2, 'bolo');
+       (2, 'bolo'),
+       (3, 'ADMIN');
 
 insert into user_user_role(users_id, user_role_id)
 values(1, 1),
-       (1,2);
+       (1,2),
+       (1,3);
