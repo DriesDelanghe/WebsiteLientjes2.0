@@ -16,8 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,18 +34,6 @@ public class AdminAllergieController {
     ProductRepository productRepository;
 
     Logger logger = LoggerFactory.getLogger(AdminAllergieController.class);
-
-
-    @PreAuthorize("hasRole('BOLO')")
-    @ModelAttribute("hasRoleBolo")
-    public boolean isHasRoleBolo(){
-        return true;
-    }
-    @PreAuthorize("hasRole('BISTRO')")
-    @ModelAttribute("hasRoleBistro")
-    public boolean isHasRoleBistro(){
-        return true;
-    }
 
     @ModelAttribute("domainBistro")
     public Domain getDomainBistro() {
@@ -68,11 +56,12 @@ public class AdminAllergieController {
     }
 
     @ModelAttribute("allProductsBistro")
-    public MenuSection getAllProductsBistro(){
+    public MenuSection getAllProductsBistro() {
         return menuSectionRepository.findById(1).get();
     }
+
     @ModelAttribute("allProductsBolo")
-    public MenuSection getAllProductsBolo(){
+    public MenuSection getAllProductsBolo() {
         return menuSectionRepository.findById(2).get();
     }
 
@@ -93,11 +82,9 @@ public class AdminAllergieController {
     }
 
     @ModelAttribute("newAllergy")
-    public Allergie newAllergie(){
+    public Allergie newAllergie() {
         return new Allergie();
     }
-
-
 
 
     @GetMapping("/allergielijst")
@@ -130,7 +117,7 @@ public class AdminAllergieController {
 
     @PostMapping("/addproducttoallergie/{allergyId}")
     public String adProductToAllergie(@ModelAttribute("allergy") Allergie allergie,
-                                            @RequestParam(name = "productId[]") List<Integer> productIds) {
+                                      @RequestParam(name = "productId[]") List<Integer> productIds) {
 
         List<Product> productsToAdd = (List<Product>) productRepository.findAllById(productIds);
         for (Product p : productsToAdd) {
@@ -145,9 +132,9 @@ public class AdminAllergieController {
 
     @PostMapping("/updateallergie/{allergyId}")
     public String updateAllergie(@Valid @ModelAttribute("allergy") Allergie allergie,
-                                 BindingResult bindingResult){
+                                 BindingResult bindingResult) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "admin/allergie";
         }
         allergieRepository.save(allergie);
@@ -157,8 +144,8 @@ public class AdminAllergieController {
 
     @PostMapping("/newallergy")
     public String newAllergiePost(@Valid @ModelAttribute("newAllergy") Allergie allergie,
-                                  BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+                                  BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "admin/allergylist";
         }
         allergieRepository.save(allergie);
@@ -167,11 +154,11 @@ public class AdminAllergieController {
     }
 
     @PostMapping("/removeallergy/{allergyId}")
-    public String removeAllergiePost(@PathVariable Integer allergyId){
+    public String removeAllergiePost(@PathVariable Integer allergyId) {
         Allergie allergie = allergieRepository.findById(allergyId).get();
         logger.info(allergie.getName());
         List<Product> productList = allergie.getProducts();
-        for(Product p : productList){
+        for (Product p : productList) {
             p.getAllergies().remove(allergie);
         }
         allergieRepository.delete(allergie);
