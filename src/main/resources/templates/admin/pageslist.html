@@ -20,31 +20,41 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
-<div class="row container-fluid mt-5 d-flex justify-content-center">
-    <div class="col-12">
-        <h4>Pagina's Lientjes Bistro</h4>
-        <hr>
-    </div>
-    <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2">
-        <div class="card-header p-0 ">
-            <img class="card-img-top" th:src="@{${pageListBistro.get(0).image.imageLocation}}" alt="">
-            <div class="card-img-overlay d-flex justify-content-center align-items-center flex-column">
-                <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize" th:text="'home'"></h2>
-                <a th:href="@{|/admin/pagina/1|}" class="btn btn-dark align-self-start  mt-auto">Aanpassen</a>
+<th:block sec:authorize="hasAuthority('PAGE_EDIT')">
+
+    <div class="row container-fluid mt-5 d-flex justify-content-center" sec:authorize="hasAuthority('BISTRO')">
+        <div class="col-12">
+            <h4>Pagina's Lientjes Bistro</h4>
+            <hr>
+        </div>
+        <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2">
+            <div class="card-header p-0 ">
+                <img class="card-img-top" th:src="@{${pageListBistro.get(0).image.imageLocation}}" alt="">
+                <div class="card-img-overlay d-flex justify-content-center align-items-center flex-column">
+                    <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize" th:text="'home'"></h2>
+                    <a th:href="@{|/admin/pagina/1|}" class="btn btn-dark align-self-start  mt-auto">Aanpassen</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2">
-        <div class="card-header p-0 ">
-            <img class="card-img-top" th:src="@{${pageListBistro.get(0).image.imageLocation}}" alt="">
-            <div class="card-img-overlay d-flex justify-content-center align-items-center flex-column">
-                <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize" th:text="'contact'"></h2>
-                <a th:href="@{|/admin/pagina/3|}" class="btn btn-dark align-self-start  mt-auto">Aanpassen</a>
+        <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2">
+            <div class="card-header p-0 ">
+                <img class="card-img-top" th:src="@{${pageListBistro.get(0).image.imageLocation}}" alt="">
+                <div class="card-img-overlay d-flex justify-content-center align-items-center flex-column">
+                    <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize" th:text="'contact'"></h2>
+                    <a th:href="@{|/admin/pagina/3|}" class="btn btn-dark align-self-start  mt-auto">Aanpassen</a>
+                </div>
             </div>
         </div>
-    </div>
 
-</div>
+    </div>
+</th:block>
+
+<th:block th:unless="${#authorization.expression('hasAuthority(''PAGE_EDIT'')')}">
+    <div class="container-fluid">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</th:block>
+
 </body>
 </html>
