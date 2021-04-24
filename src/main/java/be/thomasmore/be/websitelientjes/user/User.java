@@ -1,4 +1,4 @@
-package be.thomasmore.be.websitelientjes.models;
+package be.thomasmore.be.websitelientjes.controllers.user;
 
 import javax.persistence.*;
 import java.util.List;
