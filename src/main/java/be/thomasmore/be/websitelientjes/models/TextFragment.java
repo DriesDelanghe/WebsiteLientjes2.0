@@ -1,15 +1,13 @@
 package be.thomasmore.be.websitelientjes.models;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class TextFragment implements Comparable<TextFragment>{
 
     @Id
     private int id;
+    @Column(length = 1500)
     private String textContent;
     private Integer orderReference;
     private boolean headerText;

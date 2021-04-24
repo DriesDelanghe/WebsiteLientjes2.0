@@ -1,5 +1,6 @@
 package be.thomasmore.be.websitelientjes.controllers.bolo;
 
+import be.thomasmore.be.websitelientjes.controllers.wrapperclass.TextWrapper;
 import be.thomasmore.be.websitelientjes.models.*;
 import be.thomasmore.be.websitelientjes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,6 +29,8 @@ public class BoloGeneralController {
     SocialMediaRepository socialMediaRepository;
     @Autowired
     ReferenceRepository referenceRepository;
+    @Autowired
+    TextFragmentRepository textFragmentRepository;
 
     @ModelAttribute("referenceList")
     public List<Reference> getReferenceList(@ModelAttribute("domain") Domain domain){
@@ -51,6 +55,20 @@ public class BoloGeneralController {
     @ModelAttribute("socialMediaList")
     public List<SocialMedia> getSocialMediaList(@ModelAttribute("domain") Domain domain){
         return socialMediaRepository.findByDomain(domain);
+    }
+
+    @ModelAttribute("page")
+    public Page getPage(){
+        return pageRepository.findById(6).get();
+    }
+
+    @ModelAttribute("textWrapper")
+    public TextWrapper getTextWrapper(@ModelAttribute("page") Page page){
+        TextWrapper wrapper = new TextWrapper();
+        wrapper.setHeaderText((ArrayList<TextFragment>) textFragmentRepository.getByPageAndHeaderText(page, true));
+        wrapper.setParagraphText((ArrayList<TextFragment>) textFragmentRepository.getByPageAndHeaderText(page, false));
+        return wrapper;
+
     }
 
     @GetMapping({"", "/", "/home"})

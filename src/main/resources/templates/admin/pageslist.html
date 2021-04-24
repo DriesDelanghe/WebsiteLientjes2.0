@@ -31,7 +31,8 @@
             <div class="card-header p-0 ">
                 <img class="card-img-top" th:src="@{${pageListBistro.get(0).image.imageLocation}}" alt="">
                 <div class="card-img-overlay d-flex justify-content-center align-items-center flex-column">
-                    <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize" th:text="'home'"></h2>
+                    <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize"
+                        th:text="'home'"></h2>
                     <a th:href="@{|/admin/pagina/1|}" class="btn btn-dark align-self-start  mt-auto">Aanpassen</a>
                 </div>
             </div>
@@ -41,13 +42,50 @@
             <div class="card-header p-0 ">
                 <img class="card-img-top" th:src="@{${pageListBistro.get(0).image.imageLocation}}" alt="">
                 <div class="card-img-overlay d-flex justify-content-center align-items-center flex-column">
-                    <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize" th:text="'contact'"></h2>
+                    <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize"
+                        th:text="'contact'"></h2>
                     <a th:href="@{|/admin/pagina/3|}" class="btn btn-dark align-self-start  mt-auto">Aanpassen</a>
                 </div>
             </div>
         </div>
 
     </div>
+
+    <div class="row container-fluid my-5 d-flex justify-content-center" sec:authorize="hasAuthority('BOLO')">
+        <div class="col-12">
+            <h4>Pagina's Bolo Lientjes</h4>
+            <hr>
+        </div>
+        <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2">
+            <div class="card-header p-0 ">
+                <div class="ratio ratio-4x3">
+                    <img class="card-img-top object-cover w-100 h-100" th:src="@{${pageListBolo.get(0).image.imageLocation}}"
+                         alt="">
+                </div>
+                <div class="card-img-overlay d-flex justify-content-center align-items-center flex-column">
+                    <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize"
+                        th:text="'home'"></h2>
+                    <a th:href="@{|/admin/pagina/6|}" class="btn btn-dark align-self-start  mt-auto">Aanpassen</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2">
+            <div class="card-header p-0">
+                <div class="ratio ratio-4x3">
+                    <img class="card-img-top object-cover w-100 h-100" th:src="@{${pageListBolo.get(0).image.imageLocation}}"
+                         alt="">
+                </div>
+                <div class="card-img-overlay d-flex justify-content-center align-items-center flex-column">
+                    <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize"
+                        th:text="'contact'"></h2>
+                    <a th:href="@{|/admin/pagina/7|}" class="btn btn-dark align-self-start  mt-auto">Aanpassen</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </th:block>
 
 <th:block th:unless="${#authorization.expression('hasAuthority(''PAGE_EDIT'')')}">

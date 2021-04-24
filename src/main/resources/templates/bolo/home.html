@@ -22,7 +22,7 @@
 
 <div class="container-fluid row m-0 p-0 my-5">
     <div class="col-12">
-        <h2 class="display-2 text-center mb-3"> Bolo lientjes</h2>
+        <h2 class="display-2 text-center mb-3" th:text="${textWrapper.headerText[0].textContent}"> Bolo lientjes</h2>
         <hr class="dropdown-divider mx-auto" style="width: 50%">
     </div>
 </div>
@@ -30,12 +30,8 @@
 <div class="container-fluid p-0 row mt-4">
     <div class="col-lg-5 col-md-6 col-12 me-auto p-4 mb-5">
         <div class="row p-4">
-            <h4 class="display-4 text-center">Over bolo Lientjes</h4>
-            <p class="lead text-center">Bolo lientjes is een nieuwe pasta zaak die jou met alle plezier wilt bedienen
-                met de lekkerste pasta's. <br> <br>
-                Je kan kiezen tussen een vooraf samengestelde pasta, of je kan zelf je pasta samenstellen met keuze uit
-                verschillende sauzen en pasta's.
-            </p>
+            <h4 class="display-4 text-center" th:text="${textWrapper.headerText[1].textContent}">placeholder headerText 1</h4>
+            <p class="lead text-center" th:text="${textWrapper.paragraphText[0].textContent}">placeholder paragraphText 1</p>
         </div>
         <div class="ratio ratio-4x3">
             <img class="object-cover w-100 h-100" th:src="${page.image.imageLocation}" alt="">
@@ -44,11 +40,10 @@
 
     <div class="col-md-6 col-12 ms-auto">
         <div class="row p-4">
-            <h4 class="display-4 text-center">Personeel</h4>
-            <p class="lead text-center">Het personeel van Lientje's bistro staat altijd paraat om je met een glimlach te
-                helpen</p>
+            <h4 class="display-4 text-center" th:text="${textWrapper.headerText[2].textContent}">placeholder headerText 2</h4>
+            <p class="lead text-center" th:text="${textWrapper.paragraphText[1].textContent}">placeholder paragraphText 2</p>
             <div class="d-flex justify-content-center my-2">
-                <a href="" class="btn btn-dark">Bekijk het personeel <i class="fas fa-arrow-right"></i></a>
+                <a href="" class="btn btn-dark"><span th:text="${textWrapper.paragraphText[2].textContent}">placeholder paragraphText 3</span> <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <!-- carousel desktop -->
@@ -125,16 +120,16 @@
 
 <div class="container-fluid row mt-4 bg-dark py-5 mx-0">
     <div class="col-12 col-md-5 ms-auto my-3 d-flex align-content-center flex-column justify-content-center">
-        <h4 class="heading-4 text-light text-center">Bekijk onze menu</h4>
+        <h4 class="heading-4 text-light text-center" th:text="${textWrapper.headerText[3].textContent}">placeholder headerText 4</h4>
         <div class="d-flex justify-content-center my-2">
-            <a href="" class="btn btn-danger">Naar menu <i class="fas fa-arrow-right"></i></a>
+            <a th:href="@{|/bolo/menuoverzicht|}" class="btn btn-danger"><span th:text="${textWrapper.paragraphText[3].textContent}">placeholder paragraphText 4</span> <i class="fas fa-arrow-right"></i></a>
         </div>
     </div>
 
     <div class="col-12 col-md-5 me-auto my-3 d-flex align-content-center flex-column justify-content-center">
-        <h4 class="heading-4 text-light text-center">Neem contact op met ons</h4>
+        <h4 class="heading-4 text-light text-center" th:text="${textWrapper.headerText[4].textContent}">placeholder headerText 5</h4>
         <div class="d-flex justify-content-center my-2">
-            <a href="" class="btn btn-danger">Naar contact <i class="fas fa-arrow-right"></i></a>
+            <a th:href="@{|/bolo/contact|}" class="btn btn-danger"><span th:text="${textWrapper.paragraphText[4].textContent}">placeholder paragraphText 5</span> <i class="fas fa-arrow-right"></i></a>
         </div>
     </div>
 </div>
@@ -142,7 +137,7 @@
 <div class="container-fluid row my-4">
     <div class="col-12 col-md-6">
         <div class="w-75 mx-auto">
-            <h4 class="heading-4 text-center my-3">Openingsuren</h4>
+            <h4 class="heading-4 text-center my-3" th:text="${textWrapper.headerText[5].textContent}">placeholder headerText 6</h4>
             <th:block th:each="opening : ${openingsuren}">
                 <div class="d-flex justify-content-between" th:object="${opening}">
                     <p class="lead m-1" th:text="|*{dag}:|"></p>
@@ -156,7 +151,7 @@
 
     <div class="col-12 col-md-6 mx-auto my-3">
         <div class="w-75 mx-auto">
-            <h4 class="heading-4 text-center ">Sociale Media</h4>
+            <h4 class="heading-4 text-center " th:text="${textWrapper.headerText[6].textContent}">placeholder headerText 7</h4>
             <div class="d-flex justify-content-center my-2" th:if="${!socialMediaList.isEmpty()}">
                 <a th:each="socialMedia : ${socialMediaList}" th:href="@{${socialMedia.socialMediaUrl}}" class="btn btn-danger mx-2">
                     <span th:utext="${socialMedia.icon.iconCode}" class="h4"></span>
@@ -168,9 +163,9 @@
 
     <div class="col-12 col-md-6 my-5 mx-auto">
         <div class="w-75 mx-auto">
-            <h4 class="heading-4 text-center">Bezoek ook onze zustersite:</h4>
+            <h4 class="heading-4 text-center" th:text="${textWrapper.headerText[7].textContent}">placeholder headerText 8</h4>
             <div class="d-flex justify-content-center my-3">
-                <a th:href="@{|/bistro/home|}" class="btn btn-danger">Naar Lientje's Bistro <i class="fas fa-arrow-right"></i></a>
+                <a th:href="@{|/bistro/home|}" class="btn btn-danger"><span th:text="${textWrapper.paragraphText[5].textContent}">placeholder paragraphText 6</span> <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </div>

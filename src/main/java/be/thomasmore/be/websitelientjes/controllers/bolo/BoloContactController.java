@@ -1,5 +1,6 @@
 package be.thomasmore.be.websitelientjes.controllers.bolo;
 
+import be.thomasmore.be.websitelientjes.controllers.wrapperclass.TextWrapper;
 import be.thomasmore.be.websitelientjes.models.*;
 import be.thomasmore.be.websitelientjes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +27,10 @@ public class BoloContactController {
     ContactFormRepository contactFormRepository;
     @Autowired
     ContactTypeRepository contactTypeRepository;
+    @Autowired
+    PageRepository pageRepository;
+    @Autowired
+    TextFragmentRepository textFragmentRepository;
 
     @ModelAttribute("domain")
     public Domain getDomain(){
@@ -54,6 +60,19 @@ public class BoloContactController {
     @ModelAttribute("pageName")
     public String getPagename(){
         return "contact";
+    }
+
+    @ModelAttribute("page")
+    public Page getPage(){
+        return  pageRepository.findById(7).get();
+    }
+
+    @ModelAttribute("textWrapper")
+    public TextWrapper getTextWrapper(@ModelAttribute("page") Page page){
+        TextWrapper wrapper = new TextWrapper();
+        wrapper.setHeaderText((ArrayList<TextFragment>) textFragmentRepository.getByPageAndHeaderText(page, true));
+        wrapper.setParagraphText((ArrayList<TextFragment>) textFragmentRepository.getByPageAndHeaderText(page, false));
+        return wrapper;
     }
 
     @GetMapping("/contact")

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -145,12 +146,27 @@ public class AdminPagesController {
 
     @GetMapping("/pagina/{pageId}")
     public String pageView(@PathVariable(required = false) Integer pageId,
-                           @ModelAttribute("page") Page page){
+                           @ModelAttribute("page") Page page,
+                           @ModelAttribute("domainBolo") Domain domainBolo,
+                           Model model){
         if(page.getId() == 1){
             return "admin/pages/bistrohome";
         }
         if(page.getId() == 3){
             return "admin/pages/bistrocontact";
+        }
+
+        if(page.getId() == 6){
+            List<Personnel> personnelList = personnelRepository.getByDomain(domainBolo);
+            Integer listSize = personnelList.size();
+            Integer iterationSize = listSize/2;
+            model.addAttribute("iterationSize", iterationSize);
+            model.addAttribute("personnelList", personnelList);
+            return "admin/pages/bolohome";
+        }
+
+        if(page.getId() == 7){
+            return "admin/pages/bolocontact";
         }
 
         return "admin/pages/nopage";

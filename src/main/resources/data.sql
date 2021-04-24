@@ -47,7 +47,9 @@ values (1, 'home', 'bistrohome', 1, 2),
        (3, 'contact', 'bistrocontact', 1, 2),
        (4, 'personeel', 'bistropersoneel', 1, 2),
        (5, 'menu', 'bistromenu', 1, 2),
-       (6, 'home', 'bolohome', 2, 17);
+       (6, 'home', 'bolohome', 2, 17),
+       (7, 'contact', 'bolocontact', 2, null),
+       (8, 'contactconfirmation', 'boloconfirmation', 2, null);
 
 insert into personnel_pages(personnel_id, pages_id)
 values (1, 1),
@@ -110,7 +112,35 @@ values (1, 'Meer dan een koffiehuis', 1, true, 1),
        (23, 'Je vraag', 5, true, 3),
        (24, 'Je vraag is verstuurd!', 6, true, 3),
        (25, 'Gelieve alle velden in te vullen', 5, false, 3),
-       (26, 'Vind makkelijk je weg naar ons!', 1, false, 3);
+       (26, 'Vind makkelijk je weg naar ons!', 1, false, 3),
+       (27, 'Bolo lientjes', 1, true, 6),
+       (28, 'Over bolo Lientjes', 2, true, 6),
+       (29, 'Bolo lientjes is een nieuwe pasta zaak die jou met alle plezier wilt bedienen ' ||
+                'met de lekkerste pasta''s. Je kan kiezen tussen een vooraf samengestelde pasta, of je kan zelf je pasta samenstellen met keuze uit ' ||
+                'verschillende sauzen en pasta''s.', 1, false, 6),
+       (30, 'Personeel', 3, true, 6),
+       (31, 'Het personeel van Lientje''s bistro staat altijd paraat om je met een glimlach te helpen', 2, false, 6),
+       (32, 'Bekijk het personeel', 3, false, 6),
+       (33, 'Bekijk onze menu', 4, true, 6),
+       (34, 'Naar menu', 4, false, 6),
+       (35, 'Neem contact op met ons', 6, true, 6),
+       (36, 'Naar contact', 5, false, 6),
+       (37, 'Openingsuren', 7, true, 6),
+       (38, 'Sociale Media', 8, true, 6),
+       (39, 'Bezoek ook onze zustersite:', 9, true, 6),
+       (40, 'Naar Lientje''s Bistro', 6, false, 6),
+       (41, 'contact', 1, true, 7),
+       (42, 'Contact Gegevens', 2, true, 7),
+       (43, 'sociale media', 3, true, 7),
+       (44, 'Contacteer ons', 4, true, 7),
+       (45, 'Alle velden moeten ingevuld worden', 1, false, 7),
+       (46, 'algemene Info', 5, true, 7),
+       (47, 'Je naam:', 2, false, 7),
+       (48, 'Je email:', 3, false, 7),
+       (49, 'Soort vraag:', 4, false, 7),
+       (50, 'Je vraag', 5, true, 7),
+       (51, 'Onderwerp:', 5, false, 7),
+       (52, 'Je vraag:', 6, false, 7);
 
 insert into symbol(id, image_id, reference_name)
 values (1, 3, 'rightArrow');
