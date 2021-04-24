@@ -476,9 +476,9 @@ values (nextval('CF_SEQ'), 'persona A', 'onderwerp1', 'email1@example.com', 1,
         'this is a placeholder text merely to show how it works', '2020-12-03 14:56:55.698', false),
        (nextval('CF_SEQ'), 'persona D', 'onderwerp4', 'email4@example.com', 3,
         'this is a placeholder text merely to show how it works', '2021-03-12 19:12:55.698', false),
-       (nextval('CF_SEQ'), 'persona E', 'onderwerp5', 'email5@example.com', 2,
+       (nextval('CF_SEQ'), 'persona E', 'onderwerp5', 'email5@example.com', 4,
         'this is a placeholder text merely to show how it works', '2021-03-25 12:35:55.698', false),
-       (nextval('CF_SEQ'), 'persona F', 'onderwerp6', 'email6@example.com', 1,
+       (nextval('CF_SEQ'), 'persona F', 'onderwerp6', 'email6@example.com', 4,
         'this is a placeholder text merely to show how it works', '2021-03-23 10:45:55.698', false),
        (nextval('CF_SEQ'), 'persona G', 'onderwerp7', 'email7@example.com', 2,
         'this is a placeholder text merely to show how it works', '2020-04-12 16:24:55.698', false);
@@ -488,7 +488,7 @@ insert into user(id, username, password)
 values (nextval('U_SEQ'), 'admin', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy');
 
 insert into USER_ROLE(id, role_name)
-values(1, 'BISTRO'),
+values (1, 'BISTRO'),
        (2, 'BOLO'),
        (3, 'ADMIN'),
        (4, 'CONTRIBUTERS'),
@@ -498,16 +498,19 @@ values(1, 'BISTRO'),
        (8, 'PAGE_EDIT'),
        (9, 'MENU'),
        (10, 'PERSONNEL'),
-       (11, 'INBOX');
+       (11, 'INBOX'),
+       (12, 'USER_EDIT');
 
 insert into user_user_role(users_id, user_role_id)
-values(1, 1),
-       (1,3),
-       (1,4),
-       (1,5),
-       (1,6),
-       (1,7),
-       (1,8),
-       (1,9),
-       (1,10),
-       (1,11);
+values  (1,1),
+        (1,2),
+        (1,3),
+        (1,4),
+        (1,5),
+        (1,6),
+        (1,7),
+        (1,8),
+        (1,9),
+        (1,10),
+        (1,11),
+        (1,12);
