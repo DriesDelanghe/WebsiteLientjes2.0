@@ -4,4 +4,6 @@ import be.thomasmore.be.websitelientjes.user.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
+
+    public User getUserByUsername(String userName);
 }

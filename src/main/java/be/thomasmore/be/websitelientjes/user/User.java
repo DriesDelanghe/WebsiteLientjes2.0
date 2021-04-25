@@ -2,6 +2,7 @@ package be.thomasmore.be.websitelientjes.user;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -12,8 +13,8 @@ public class User {
     @Id
     private int id;
     @NotBlank
+    @NotNull
     private String username;
-    @NotBlank
     private String password;
     @ManyToMany(fetch = FetchType.LAZY)
     private List<UserRole> userRole;

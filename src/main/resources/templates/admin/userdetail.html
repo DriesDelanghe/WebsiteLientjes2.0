@@ -22,7 +22,13 @@
 
 <th:block sec:authorize="hasAuthority('USER_EDIT')">
 
-    <a th:href="@{|/admin/gebruikers|}" class="btn btn-dark mt-1"><i class="fas fa-arrow-left"></i> naar overzicht</a>
+    <div class="container-fluid my-2 py-2">
+    <a th:href="@{|/admin/gebruikers|}" class="btn btn-dark mt-1 float-start"><i class="fas fa-arrow-left"></i> naar overzicht</a>
+        <button type="button" class="btn btn-outline-danger float-end me-5" data-bs-toggle="modal"
+                data-bs-target="#removeModal" th:unless="${#httpServletRequest.userPrincipal.name.equals(user.username)}">
+            verwijderen
+        </button>
+    </div>
     <div class="container-fluid mt-5">
         <h4 th:text="${user.username}">placeholder</h4>
         <hr>
@@ -65,7 +71,11 @@
                 <form method="post" th:action="@{|/admin/user/updatedetails/${user.id}|}" th:object="${user}">
                 <div class="card-body">
                     <p class="lead">Gebruikers naam:</p>
-                    <input type="text" th:field="*{username}" class="form-control">
+                    <div th:if="${usernameNotUnique == false}" class="alert alert-danger">
+                        gebruikersnaam moet uniek zijn
+                    </div>
+                    <p class="lead" th:text="*{username}" th:if="${#httpServletRequest.userPrincipal.name.equals(user.username) && (newUsername == null || newUsername.isBlank())}"></p>
+                    <input type="text" th:value="${newUsername != null && !newUsername.isBlank()} ? ${newUsername} : ${user.username}" name="username" class="form-control" th:errorclass="|alert-danger|" th:unless="${#httpServletRequest.userPrincipal.name.equals(user.username) && (newUsername == null || newUsername.isBlank())}">
                     <p class="lead mt-2">Nieuw wachtwoord:</p>
                     <div class="alert alert-danger" th:if="${passworderror}">
                         <p class="lead">wachtwoorden moeten hetzelfde zijn</p>
@@ -81,6 +91,28 @@
     </div>
 
 </th:block>
+
+<!-- remove Modal -->
+<div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removeModalLabel">Gebruiker verwijderen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bent u zeker dat u deze gebruiker wilt verwijderen?</p>
+                <p><strong>Deze actie is permanent</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form method="post" th:action="@{|/admin/user/remove/${user.id}|}">
+                    <input type="submit" value="verwijderen" class="btn btn-danger">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <th:block th:unless="${#authorization.expression('hasAuthority(''USER_EDIT'')')}">
     <div class="container-fluid">
