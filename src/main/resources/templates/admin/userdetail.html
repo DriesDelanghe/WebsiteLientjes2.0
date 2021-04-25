@@ -30,7 +30,7 @@
         </button>
     </div>
     <div class="container-fluid mt-5">
-        <h4 th:text="${user.username}">placeholder</h4>
+        <h4 th:text="${#httpServletRequest.userPrincipal.name.equals(user.username)} ? |${user.username} (current)| : ${user.username}">placeholder</h4>
         <hr>
     </div>
 
