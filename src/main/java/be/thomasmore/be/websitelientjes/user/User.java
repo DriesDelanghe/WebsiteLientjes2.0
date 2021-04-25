@@ -1,6 +1,7 @@
 package be.thomasmore.be.websitelientjes.user;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -10,7 +11,9 @@ public class User {
     @SequenceGenerator(name = "user_generator", sequenceName = "u_seq", allocationSize = 1)
     @Id
     private int id;
+    @NotBlank
     private String username;
+    @NotBlank
     private String password;
     @ManyToMany(fetch = FetchType.LAZY)
     private List<UserRole> userRole;

@@ -96,6 +96,11 @@ public class AdminPagesController {
         return pageRepository.getByDomain(domain);
     }
 
+    @ModelAttribute("pageListGeneral")
+    public List<Page> getPageListGeneral(){
+        return pageRepository.getGeneralPages();
+    }
+
     @ModelAttribute("page")
     public Page getPage(@PathVariable(required = false) Integer pageId){
         if(pageId != null){
@@ -139,6 +144,16 @@ public class AdminPagesController {
         return null;
     }
 
+    @ModelAttribute("homepageBistro")
+    public Page getHomepageBistro(){
+        return pageRepository.findById(1).get();
+    }
+
+    @ModelAttribute("homepageBolo")
+    public Page getHomepageBolo(){
+        return pageRepository.findById(6).get();
+    }
+
     @GetMapping("/paginaoverzicht")
     public String paginaOverzicht(){
         return "admin/pageslist";
@@ -169,6 +184,10 @@ public class AdminPagesController {
 
             if (page.getId() == 7) {
                 return "admin/pages/bolocontact";
+            }
+
+            if(page.getId() == 9){
+                return "admin/pages/landingspage";
             }
         }
 

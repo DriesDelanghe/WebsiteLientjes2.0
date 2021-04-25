@@ -49,7 +49,8 @@ values (1, 'home', 'bistrohome', 1, 2),
        (5, 'menu', 'bistromenu', 1, 2),
        (6, 'home', 'bolohome', 2, 17),
        (7, 'contact', 'bolocontact', 2, null),
-       (8, 'contactconfirmation', 'boloconfirmation', 2, null);
+       (8, 'contactconfirmation', 'boloconfirmation', 2, null),
+       (9, 'landingspage', 'landingspage', null, null);
 
 insert into personnel_pages(personnel_id, pages_id)
 values (1, 1),
@@ -140,7 +141,9 @@ values (1, 'Meer dan een koffiehuis', 1, true, 1),
        (49, 'Soort vraag:', 4, false, 7),
        (50, 'Je vraag', 5, true, 7),
        (51, 'Onderwerp:', 5, false, 7),
-       (52, 'Je vraag:', 6, false, 7);
+       (52, 'Je vraag:', 6, false, 7),
+       (53, 'Bolo Lientjes is een nieuwe pastazaak die je met een glimlach bediend', 1, false, 9),
+       (54, 'Lientjes Bistro is een koffiezaak/bistro die je met een glimlach bediend', 2, false, 9);
 
 insert into symbol(id, image_id, reference_name)
 values (1, 3, 'rightArrow');
@@ -515,7 +518,10 @@ values (nextval('CF_SEQ'), 'persona A', 'onderwerp1', 'email1@example.com', 1,
 
 
 insert into user(id, username, password)
-values (nextval('U_SEQ'), 'admin', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy');
+values (nextval('U_SEQ'), 'admin', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy'),
+       (nextval('U_SEQ'), 'adminbolo', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy'),
+       (nextval('U_SEQ'), 'adminbistro', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy'),
+       (nextval('U_SEQ'), 'inbox', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy');
 
 insert into USER_ROLE(id, role_name)
 values (1, 'BISTRO'),
@@ -543,4 +549,29 @@ values  (1,1),
         (1,9),
         (1,10),
         (1,11),
-        (1,12);
+        (1,12),
+        (2,2),
+        (2,3),
+        (2,4),
+        (2,5),
+        (2,6),
+        (2,7),
+        (2,8),
+        (2,9),
+        (2,10),
+        (2,11),
+        (2,12),
+        (3,1),
+        (3,3),
+        (3,4),
+        (3,5),
+        (3,6),
+        (3,7),
+        (3,8),
+        (3,9),
+        (3,10),
+        (3,11),
+        (3,12),
+       (4,1),
+       (4,2),
+       (4,11);

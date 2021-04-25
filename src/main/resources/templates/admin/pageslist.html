@@ -59,7 +59,8 @@
         <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2">
             <div class="card-header p-0 ">
                 <div class="ratio ratio-4x3">
-                    <img class="card-img-top object-cover w-100 h-100" th:src="@{${pageListBolo.get(0).image.imageLocation}}"
+                    <img class="card-img-top object-cover w-100 h-100"
+                         th:src="@{${pageListBolo.get(0).image.imageLocation}}"
                          alt="">
                 </div>
                 <div class="card-img-overlay d-flex justify-content-center align-items-center flex-column">
@@ -73,7 +74,8 @@
         <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2">
             <div class="card-header p-0">
                 <div class="ratio ratio-4x3">
-                    <img class="card-img-top object-cover w-100 h-100" th:src="@{${pageListBolo.get(0).image.imageLocation}}"
+                    <img class="card-img-top object-cover w-100 h-100"
+                         th:src="@{${pageListBolo.get(0).image.imageLocation}}"
                          alt="">
                 </div>
                 <div class="card-img-overlay d-flex justify-content-center align-items-center flex-column">
@@ -83,6 +85,30 @@
                 </div>
             </div>
         </div>
+
+    </div>
+
+    <div class="row container-fluid my-5 d-flex justify-content-center"
+         sec:authorize="hasAuthority('BOLO') and hasAuthority('BISTRO')">
+        <div class="col-12">
+            <h4>Algemeen</h4>
+            <hr>
+        </div>
+        <div class="card col-12 col-lg-4 col-xl-3 p-0 m-2">
+            <div class="card-header p-0">
+                <div class="ratio ratio-4x3">
+                    <img class="card-img-top object-cover w-100 h-100"
+                         th:src="@{${pageListBistro.get(0).image.imageLocation}}"
+                         alt="">
+                </div>
+                <div class="card-img-overlay d-flex justify-content-center align-items-center flex-column">
+                    <h2 class="text-light norican-font text-shadow-page-title my-auto text-capitalize"
+                        th:text="'Landingspagina'"></h2>
+                    <a th:href="@{|/admin/pagina/9|}" class="btn btn-dark align-self-start  mt-auto">Aanpassen</a>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 
