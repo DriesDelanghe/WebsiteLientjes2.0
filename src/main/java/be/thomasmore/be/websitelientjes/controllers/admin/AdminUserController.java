@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -136,9 +138,11 @@ public class AdminUserController {
             return "admin/userdetail";
         }
 
-        String password = BCryptPasswordEncoder()
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        user.setPassword(password1);
+        String password = encoder.encode(password1);
+
+        user.setPassword(password);
         userRepository.save(user);
         return "redirect:/admin/gebruiker/" + user.getId();
     }
