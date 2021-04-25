@@ -91,7 +91,7 @@
                         <th:block th:each="personnel : ${personnelList}" th:object="${personnel}">
                             <div class="carousel-item" th:classappend="${personnelStat.index == 0} ? active">
                                 <div class="card w-100">
-                                    <img th:src="*{image.imageLocation}" class="object-cover mobile-image"
+                                    <img th:src="*{image.imageLocation}" class="object-cover card-img-top"
                                          alt="personeel afbeelding">
                                     <div class="card-body">
                                         <h5 class="card-title" th:text="*{name}"></h5>
