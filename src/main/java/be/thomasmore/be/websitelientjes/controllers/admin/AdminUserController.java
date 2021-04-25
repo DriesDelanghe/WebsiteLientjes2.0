@@ -122,7 +122,7 @@ public class AdminUserController {
 
     @GetMapping("/gebruikers")
     public String gebruikersPage() {
-        return "/admin/useroverview";
+        return "admin/useroverview";
     }
 
     @GetMapping({"/gebruiker", "/gebruiker/{userId}"})
