@@ -81,6 +81,14 @@ public class AdminPagesController {
             TextWrapper wrapper = new TextWrapper();
             wrapper.addHeaders(textFragmentRepository.getByPageAndHeaderText(page, true));
             wrapper.addParagraphs(textFragmentRepository.getByPageAndHeaderText(page, false));
+
+            for(TextFragment t : wrapper.getHeaderText()){
+                t.setTextContent(undoLineBreaks(t.getTextContent()));
+            }
+            for(TextFragment t : wrapper.getParagraphText()) {
+                t.setTextContent(undoLineBreaks(t.getTextContent()));
+            }
+
             return wrapper;
         }
 
@@ -199,8 +207,23 @@ public class AdminPagesController {
                                  @PathVariable Integer pageId,
                                  @ModelAttribute("page") Page page){
 
+        for(TextFragment t : textWrapper.getHeaderText()){
+            t.setTextContent(saveLineBreaks(t.getTextContent()));
+        }
+        for(TextFragment t : textWrapper.getParagraphText()) {
+            t.setTextContent(saveLineBreaks(t.getTextContent()));
+        }
+
         textFragmentRepository.saveAll(textWrapper.getHeaderText());
         textFragmentRepository.saveAll(textWrapper.getParagraphText());
         return "redirect:/admin/pagina/" + page.getId();
+    }
+
+    public String saveLineBreaks(String text) {
+        return text.replaceAll("\n", "<br/>");
+    }
+
+    public String undoLineBreaks(String text){
+        return text.replaceAll("<br/>", "\n");
     }
 }

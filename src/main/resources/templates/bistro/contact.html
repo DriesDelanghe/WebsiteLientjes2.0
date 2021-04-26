@@ -32,17 +32,17 @@
 
     <section class="homepage-first-section">
         <div class="contact-info-section">
-            <h1 th:text="${headerText.get(0).getTextContent()}">header placeholder</h1>
+            <h1 th:utext="${headerText.get(0).getTextContent()}">header placeholder</h1>
             <div th:each="contactInfo : ${contactInfoList}" class="contact-line">
                 <span th:utext="${contactInfo.icon.iconCode}" class="inline-logo"></span>
                 <div class="contact-info-text">
-                    <p><span th:text="${contactInfo.getInfoName()}">name placeholder</span>:</p>
+                    <p><span th:utext="${contactInfo.getInfoName()}">name placeholder</span>:</p>
                     <p th:text="${contactInfo.getInfoContent()}">content placeholder </p>
                 </div>
             </div>
         </div>
         <div class="contact-social-media-section">
-            <h1 th:text="${headerText.get(1).getTextContent()}">header placeholder</h1>
+            <h1 th:utext="${headerText.get(1).getTextContent()}">header placeholder</h1>
             <div class="button-container">
                 <th:block th:each="socialMedia : ${socialMediaList}">
                     <a th:href="${socialMedia.getSocialMediaUrl()}" class="social-media-button" target="_blank">
@@ -54,37 +54,37 @@
         <div class="map-section">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156.5514437974912!2d4.3380411402457675!3d51.111723929227594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3f2117d26e7d7%3A0x90d4e0975f273fb!2sLientje&#39;s%20Bistro!5e0!3m2!1sen!2sbe!4v1616099780630!5m2!1sen!2sbe"
                     allowfullscreen="" loading="lazy"></iframe>
-            <p th:text="${paragraphText.get(0).textContent}">Vind makkelijk je weg naar ons!</p>
+            <p th:utext="${paragraphText.get(0).textContent}">Vind makkelijk je weg naar ons!</p>
         </div>
     </section>
 
     <section class="homepage-second-section">
         <div class="homepage-menu-text">
-            <h1 th:text="${headerText.get(2).getTextContent()}">header placeholder</h1>
+            <h1 th:utext="${headerText.get(2).getTextContent()}">header placeholder</h1>
         </div>
     </section>
     <section class="homepage-first-section">
         <div class="form-section">
             <form method="post" th:action="@{|/bistro/contact|}" th:object="${contactFormObject}">
                 <fieldset class="general-info-fieldset">
-                    <legend th:text="${headerText.get(3).getTextContent()}" class="general-info-legend"></legend>
+                    <legend th:utext="${headerText.get(3).getTextContent()}" class="general-info-legend"></legend>
                     <div class="form-error-text" th:if="${#fields.hasErrors('*')}"
-                         th:text="${paragraphText.get(5).getTextContent()}"></div>
+                         th:utext="${paragraphText.get(5).getTextContent()}"></div>
                     <div class="contact-form-line">
-                        <label for="name" th:text="${paragraphText.get(1).getTextContent()}" class="contact-form-label">textContent
+                        <label for="name" th:utext="${paragraphText.get(1).getTextContent()}" class="contact-form-label">textContent
                             placeholder</label>
                         <input id="name" th:field="*{name}" class="contact-form-input" th:errorclass="form-error-field"
                                onfocus="removeErrorClass(this)">
                     </div>
                     <div class="contact-form-line">
-                        <label for="email" th:text="${paragraphText.get(2).getTextContent()}"
+                        <label for="email" th:utext="${paragraphText.get(2).getTextContent()}"
                                class="contact-form-label">textContent
                             placeholder</label>
                         <input id="email" th:field="*{email}" class="contact-form-input"
                                th:errorclass="form-error-field" onfocus="removeErrorClass(this)">
                     </div>
                     <div class="contact-form-line">
-                        <label for="contactType" th:text="${paragraphText.get(3).getTextContent()}"
+                        <label for="contactType" th:utext="${paragraphText.get(3).getTextContent()}"
                                class="contact-form-label">textContent
                             placeholder</label>
                         <select name="contactTypeId" id="contactType" class="contact-form-input">
@@ -96,13 +96,13 @@
                 </fieldset>
                 <fieldset class="general-info-fieldset">
                     <div class="contact-form-line">
-                        <label for="onderwerp" th:text="${paragraphText.get(4).getTextContent()}"
+                        <label for="onderwerp" th:utext="${paragraphText.get(4).getTextContent()}"
                                class="contact-form-label">textContent
                             placeholder</label>
                         <input id="onderwerp" th:field="*{onderwerp}" class="contact-form-input"
                                th:errorclass="form-error-field" onfocus="removeErrorClass(this)">
                     </div>
-                    <legend class="general-info-legend" th:text="${headerText.get(4).getTextContent()}"></legend>
+                    <legend class="general-info-legend" th:utext="${headerText.get(4).getTextContent()}"></legend>
                     <textarea id="" cols="30" rows="10" th:field="*{question}" class="contact-form-text-area"
                               th:errorclass="form-error-field" onfocus="removeErrorClass(this)"></textarea>
                 </fieldset>

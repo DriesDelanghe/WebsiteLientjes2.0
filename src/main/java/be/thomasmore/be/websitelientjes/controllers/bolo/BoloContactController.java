@@ -95,7 +95,13 @@ public class BoloContactController {
 
         contactForm.setContactType(new ContactType(contactTypeId));
         contactForm.setTimestamp(new Date());
+        contactForm.setQuestion(saveLineBreaks(contactForm.getQuestion()));
         contactFormRepository.save(contactForm);
         return "redirect:/bolo/contactbevestiging";
+    }
+
+
+    public String saveLineBreaks(String text) {
+        return text.replaceAll("\n", "<br/>");
     }
 }

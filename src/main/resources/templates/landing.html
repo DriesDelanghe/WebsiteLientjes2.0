@@ -75,7 +75,7 @@
             <img class="object-cover w-100 h-100 card-img" th:src="@{${homepageBolo.image.imageLocation}}" alt="header image Bolo">
             </div>
             <div class="card-body">
-                <p class="lead" th:text="${textWrapper.paragraphText[0].textContent}">placeholder</p>
+                <p class="lead" th:utext="${textWrapper.paragraphText[0].textContent}">placeholder</p>
                 <a th:href="@{|/bolo/home|}" class="btn btn-danger">naar homepagina <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
@@ -90,7 +90,7 @@
                 <img class="object-cover w-100 h-100 card-img" th:src="@{${homepageBistro.image.imageLocation}}" alt="header image Bolo">
             </div>
             <div class="card-body">
-                <p class="lead" th:text="${textWrapper.paragraphText[1].textContent}">placeholder</p>
+                <p class="lead" th:utext="${textWrapper.paragraphText[1].textContent}">placeholder</p>
                 <a th:href="@{|/bistro/home|}" class="btn btn-secondary">naar homepagina <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>

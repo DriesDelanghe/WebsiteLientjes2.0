@@ -44,14 +44,14 @@
             </h1>
         </div>
         <div class="welcome-text-section">
-            <h1 th:text="${headerText.get(0).getTextContent()}">header placeholder 0</h1>
-            <p th:text="${paragraphText.get(0).getTextContent()}">paragraph placeholder 0</p>
+            <h1 th:utext="${headerText.get(0).getTextContent()}">header placeholder 0</h1>
+            <p th:utext="${paragraphText.get(0).getTextContent()}">paragraph placeholder 0</p>
         </div>
         <div class="welcome-team-section">
-            <h1 th:text="${headerText.get(1).getTextContent()}">header placeholder 1</h1>
-            <p th:text="${paragraphText.get(1).getTextContent()}">paragraph placeholder 1</p>
+            <h1 th:utext="${headerText.get(1).getTextContent()}">header placeholder 1</h1>
+            <p th:utext="${paragraphText.get(1).getTextContent()}">paragraph placeholder 1</p>
             <a href="/bistro/personeel" class="arrow-button">
-                <p th:text="${paragraphText.get(2).getTextContent()}">paragraph placeholder 2</p>
+                <p th:utext="${paragraphText.get(2).getTextContent()}">paragraph placeholder 2</p>
                 <img class="inline-logo" th:src="${rightArrow.getImage().getImageLocation()}" alt="">
             </a>
 
@@ -60,27 +60,27 @@
                     <img th:src="${personnelList.get(0).getImage().getImageLocation()}" alt="foto personeel links"
                          class="image-personnel">
                     <p>
-                        <span th:text="${personnelList.get(0).getName()}">personnel member name placeholder</span>
+                        <span th:utext="${personnelList.get(0).getName()}">personnel member name placeholder</span>
                         <br> - <br>
-                        <span th:text="${personnelList.get(0).getFunctionDescription()}">function description placeholder</span>
+                        <span th:utext="${personnelList.get(0).getFunctionDescription()}">function description placeholder</span>
                     </p>
                 </div>
                 <div class="personnel-middle personnel-container">
                     <img th:src="${personnelList.get(1).getImage().getImageLocation()}" alt="foto personeel midden"
                          class="image-personnel">
                     <p>
-                        <span th:text="${personnelList.get(1).getName()}">personnel member name placeholder</span>
+                        <span th:utext="${personnelList.get(1).getName()}">personnel member name placeholder</span>
                         <br> - <br>
-                        <span th:text="${personnelList.get(1).getFunctionDescription()}">function description placeholder</span>
+                        <span th:utext="${personnelList.get(1).getFunctionDescription()}">function description placeholder</span>
                     </p>
                 </div>
                 <div class="personnel-right personnel-container">
                     <img th:src="${personnelList.get(2).getImage().getImageLocation()}" alt="foto personeel rechts"
                          class="image-personnel">
                     <p>
-                        <span th:text="${personnelList.get(2).getName()}">personnel member name placeholder</span>
+                        <span th:utext="${personnelList.get(2).getName()}">personnel member name placeholder</span>
                         <br> - <br>
-                        <span th:text="${personnelList.get(2).getFunctionDescription()}">function description placeholder</span>
+                        <span th:utext="${personnelList.get(2).getFunctionDescription()}">function description placeholder</span>
                     </p>
                 </div>
             </div>
@@ -89,18 +89,18 @@
 
     <section class="homepage-second-section">
         <div class="homepage-menu-text">
-            <h1 th:text="${headerText.get(2).getTextContent()}">header placeholder 2</h1>
+            <h1 th:utext="${headerText.get(2).getTextContent()}">header placeholder 2</h1>
             <a href="/bistro/menu" class="arrow-button">
-                <p th:text="${paragraphText.get(3).getTextContent()}">paragraph placeholder 3</p>
+                <p th:utext="${paragraphText.get(3).getTextContent()}">paragraph placeholder 3</p>
                 <img class="inline-logo" th:src="${rightArrow.getImage().getImageLocation()}" alt="">
             </a>
         </div>
 
         <div class="homepage-contact-text">
-            <h1 th:text="${headerText.get(3).getTextContent()}">header placeholder 3</h1>
+            <h1 th:utext="${headerText.get(3).getTextContent()}">header placeholder 3</h1>
             <p th:utext="${paragraphText.get(4).getTextContent()}">paragraph placeholder 4</p>
             <a href="/bistro/contact" class="arrow-button">
-                <p th:text="${paragraphText.get(5).getTextContent()}">paragraph placeholder 5</p>
+                <p th:utext="${paragraphText.get(5).getTextContent()}">paragraph placeholder 5</p>
                 <img class="inline-logo" th:src="${rightArrow.getImage().getImageLocation()}" alt="">
             </a>
         </div>
@@ -109,14 +109,14 @@
     <section class="homepage-first-section">
 
         <div class="homepage-openingsuren-section">
-            <h1 th:text="${headerText.get(4).getTextContent()}">header placeholder 4</h1>
+            <h1 th:utext="${headerText.get(4).getTextContent()}">header placeholder 4</h1>
             <th:block th:each="opening : ${openingsuren}">
-                <p th:text="${opening.getDag()}">dag placeholder</p>
+                <p th:utext="${opening.getDag()}">dag placeholder</p>
                 <th:block th:if="${opening.getOpeningsuur() != null}">
                     <p>
-                        <span th:text="${#dates.format(opening.getOpeningsuur(), 'HH:mm')}">openingsuur placeholder</span>
+                        <span th:utext="${#dates.format(opening.getOpeningsuur(), 'HH:mm')}">openingsuur placeholder</span>
                         -
-                        <span th:text="${#dates.format(opening.getSluitingsuur(), 'HH:mm')}">suitingsuur placeholder</span>
+                        <span th:utext="${#dates.format(opening.getSluitingsuur(), 'HH:mm')}">suitingsuur placeholder</span>
                     </p>
                 </th:block>
                 <th:block th:unless="${opening.getOpeningsuur() != null}">
@@ -126,7 +126,7 @@
         </div>
 
         <div class="homepage-social-media-section">
-            <h1 th:text="${headerText.get(5).getTextContent()}">header placeholder 5</h1>
+            <h1 th:utext="${headerText.get(5).getTextContent()}">header placeholder 5</h1>
             <div class="button-container">
                 <th:block th:each="socialMedia : ${socialMediaList}">
                     <a th:href="${socialMedia.getSocialMediaUrl()}" class="social-media-button" target="_blank">
@@ -137,9 +137,9 @@
         </div>
 
         <div class="homepage-bolo-section">
-            <h1 th:text="${headerText.get(6).getTextContent()}">header placeholder 6</h1>
+            <h1 th:utext="${headerText.get(6).getTextContent()}">header placeholder 6</h1>
             <a th:href="|/bolo/home|" class="bolo-button">
-                <p th:text="${paragraphText.get(6).getTextContent()}">paragraph placeholder 6</p>
+                <p th:utext="${paragraphText.get(6).getTextContent()}">paragraph placeholder 6</p>
                 <img class="inline-logo" th:src="${rightArrow.getImage().getImageLocation()}" alt="">
             </a>
         </div>

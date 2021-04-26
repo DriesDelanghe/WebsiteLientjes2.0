@@ -28,12 +28,12 @@
                     <div class="personnel-image-container">
                         <img th:src="${personnel.getImage().getImageLocation()}" alt="" class="image-personnel">
                         <p>
-                            <span th:text="${personnel.getName()}">name placeholder</span>
+                            <span th:utext="${personnel.getName()}">name placeholder</span>
                             <br> - <br>
-                            <span th:text="${personnel.getFunctionDescription()}"> function placeholder</span>
+                            <span th:utext="${personnel.getFunctionDescription()}"> function placeholder</span>
                         </p>
                     </div>
-                    <p class="description-text" th:text="${personnel.getExtraInfo()}">placeholder</p>
+                    <p class="description-text" th:utext="${personnel.getExtraInfo()}">placeholder</p>
                 </div>
             </th:block>
         </div>

@@ -30,12 +30,12 @@
     <div class="container-fluid">
         <div class="w-50 mx-auto mt-5">
             <th:block th:each="reference : ${referenceList}">
-                <p><span th:text="${reference.getProductName()}">product placeholder</span>
+                <p><span th:utext="${reference.getProductName()}">product placeholder</span>
                     made by <a class="text-decoration-none fw-bold text-dark" th:href="${reference.getArtistUrl()}" th:title="${reference.getArtistName()}"
-                               th:text="${reference.getArtistName()}">name palceholder</a>
+                               th:utext="${reference.getArtistName()}">name palceholder</a>
                     <span th:if="${reference.getSiteName() != null && !reference.siteName.isBlank()}">
                         from <a class="text-decoration-none fw-bold text-dark"  th:href="${reference.getSiteUrl()}" th:title="${reference.getSiteName()}"
-                                th:text="${reference.getSiteName()}">site name placeholder</a>
+                                th:utext="${reference.getSiteName()}">site name placeholder</a>
                     </span>
                 </p>
             </th:block>

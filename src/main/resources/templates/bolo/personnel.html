@@ -37,8 +37,8 @@
         <div class="card">
             <img th:src="@{${personnel.image.imageLocation}}" class="card-img-top" alt="personnel Image">
             <div class="card-body p-3">
-                <h5 class="card-title" th:text="${personnel.name}"></h5>
-                <p class="card-text" th:text="${personnel.extraInfo}"></p>
+                <h5 class="card-title" th:utext="${personnel.name}"></h5>
+                <p class="card-text" th:utext="${personnel.extraInfo}"></p>
             </div>
         </div>
     </div>

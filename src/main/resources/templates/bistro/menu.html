@@ -27,7 +27,7 @@
                 <a th:href="@{|/bistro/menudetails/${menuSection.id}|}" class="menu-button">
                     <div class="menu-section-container">
                         <img class="menu-section-image" th:src="${menuSection.image.imageLocation}" alt="">
-                        <p th:text="${menuSection.name}">name placeholder</p>
+                        <p th:utext="${menuSection.name}">name placeholder</p>
                     </div>
                 </a>
             </th:block>

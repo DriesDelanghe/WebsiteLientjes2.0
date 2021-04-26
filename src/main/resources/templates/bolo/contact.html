@@ -23,7 +23,7 @@
 
 <div class="container-fluid row m-0 p-0 my-5">
     <div class="col-12">
-        <h2 class="display-2 text-center mb-3" th:text="${textWrapper.headerText[0].textContent}">placeholder headerText
+        <h2 class="display-2 text-center mb-3" th:utext="${textWrapper.headerText[0].textContent}">placeholder headerText
             1</h2>
         <hr class="dropdown-divider mx-auto" style="width: 50%">
     </div>
@@ -32,12 +32,12 @@
 <div class="container-fluid p-0 row mt-4">
     <div class="col-lg-5 col-md-6 col-12 me-auto p-4 mb-5">
         <div class="row p-4">
-            <h5 class="display-6 text-center" th:text="${textWrapper.headerText[1].textContent}">placeholder headerText
+            <h5 class="display-6 text-center" th:utext="${textWrapper.headerText[1].textContent}">placeholder headerText
                 2</h5>
             <th:block th:each="contact : ${contactInfoList}">
                 <p class="lead text-center">
                     <span th:utext="${contact.icon.iconCode}"></span>
-                    <span th:text="${contact.infoName}"></span>: <span th:text="${contact.infoContent}"></span>
+                    <span th:utext="${contact.infoName}"></span>: <span th:utext="${contact.infoContent}"></span>
                 </p>
             </th:block>
         </div>
@@ -45,7 +45,7 @@
 
     <div class="col-lg-5 col-md-6 col-12 me-auto p-4 mb-5">
         <div class="row p-4">
-            <h5 class="display-6 text-center" th:text="${textWrapper.headerText[2].textContent}">placeholder headerText
+            <h5 class="display-6 text-center" th:utext="${textWrapper.headerText[2].textContent}">placeholder headerText
                 3</h5>
             <div class="d-flex justify-content-center my-2" th:if="${!socialMediaList.isEmpty()}">
                 <a th:each="socialMedia : ${socialMediaList}" th:href="@{${socialMedia.socialMediaUrl}}"
@@ -59,7 +59,7 @@
 </div>
 
 <div class="container-fluid m-0 bg-dark py-4">
-    <h4 class="display-4 text-light text-center" th:text="${textWrapper.headerText[3].textContent}">placeholder
+    <h4 class="display-4 text-light text-center" th:utext="${textWrapper.headerText[3].textContent}">placeholder
         headerText 4</h4>
 </div>
 
@@ -67,30 +67,30 @@
     <form method="post" th:action="@{|/bolo/contactform|}" th:object="${contactForm}">
         <div class="col-10 col-md-6 mx-auto">
             <div th:if="${#fields.hasErrors('*')}" class="alert-danger alert">
-                <p class="lead" th:text="${textWrapper.paragraphText[0].textContent}">placeholder paragraphText 1</p>
+                <p class="lead" th:utext="${textWrapper.paragraphText[0].textContent}">placeholder paragraphText 1</p>
             </div>
             <fieldset class="mx-auto my-4">
-                <legend th:text="${textWrapper.headerText[4].textContent}">placeholder headerText 5</legend>
-                <label for="name" class="form-label" th:text="${textWrapper.paragraphText[1].textContent}">placeholder
+                <legend th:utext="${textWrapper.headerText[4].textContent}">placeholder headerText 5</legend>
+                <label for="name" class="form-label" th:utext="${textWrapper.paragraphText[1].textContent}">placeholder
                     paragraphText 2</label>
                 <input type="text" id="name" class="form-control" th:field="*{name}" th:errorclass="|alert-danger|">
-                <label for="email" class="form-label" th:text="${textWrapper.paragraphText[2].textContent}">placeholder
+                <label for="email" class="form-label" th:utext="${textWrapper.paragraphText[2].textContent}">placeholder
                     paragraphText 3</label>
                 <input type="text" id="email" class="form-control" th:field="*{email}" th:errorclass="|alert-danger|">
-                <label for="question" class="form-label" th:text="${textWrapper.paragraphText[3].textContent}">placeholder
+                <label for="question" class="form-label" th:utext="${textWrapper.paragraphText[3].textContent}">placeholder
                     paragraphText 4</label>
                 <select id="question" class="form-select" name="contactTypeId">
                     <option th:each="contactType : ${contactTypeList}" th:value="${contactType.id}"
-                            th:text="${contactType.questionType}"></option>
+                            th:utext="${contactType.questionType}"></option>
                 </select>
             </fieldset>
             <fieldset class="mx-auto my-4">
-                <legend th:text="${textWrapper.headerText[4].textContent}">placeholder headerText 5</legend>
-                <label for="subject" class="form-label" th:text="${textWrapper.paragraphText[4].textContent}">placeholder
+                <legend th:utext="${textWrapper.headerText[4].textContent}">placeholder headerText 5</legend>
+                <label for="subject" class="form-label" th:utext="${textWrapper.paragraphText[4].textContent}">placeholder
                     paragraphText 5</label>
                 <input type="text" id="subject" class="form-control" th:field="*{onderwerp}"
                        th:errorclass="|alert-danger|">
-                <label for="vraag" class="form-label" th:text="${textWrapper.paragraphText[5].textContent}">placeholder
+                <label for="vraag" class="form-label" th:utext="${textWrapper.paragraphText[5].textContent}">placeholder
                     paragraphText 6</label>
                 <textarea id="vraag" class="form-control" rows="6" th:field="*{question}"
                           th:errorclass="|alert-danger|"></textarea>

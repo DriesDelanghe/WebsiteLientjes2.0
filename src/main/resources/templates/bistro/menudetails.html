@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{|/css/stylePrefix.css|}">
 
-    <title th:text="|Lientjes Bistro - menu - ${menuSection != null ? menuSection.name : 'sectie not found'}|">placeholder</title>
+    <title th:utext="|Lientjes Bistro - menu - ${menuSection != null ? menuSection.name : 'sectie not found'}|">placeholder</title>
 
     <script>
         function toggleFilter(filterTextShownId, filterTextHiddenId, filterSectionId) {
@@ -75,7 +75,7 @@
                         <h3>Allergie:</h3>
                         <div class="filter-line" th:each="allergie : ${allergieList}">
                             <input type="checkbox" name="allergieFilter[]" th:value="${allergie.id}"
-                                   th:text="${allergie.name}" th:checked="${allergieFilters != null and
+                                   th:utext="${allergie.name}" th:checked="${allergieFilters != null and
                                 allergieFilters.contains(allergie.id)}">
                         </div>
 
@@ -86,7 +86,7 @@
                         <div class="filter-line" th:each="category : ${categoryList}">
                             <div class="input-line">
                                 <input type="checkbox" th:id="${category.id}" name="categoryFilter[]"
-                                       th:value="${category.id}" th:text="${category.name}"
+                                       th:value="${category.id}" th:utext="${category.name}"
                                        th:checked="${filteredCategoryList != null} ? ${filteredCategoryList.contains(category)}">
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                 </form>
             </div>
         </th:block>
-        <h1 th:if="${menuSection != null}" th:text="${menuSection.name}">name placeholder</h1>
+        <h1 th:if="${menuSection != null}" th:utext="${menuSection.name}">name placeholder</h1>
         <h1 th:if="${menuSection == null}">Geen menuonderdeel geselecteerd</h1>
     </div>
     <div class="menu-section-grid"
@@ -108,13 +108,13 @@
             <th:block
                     th:if="${productListFiltered != null} ? (${productListFiltered.containsAll(productList)} ? 1==1 : ${!productListFiltered.containsAll(subSection.products)}) : 1==1">
                 <div class="menu-section">
-                    <h2 th:text="${subSection.name}"> placeholder</h2>
-                    <p th:text="${subSection.extraInfo}" class="product-extra-info">placeholder</p>
+                    <h2 th:utext="${subSection.name}"> placeholder</h2>
+                    <p th:utext="${subSection.extraInfo}" class="product-extra-info">placeholder</p>
                     <div class="product-line" th:each="product : ${subSection.getProducts()}"
                          th:if="${productListFiltered != null} ? (${productListFiltered.containsAll(productList)} ? 1==1 : ${!productListFiltered.contains(product)}) : 1==1">
-                        <p class="product-name" th:text="${product.name}"> placeholder</p>
+                        <p class="product-name" th:utext="${product.name}"> placeholder</p>
                         <p class="product-price" th:if="${product.priceInEur != null}"
-                           th:text="${product.priceInEur}"></p>
+                           th:utext="${product.priceInEur}"></p>
                         <p class="product-extra-info" th:if="${product.extraInfo != null}"
                            th:utext="${product.extraInfo}">placeholder</p>
                     </div>
@@ -126,20 +126,20 @@
     <th:block th:if="${menuSection != null && menuSection.getMenuSubSectionList().containsAll(menuSubSectionList)}">
         <th:block th:each="menuSectionLoop : ${menuSectionList}">
             <div class="menu-header">
-                <h2 th:text="${menuSectionLoop.name}">name placeholder</h2>
+                <h2 th:utext="${menuSectionLoop.name}">name placeholder</h2>
             </div>
             <div class="menu-section-grid">
                 <th:block th:each="subSection : ${menuSectionLoop.getMenuSubSectionList()}">
                     <th:block
                             th:if="${productListFiltered != null} ? (${productListFiltered.containsAll(productList)} ? 1==1 : ${!productListFiltered.containsAll(subSection.products)}) : 1==1">
                         <div class="menu-section">
-                            <h2 th:text="${subSection.name}">name sub placeholder</h2>
-                            <p th:text="${subSection.extraInfo}" class="product-extra-info">placeholder</p>
+                            <h2 th:utext="${subSection.name}">name sub placeholder</h2>
+                            <p th:utext="${subSection.extraInfo}" class="product-extra-info">placeholder</p>
                             <div class="product-line" th:each="product : ${subSection.getProducts()}"
                                  th:if="${productListFiltered != null} ? (${productListFiltered.containsAll(productList)} ? 1==1 : ${!productListFiltered.contains(product)}) : 1==1">
-                                <p class="product-name" th:text="${product.name}"> product name placeholder</p>
+                                <p class="product-name" th:utext="${product.name}"> product name placeholder</p>
                                 <p class="product-price" th:if="${product.priceInEur != null}"
-                                   th:text="${product.priceInEur}"></p>
+                                   th:utext="${product.priceInEur}"></p>
                                 <p class="product-extra-info" th:if="${product.extraInfo != null}"
                                    th:utext="${product.getExtraInfo()}"></p>
                             </div>
