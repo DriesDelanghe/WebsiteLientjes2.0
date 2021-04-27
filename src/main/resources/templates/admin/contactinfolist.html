@@ -30,7 +30,8 @@
             <ol class="breadcrumb ms-2 mt-2">
                 <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
                 <li class="breadcrumb-item"><a th:href="@{|/admin/contactinfolijst|}">Contact info</a></li>
-                <li class="breadcrumb-item active" aria-current="page" th:text="${domain == domainBistro} ? |Contact info Bistro| : |Contact info Bolo|"></li>
+                <li class="breadcrumb-item active" aria-current="page"
+                    th:text="${domain == domainBistro} ? |Contact info Bistro| : |Contact info Bolo|"></li>
             </ol>
         </nav>
 
@@ -74,7 +75,37 @@
                     </div>
                 </div>
             </form>
-
+            <div class="container-fluid d-flex justify-content-center my-5" th:object="${addressBistro}">
+                <form method="post" th:action="@{/admin/contactinfo/addresschangebistro}" class="col-12 col-lg-6">
+                    <div class="card">
+                        <div class="card-header w-100">
+                            <h5 class="card-title"><span th:utext="${addressBistro.iconCode}"></span> adres</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                                <p class="lead m-0">Gelieve alle velden in te vullen</p>
+                            </div>
+                            <label for="streetAddress" class="form-label">Straat en huisnummer:</label>
+                            <input type="text" id="streetAddress" class="form-control" th:field="*{streetAddress}" th:errorclass="|alert-danger|">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="postalCode" class="form-label">Postcode:</label>
+                                    <input type="text" id="postalCode" class="form-control" th:field="*{postalCode}" th:errorclass="|alert-danger|">
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label" for="city">Gemeente:</label>
+                                    <input type="text" id="city" class="form-control" th:field="*{addressLocality}" th:errorclass="|alert-danger|">
+                                </div>
+                            </div>
+                            <label for="region" class="form-label">Regio:</label>
+                            <input type="text" id="region" class="form-control" th:field="*{addressRegion}" th:errorclass="|alert-danger|">
+                            <div class="container mt-4">
+                                <input type="submit" class="btn btn-dark" value="Aanpassen">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <div class="container-fluid mt-5"
@@ -110,9 +141,41 @@
                     </div>
                 </div>
             </form>
+            <div class="container-fluid d-flex justify-content-center my-5" th:object="${addressBolo}">
+                <form method="post" th:action="@{/admin/contactinfo/addresschangebolo}" class="col-12 col-lg-6">
+                    <div class="card">
+                        <div class="card-header w-100">
+                            <h5 class="card-title"><span th:utext="${addressBistro.iconCode}"></span> adres</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                                <p class="lead m-0">Gelieve alle velden in te vullen</p>
+                            </div>
+                            <label for="streetAddress" class="form-label">Straat en huisnummer:</label>
+                            <input type="text" id="streetAddress" class="form-control" th:field="*{streetAddress}" th:errorclass="|alert-danger|">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="postalCode" class="form-label">Postcode:</label>
+                                    <input type="text" id="postalCode" class="form-control" th:field="*{postalCode}" th:errorclass="|alert-danger|">
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label" for="city">Gemeente:</label>
+                                    <input type="text" id="city" class="form-control" th:field="*{addressLocality}" th:errorclass="|alert-danger|">
+                                </div>
+                            </div>
+                            <label for="region" class="form-label">Regio:</label>
+                            <input type="text" id="region" class="form-control" th:field="*{addressRegion}" th:errorclass="|alert-danger|">
+                            <div class="container mt-4">
+                                <input type="submit" class="btn btn-dark" value="Aanpassen">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </th:block>
-    <th:block th:unless="${domain} ? (${domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}) : 1==1">
+    <th:block
+            th:unless="${domain} ? (${domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}) : 1==1">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb ms-2 mt-2">
                 <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>

@@ -2,23 +2,17 @@ package be.thomasmore.be.websitelientjes.controllers.admin;
 
 import be.thomasmore.be.websitelientjes.models.*;
 import be.thomasmore.be.websitelientjes.repositories.*;
-import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.io.File;
-import java.io.FileWriter;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/admin")
 @Controller
@@ -32,6 +26,8 @@ public class AdminGeneralInfoController {
     MenuSectionRepository menuSectionRepository;
     @Autowired
     IconRepository iconRepository;
+    @Autowired
+    AddressRepository addressRepository;
 
     @Value("${upload.images.dir}")
     private String uploadImagesDirString;
@@ -66,6 +62,16 @@ public class AdminGeneralInfoController {
     @ModelAttribute("contactInfoListBolo")
     public List<ContactInfo> contactInfoListBolo(@ModelAttribute("domainBolo") Domain domain) {
         return contactInfoRepository.getByDomain(domain);
+    }
+
+    @ModelAttribute("addressBistro")
+    public Address getAddressBistro(@ModelAttribute("domainBistro") Domain domain){
+        return addressRepository.getByDomain(domain);
+    }
+
+    @ModelAttribute("addressBolo")
+    public Address getAddressBolo(@ModelAttribute("domainBolo") Domain domain){
+        return addressRepository.getByDomain(domain);
     }
 
     @ModelAttribute("domain")
@@ -156,5 +162,27 @@ public class AdminGeneralInfoController {
         contactInfoRepository.save(contactInfo);
 
         return "redirect:/admin/contactinfo/" + contactInfo.getId();
+    }
+
+    @PostMapping("/contactinfo/addresschangebistro")
+    public String changeAddressBistro(@Valid @ModelAttribute("addressBistro") Address address,
+                               BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "admin/contactinfolist";
+        }
+
+        addressRepository.save(address);
+        return "redirect:/admin/contactinfolijst";
+    }
+
+    @PostMapping("/contactinfo/addresschangebolo")
+    public String changeAddressBolo(@Valid @ModelAttribute("addressBolo") Address address,
+                                      BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "admin/contactinfolist";
+        }
+
+        addressRepository.save(address);
+        return "redirect:/admin/contactinfolijst";
     }
 }

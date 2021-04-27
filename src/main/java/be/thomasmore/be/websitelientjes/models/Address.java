@@ -1,6 +1,7 @@
 package be.thomasmore.be.websitelientjes.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Address {
@@ -9,9 +10,13 @@ public class Address {
     @SequenceGenerator(name = "address_generator", sequenceName = "ad_seq", allocationSize = 1)
     @Id
     private int id;
+    @NotBlank
     private String streetAddress;
+    @NotBlank
     private String addressLocality;
+    @NotBlank
     private String addressRegion;
+    @NotBlank
     private String postalCode;
     private final String addressCountry = "BE";
     @OneToOne
