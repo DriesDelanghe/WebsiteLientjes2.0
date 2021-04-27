@@ -20,6 +20,13 @@
 
 <header th:replace="bolo/fragments/header :: header"></header>
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb ms-2 mt-2">
+        <li class="breadcrumb-item"><a th:href="@{|/bolo/home|}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">References</li>
+    </ol>
+</nav>
+
 <div class="container-fluid row m-0 p-0 my-5">
     <div class="col-12">
         <h2 class="display-2 text-center mb-3"> References</h2>
