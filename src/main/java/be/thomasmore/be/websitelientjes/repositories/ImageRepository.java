@@ -24,4 +24,9 @@ public interface ImageRepository extends CrudRepository<Image, Integer> {
 
     @Query("select distinct i from Image i where i.ImageLocation like concat('%', 'contactinfo', '%') ")
     List<Image> getAllContactInfoImages();
+
+    @Query("select distinct i from Image i where i not in (select ms.image from MenuSection ms join ms.image) " +
+            "or i not in (select p.image from Page p join p.image) " +
+            "or i not in (select pers.image from Personnel pers join pers.image)")
+    List<Image> getUnusedImages();
 }
