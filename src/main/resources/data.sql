@@ -34,7 +34,8 @@ values (nextval('PER_SEQ'), 'Persona A', 4, 'This is the first test person, thes
         'serveur', 1),
        (nextval('PER_SEQ'), 'Persona F', 9, 'This is the sixth test person, these are all here as proof of concept',
         'serveur', 1),
-       (nextval('PER_SEQ'), 'Persona A', 4, 'This is the first test person, these are all here as proof of concept This is the first test person, these are all here as proof of concept This is the first test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona A', 4,
+        'This is the first test person, these are all here as proof of concept This is the first test person, these are all here as proof of concept This is the first test person, these are all here as proof of concept',
         'chef-kok', 2),
        (nextval('PER_SEQ'), 'Persona B', 5, 'This is the second test person, these are all here as proof of concept',
         'serveur', 2),
@@ -117,8 +118,8 @@ values (1, 'Meer dan een koffiehuis', 1, true, 1),
        (27, 'Bolo lientjes', 1, true, 6),
        (28, 'Over bolo Lientjes', 2, true, 6),
        (29, 'Bolo lientjes is een nieuwe pasta zaak die jou met alle plezier wilt bedienen ' ||
-                'met de lekkerste pasta''s. Je kan kiezen tussen een vooraf samengestelde pasta, of je kan zelf je pasta samenstellen met keuze uit ' ||
-                'verschillende sauzen en pasta''s.', 1, false, 6),
+            'met de lekkerste pasta''s. Je kan kiezen tussen een vooraf samengestelde pasta, of je kan zelf je pasta samenstellen met keuze uit ' ||
+            'verschillende sauzen en pasta''s.', 1, false, 6),
        (30, 'Personeel', 3, true, 6),
        (31, 'Het personeel van Lientje''s bistro staat altijd paraat om je met een glimlach te helpen', 2, false, 6),
        (32, 'Bekijk het personeel', 3, false, 6),
@@ -171,24 +172,23 @@ values (nextval('REF_SEQ'), 'https://www.flaticon.com/', 'Flaticon', 'Roundicons
        (nextval('REF_SEQ'), 'https://www.pexels.com/', 'Pexels', 'Amine M''Siouri',
         'https://www.pexels.com/nl-nl/@amine-m-siouri-1025778',
         'error page header'),
-       (nextval('REF_SEQ'), 'https://www.pexels.com/', 'Pexels', 'Rachel Claire', 'https://www.pexels.com/nl-nl/@rachel-claire', 'header image bolo lientjes');
+       (nextval('REF_SEQ'), 'https://www.pexels.com/', 'Pexels', 'Rachel Claire',
+        'https://www.pexels.com/nl-nl/@rachel-claire', 'header image bolo lientjes');
 
 insert into reference_domain(references_id, domain_id)
-values(1,1),
-(2,1),
-(3,1),
-(3,2),
-(4,1),
-(5,2);
+values (1, 1),
+       (2, 1),
+       (3, 1),
+       (3, 2),
+       (4, 1),
+       (5, 2);
 
 
 
 insert into contact_info(id, info_name, info_content, domain_id, icon_id)
 values (nextval('ci_seq'), 'email', 'info@lientjes-coffeebreak.be', 1, 2),
-       (nextval('ci_seq'), 'adres', 'Stationstraat 143, 2845 Niel', 1, 1),
        (nextval('ci_seq'), 'telefoon', '03 344 85 79', 1, 3),
        (nextval('ci_seq'), 'email', 'info@lientjes-coffeebreak.be', 2, 2),
-       (nextval('ci_seq'), 'adres', 'Stationstraat 143, 2845 Niel', 2, 1),
        (nextval('ci_seq'), 'telefoon', '03 344 85 79', 2, 3);
 
 insert into menu_section(id, domain_id, name, image_id)
@@ -513,6 +513,8 @@ values (nextval('CF_SEQ'), 'persona A', 'onderwerp1', 'email1@example.com', 1,
         'this is a placeholder text merely to show how it works', '2021-03-25 12:35:55.698', false),
        (nextval('CF_SEQ'), 'persona F', 'onderwerp6', 'email6@example.com', 4,
         'this is a placeholder text merely to show how it works', '2021-03-23 10:45:55.698', false),
+       (nextval('CF_SEQ'), 'persona F', 'onderwerp6', 'email6@example.com', 4,
+        'this is a placeholder text merely to show how it works', '2021-04-27 10:45:55.698', false),
        (nextval('CF_SEQ'), 'persona G', 'onderwerp7', 'email7@example.com', 2,
         'this is a placeholder text merely to show how it works', '2020-04-12 16:24:55.698', false);
 
@@ -521,7 +523,8 @@ insert into user(id, username, password)
 values (nextval('U_SEQ'), 'admin', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy'),
        (nextval('U_SEQ'), 'adminbolo', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy'),
        (nextval('U_SEQ'), 'adminbistro', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy'),
-       (nextval('U_SEQ'), 'inbox', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy');
+       (nextval('U_SEQ'), 'inbox', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy'),
+       (nextval('U_SEQ'), 'test', '$2a$05$WCHVTkeSem18cSAyuKgq/uil0dGOFFeGZifGEhUnqZ/1TlHfe8Bjy');
 
 insert into USER_ROLE(id, role_name)
 values (1, 'BISTRO'),
@@ -529,49 +532,59 @@ values (1, 'BISTRO'),
        (3, 'ADMIN'),
        (4, 'CONTRIBUTERS'),
        (5, 'SOCIAL_MEDIA'),
-       (6,'CONTACT'),
+       (6, 'CONTACT'),
        (7, 'OPENINGUUR'),
        (8, 'PAGE_EDIT'),
        (9, 'MENU'),
        (10, 'PERSONNEL'),
        (11, 'INBOX'),
-       (12, 'USER_EDIT');
+       (12, 'USER_EDIT'),
+       (13, 'INBOX_EDIT');
 
 insert into user_user_role(users_id, user_role_id)
-values  (1,1),
-        (1,2),
-        (1,3),
-        (1,4),
-        (1,5),
-        (1,6),
-        (1,7),
-        (1,8),
-        (1,9),
-        (1,10),
-        (1,11),
-        (1,12),
-        (2,2),
-        (2,3),
-        (2,4),
-        (2,5),
-        (2,6),
-        (2,7),
-        (2,8),
-        (2,9),
-        (2,10),
-        (2,11),
-        (2,12),
-        (3,1),
-        (3,3),
-        (3,4),
-        (3,5),
-        (3,6),
-        (3,7),
-        (3,8),
-        (3,9),
-        (3,10),
-        (3,11),
-        (3,12),
-       (4,1),
-       (4,2),
-       (4,11);
+values (1, 1),
+       (1, 2),
+       (1, 3),
+       (1, 4),
+       (1, 5),
+       (1, 6),
+       (1, 7),
+       (1, 8),
+       (1, 9),
+       (1, 10),
+       (1, 11),
+       (1, 12),
+       (1, 13),
+       (2, 2),
+       (2, 3),
+       (2, 4),
+       (2, 5),
+       (2, 6),
+       (2, 7),
+       (2, 8),
+       (2, 9),
+       (2, 10),
+       (2, 11),
+       (2, 12),
+       (2, 13),
+       (3, 1),
+       (3, 3),
+       (3, 4),
+       (3, 5),
+       (3, 6),
+       (3, 7),
+       (3, 8),
+       (3, 9),
+       (3, 10),
+       (3, 11),
+       (3, 12),
+       (3, 13),
+       (4, 1),
+       (4, 2),
+       (4, 3),
+       (4, 11),
+       (5, 3);
+
+insert into address(id, street_address, address_locality, address_region, postal_code, domain_id)
+values (nextval('AD_SEQ'), 'Molenbergstraat 113', 'Rumst', 'Antwerpen', '2840', 2),
+       (nextval('AD_SEQ'), 'Stationstraat 143', 'Niel', 'Antwerpen', '2845', 1);

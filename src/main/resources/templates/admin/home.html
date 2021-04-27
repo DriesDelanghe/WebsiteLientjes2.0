@@ -17,17 +17,30 @@
 <body>
 <header th:replace="admin/fragments/header :: header"></header>
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb ms-2 mt-2">
+        <li class="breadcrumb-item active" aria-current="page" th:text="|Home|"></li>
+    </ol>
+</nav>
+
 <div class="jumbotron my-5">
     <div class="container">
         <h1 class="display4">Welcome <span sec:authentication="name">user</span></h1>
         <p class="lead">Welcome to the admin page for lientjes</p>
-        <hr class="mx-5 my-4">
-        <p class="text-center">quick acces buttons</p>
-        <div class="container d-flex flex-wrap justify-content-center mx-auto">
-            <a th:href="@{|/admin/nieuwproduct|}" sec:authorize="hasAuthority('MENU')" class="btn btn-outline-dark m-1">nieuw product</a>
-            <a th:href="@{|/admin/allergielijst#new|}" sec:authorize="hasAuthority('MENU')" class="btn btn-outline-dark m-1">allergie toevoegen</a>
-            <a th:href="@{|/admin/paginaoverzicht|}" sec:authorize="hasAuthority('PAGE_EDIT')" class="btn btn-outline-dark m-1">update pagina's</a>
-            <a th:href="@{|/admin/personeellijst#nieuwpersoneel|}" sec:authorize="hasAuthority('PERSONNEL')" class="btn btn-outline-dark m-1">nieuwe collega</a>
+        <div class="container-fluid m-0 p-0"
+             sec:authorize="hasAuthority('MENU') or hasAuthority('PAGE_EDIT') or hasAuthority('PERSONNEL')">
+            <hr class="mx-5 my-4">
+            <p class="text-center">quick access buttons</p>
+            <div class="container d-flex flex-wrap justify-content-center mx-auto">
+                <a th:href="@{|/admin/nieuwproduct|}" sec:authorize="hasAuthority('MENU')"
+                   class="btn btn-outline-dark m-1">nieuw product</a>
+                <a th:href="@{|/admin/allergielijst#new|}" sec:authorize="hasAuthority('MENU')"
+                   class="btn btn-outline-dark m-1">allergie toevoegen</a>
+                <a th:href="@{|/admin/paginaoverzicht|}" sec:authorize="hasAuthority('PAGE_EDIT')"
+                   class="btn btn-outline-dark m-1">update pagina's</a>
+                <a th:href="@{|/admin/personeellijst#nieuwpersoneel|}" sec:authorize="hasAuthority('PERSONNEL')"
+                   class="btn btn-outline-dark m-1">nieuwe collega</a>
+            </div>
         </div>
     </div>
 </div>
@@ -41,7 +54,8 @@
 <div class="container-fluid w-75 h-auto mb-5 d-none d-lg-block">
     <div class="container w-100 d-flex mb-3">
         <h1 class="text-center me-auto">Personeel</h1>
-        <a th:href="@{|/admin/personeellijst|}" class="btn btn-dark d-flex align-items-center justify-content-center">naar personeellijst</a>
+        <a th:href="@{|/admin/personeellijst|}" class="btn btn-dark d-flex align-items-center justify-content-center" sec:authorize="hasAuthority('PERSONNEL')">naar
+            personeellijst</a>
     </div>
     <div id="personnelCarousel" class="carousel slide w-100 mx-auto h-auto carousel-dark " data-bs-ride="carousel">
         <div class="carousel-inner h-auto">
@@ -59,8 +73,9 @@
                                             th:text="*{domain.id == 1}? 'Lientjes Bistro' : 'Lientjes Bolo'"></h6>
                                         <h5 class="card-subtitle mb-2 text-muted" th:text="*{functionDescription}"></h5>
                                         <p class="card-text" th:text="*{extraInfo}"></p>
-                                        <div class="container-fluid d-flex justify-content-center">
-                                            <a th:href="@{|/admin/personeeldetail/*{id}|}"  class="btn btn-dark">update info</a>
+                                        <div class="container-fluid d-flex justify-content-center" sec:authorize="hasAuthority('PERSONNEL')">
+                                            <a th:href="@{|/admin/personeeldetail/*{id}|}" class="btn btn-dark">update
+                                                info</a>
                                         </div>
                                     </div>
                                 </div>
@@ -87,7 +102,8 @@
 <div class="container-fluid w-75 h-auto mb-5 d-none d-md-block d-lg-none">
     <div class="container w-100 d-flex mb-3">
         <h1 class="text-center me-auto">Personeel</h1>
-        <a th:href="@{|/admin/personeellijst|}" class="btn btn-dark d-flex align-items-center justify-content-center">naar personeellijst</a>
+        <a th:href="@{|/admin/personeellijst|}" class="btn btn-dark d-flex align-items-center justify-content-center" sec:authorize="hasAuthority('PERSONNEL')">naar
+            personeellijst</a>
     </div>
     <div id="personnelCarousel" class="carousel slide w-100 mx-auto h-auto carousel-dark " data-bs-ride="carousel">
         <div class="carousel-inner h-auto">
@@ -106,7 +122,8 @@
                                         <h5 class="card-subtitle mb-2 text-muted" th:text="*{functionDescription}"></h5>
                                         <p class="card-text" th:text="*{extraInfo}"></p>
                                         <div class="container-fluid d-flex justify-content-center">
-                                            <a th:href="@{|/admin/personeeldetail/*{id}|}"  class="btn btn-dark">update info</a>
+                                            <a th:href="@{|/admin/personeeldetail/*{id}|}" class="btn btn-dark" sec:authorize="hasAuthority('PERSONNEL')">update
+                                                info</a>
                                         </div>
                                     </div>
                                 </div>
@@ -133,7 +150,7 @@
 <div class="container-fluid w-75 h-auto mb-5 d-block d-md-none">
     <div class="container w-100 d-flex flex-column mb-3">
         <h1 class="text-center me-auto">Personeel</h1>
-        <a th:href="@{|/admin/personeellijst|}" class="btn btn-dark ">naar personeellijst</a>
+        <a th:href="@{|/admin/personeellijst|}" class="btn btn-dark " sec:authorize="hasAuthority('PERSONNEL')">naar personeellijst</a>
     </div>
     <div class="carousel slide carousel-dark" id="carouselPersoneelMobile" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -147,7 +164,7 @@
                             <h6 class="card-subtitle text-muted" th:text="*{functionDescription}"></h6>
                             <p class="card-text" th:text="*{extraInfo}"></p>
                             <div class="container-fluid d-flex justify-content-center">
-                                <a th:href="@{|/admin/personeeldetail/*{id}|}"  class="btn btn-dark">update info</a>
+                                <a th:href="@{|/admin/personeeldetail/*{id}|}" class="btn btn-dark" sec:authorize="hasAuthority('PERSONNEL')">update info</a>
                             </div>
                         </div>
                     </div>

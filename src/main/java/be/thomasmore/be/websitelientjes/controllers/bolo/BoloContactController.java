@@ -31,10 +31,17 @@ public class BoloContactController {
     PageRepository pageRepository;
     @Autowired
     TextFragmentRepository textFragmentRepository;
+    @Autowired
+    AddressRepository addressRepository;
 
     @ModelAttribute("domain")
     public Domain getDomain(){
         return domainRepository.findById(2).get();
+    }
+
+    @ModelAttribute("address")
+    public Address getAddress(@ModelAttribute("domain") Domain domain){
+        return addressRepository.getByDomain(domain);
     }
 
     @ModelAttribute("contactInfoList")

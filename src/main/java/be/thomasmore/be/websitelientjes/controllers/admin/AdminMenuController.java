@@ -1,14 +1,12 @@
 package be.thomasmore.be.websitelientjes.controllers.admin;
 
 import be.thomasmore.be.websitelientjes.models.*;
-import be.thomasmore.be.websitelientjes.models.Image;
 import be.thomasmore.be.websitelientjes.repositories.*;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.awt.*;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
@@ -70,13 +67,9 @@ public class AdminMenuController {
     @ModelAttribute("menuSection")
     public MenuSection getMenuSection(@PathVariable(required = false) Integer menuSectionId) {
         if (menuSectionId != null) {
-            try {
-                Optional<MenuSection> menuSectionOptional = menuSectionRepository.findById(menuSectionId);
-                if (menuSectionOptional.isPresent()) {
-                    return menuSectionOptional.get();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            Optional<MenuSection> menuSectionOptional = menuSectionRepository.findById(menuSectionId);
+            if (menuSectionOptional.isPresent()) {
+                return menuSectionOptional.get();
             }
         }
         return null;
@@ -99,7 +92,7 @@ public class AdminMenuController {
 
     @ModelAttribute("newProduct")
     public Product newProduct(@ModelAttribute("newProduct") Product product) {
-        if(product != null){
+        if (product != null) {
             return product;
         }
         return new Product();
@@ -154,24 +147,19 @@ public class AdminMenuController {
         Integer targetId = (Integer) model.getAttribute("targetId");
         logger.info(String.format("value target id -- '%d'", targetId));
 
-        if(subSectionId != null){
-            logger.info("I am the problem child");
+        if (subSectionId != null) {
             model.addAttribute("targetId", subSectionId);
             logger.info(String.format("targetid"), subSectionId);
-            return  "admin/menusectie";
+            return "admin/menusectie";
         }
         return "admin/menusectie";
     }
 
     @GetMapping("/nieuwproduct")
-    public String newProductGet(){
+    public String newProductGet() {
 
         return "admin/newproduct";
     }
-
-
-
-
 
 
     @PostMapping("/menusectie/{menuSectionId}")
@@ -181,7 +169,7 @@ public class AdminMenuController {
                                  BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "admin/menusectie" ;
+            return "admin/menusectie";
         }
 
         logger.info("domain id -- " + menuSection.getId());
@@ -250,8 +238,8 @@ public class AdminMenuController {
                                   @PathVariable Integer menuSectionId,
                                   @PathVariable Integer subSectionId,
                                   @RequestParam String productName,
-                                  @RequestParam BigDecimal productPrice,
-                                  @RequestParam String productExtraInfo,
+                                  @RequestParam(required = false) BigDecimal productPrice,
+                                  @RequestParam(required = false) String productExtraInfo,
                                   @RequestParam(name = "category[]", required = false) List<Integer> categoryIdList,
                                   @RequestParam(name = "allergy[]", required = false) List<Integer> allergyIdList) {
 
@@ -318,11 +306,11 @@ public class AdminMenuController {
             return "redirect:/admin/menusectie/" + menuSectionId + "#" + subSectionId;
         }
 
-        if(!allergyIdList.isEmpty()){
+        if (allergyIdList != null && !allergyIdList.isEmpty()) {
             product.setAllergies((List<Allergie>) allergieRepository.findAllById(allergyIdList));
         }
 
-        if(!categoryIdList.isEmpty()){
+        if (categoryIdList != null && !categoryIdList.isEmpty()) {
             product.setCategories((List<ProductCategory>) categoryRepository.findAllById(categoryIdList));
         }
 
@@ -441,10 +429,10 @@ public class AdminMenuController {
     }
 
     @PostMapping("/removesection/{menuSectionId}")
-    public String removeMenuSection(@ModelAttribute("menuSection")MenuSection menuSection,
-                                    @PathVariable Integer menuSectionId){
+    public String removeMenuSection(@ModelAttribute("menuSection") MenuSection menuSection,
+                                    @PathVariable Integer menuSectionId) {
 
-        if(!menuSection.getMenuSubSectionList().isEmpty()){
+        if (!menuSection.getMenuSubSectionList().isEmpty()) {
             return "admin/menusectie";
         }
         menuSectionRepository.delete(menuSection);
@@ -456,9 +444,9 @@ public class AdminMenuController {
     public String completeNewProductPost(@Valid @ModelAttribute("newProduct") Product product,
                                          BindingResult bindingResult,
                                          @RequestParam(required = false) Integer subSectionId,
-                                         Model model){
+                                         Model model) {
 
-        if(bindingResult.hasErrors() || subSectionId == null){
+        if (bindingResult.hasErrors() || subSectionId == null) {
             model.addAttribute("newProduct", product);
             return "admin/newproduct";
         }
@@ -467,8 +455,8 @@ public class AdminMenuController {
 
         int sectionId = 1;
 
-        for(MenuSection menuSection : subSection.getMenuSectionList()){
-            if(menuSection.getId() != 1 && menuSection.getId() !=2){
+        for (MenuSection menuSection : subSection.getMenuSectionList()) {
+            if (menuSection.getId() != 1 && menuSection.getId() != 2) {
                 sectionId = menuSection.getId();
             }
         }

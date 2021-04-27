@@ -40,6 +40,10 @@
                     <span th:utext="${contact.infoName}"></span>: <span th:utext="${contact.infoContent}"></span>
                 </p>
             </th:block>
+            <p class="lead text-center">
+                <span th:utext="${address.iconCode}"></span>
+                adres: <span th:utext="${address.streetAddress}"></span>, <span th:utext="${address.postalCode}"></span> <span th:utext="${address.addressLocality}"></span>
+            </p>
         </div>
     </div>
 

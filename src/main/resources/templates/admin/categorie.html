@@ -19,13 +19,21 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
-<div class="container mt-5">
-    <h2 class="lead">categorie:</h2>
-    <hr>
-</div>
 
 <th:block th:if="${category !=null&& #authorization.expression('hasAuthority(''MENU'')')}">
 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item"><a th:href="@{|/admin/categorielijst|}">Categorielijst</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${category.name}"></li>
+        </ol>
+    </nav>
+
+    <div class="container mt-5">
+        <h2 class="lead">categorie:</h2>
+        <hr>
+    </div>
 
     <div class="row mt-2">
         <div class="card col-12 col-lg-6 col-xl-4 mx-auto" th:object="${category}">
@@ -86,14 +94,16 @@
                           th:action="@{|/admin/removeproductfromcategory/${category.id}|}">
                         <div class="row d-flex justify-content-center">
                             <th:block th:each="product : ${category.getProducts()}">
-                                <label class="col-12 col-lg-4 col-xl-3 m-2" th:if="${product.menuSubSection.menuSectionList[0].domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
+                                <label class="col-12 col-lg-4 col-xl-3 m-2"
+                                       th:if="${product.menuSubSection.menuSectionList[0].domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
                                     <input type="checkbox" name="productId[]" th:value="${product.id}">
                                     <div class="card w-100 remove-product">
                                         <div class="card-header">
                                             <h4 th:text="${product.name}">name placeholder</h4>
                                         </div>
                                         <div class="card-body">
-                                            <h6 class="card-subtitle text-muted">menu onderdeel: <span th:text="${product.menuSubSection.name}"></span></h6>
+                                            <h6 class="card-subtitle text-muted">menu onderdeel: <span
+                                                    th:text="${product.menuSubSection.name}"></span></h6>
                                             <h5 class="card-title">alle categorieën:</h5>
                                             <p th:each="categoryProduct : ${product.categories}"
                                                th:text="${categoryProduct.name}"></p>
@@ -158,10 +168,12 @@
                                                 </label>
                                                 <label class="col-12 col-lg-4 col-xl-3 m-2"
                                                        th:if="${category.products.contains(product)}">
-                                                    <input type="checkbox" name="productId[]" th:value="${product.id}" disabled>
+                                                    <input type="checkbox" name="productId[]" th:value="${product.id}"
+                                                           disabled>
                                                     <div class="card w-100 add-product">
                                                         <div class="card-header">
-                                                            <h4 th:text="${product.name}" class="text-muted">name placeholder</h4>
+                                                            <h4 th:text="${product.name}" class="text-muted">name
+                                                                placeholder</h4>
                                                         </div>
                                                         <div class="card-body alert-secondary">
                                                             <h5 class="card-title">alle categorieën:</h5>
@@ -235,10 +247,12 @@
                                                 </label>
                                                 <label class="col-12 col-lg-4 col-xl-3 m-2"
                                                        th:if="${category.products.contains(product)}">
-                                                    <input type="checkbox" name="productId[]" th:value="${product.id}" disabled>
+                                                    <input type="checkbox" name="productId[]" th:value="${product.id}"
+                                                           disabled>
                                                     <div class="card w-100 add-product">
                                                         <div class="card-header">
-                                                            <h4 th:text="${product.name}" class="text-muted">name placeholder</h4>
+                                                            <h4 th:text="${product.name}" class="text-muted">name
+                                                                placeholder</h4>
                                                         </div>
                                                         <div class="card-body alert-secondary">
                                                             <h5 class="card-title">alle categorieën:</h5>
@@ -266,10 +280,31 @@
         </div>
 
     </div>
+
+    <th:block th:unless="${category}">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/categorielijst|}">Categorielijst</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="|pagina niet gevonden|"></li>
+            </ol>
+        </nav>
+
+        <h5 class="m-3 text-center">Deze pagina kan niet gevonden worden</h5>
+    </th:block>
 </th:block>
 
-<th:block th:unless="${category != null && #authorization.expression('hasAuthority(''MENU'')')}">
-    <h4 class="text-center">Categorie kan niet gevonden worden</h4>
+
+<th:block th:unless="${#authorization.expression('hasAuthority(''MENU'')')}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
 </th:block>
 
 </body>

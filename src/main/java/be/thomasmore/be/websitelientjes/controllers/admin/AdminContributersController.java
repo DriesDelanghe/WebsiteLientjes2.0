@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/admin")
 @Controller
@@ -33,7 +34,10 @@ public class AdminContributersController {
     @ModelAttribute("contributer")
     public Reference getContributer(@PathVariable(required = false) Integer contributerId){
         if(contributerId != null) {
-            return referenceRepository.findById(contributerId).get();
+            Optional<Reference> optionalReference = referenceRepository.findById(contributerId);
+            if(optionalReference.isPresent()){
+                return optionalReference.get();
+            }
         }
         return  null;
     }
@@ -63,7 +67,7 @@ public class AdminContributersController {
         return new Reference();
     }
 
-    @GetMapping("contributers")
+    @GetMapping("/contributers")
     public String contributerPage(){
         return "admin/contributers";
     }

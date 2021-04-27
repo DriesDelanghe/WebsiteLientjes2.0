@@ -22,6 +22,13 @@
 
 <th:block sec:authorize="hasAuthority('PAGE_EDIT')">
 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Pagina overzicht|"></li>
+        </ol>
+    </nav>
+
     <div class="row container-fluid mt-5 d-flex justify-content-center" sec:authorize="hasAuthority('BISTRO')">
         <div class="col-12">
             <h4>Pagina's Lientjes Bistro</h4>
@@ -115,7 +122,13 @@
 </th:block>
 
 <th:block th:unless="${#authorization.expression('hasAuthority(''PAGE_EDIT'')')}">
-    <div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
         <h5>Geen rechten om deze pagina te bekijken</h5>
     </div>
 </th:block>

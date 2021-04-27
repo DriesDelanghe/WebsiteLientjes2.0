@@ -21,104 +21,139 @@
 <body>
 
 <header th:replace="admin/fragments/header :: header"></header>
+<th:block sec:authorize="hasAuthority('PAGE_EDIT')">
+    <th:block sec:authorize="hasAuthority('BISTRO')">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/paginaoverzicht|}">Pagina overzicht</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Home pagina - Bistro</li>
+            </ol>
+        </nav>
 
-<th:block sec:authorize="hasAuthority('PAGE_EDIT') and hasAuthority('BISTRO')">
-    <div class="row container-fluid mt-5 d-flex mx-auto flex-column">
-        <div class="col-12 col-lg-8 mx-auto">
-            <a th:href="@{|/bistro/home|}" class="float-end btn btn-dark my-3">Naar pagina</a>
-            <a th:href="@{|/admin/paginaoverzicht|}" class="float-start btn btn-dark my-3">naar overzicht</a>
-        </div>
-        <div class="col-12">
-            <h5 class="text-dark text-center">Home Pagina - Bistro</h5>
-        </div>
-        <form method="post" th:action="@{|/admin/updatetext/${page.id}|}" th:object="${textWrapper}">
-
-            <div class="glass-box col-12 col-lg-8 col-xl-8 mx-auto p-2 my-3">
-                <input type="text" id="inputtext" class="form-control my-4 form-control-background"
-                       th:field="*{headerText[0].textContent}">
-                <textarea rows="6" class="form-control my-4 form-control-background" id="textarea"
-                          th:field="*{paragraphText[0].textContent}"></textarea>
+        <div class="row container-fluid mt-5 d-flex mx-auto flex-column">
+            <div class="col-12 col-lg-8 mx-auto">
+                <a th:href="@{|/bistro/home|}" class="float-end btn btn-dark my-3">Naar pagina</a>
             </div>
+            <div class="col-12">
+                <h5 class="text-dark text-center">Home pagina - Bistro</h5>
+            </div>
+            <div class="col-12 alert alert-danger mt-2" th:if="${hasBlank}">
+                <p class="lead m-0 p-0 text-center">Zorg dat <strong>alle</strong> velden ingevuld zijn</p>
+            </div>
+            <form method="post" th:action="@{|/admin/updatetext/${page.id}|}" th:object="${textWrapper}">
 
-            <div class="row glass-box col-12 col-lg-8 col-xl-8 mx-auto p-2 my-3">
-
-                <input type="text" id="inputtext" class="form-control my-4 form-control-background"
-                       th:field="*{headerText[1].textContent}">
-                <textarea rows="6" class="form-control my-4 form-control-background" id="textarea"
-                          th:field="*{paragraphText[1].textContent}"></textarea>
-                <div class="arrow-button p-3 m-5 col-4 mx-auto">
-                    <input type="text" class="form-control form-control-background"
-                           th:field="*{paragraphText[2].textContent}">
+                <div class="glass-box col-12 col-lg-8 col-xl-8 mx-auto p-2 my-3">
+                    <input type="text" id="inputtext" class="form-control my-4 form-control-background"
+                           th:field="*{headerText[0].textContent}">
+                    <textarea rows="6" class="form-control my-4 form-control-background" id="textarea"
+                              th:field="*{paragraphText[0].textContent}"></textarea>
                 </div>
-            </div>
 
-            <div class="row glass-box-dark col-12 col-lg-8 col-xl-8 mx-auto p-2 my-3">
-                <input type="text" name="headertext" id="inputtext" class="form-control my-4 form-control-background"
-                       th:field="*{headerText[2].textContent}">
-                <div class="arrow-button p-3 m-3 col-4 mx-auto">
-                    <input type="text" class="form-control form-control-background"
-                           th:field="*{paragraphText[3].textContent}">
-                </div>
-            </div>
+                <div class="row glass-box col-12 col-lg-8 col-xl-8 mx-auto p-2 my-3">
 
-            <div class="row glass-box-dark col-12 col-lg-8 col-xl-8 mx-auto p-2 my-3">
-                <input type="text" id="inputtext" class="form-control my-4 form-control-background"
-                       th:field="*{headerText[3].textContent}">
-                <label for="textarea" class="d-none"></label>
-                <textarea rows="6" class="form-control my-4 form-control-background" id="textarea"
-                          th:field="*{paragraphText[4].textContent}"></textarea>
-                <div class="arrow-button p-3 m-3 col-4 mx-auto">
-                    <input type="text" class="form-control form-control-background"
-                           th:field="*{paragraphText[5].textContent}">
-                </div>
-            </div>
-
-            <div class="glass-box row col-12 col-lg-8 mx-auto p-2 my-2">
-                <input type="text" class="form-control my-4 form-control-background"
-                       th:field="*{headerText[4].textContent}">
-                <div class="row w-75 mx-auto">
-                    <th:block th:each="openingsuur : ${openingsuren}">
-                        <div class="col-5 me-auto my-0">
-                            <p th:text="${openingsuur.dag}"></p>
-                        </div>
-                        <div class="col-5 ms-auto my-0">
-                            <p><span
-                                    th:text="${openingsuur.openingsuur != null} ? |${#dates.format(openingsuur.openingsuur, 'HH:mm')} - ${#dates.format(openingsuur.sluitingsuur, 'HH:mm')}| : 'gesloten' "></span>
-                            </p>
-                        </div>
-                    </th:block>
-                </div>
-            </div>
-
-            <div class="glass-box row col-12 col-lg-8 mx-auto p-2 my-2">
-                <input type="text" class="form-control form-control-background" th:field="*{headerText[5].textContent}">
-                <div class="row w-75 mx-auto d-flex justify-content-center">
-                    <div class="col-4" th:each="socialmedia : ${socialmediaList}">
-                        <a href="#" class="btn btn-outline-light my-3">
-                            <span th:utext="${socialmedia.icon.iconCode}" class="h4"></span>
-                        </a>
+                    <input type="text" id="inputtext" class="form-control my-4 form-control-background"
+                           th:field="*{headerText[1].textContent}">
+                    <textarea rows="6" class="form-control my-4 form-control-background" id="textarea"
+                              th:field="*{paragraphText[1].textContent}"></textarea>
+                    <div class="arrow-button p-3 m-5 col-4 mx-auto">
+                        <input type="text" class="form-control form-control-background"
+                               th:field="*{paragraphText[2].textContent}">
                     </div>
                 </div>
-            </div>
 
-            <div class="row glass-box col-12 col-lg-8 mx-auto p-2 my-2">
-                <input type="text" class="form-control my-4 form-control-background"
-                       th:field="*{headerText[6].textContent}">
-                <div class="arrow-button p-3 m-5 col-4 mx-auto">
-                    <input type="text" class="form-control form-control-background"
-                           th:field="*{paragraphText[6].textContent}">
+                <div class="row glass-box-dark col-12 col-lg-8 col-xl-8 mx-auto p-2 my-3">
+                    <input type="text" name="headertext" id="inputtext"
+                           class="form-control my-4 form-control-background"
+                           th:field="*{headerText[2].textContent}">
+                    <div class="arrow-button p-3 m-3 col-4 mx-auto">
+                        <input type="text" class="form-control form-control-background"
+                               th:field="*{paragraphText[3].textContent}">
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-12 d-flex justify-content-center">
-                <input type="submit" class="btn btn-dark my-4" value="opslagen">
-            </div>
-        </form>
+                <div class="row glass-box-dark col-12 col-lg-8 col-xl-8 mx-auto p-2 my-3">
+                    <input type="text" id="inputtext" class="form-control my-4 form-control-background"
+                           th:field="*{headerText[3].textContent}">
+                    <label for="textarea" class="d-none"></label>
+                    <textarea rows="6" class="form-control my-4 form-control-background" id="textarea"
+                              th:field="*{paragraphText[4].textContent}"></textarea>
+                    <div class="arrow-button p-3 m-3 col-4 mx-auto">
+                        <input type="text" class="form-control form-control-background"
+                               th:field="*{paragraphText[5].textContent}">
+                    </div>
+                </div>
 
-    </div>
+                <div class="glass-box row col-12 col-lg-8 mx-auto p-2 my-2">
+                    <input type="text" class="form-control my-4 form-control-background"
+                           th:field="*{headerText[4].textContent}">
+                    <div class="row w-75 mx-auto">
+                        <th:block th:each="openingsuur : ${openingsuren}">
+                            <div class="col-5 me-auto my-0">
+                                <p th:text="${openingsuur.dag}"></p>
+                            </div>
+                            <div class="col-5 ms-auto my-0">
+                                <p><span
+                                        th:text="${openingsuur.openingsuur != null} ? |${#dates.format(openingsuur.openingsuur, 'HH:mm')} - ${#dates.format(openingsuur.sluitingsuur, 'HH:mm')}| : 'gesloten' "></span>
+                                </p>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+
+                <div class="glass-box row col-12 col-lg-8 mx-auto p-2 my-2">
+                    <input type="text" class="form-control form-control-background"
+                           th:field="*{headerText[5].textContent}">
+                    <div class="row w-75 mx-auto d-flex justify-content-center">
+                        <div class="col-4" th:each="socialmedia : ${socialmediaList}">
+                            <a href="#" class="btn btn-outline-light my-3">
+                                <span th:utext="${socialmedia.icon.iconCode}" class="h4"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row glass-box col-12 col-lg-8 mx-auto p-2 my-2">
+                    <input type="text" class="form-control my-4 form-control-background"
+                           th:field="*{headerText[6].textContent}">
+                    <div class="arrow-button p-3 m-5 col-4 mx-auto">
+                        <input type="text" class="form-control form-control-background"
+                               th:field="*{paragraphText[6].textContent}">
+                    </div>
+                </div>
+
+                <div class="col-12 d-flex justify-content-center">
+                    <input type="submit" class="btn btn-dark my-4" value="opslagen">
+                </div>
+            </form>
+
+        </div>
+    </th:block>
+
+
+    <th:block th:unless="${#authorization.expression('hasAuthority(''BISTRO'')')}">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/paginaoverzicht|}">Pagina overzicht</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+            </ol>
+        </nav>
+        <div class="container-fluid mt-5">
+            <h5>Geen rechten om deze pagina te bekijken</h5>
+        </div>
+    </th:block>
+
 </th:block>
-<th:block th:unless="${#authorization.expression('hasAuthority(''PAGE_EDIT'') and hasAuthority(''BISTRO'')')}">
-    <div class="container-fluid">
+
+<th:block th:unless="${#authorization.expression('hasAuthority(''PAGE_EDIT'')')}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
         <h5>Geen rechten om deze pagina te bekijken</h5>
     </div>
 </th:block>

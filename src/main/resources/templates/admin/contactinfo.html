@@ -23,15 +23,33 @@
 <body>
 
 <header th:replace="admin/fragments/header :: header"></header>
-<th:block sec:authorize="hasAuthority('CONTACT')">
+<th:block sec:authorize="hasAuthority('CONTACT')" th:if="${contactInfo}">
 
-    <div class="container-fluid" th:unless="${contactInfo.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')') && contactInfo != null} : ${#authorization.expression('hasAuthority(''BOLO'')') && contactInfo != null}">
-        <h5>Contact info kan niet gevonden worden</h5>
-    </div>
+    <th:block th:unless="${contactInfo.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')') && contactInfo != null} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/contactinfolijst|}">Contact info</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="|pagina niet gevonden|"></li>
+            </ol>
+        </nav>
+
+        <div class="container-fluid" >
+            <h5>Contact info kan niet gevonden worden</h5>
+        </div>
+    </th:block>
 
 
     <th:block th:if="${contactInfo.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')') && contactInfo != null} : ${#authorization.expression('hasAuthority(''BOLO'')') && contactInfo != null}">
-        <a th:href="@{|/admin/contactinfolijst|}" class="btn btn-dark">Terug naar overzicht</a>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/contactinfolijst|}">Contact info</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${contactInfo.infoName}"></li>
+            </ol>
+        </nav>
 
         <div class="row w-100" th:object="${contactInfo}">
             <div class="col-12 alert-danger" th:if="${#fields.hasErrors('*')}">
@@ -122,13 +140,31 @@
         </div>
     </th:block>
 
+
+<div class="container-fluid" th:unless="${contactInfo}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item"><a th:href="@{|/admin/contactinfolijst|}">Contact info</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|pagina niet gevonden|"></li>
+        </ol>
+    </nav>
+
+    <h5 class="m-3 text-center">Deze pagina kan niet gevonden worden</h5>
+</div>
 </th:block>
 
-<div th:unless="${#authorization.expression('hasAuthority(''CONTACT'')')}">
-    <div class="container-fluid">
+<th:block th:unless="${#authorization.expression('hasAuthority(''CONTACT'')')}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
         <h5>Geen rechten om deze pagina te bekijken</h5>
     </div>
-</div>
+</th:block>
 
 </body>
 </html>

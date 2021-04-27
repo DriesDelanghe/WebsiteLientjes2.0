@@ -18,8 +18,24 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
-<th:block th:if="${menuSectionListBolo != null && menuSectionListBistro != null}" sec:authorize="hasAuthority('MENU')">
-    <th:block th:if="${menuSectionList == null}">
+<th:block sec:authorize="hasAuthority('MENU')">
+
+    <nav aria-label="breadcrumb" th:if="${domain}">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item"><a th:href="@{|/admin/menulijst|}">Menulijst</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${domain == domainBistro} ? |menulijst Bistro| : |menulijst Bolo|"></li>
+        </ol>
+    </nav>
+
+    <nav aria-label="breadcrumb" th:unless="${domain}">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Menulijst|"></li>
+        </ol>
+    </nav>
+
+    <th:block th:if="${menuSectionList == null && menuSectionListBolo != null && menuSectionListBistro != null}">
         <div class="container-fluid w-100 mx-auto" sec:authorize="hasAuthority('BISTRO')">
             <h2 class="text-center mt-5">Menu secties Lientjes Bistro</h2>
             <hr class="text-muted mx-auto w-50 my-2">
@@ -119,6 +135,12 @@
 </th:block>
 
 <th:block th:unless="${#authorization.expression('hasAuthority(''MENU'')')}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
     <div class="container-fluid mt-5">
         <h5>Geen rechten om deze pagina te bekijken</h5>
     </div>

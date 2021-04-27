@@ -22,12 +22,19 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
-<a th:href="@{|/admin/socialmedialijst|}" class="btn btn-dark">Terug naar overzicht</a>
 <th:block sec:authorize="hasAuthority('SOCIAL_MEDIA')">
-
     <th:block th:if="${socialMedia}">
-        <th:block
-                th:if="${socialMedia.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
+
+        <th:block th:if="${socialMedia.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb ms-2 mt-2">
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/socialmedialijst|}">Sociale media lijst</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" th:text="|sociale media|"></li>
+                </ol>
+            </nav>
+
             <div class="row w-100" th:object="${socialMedia}">
                 <div class="col-12 alert-danger" th:if="${#fields.hasErrors('*')}">
                     <p>ERROR - data kan niet opgeslagen worden</p>
@@ -115,19 +122,42 @@
             </div>
         </th:block>
         <th:block th:unless="${socialMedia.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
-            <div class="container-fluid mx-auto mt-5">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb ms-2 mt-2">
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/socialmedialijst|}">sociale media lijst</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+                </ol>
+            </nav>
+            <div class="container-fluid mt-5">
                 <h5>Geen rechten om deze pagina te bekijken</h5>
             </div>
         </th:block>
 
     </th:block>
     <th:block th:unless="${socialMedia}">
-        <h2>Sociale media kan niet gevonden</h2>
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb ms-2 mt-2">
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/socialmedialijst|}">Sociale media lijst</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" th:text="|pagina niet gevonden|"></li>
+                </ol>
+            </nav>
+
+            <h5 class="m-3 text-center">Deze pagina kan niet gevonden worden</h5>
+        </div>
     </th:block>
 
 </th:block>
 <th:block th:unless="${#authorization.expression('hasAuthority(''SOCIAL_MEDIA'')')}">
-    <div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
         <h5>Geen rechten om deze pagina te bekijken</h5>
     </div>
 </th:block>

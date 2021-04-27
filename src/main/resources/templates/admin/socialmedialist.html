@@ -21,103 +21,147 @@
 <header th:replace="admin/fragments/header :: header"></header>
 
 <th:block sec:authorize="hasAuthority('SOCIAL_MEDIA')">
+    <th:block
+            th:if="${domain} ? (${domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}) : 1==1">
 
-    <div class="container-fluid mt-5" th:if="${domain == null || domain == domainBistro}" sec:authorize="hasAuthority('BISTRO')">
-        <h4>Sociale media Bistro</h4>
-        <hr>
-        <div class="container-fluid alert alert-danger" th:if="${duplicates}">
-            <p>volgorde index kan niet hetzelfde zijn</p>
-        </div>
-        <form method="post" th:action="@{/admin/orderchangebistro}" class="row d-flex justify-content-center">
-            <div class="card col-12 col-lg-4 col-xl-3" th:each="socialmedia : ${socialMediaBistro}">
-                <div class="card-header bg-secondary d-flex justify-content-center">
-                    <span th:utext="${socialmedia.icon.iconCode}" class="text-light h4"></span>
-                </div>
-                <div class="card-body">
-                    <a th:href="${socialmedia.getSocialMediaUrl()}" target="_blank" class="card-link">Naar social media pagina</a>
-                    <br>
-                    <label class="form-label" for="order">plaats in links:</label>
-                    <select class="form-select" name="orderReference" id="order">
-                        <option th:each="order : ${socialMediaBistro}" th:value="${orderStat.index +1}"
-                                th:text="${orderStat.index + 1}"
-                                th:selected="${(orderStat.index + 1 ) == socialmedia.orderReference}"></option>
-                    </select>
-                    <a th:href="@{|/admin/socialmedia/${socialmedia.id}|}" class="btn btn-dark mt-3">Aanpassen</a>
-                </div>
+
+        <nav aria-label="breadcrumb" th:if="${domain}">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/socialmedialijst|}">Sociale media lijst</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${domain == domainBistro} ? |Sociale media lijst Bistro| : |Sociale media lijst Bolo|"></li>
+            </ol>
+        </nav>
+
+        <nav aria-label="breadcrumb" th:unless="${domain}">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="|Sociale media lijst|"></li>
+            </ol>
+        </nav>
+
+        <div class="container-fluid mt-5" th:if="${domain == null || domain == domainBistro}"
+             sec:authorize="hasAuthority('BISTRO')">
+            <h4>Sociale media Bistro</h4>
+            <hr>
+            <div class="container-fluid alert alert-danger" th:if="${duplicates}">
+                <p>volgorde index kan niet hetzelfde zijn</p>
             </div>
-            <div class="d-flex justify-content-center mt-4" th:if="${socialMediaBistro.size() > 0}">
-                <input type="submit" value="volgorde opslagen" class="btn btn-dark">
-            </div>
-        </form>
-        <form method="post" th:action="@{|/admin/newsocialmedia|}" th:object="${newSocialMedia}" class="row d-flex justify-content-center mt-4">
-            <div class="card col-12 col-lg-4 col-xl-3">
-                <div class="card-header d-flex justify-content-center">
-                    <h4>Nieuwe sociale media</h4>
-                </div>
-                <div class="card-body">
-                    <div class="w-100 alert alert-danger" th:if="${#fields.hasErrors('*')}">
-                        <p>Nieuwe sociale media kan niet aangemaakt worden</p>
+            <form method="post" th:action="@{/admin/orderchangebistro}" class="row d-flex justify-content-center">
+                <div class="card col-12 col-lg-4 col-xl-3" th:each="socialmedia : ${socialMediaBistro}">
+                    <div class="card-header bg-secondary d-flex justify-content-center">
+                        <span th:utext="${socialmedia.icon.iconCode}" class="text-light h4"></span>
                     </div>
-                    <label for="url" class="form-label">Url:</label>
-                    <input class="form-control" type="text" id="url" th:field="*{socialMediaUrl}" th:errorclass="alert-danger">
-                    <br>
-                    <input name="domainId" th:value="${domainBistro.id}" class="d-none">
-                </div>
-                <input type="submit" value="opslagen" class="btn btn-dark">
-            </div>
-        </form>
-    </div>
-
-    <div class="container-fluid mt-5" th:if="${domain == null || domain == domainBolo}" sec:authorize="hasAuthority('BOLO')">
-        <h4>Sociale media Bolo</h4>
-        <hr>
-        <div class="container-fluid alert alert-danger" th:if="${duplicates}">
-            <p>volgorde index kan niet hetzelfde zijn</p>
-        </div>
-        <form method="post" th:action="@{/admin/orderchangebolo}" class="row d-flex justify-content-center">
-            <div class="card col-12 col-lg-4 col-xl-3" th:each="socialmedia : ${socialMediaBolo}">
-                <div class="card-header bg-secondary d-flex justify-content-center">
-                    <span th:utext="${socialmedia.icon.iconCode}" class="text-light h4"></span>
-                </div>
-                <div class="card-body">
-                    <a th:href="${socialmedia.getSocialMediaUrl()}" target="_blank" class="card-link">Naar social media pagina</a>
-                    <br>
-                    <label class="form-label" for="order">plaats in links:</label>
-                    <select class="form-select" name="orderReference" id="order">
-                        <option th:each="order : ${socialMediaBolo}" th:value="${orderStat.index +1}"
-                                th:text="${orderStat.index + 1}"
-                                th:selected="${(orderStat.index + 1 ) == socialmedia.orderReference}"></option>
-                    </select>
-                    <a th:href="@{|/admin/socialmedia/${socialmedia.id}|}" class="btn btn-dark mt-3">Aanpassen</a>
-                </div>
-            </div>
-            <div class="d-flex justify-content-center mt-4" th:if="${socialMediaBolo.size() > 0}">
-                <input type="submit" value="volgorde opslagen" class="btn btn-dark">
-            </div>
-        </form>
-
-        <form method="post" th:action="@{|/admin/newsocialmedia|}" th:object="${newSocialMedia}" class="row d-flex justify-content-center mt-4">
-            <div class="card col-12 col-lg-4 col-xl-3">
-                <div class="card-header d-flex justify-content-center">
-                    <h4>Nieuwe sociale media</h4>
-                </div>
-                <div class="card-body">
-                    <div class="w-100 alert alert-danger" th:if="${#fields.hasErrors('*')}">
-                        <p>Nieuwe sociale media kan niet aangemaakt worden</p>
+                    <div class="card-body">
+                        <a th:href="${socialmedia.getSocialMediaUrl()}" target="_blank" class="card-link">Naar social
+                            media pagina</a>
+                        <br>
+                        <label class="form-label" for="order">plaats in links:</label>
+                        <select class="form-select" name="orderReference" id="order">
+                            <option th:each="order : ${socialMediaBistro}" th:value="${orderStat.index +1}"
+                                    th:text="${orderStat.index + 1}"
+                                    th:selected="${(orderStat.index + 1 ) == socialmedia.orderReference}"></option>
+                        </select>
+                        <a th:href="@{|/admin/socialmedia/${socialmedia.id}|}" class="btn btn-dark mt-3">Aanpassen</a>
                     </div>
-                    <label for="url" class="form-label">Url:</label>
-                    <input class="form-control" type="text" id="url" th:field="*{socialMediaUrl}" th:errorclass="alert-danger">
-                    <br>
-                    <input name="domainId" th:value="${domainBolo.id}" class="d-none">
                 </div>
-                <input type="submit" value="opslagen" class="btn btn-dark">
-            </div>
-        </form>
-    </div>
+                <div class="d-flex justify-content-center mt-4" th:if="${socialMediaBistro.size() > 0}">
+                    <input type="submit" value="volgorde opslagen" class="btn btn-dark">
+                </div>
+            </form>
+            <form method="post" th:action="@{|/admin/newsocialmedia|}" th:object="${newSocialMedia}"
+                  class="row d-flex justify-content-center mt-4">
+                <div class="card col-12 col-lg-4 col-xl-3">
+                    <div class="card-header d-flex justify-content-center">
+                        <h4>Nieuwe sociale media</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="w-100 alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                            <p>Nieuwe sociale media kan niet aangemaakt worden</p>
+                        </div>
+                        <label for="url" class="form-label">Url:</label>
+                        <input class="form-control" type="text" id="url" th:field="*{socialMediaUrl}"
+                               th:errorclass="alert-danger">
+                        <br>
+                        <input name="domainId" th:value="${domainBistro.id}" class="d-none">
+                    </div>
+                    <input type="submit" value="opslagen" class="btn btn-dark">
+                </div>
+            </form>
+        </div>
 
+        <div class="container-fluid mt-5" th:if="${domain == null || domain == domainBolo}"
+             sec:authorize="hasAuthority('BOLO')">
+            <h4>Sociale media Bolo</h4>
+            <hr>
+            <div class="container-fluid alert alert-danger" th:if="${duplicates}">
+                <p>volgorde index kan niet hetzelfde zijn</p>
+            </div>
+            <form method="post" th:action="@{/admin/orderchangebolo}" class="row d-flex justify-content-center">
+                <div class="card col-12 col-lg-4 col-xl-3" th:each="socialmedia : ${socialMediaBolo}">
+                    <div class="card-header bg-secondary d-flex justify-content-center">
+                        <span th:utext="${socialmedia.icon.iconCode}" class="text-light h4"></span>
+                    </div>
+                    <div class="card-body">
+                        <a th:href="${socialmedia.getSocialMediaUrl()}" target="_blank" class="card-link">Naar social
+                            media pagina</a>
+                        <br>
+                        <label class="form-label" for="order">plaats in links:</label>
+                        <select class="form-select" name="orderReference" id="order">
+                            <option th:each="order : ${socialMediaBolo}" th:value="${orderStat.index +1}"
+                                    th:text="${orderStat.index + 1}"
+                                    th:selected="${(orderStat.index + 1 ) == socialmedia.orderReference}"></option>
+                        </select>
+                        <a th:href="@{|/admin/socialmedia/${socialmedia.id}|}" class="btn btn-dark mt-3">Aanpassen</a>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-4" th:if="${socialMediaBolo.size() > 0}">
+                    <input type="submit" value="volgorde opslagen" class="btn btn-dark">
+                </div>
+            </form>
+
+            <form method="post" th:action="@{|/admin/newsocialmedia|}" th:object="${newSocialMedia}"
+                  class="row d-flex justify-content-center mt-4">
+                <div class="card col-12 col-lg-4 col-xl-3">
+                    <div class="card-header d-flex justify-content-center">
+                        <h4>Nieuwe sociale media</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="w-100 alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                            <p>Nieuwe sociale media kan niet aangemaakt worden</p>
+                        </div>
+                        <label for="url" class="form-label">Url:</label>
+                        <input class="form-control" type="text" id="url" th:field="*{socialMediaUrl}"
+                               th:errorclass="alert-danger">
+                        <br>
+                        <input name="domainId" th:value="${domainBolo.id}" class="d-none">
+                    </div>
+                    <input type="submit" value="opslagen" class="btn btn-dark">
+                </div>
+            </form>
+        </div>
+    </th:block>
+    <th:block th:unless="${domain} ? (${domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}) : 1==1">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/socialmedialijst|}">Sociale media lijst</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+            </ol>
+        </nav>
+        <div class="container-fluid mt-5">
+            <h5>Geen rechten om deze pagina te bekijken</h5>
+        </div>
+    </th:block>
 </th:block>
 <th:block th:unless="${#authorization.expression('hasAuthority(''SOCIAL_MEDIA'')')}">
-    <div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
         <h5>Geen rechten om deze pagina te bekijken</h5>
     </div>
 </th:block>

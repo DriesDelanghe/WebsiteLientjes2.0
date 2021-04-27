@@ -21,101 +21,156 @@
 <header th:replace="admin/fragments/header :: header"></header>
 
 <th:block sec:authorize="hasAuthority('USER_EDIT')">
+    <th:block th:if="${user}">
+        <th:block th:if="${user.role.contains(roleBistro)} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
 
-    <div class="container-fluid my-2 py-2">
-    <a th:href="@{|/admin/gebruikers|}" class="btn btn-dark mt-1 float-start"><i class="fas fa-arrow-left"></i> naar overzicht</a>
-        <button type="button" class="btn btn-outline-danger float-end me-5" data-bs-toggle="modal"
-                data-bs-target="#removeModal" th:unless="${#httpServletRequest.userPrincipal.name.equals(user.username)}">
-            verwijderen
-        </button>
-    </div>
-    <div class="container-fluid mt-5">
-        <h4 th:text="${#httpServletRequest.userPrincipal.name.equals(user.username)} ? |${user.username} (current)| : ${user.username}">placeholder</h4>
-        <hr>
-    </div>
 
-    <div class="container-fluid mt-4 row gap-md-3 gap-5">
-        <div class="col-12 col-md-5 ms-4">
-            <h5>Rechten</h5>
-            <hr class="text-muted w-50 ms-2">
-            <form class="row ms-4" method="post" th:action="@{|/admin/user/roleupdate/${user.id}|}">
-                <h6 class="mt-2">domein rechten:</h6>
-                <div class="col-12">
-                    <input type="checkbox" name="roleIds[]" class="form-check-inline" th:value="${roleBistro.id}"
-                           th:text="${roleBistro.roleName.toLowerCase()}" th:if="${#authorization.expression('hasAuthority(''BISTRO'')')}"
-                           th:checked="${user.role.contains(roleBistro)}">
-                </div>
-                <div class="col-12">
-                    <input type="checkbox" name="roleIds[]" class="form-check-inline" th:value="${roleBolo.id}"
-                           th:text="${roleBolo.roleName.toLowerCase()}" th:if="${#authorization.expression('hasAuthority(''BOLO'')')}"
-                           th:checked="${user.role.contains(roleBolo)}">
-                </div>
-                <h6 class="mt-2">specifieke rechten:</h6>
-                <div class="col-12" th:each="role : ${roles}" th:if="${role.id != roleBistro.id && role.id != roleBolo.id && #authorization.expression('hasAuthority(''' + role.roleName + ''')')}">
-                    <input type="checkbox" class="form-check-inline" name="roleIds[]" th:value="${role.id}"
-                           th:text="${role.roleName.replaceAll('_', ' ').toLowerCase()}"
-                           th:checked="${user.role.contains(role)}">
-                </div>
-                <div class="container-fluid row mt-3">
-                    <div class="col-4">
-                        <input type="submit" class="btn btn-dark" value="opslagen">
-                    </div>
-                </div>
-            </form>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/gebruikers|}">Gebruikers</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${user.username}"></li>
+            </ol>
+        </nav>
+
+        <div class="container-fluid my-2 py-2">
+            <button type="button" class="btn btn-outline-danger float-end me-5" data-bs-toggle="modal"
+                    data-bs-target="#removeModal"
+                    th:unless="${#httpServletRequest.userPrincipal.name.equals(user.username)}">
+                verwijderen
+            </button>
         </div>
-        <div class="col-12 col-md-5 ms-auto me-5">
-            <div class="card">
-                <div class="card-header">
-                    Gegevens:
-                </div>
-                <form method="post" th:action="@{|/admin/user/updatedetails/${user.id}|}" th:object="${user}">
-                <div class="card-body">
-                    <p class="lead">Gebruikers naam:</p>
-                    <div th:if="${usernameNotUnique == false}" class="alert alert-danger">
-                        gebruikersnaam moet uniek zijn
-                    </div>
-                    <p class="lead" th:text="*{username}" th:if="${#httpServletRequest.userPrincipal.name.equals(user.username) && (newUsername == null || newUsername.isBlank())}"></p>
-                    <input type="text" th:value="${newUsername != null && !newUsername.isBlank()} ? ${newUsername} : ${user.username}" name="username" class="form-control" th:errorclass="|alert-danger|" th:unless="${#httpServletRequest.userPrincipal.name.equals(user.username) && (newUsername == null || newUsername.isBlank())}">
-                    <p class="lead mt-2">Nieuw wachtwoord:</p>
-                    <div class="alert alert-danger" th:if="${passworderror}">
-                        <p class="lead">wachtwoorden moeten hetzelfde zijn</p>
-                    </div>
-                    <input type="text" name="password1" class="form-control" th:classappend="${passworderror} ? |alert-danger|">
-                    <input type="text" name="password2" class="form-control mt-1" th:classappend="${passworderror} ? |alert-danger|">
-                    <input type="submit" class="btn btn-dark mt-3" value="opslagen">
-                </div>
+        <div class="container-fluid mt-5">
+            <h4 th:text="${#httpServletRequest.userPrincipal.name.equals(user.username)} ? |${user.username} (current)| : ${user.username}">
+                placeholder</h4>
+            <hr>
+        </div>
 
+        <div class="container-fluid mt-4 row gap-md-3 gap-5">
+            <div class="col-12 col-md-5 ms-4">
+                <h5>Rechten</h5>
+                <hr class="text-muted w-50 ms-2">
+                <form class="row ms-4" method="post" th:action="@{|/admin/user/roleupdate/${user.id}|}">
+                    <h6 class="mt-2">domein rechten:</h6>
+                    <div class="col-12">
+                        <input type="checkbox" name="roleIds[]" class="form-check-inline" th:value="${roleBistro.id}"
+                               th:text="${roleBistro.roleName.toLowerCase()}"
+                               th:if="${#authorization.expression('hasAuthority(''BISTRO'')')}"
+                               th:checked="${user.role.contains(roleBistro)}">
+                    </div>
+                    <div class="col-12">
+                        <input type="checkbox" name="roleIds[]" class="form-check-inline" th:value="${roleBolo.id}"
+                               th:text="${roleBolo.roleName.toLowerCase()}"
+                               th:if="${#authorization.expression('hasAuthority(''BOLO'')')}"
+                               th:checked="${user.role.contains(roleBolo)}">
+                    </div>
+                    <h6 class="mt-2">specifieke rechten:</h6>
+                    <div class="col-12" th:each="role : ${roles}"
+                         th:if="${role.id != roleBistro.id && role.id != roleBolo.id && #authorization.expression('hasAuthority(''' + role.roleName + ''')')}">
+                        <input type="checkbox" class="form-check-inline" name="roleIds[]" th:value="${role.id}"
+                               th:text="${role.roleName.replaceAll('_', ' ').toLowerCase()}"
+                               th:checked="${user.role.contains(role)}">
+                    </div>
+                    <div class="container-fluid row mt-3">
+                        <div class="col-4">
+                            <input type="submit" class="btn btn-dark" value="opslagen">
+                        </div>
+                    </div>
                 </form>
             </div>
-        </div>
-    </div>
+            <div class="col-12 col-md-5 ms-auto me-5">
+                <div class="card">
+                    <div class="card-header">
+                        Gegevens:
+                    </div>
+                    <form method="post" th:action="@{|/admin/user/updatedetails/${user.id}|}" th:object="${user}">
+                        <div class="card-body">
+                            <p class="lead">Gebruikers naam:</p>
+                            <div th:if="${usernameNotUnique == false}" class="alert alert-danger">
+                                gebruikersnaam moet uniek zijn
+                            </div>
+                            <p class="lead" th:text="*{username}"
+                               th:if="${#httpServletRequest.userPrincipal.name.equals(user.username) && (newUsername == null || newUsername.isBlank())}"></p>
+                            <input type="text"
+                                   th:value="${newUsername != null && !newUsername.isBlank()} ? ${newUsername} : ${user.username}"
+                                   name="username" class="form-control" th:errorclass="|alert-danger|"
+                                   th:unless="${#httpServletRequest.userPrincipal.name.equals(user.username) && (newUsername == null || newUsername.isBlank())}">
+                            <p class="lead mt-2">Nieuw wachtwoord:</p>
+                            <div class="alert alert-danger" th:if="${passworderror}">
+                                <p class="lead">wachtwoorden moeten hetzelfde zijn</p>
+                            </div>
+                            <input type="text" name="password1" class="form-control"
+                                   th:classappend="${passworderror} ? |alert-danger|">
+                            <input type="text" name="password2" class="form-control mt-1"
+                                   th:classappend="${passworderror} ? |alert-danger|">
+                            <input type="submit" class="btn btn-dark mt-3" value="opslagen">
+                        </div>
 
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- remove Modal -->
+        <div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="removeModalLabel">Gebruiker verwijderen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bent u zeker dat u deze gebruiker wilt verwijderen?</p>
+                        <p><strong>Deze actie is permanent</strong></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <form method="post" th:action="@{|/admin/user/remove/${user.id}|}">
+                            <input type="submit" value="verwijderen" class="btn btn-danger">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </th:block>
+        <th:block th:unless="${user.role.contains(roleBistro)} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb ms-2 mt-2">
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/gebruikers|}">Gebruikers</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+                </ol>
+            </nav>
+            <div class="container-fluid mt-5">
+                <h5>Geen rechten om deze pagina te bekijken</h5>
+            </div>
+        </th:block>
+    </th:block>
+    <th:block th:unless="${user}">
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb ms-2 mt-2">
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/gebruikers|}">Gebruikers</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" th:text="|pagina niet gevonden|"></li>
+                </ol>
+            </nav>
+
+            <h5 class="m-3 text-center">Deze pagina kan niet gevonden worden</h5>
+        </div>
+    </th:block>
 </th:block>
 
-<!-- remove Modal -->
-<div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="removeModalLabel">Gebruiker verwijderen</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Bent u zeker dat u deze gebruiker wilt verwijderen?</p>
-                <p><strong>Deze actie is permanent</strong></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <form method="post" th:action="@{|/admin/user/remove/${user.id}|}">
-                    <input type="submit" value="verwijderen" class="btn btn-danger">
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 <th:block th:unless="${#authorization.expression('hasAuthority(''USER_EDIT'')')}">
-    <div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
         <h5>Geen rechten om deze pagina te bekijken</h5>
     </div>
 </th:block>

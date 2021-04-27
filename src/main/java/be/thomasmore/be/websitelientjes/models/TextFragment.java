@@ -1,6 +1,7 @@
 package be.thomasmore.be.websitelientjes.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class TextFragment implements Comparable<TextFragment>{
@@ -8,6 +9,7 @@ public class TextFragment implements Comparable<TextFragment>{
     @Id
     private int id;
     @Column(length = 1500)
+    @NotBlank
     private String textContent;
     private Integer orderReference;
     private boolean headerText;

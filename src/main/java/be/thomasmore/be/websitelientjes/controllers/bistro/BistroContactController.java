@@ -34,6 +34,8 @@ public class BistroContactController {
     ContactTypeRepository contactTypeRepository;
     @Autowired
     ContactFormRepository contactFormRepository;
+    @Autowired
+    AddressRepository addressRepository;
 
     Logger logger = LoggerFactory.getLogger(BistroContactController.class);
 
@@ -76,6 +78,11 @@ public class BistroContactController {
         List<SocialMedia> socialMediaList = socialMediaRepository.findByDomain(domain);
         Collections.sort(socialMediaList);
         return socialMediaList;
+    }
+
+    @ModelAttribute("address")
+    public Address getAddress(@ModelAttribute("domain") Domain domain){
+        return addressRepository.getByDomain(domain);
     }
 
 

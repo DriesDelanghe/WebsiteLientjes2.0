@@ -20,6 +20,13 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb ms-2 mt-2">
+        <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page" th:text="|profiel|"></li>
+    </ol>
+</nav>
+
 </div>
 <div class="container-fluid mt-5">
     <h3 th:text="${currentUser.username}">placeholder</h3>

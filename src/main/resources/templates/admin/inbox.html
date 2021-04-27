@@ -19,161 +19,207 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
+<th:block sec:authorize="hasAuthority('INBOX')">
+    <th:block
+            th:if="${contactType} ? (${contactType.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}) : 1==1">
+
+        <nav aria-label="breadcrumb" th:if="${contactType}">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/inbox|}">Inbox</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${contactType.questionType}"></li>
+            </ol>
+        </nav>
+
+        <nav aria-label="breadcrumb" th:unless="${contactType}">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="|Inbox|"></li>
+            </ol>
+        </nav>
+
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
+             aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Inbox</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="list-group">
+                    <li class="list-group-item" th:classappend="${contactType == null} ? 'list-group-item-primary'">
+                        <a th:href="@{|/admin/inbox|}"
+                           class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
+                            <p>Alles</p>
+                            <span class="badge bg-info rounded-pill" th:if="${allUnreads != null && allUnreads > 0}"
+                                  th:text="${allUnreads}"></span>
+                        </a>
+                    </li>
+                    <th:block sec:authorize="hasAuthority('BISTRO')">
+                        <h6 class="mt-2">Berichten Bistro</h6>
+                        <li class="list-group-item" th:each="contact : ${contactTypeListBistro}"
+                            th:classappend="${contactType != null && contact == contactType} ? 'list-group-item-primary'">
+                            <a th:href="@{|/admin/inbox/${contact.id}|}"
+                               class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
+                                <p th:text="${contact.questionType}"></p>
+                                <span class="badge bg-info rounded-pill"
+                                      th:if="${unreadList.get(contact.id) != null && unreadList.get(contact.id) > 0}"
+                                      th:text="${unreadList.get(contact.id)}"></span>
+                            </a>
+                        </li>
+                    </th:block>
+                    <th:block sec:authorize="hasAuthority('BOLO')">
+                        <h6 class="mt-2">Berichten Bolo</h6>
+                        <li class="list-group-item" th:each="contact : ${contactTypeListBolo}"
+                            th:classappend="${contactType != null && contact == contactType} ? 'list-group-item-primary'">
+                            <a th:href="@{|/admin/inbox/${contact.id}|}"
+                               class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
+                                <p th:text="${contact.questionType}"></p>
+                                <span class="badge bg-info rounded-pill"
+                                      th:if="${unreadList.get(contact.id) != null && unreadList.get(contact.id) > 0}"
+                                      th:text="${unreadList.get(contact.id)}"></span>
+                            </a>
+                        </li>
+                    </th:block>
+                </ul>
+                <div class="container-fluid w-100 p-0 d-flex justify-content-center my-2"
+                     sec:authorize="hasAuthority('INBOX_EDIT')">
+                    <a th:href="@{|/admin/inbox/instellingen|}" class="btn btn-outline-success"><i
+                            class="fas fa-cog"></i> instellingen</a>
+                </div>
+            </div>
+        </div>
 
 
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Inbox</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <ul class="list-group">
-            <li class="list-group-item" th:classappend="${contactType == null} ? 'list-group-item-primary'">
-                <a th:href="@{|/admin/inbox|}"
-                   class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
-                    <p>Alles</p>
-                    <span class="badge bg-info rounded-pill" th:if="${allUnreads != null && allUnreads > 0}"
-                          th:text="${allUnreads}"></span>
+        <div class="container-fluid row mt-5 mx-0 px-0">
+            <h5 class="px-4">Inbox</h5>
+            <hr>
+
+            <div class="container-fluid my-4 d-flex justify-content-start d-block d-lg-none">
+                <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                   aria-controls="offcanvasExample">
+                    Zie inboxen
                 </a>
-            </li>
-            <th:block sec:authorize="hasAuthority('BISTRO')">
-                <h6 class="mt-2">Berichten Bistro</h6>
-                <li class="list-group-item" th:each="contact : ${contactTypeListBistro}"
-                    th:classappend="${contactType != null && contact == contactType} ? 'list-group-item-primary'">
-                    <a th:href="@{|/admin/inbox/${contact.id}|}"
-                       class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
-                        <p th:text="${contact.questionType}"></p>
-                        <span class="badge bg-info rounded-pill"
-                              th:if="${unreadList.get(contact.id) != null && unreadList.get(contact.id) > 0}"
-                              th:text="${unreadList.get(contact.id)}"></span>
-                    </a>
-                </li>
-            </th:block>
-            <th:block sec:authorize="hasAuthority('BOLO')">
-                <h6 class="mt-2">Berichten Bolo</h6>
-                <li class="list-group-item" th:each="contact : ${contactTypeListBolo}"
-                    th:classappend="${contactType != null && contact == contactType} ? 'list-group-item-primary'">
-                    <a th:href="@{|/admin/inbox/${contact.id}|}"
-                       class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
-                        <p th:text="${contact.questionType}"></p>
-                        <span class="badge bg-info rounded-pill"
-                              th:if="${unreadList.get(contact.id) != null && unreadList.get(contact.id) > 0}"
-                              th:text="${unreadList.get(contact.id)}"></span>
-                    </a>
-                </li>
-            </th:block>
-        </ul>
-    </div>
-</div>
-
-
-<div class="container-fluid row mt-5 mx-0 px-0" sec:authorize="hasAuthority('INBOX')">
-    <h5 class="px-4">Inbox</h5>
-    <hr>
-
-    <div class="container-fluid my-4 d-flex justify-content-start d-block d-lg-none">
-    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-        Inbox
-    </a>
-    </div>
-
-    <div class="container-fluid col-lg-2 col-12 d-flex flex-lg-row flex-column d-none d-lg-block">
-        <div class="container-fluid p-0 d-flex flex-row justify-content-center justify-content-lg-start flex-lg-column flex-wrap m-lg-0 my-2">
-
-            <ul class="list-group">
-                <li class="list-group-item" th:classappend="${contactType == null} ? 'list-group-item-primary'">
-                    <a th:href="@{|/admin/inbox|}"
-                       class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
-                        <p>Alles</p>
-                        <span class="badge bg-info rounded-pill" th:if="${allUnreads != null && allUnreads > 0}"
-                              th:text="${allUnreads}"></span>
-                    </a>
-                </li>
-                <th:block sec:authorize="hasAuthority('BISTRO')">
-                    <h6 class="mt-2">Berichten Bistro</h6>
-                    <li class="list-group-item" th:each="contact : ${contactTypeListBistro}"
-                        th:classappend="${contactType != null && contact == contactType} ? 'list-group-item-primary'">
-                        <a th:href="@{|/admin/inbox/${contact.id}|}"
-                           class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
-                            <p th:text="${contact.questionType}"></p>
-                            <span class="badge bg-info rounded-pill"
-                                  th:if="${unreadList.get(contact.id) != null && unreadList.get(contact.id) > 0}"
-                                  th:text="${unreadList.get(contact.id)}"></span>
-                        </a>
-                    </li>
-                </th:block>
-                <th:block sec:authorize="hasAuthority('BOLO')">
-                    <h6 class="mt-2">Berichten Bolo</h6>
-                    <li class="list-group-item" th:each="contact : ${contactTypeListBolo}"
-                        th:classappend="${contactType != null && contact == contactType} ? 'list-group-item-primary'">
-                        <a th:href="@{|/admin/inbox/${contact.id}|}"
-                           class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
-                            <p th:text="${contact.questionType}"></p>
-                            <span class="badge bg-info rounded-pill"
-                                  th:if="${unreadList.get(contact.id) != null && unreadList.get(contact.id) > 0}"
-                                  th:text="${unreadList.get(contact.id)}"></span>
-                        </a>
-                    </li>
-                </th:block>
-            </ul>
-
-
-            <div class="container-fluid w-100 p-0 d-flex justify-content-center my-2">
-                <a th:href="@{|/admin/inbox/instellingen|}" class="btn btn-outline-success"><i
-                        class="fas fa-cog"></i> instellingen</a>
             </div>
-        </div>
-    </div>
+
+            <div class="container-fluid col-lg-2 col-12 d-flex flex-lg-row flex-column d-none d-lg-block">
+                <div class="container-fluid p-0 d-flex flex-row justify-content-center justify-content-lg-start flex-lg-column flex-wrap m-lg-0 my-2">
+
+                    <ul class="list-group">
+                        <li class="list-group-item" th:classappend="${contactType == null} ? 'list-group-item-primary'">
+                            <a th:href="@{|/admin/inbox|}"
+                               class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
+                                <p>Alles</p>
+                                <span class="badge bg-info rounded-pill" th:if="${allUnreads != null && allUnreads > 0}"
+                                      th:text="${allUnreads}"></span>
+                            </a>
+                        </li>
+                        <th:block sec:authorize="hasAuthority('BISTRO')">
+                            <h6 class="mt-2">Berichten Bistro</h6>
+                            <li class="list-group-item" th:each="contact : ${contactTypeListBistro}"
+                                th:classappend="${contactType != null && contact == contactType} ? 'list-group-item-primary'">
+                                <a th:href="@{|/admin/inbox/${contact.id}|}"
+                                   class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
+                                    <p th:text="${contact.questionType}"></p>
+                                    <span class="badge bg-info rounded-pill"
+                                          th:if="${unreadList.get(contact.id) != null && unreadList.get(contact.id) > 0}"
+                                          th:text="${unreadList.get(contact.id)}"></span>
+                                </a>
+                            </li>
+                        </th:block>
+                        <th:block sec:authorize="hasAuthority('BOLO')">
+                            <h6 class="mt-2">Berichten Bolo</h6>
+                            <li class="list-group-item" th:each="contact : ${contactTypeListBolo}"
+                                th:classappend="${contactType != null && contact == contactType} ? 'list-group-item-primary'">
+                                <a th:href="@{|/admin/inbox/${contact.id}|}"
+                                   class="stretched-link text-decoration-none text-dark d-flex justify-content-between align-items-start">
+                                    <p th:text="${contact.questionType}"></p>
+                                    <span class="badge bg-info rounded-pill"
+                                          th:if="${unreadList.get(contact.id) != null && unreadList.get(contact.id) > 0}"
+                                          th:text="${unreadList.get(contact.id)}"></span>
+                                </a>
+                            </li>
+                        </th:block>
+                    </ul>
 
 
-
-
-    <form method="post" th:action="@{|/admin/removemessages|}" class="col-lg-10 col-12">
-
-        <h5 class="display-6 text-center" th:text="${contactType} ? ${contactType.questionType} : 'Algemeen'"></h5>
-        <hr class="text-muted w-50 mx-auto">
-        <label for="submitform" class="form-label col-1 d-flex justify-content-center btn btn-outline-dark">
-            <i class="fas fa-trash"></i>
-            <input type="submit" id="submitform" class="d-none">
-        </label>
-        <div class="container-fluid p-0">
-            <div class="row p-1 bg-light" th:each="message : ${contactFormList}"
-                 th:classappend="${message.read == false} ? 'fw-bold'"
-                 th:if="${message.contactType.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
-
-                <div class="col-2 p-0">
-                    <label th:for="|checkbox${message.id}|"
-                           class="h-100 w-100 d-flex justify-content-center align-content-around">
-                        <input type="checkbox" name="messageId" class="form-check" th:value="${message.id}"
-                               th:id="|checkbox${message.id}|">
-                    </label>
+                    <div class="container-fluid w-100 p-0 d-flex justify-content-center my-2"
+                         sec:authorize="hasAuthority('INBOX_EDIT')">
+                        <a th:href="@{|/admin/inbox/instellingen|}" class="btn btn-outline-success"><i
+                                class="fas fa-cog"></i> instellingen</a>
+                    </div>
                 </div>
-                <div class="col-7 col-lg-8" style="transform: rotate(0)">
-                    <a th:href="@{|/admin/inbox/message/${message.id}|}"
-                       class="stretched-link text-decoration-none"></a>
-                    <h6 th:text="${message.onderwerp}" class="text-dark"></h6>
-                    <p class="ellipsis"><small
-                            th:classappend="${message.read == false} ? 'text-dark' : 'text-muted'"
-                            th:text="${message.question.replaceAll('<br/>', ' ')}"></small></p>
-
-                </div>
-                <div class="col-3 col-lg-1" style="transform: rotate(0)">
-                    <a th:href="@{|/admin/inbox/message/${message.id}|}"
-                       class="stretched-link text-decoration-none"></a>
-                    <p><small th:classappend="${message.read == false} ? 'text-dark' : 'text-muted'"
-                              th:text="${#dates.createNow().day == message.timestamp.day} ? ${#dates.format(message.timestamp, 'HH:mm')} : ${#dates.format(message.timestamp, 'dd MMM')}"></small>
-                    </p>
-                </div>
-                <hr class="text-secondary">
             </div>
-        </div>
-    </form>
-</div>
-</div>
 
-<div class="container-fluid mt-5" th:unless="${#authorization.expression('hasAuthority(''INBOX'')')}">
-    <h5>Geen rechten om deze pagina te bekijken</h5>
-</div>
+            <form method="post" th:action="@{|/admin/removemessages|}" class="col-lg-10 col-12">
+
+                <h5 class="display-6 text-center"
+                    th:text="${contactType} ? ${contactType.questionType} : 'Algemeen'"></h5>
+                <hr class="text-muted w-50 mx-auto">
+                <label for="submitform" class="form-label col-1 d-flex justify-content-center btn btn-outline-dark">
+                    <i class="fas fa-trash"></i>
+                    <input type="submit" id="submitform" class="d-none">
+                </label>
+                <div class="container-fluid p-0">
+                    <div class="row p-1 bg-light" th:each="message : ${contactFormList}"
+                         th:classappend="${message.read == false} ? 'fw-bold'"
+                         th:if="${message.contactType.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
+
+                        <div class="col-2 p-0">
+                            <label th:for="|checkbox${message.id}|"
+                                   class="h-100 w-100 d-flex justify-content-center align-content-around">
+                                <input type="checkbox" name="messageId" class="form-check" th:value="${message.id}"
+                                       th:id="|checkbox${message.id}|">
+                            </label>
+                        </div>
+                        <div class="col-7 col-lg-8" style="transform: rotate(0)">
+                            <a th:href="@{|/admin/inbox/message/${message.id}|}"
+                               class="stretched-link text-decoration-none"></a>
+                            <h6 th:text="${message.onderwerp}" class="text-dark"></h6>
+                            <p class="ellipsis"><small
+                                    th:classappend="${message.read == false} ? 'text-dark' : 'text-muted'"
+                                    th:text="${message.question.replaceAll('<br/>', ' ')}"></small></p>
+
+                        </div>
+                        <div class="col-3 col-lg-1" style="transform: rotate(0)">
+                            <a th:href="@{|/admin/inbox/message/${message.id}|}"
+                               class="stretched-link text-decoration-none"></a>
+                            <p><small th:classappend="${message.read == false} ? 'text-dark' : 'text-muted'"
+                                      th:text="${#dates.createNow().date == message.timestamp.date} ? ${#dates.format(message.timestamp, 'HH:mm')} : ${#dates.format(message.timestamp, 'dd MMM')}"></small>
+                            </p>
+                        </div>
+                        <hr class="text-secondary">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </th:block>
+    <th:block
+            th:unless="${contactType} ? (${contactType.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}) : 1==1">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/inbox|}">Inbox</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+            </ol>
+        </nav>
+        <div class="container-fluid mt-5">
+            <h5>Geen rechten om deze pagina te bekijken</h5>
+        </div>
+    </th:block>
+</th:block>
+
+<th:block th:unless="${#authorization.expression('hasAuthority(''INBOX'')')}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</th:block>
 
 
 </body>

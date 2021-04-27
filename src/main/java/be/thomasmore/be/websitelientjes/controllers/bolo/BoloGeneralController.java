@@ -32,6 +32,7 @@ public class BoloGeneralController {
     @Autowired
     TextFragmentRepository textFragmentRepository;
 
+
     @ModelAttribute("referenceList")
     public List<Reference> getReferenceList(@ModelAttribute("domain") Domain domain){
         return referenceRepository.getByDomain(domain);
@@ -41,6 +42,7 @@ public class BoloGeneralController {
     public Domain getdomain(){
         return domainRepository.findById(2).get();
     }
+
 
     @ModelAttribute("personnelList")
     public List<Personnel> getPersonnelList(@ModelAttribute("domain") Domain domain){

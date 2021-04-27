@@ -21,8 +21,26 @@
 <header th:replace="admin/fragments/header :: header"></header>
 
 <div class="row container-fluid" sec:authorize="hasAuthority('OPENINGUUR')">
+    <th:block
+            th:if="${domain} ? (${domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}) : 1==1">
 
-    <th:block th:if="${domain == null || domain == domainBistro}" sec:authorize="hasAuthority('BISTRO')">
+
+        <nav aria-label="breadcrumb" th:if="${domain}">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/openingsurenlijst|}">Openingsuren lijst</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${domain == domainBistro} ? |Openingsuren lijst Bistro| : |Openingsuren lijst Bolo|"></li>
+            </ol>
+        </nav>
+
+        <nav aria-label="breadcrumb" th:unless="${domain}">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="|Openingsuren lijst|"></li>
+            </ol>
+        </nav>
+
+        <th:block th:if="${domain == null || domain == domainBistro}" sec:authorize="hasAuthority('BISTRO')">
             <div class="card col-12 col-lg-8 mx-auto p-0 my-5" id="bistro">
                 <div class="card-header">
                     <h4 class="card-title">Openingsuren Bistro</h4>
@@ -56,55 +74,71 @@
 
                 </div>
             </div>
+        </th:block>
     </th:block>
-    <th:block th:if="${domain == domainBistro && !#authorization.expression('hasAuthority(''BISTRO'')') ||
-    domain == domainBolo && !#authorization.expression('hasAuthority(''BOLO'')')}">
-        <div class="container-fluid">
+    <th:block
+            th:unless="${domain} ? (${domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}) : 1==1">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/openingsuurlijst|}">Openingsuren lijst</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+            </ol>
+        </nav>
+        <div class="container-fluid mt-5">
             <h5>Geen rechten om deze pagina te bekijken</h5>
         </div>
     </th:block>
 
     <th:block th:if="${domain == null || domain == domainBolo}" sec:authorize="hasAuthority('BOLO')">
-            <div class="card col-12 col-lg-8 mx-auto p-0 my-5" id="bolo">
-                <div class="card-header">
-                    <h4 class="card-title">Openingsuren Bolo</h4>
-                </div>
-                <div class="card-body p-2">
-
-                    <form method="post" th:action="@{|/admin/changehours/${domainBolo.id}|}">
-                        <div class="row my-3 mx-auto" th:each="opening : ${openingsuurWrapper.openingsuurListBolo}"
-                             th:object="${openingsuurWrapper}">
-                            <p class="col-6 col-lg-3" th:text="${opening.dag}"></p>
-                            <label th:for="|geslotenCheck${opening.id}|" class="col-6 col-lg-3">
-                                <input type="checkbox" class="form-check-inline" name="geslotenIds"
-                                       th:value="${opening.id}"
-                                       th:checked="${opening.openingsuur == null}" th:id="|geslotenCheck${opening.id}|">Gesloten
-                            </label>
-                            <label th:for="|openingsuur${opening.id}|" class="col-6 col-lg-3">
-                                <input type="time" th:id="|sluitingsuur${opening.id}|"
-                                       class="form-control col-lg-3 mx-2"
-                                       th:field="*{openingsuurListBolo[__${openingStat.index}__].openingsuur}">
-                            </label>
-                            <label th:for="|sluitingsuur${opening.id}|" class="col-6 col-lg-3">
-                                <input type="time" th:id="|sluitingsuur${opening.id}|"
-                                       class="form-control col-lg-3 mx-2"
-                                       th:field="*{openingsuurListBolo[__${openingStat.index}__].sluitingsuur}">
-                            </label>
-                            <hr class="dropdown-divider">
-                        </div>
-                        <div class="container-fluid d-flex justify-content-center">
-                            <input type="submit" value="opslagen" class="btn btn-dark">
-                        </div>
-                    </form>
-
-                </div>
+        <div class="card col-12 col-lg-8 mx-auto p-0 my-5" id="bolo">
+            <div class="card-header">
+                <h4 class="card-title">Openingsuren Bolo</h4>
             </div>
+            <div class="card-body p-2">
+
+                <form method="post" th:action="@{|/admin/changehours/${domainBolo.id}|}">
+                    <div class="row my-3 mx-auto" th:each="opening : ${openingsuurWrapper.openingsuurListBolo}"
+                         th:object="${openingsuurWrapper}">
+                        <p class="col-6 col-lg-3" th:text="${opening.dag}"></p>
+                        <label th:for="|geslotenCheck${opening.id}|" class="col-6 col-lg-3">
+                            <input type="checkbox" class="form-check-inline" name="geslotenIds"
+                                   th:value="${opening.id}"
+                                   th:checked="${opening.openingsuur == null}" th:id="|geslotenCheck${opening.id}|">Gesloten
+                        </label>
+                        <label th:for="|openingsuur${opening.id}|" class="col-6 col-lg-3">
+                            <input type="time" th:id="|sluitingsuur${opening.id}|"
+                                   class="form-control col-lg-3 mx-2"
+                                   th:field="*{openingsuurListBolo[__${openingStat.index}__].openingsuur}">
+                        </label>
+                        <label th:for="|sluitingsuur${opening.id}|" class="col-6 col-lg-3">
+                            <input type="time" th:id="|sluitingsuur${opening.id}|"
+                                   class="form-control col-lg-3 mx-2"
+                                   th:field="*{openingsuurListBolo[__${openingStat.index}__].sluitingsuur}">
+                        </label>
+                        <hr class="dropdown-divider">
+                    </div>
+                    <div class="container-fluid d-flex justify-content-center">
+                        <input type="submit" value="opslagen" class="btn btn-dark">
+                    </div>
+                </form>
+
+            </div>
+        </div>
     </th:block>
 </div>
 
-<div class="container-fluid" th:unless="${#authorization.expression('hasAuthority(''OPENINGUUR'')')}">
-    <h5>Geen rechten om deze pagina te bekijken</h5>
-</div>
+<th:block th:unless="${#authorization.expression('hasAuthority(''OPENINGUUR'')')}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</th:block>
 
 </body>
 </html>

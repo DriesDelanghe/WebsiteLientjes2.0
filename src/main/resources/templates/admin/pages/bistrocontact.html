@@ -20,111 +20,146 @@
 <body>
 
 <header th:replace="admin/fragments/header :: header"></header>
+<th:block sec:authorize="hasAuthority('PAGE_EDIT')">
+    <th:block sec:authorize="hasAuthority('BISTRO')">
 
-<th:block sec:authorize="hasAuthority('PAGE_EDIT') and hasAuthority('BISTRO')">
-    <div class="row container-fluid mt-5 d-flex mx-auto flex-column">
-        <div class="col-12 col-lg-8 mx-auto">
-            <a th:href="@{|/bistro/contact|}" class="float-end btn btn-dark my-3">Naar pagina</a>
-            <a th:href="@{|/admin/paginaoverzicht|}" class="float-start btn btn-dark my-3">naar overzicht</a>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/paginaoverzicht|}">Pagina overzicht</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Contact pagina - Bistro</li>
+            </ol>
+        </nav>
+
+        <div class="row container-fluid mt-5 d-flex mx-auto flex-column">
+            <div class="col-12 col-lg-8 mx-auto">
+                <a th:href="@{|/bistro/contact|}" class="float-end btn btn-dark my-3">Naar pagina</a>
+            </div>
+            <div class="col-12">
+                <h5 class="text-dark text-center">Contact pagina - Bistro</h5>
+            </div>
+            <div class="col-12 alert alert-danger mt-2" th:if="${hasBlank}">
+                <p class="lead m-0 p-0 text-center">Zorg dat <strong>alle</strong> velden ingevuld zijn</p>
+            </div>
+            <form method="post" th:action="@{|/admin/updatetext/${page.id}|}" th:object="${textWrapper}">
+
+                <div class="glass-box col-12 col-lg-8 col-xl-8 mx-auto p-2 my-3">
+                    <input type="text" id="inputtext" class="form-control my-4 form-control-background"
+                           th:field="*{headerText[0].textContent}">
+                    <div class="row w-100 px-4">
+                        <p th:each="contactInfo :${contactInfoList}">
+                            <span class="w-100 h5 text-light inline-logo"
+                                  th:utext="${contactInfo.icon.iconCode}"></span>
+                            <span th:utext="${contactInfo.infoName}"></span>: <span
+                                th:utext="${contactInfo.infoContent}"></span></p>
+                    </div>
+                </div>
+
+                <div class="glass-box col-12 col-lg-8 col-xl-8 mx-auto p-2 my-3">
+                    <input type="text" id="inputtext" class="form-control my-4 form-control-background"
+                           th:field="*{headerText[1].textContent}">
+                    <div class="row w-100 mx-auto d-flex justify-content-center">
+                        <div class="col-4" th:each="socialmedia : ${socialmediaList}">
+                            <a href="#" class="btn btn-outline-light my-3">
+                                <span th:utext="${socialmedia.icon.iconCode}" class="h4"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-box col-12 col-lg-8 mx-auto p-2 my-3">
+                    <div class="map-section">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156.5514437974912!2d4.3380411402457675!3d51.111723929227594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3f2117d26e7d7%3A0x90d4e0975f273fb!2sLientje&#39;s%20Bistro!5e0!3m2!1sen!2sbe!4v1616099780630!5m2!1sen!2sbe"
+                                allowfullscreen="" loading="lazy"></iframe>
+
+                        <input type="text"
+                               class="form-control form-control-background adjusted-z-index w-75 mx-auto my-3"
+                               th:field="*{paragraphText[0].textContent}">
+                    </div>
+                </div>
+
+                <div class="glass-box-dark col-12 col-lg-8 mx-auto px-2 py-4 my-3">
+                    <input type="text" class="form-control form-control-background"
+                           th:field="*{headerText[2].textContent}">
+                </div>
+
+                <div class="glass-box col-12 col-lg-8 mx-auto py-4 px-2 my-3">
+                    <fieldset>
+                        <legend>
+                            <input type="text" class="form-control form-control-background w-25"
+                                   th:field="*{headerText[3].textContent}">
+                        </legend>
+                        <input type="text" class="form-control form-control-background alert-danger mx-auto"
+                               th:field="*{paragraphText[5].textContent}">
+                        <div class="row w-75 mx-auto my-1">
+                            <input type="text" class="form-control form-control-background w-25 me-auto"
+                                   th:field="*{paragraphText[1].textContent}">
+                            <input type="text" class="form-control w-50 ms-auto" disabled>
+                        </div>
+                        <div class="row w-75 mx-auto my-1">
+                            <input type="text" class="form-control form-control-background w-25 me-auto"
+                                   th:field="*{paragraphText[2].textContent}">
+                            <input type="text" class="form-control w-50 ms-auto" disabled>
+                        </div>
+                        <div class="row w-75 mx-auto my-1">
+                            <input type="text" class="form-control form-control-background w-25 me-auto"
+                                   th:field="*{paragraphText[3].textContent}">
+                            <select class="form-select w-50 ms-auto" id="select" disabled>
+                                <option th:each="contactType : ${contactTypeList}"
+                                        th:text="${contactType.questionType}"></option>
+                            </select>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="glass-box col-12 col-lg-8 mx-auto px-2 py-4 my-3">
+                    <fieldset>
+                        <legend>
+                            <input class="form-control form-control-background w-25" type="text"
+                                   th:field="*{headerText[4].textContent}">
+                        </legend>
+                        <div class="row w-75 mx-auto my-1">
+                            <input type="text" class="form-control form-control-background w-25 me-auto"
+                                   th:field="*{paragraphText[4].textContent}">
+                            <input type="text" class="form-control w-50 ms-auto" disabled>
+                        </div>
+                        <div class="row w-75 my-1 mx-auto">
+                            <textarea class="form-control" rows="6" disabled></textarea>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-12 d-flex justify-content-center">
+                    <input type="submit" class="btn btn-dark my-4" value="opslagen">
+                </div>
+
+            </form>
         </div>
-        <div class="col-12">
-            <h5 class="text-dark text-center">Contact Pagina - Bistro</h5>
+    </th:block>
+
+    <th:block th:unless="${#authorization.expression('hasAuthority(''BISTRO'')')}">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb ms-2 mt-2">
+                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{|/admin/paginaoverzicht|}">Pagina overzicht</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+            </ol>
+        </nav>
+        <div class="container-fluid mt-5">
+            <h5>Geen rechten om deze pagina te bekijken</h5>
         </div>
-        <form method="post" th:action="@{|/admin/updatetext/${page.id}|}" th:object="${textWrapper}">
+    </th:block>
 
-            <div class="glass-box col-12 col-lg-8 col-xl-8 mx-auto p-2 my-3">
-                <input type="text" id="inputtext" class="form-control my-4 form-control-background"
-                       th:field="*{headerText[0].textContent}">
-                <div class="row w-100 px-4">
-                    <p th:each="contactInfo :${contactInfoList}">
-                    <span class="w-100 h5 text-light inline-logo" th:utext="${contactInfo.icon.iconCode}"></span>
-                        <span th:text="${contactInfo.infoName}"></span>: <span
-                            th:text="${contactInfo.infoContent}"></span></p>
-                </div>
-            </div>
-
-            <div class="glass-box col-12 col-lg-8 col-xl-8 mx-auto p-2 my-3">
-                <input type="text" id="inputtext" class="form-control my-4 form-control-background"
-                       th:field="*{headerText[1].textContent}">
-                <div class="row w-100 mx-auto d-flex justify-content-center">
-                    <div class="col-4" th:each="socialmedia : ${socialmediaList}">
-                        <a href="#" class="btn btn-outline-light my-3">
-                            <span th:utext="${socialmedia.icon.iconCode}" class="h4"></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="glass-box col-12 col-lg-8 mx-auto p-2 my-3">
-                <div class="map-section">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156.5514437974912!2d4.3380411402457675!3d51.111723929227594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3f2117d26e7d7%3A0x90d4e0975f273fb!2sLientje&#39;s%20Bistro!5e0!3m2!1sen!2sbe!4v1616099780630!5m2!1sen!2sbe"
-                            allowfullscreen="" loading="lazy"></iframe>
-
-                    <input type="text" class="form-control form-control-background adjusted-z-index w-75 mx-auto my-3"
-                           th:field="*{paragraphText[0].textContent}">
-                </div>
-            </div>
-
-            <div class="glass-box-dark col-12 col-lg-8 mx-auto px-2 py-4 my-3">
-                <input type="text" class="form-control form-control-background" th:field="*{headerText[2].textContent}">
-            </div>
-
-            <div class="glass-box col-12 col-lg-8 mx-auto py-4 px-2 my-3">
-                <fieldset>
-                    <legend>
-                        <input type="text" class="form-control form-control-background w-25"
-                               th:field="*{headerText[3].textContent}">
-                    </legend>
-                    <input type="text" class="form-control form-control-background alert-danger mx-auto"
-                           th:field="*{paragraphText[5].textContent}">
-                    <div class="row w-75 mx-auto my-1">
-                        <input type="text" class="form-control form-control-background w-25 me-auto"
-                               th:field="*{paragraphText[1].textContent}">
-                        <input type="text" class="form-control w-50 ms-auto" disabled>
-                    </div>
-                    <div class="row w-75 mx-auto my-1">
-                        <input type="text" class="form-control form-control-background w-25 me-auto"
-                               th:field="*{paragraphText[2].textContent}">
-                        <input type="text" class="form-control w-50 ms-auto" disabled>
-                    </div>
-                    <div class="row w-75 mx-auto my-1">
-                        <input type="text" class="form-control form-control-background w-25 me-auto"
-                               th:field="*{paragraphText[3].textContent}">
-                        <select class="form-select w-50 ms-auto" id="select" disabled>
-                            <option th:each="contactType : ${contactTypeList}"
-                                    th:text="${contactType.questionType}"></option>
-                        </select>
-                    </div>
-                </fieldset>
-            </div>
-
-            <div class="glass-box col-12 col-lg-8 mx-auto px-2 py-4 my-3">
-                <fieldset>
-                    <legend>
-                        <input class="form-control form-control-background w-25" type="text"
-                               th:field="*{headerText[4].textContent}">
-                    </legend>
-                    <div class="row w-75 mx-auto my-1">
-                        <input type="text" class="form-control form-control-background w-25 me-auto"
-                               th:field="*{paragraphText[4].textContent}">
-                        <input type="text" class="form-control w-50 ms-auto" disabled>
-                    </div>
-                    <div class="row w-75 my-1 mx-auto">
-                        <textarea class="form-control" rows="6" disabled></textarea>
-                    </div>
-                </fieldset>
-            </div>
-
-            <div class="col-12 d-flex justify-content-center">
-                <input type="submit" class="btn btn-dark my-4" value="opslagen">
-            </div>
-
-        </form>
-    </div>
 </th:block>
 
-<th:block th:unless="${#authorization.expression('hasAuthority(''PAGE_EDIT'') and hasAuthority(''BISTRO'')')}">
-    <div class="container-fluid">
+<th:block th:unless="${#authorization.expression('hasAuthority(''PAGE_EDIT'')')}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
         <h5>Geen rechten om deze pagina te bekijken</h5>
     </div>
 </th:block>

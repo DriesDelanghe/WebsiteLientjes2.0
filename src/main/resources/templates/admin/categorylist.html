@@ -18,11 +18,20 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
+<th:block sec:authorize="hasAuthority('MENU')">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Categorielijst</li>
+        </ol>
+    </nav>
+
 <div class="container mt-5">
     <h2 class="lead">categorielijst:</h2>
     <hr>
 </div>
-<div class="container mt-2" sec:authorize="hasAuthority('MENU')">
+<div class="container mt-2" >
     <div class="row d-flex justify-content-center">
         <th:block th:each="category : ${categoryList}">
             <div class="card col-12 col-lg-4 col-xl-3 m-2">
@@ -53,10 +62,19 @@
     </div>
 </div>
 
+</th:block>
 
-<div class="container mt-2" th:unless="${#authorization.expression('hasAuthority(''MENU'')')}">
-    <h5>Geen rechten om deze pagina te bekijken</h5>
-</div>
+<th:block th:unless="${#authorization.expression('hasAuthority(''MENU'')')}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</th:block>
 
 </body>
 </html>

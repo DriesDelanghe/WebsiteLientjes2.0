@@ -20,13 +20,25 @@
 <body>
 
 <header th:replace="admin/fragments/header :: header"></header>
-
-<th:block sec:authorize="hasAuthority('PAGE_EDIT') and hasAuthority('BOLO')">
-
+<th:block sec:authorize="hasAuthority('PAGE_EDIT')">
+<th:block sec:authorize="hasAuthority('BOLO')">
+    <nav aria-label="breadcrumb ms-2 mt-2">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item"><a th:href="@{|/admin/paginaoverzicht|}">Pagina overzicht</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Home pagina - Bolo</li>
+        </ol>
+    </nav>
 
     <div class="col-12 col-lg-8 mx-auto py-4">
         <a th:href="@{|/bolo/home|}" class="float-end btn btn-dark my-3">Naar pagina</a>
-        <a th:href="@{|/admin/paginaoverzicht|}" class="float-start btn btn-dark my-3">naar overzicht</a>
+    </div>
+
+    <div class="col-12">
+        <h5 class="text-dark text-center">Home Pagina - Bolo</h5>
+    </div>
+    <div class="col-12 alert alert-danger mt-2" th:if="${hasBlank}">
+        <p class="lead m-0 p-0 text-center">Zorg dat <strong>alle</strong> velden ingevuld zijn</p>
     </div>
 
     <form method="post" th:action="@{|/admin/updatetext/${page.id}|}">
@@ -213,8 +225,29 @@
 
 </th:block>
 
-<th:block th:unless="${#authorization.expression('hasAuthority(''PAGE_EDIT'') and hasAuthority(''BOLO'')')}">
-    <div class="container-fluid">
+
+<th:block th:unless="${#authorization.expression('hasAuthority(''BOLO'')')}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item"><a th:href="@{|/admin/paginaoverzicht|}">Pagina overzicht</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</th:block>
+</th:block>
+
+<th:block th:unless="${#authorization.expression('hasAuthority(''PAGE_EDIT'')')}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
         <h5>Geen rechten om deze pagina te bekijken</h5>
     </div>
 </th:block>

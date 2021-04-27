@@ -146,9 +146,11 @@ public class AdminInboxController {
 
     @GetMapping("/inbox/message/{messageId}")
     public String messagePage(@ModelAttribute("message") ContactForm message){
-        message.setRead(true);
-        logger.info(String.format("set read on message with id %d to -- %s", message.getId(), message.isRead()));
-        contactFormRepository.save(message);
+        if(message != null) {
+            message.setRead(true);
+            logger.info(String.format("set read on message with id %d to -- %s", message.getId(), message.isRead()));
+            contactFormRepository.save(message);
+        }
         return "admin/inboxmessage";
     }
 

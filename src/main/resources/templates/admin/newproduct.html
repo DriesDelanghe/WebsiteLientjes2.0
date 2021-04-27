@@ -19,120 +19,145 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
-<div class="container-fluid w-75 mx-auto" sec:authorize="hasAuthority('MENU')">
-    <h2>Nieuw product toevoegen</h2>
-    <hr class="w-50">
-    <form method="post" th:action="@{|/admin/newproductpost|}" th:object="${newProduct}">
-        <div class="my-3">
-            <label class="form-label" for="name">naam:</label>
-            <input class="form-control" type="text" th:field="*{name}" id="name">
-        </div>
-        <div class="my-2">
-            <label class="form-label" for="price">prijs:</label>
-            <input class="form-control" type="number" min="0" step="0.01" th:field="*{priceInEur}" id="price">
-        </div>
-        <div class="my-4">
-            <label class="form-label" for="extraInfo">extra info:</label>
-            <textarea  th:field="*{extraInfo}" id="extraInfo" class="form-control"></textarea>
-        </div>
+<th:block sec:authorize="hasAuthority('MENU')">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|nieuw product|"></li>
+        </ol>
+    </nav>
 
 
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion-item" sec:authorize="hasAuthority('BISTRO')">
-                <h2 class="accordion-header" id="flush-headingOne">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                        menulijst bistro
-                    </button>
-                </h2>
-                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
-                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
+    <div class="container-fluid w-75 mx-auto">
 
-                        <div class="accordion accordion-flush" id="accordionFlushBistro">
 
-                            <div class="accordion-item" th:each="menuSectionLoop : ${menuSectionListBistro}">
-                                <h2 class="accordion-header" th:id="|flush-heading${menuSectionLoop.id}|">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                            th:data-bs-target="|#flush-collapse${menuSectionLoop.id}|"
-                                            aria-expanded="false"
-                                            th:aria-controls="|flush-collapse${menuSectionLoop.id}|"
-                                            th:text="${menuSectionLoop.name}">
-                                        placeholder text header
-                                    </button>
-                                </h2>
-                                <div th:id="|flush-collapse${menuSectionLoop.id}|" class="accordion-collapse collapse"
-                                     th:aria-labelledby="|flush-heading${menuSectionLoop.id}|"
-                                     data-bs-parent="#accordionFlushBistro">
-                                    <div class="accordion-body d-flex flex-column align-items-start justify-content-start">
+        <h2>Nieuw product toevoegen</h2>
+        <hr class="w-50">
+        <form method="post" th:action="@{|/admin/newproductpost|}" th:object="${newProduct}">
+            <div class="my-3">
+                <label class="form-label" for="name">naam:</label>
+                <input class="form-control" type="text" th:field="*{name}" id="name">
+            </div>
+            <div class="my-2">
+                <label class="form-label" for="price">prijs:</label>
+                <input class="form-control" type="number" min="0" step="0.01" th:field="*{priceInEur}" id="price">
+            </div>
+            <div class="my-4">
+                <label class="form-label" for="extraInfo">extra info:</label>
+                <textarea th:field="*{extraInfo}" id="extraInfo" class="form-control"></textarea>
+            </div>
 
-                                        <div class="container my-2"
-                                             th:each="subSection : ${menuSectionLoop.menuSubSectionList}">
-                                            <input type="radio" name="subSectionId" th:text="${subSection.name}"
-                                                   th:value="${subSection.id}">
+
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item" sec:authorize="hasAuthority('BISTRO')">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                aria-controls="flush-collapseOne">
+                            menulijst bistro
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                         data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+
+                            <div class="accordion accordion-flush" id="accordionFlushBistro">
+
+                                <div class="accordion-item" th:each="menuSectionLoop : ${menuSectionListBistro}">
+                                    <h2 class="accordion-header" th:id="|flush-heading${menuSectionLoop.id}|">
+                                        <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse"
+                                                th:data-bs-target="|#flush-collapse${menuSectionLoop.id}|"
+                                                aria-expanded="false"
+                                                th:aria-controls="|flush-collapse${menuSectionLoop.id}|"
+                                                th:text="${menuSectionLoop.name}">
+                                            placeholder text header
+                                        </button>
+                                    </h2>
+                                    <div th:id="|flush-collapse${menuSectionLoop.id}|"
+                                         class="accordion-collapse collapse"
+                                         th:aria-labelledby="|flush-heading${menuSectionLoop.id}|"
+                                         data-bs-parent="#accordionFlushBistro">
+                                        <div class="accordion-body d-flex flex-column align-items-start justify-content-start">
+
+                                            <div class="container my-2"
+                                                 th:each="subSection : ${menuSectionLoop.menuSubSectionList}">
+                                                <input type="radio" name="subSectionId" th:text="${subSection.name}"
+                                                       th:value="${subSection.id}">
+                                            </div>
+
                                         </div>
-
                                     </div>
                                 </div>
+
                             </div>
 
                         </div>
-
                     </div>
                 </div>
-            </div>
-            <div class="accordion-item" sec:authorize="hasAuthority('BOLO')">
-                <h2 class="accordion-header" id="flush-headingTwo">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                        menulijst bolo
-                    </button>
-                </h2>
-                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
-                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
+                <div class="accordion-item" sec:authorize="hasAuthority('BOLO')">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                aria-controls="flush-collapseTwo">
+                            menulijst bolo
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+                         data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
 
-                        <div class="accordion accordion-flush" id="accordionFlushBolo">
+                            <div class="accordion accordion-flush" id="accordionFlushBolo">
 
-                            <div class="accordion-item" th:each="menuSectionLoop : ${menuSectionListBolo}">
-                                <h2 class="accordion-header" th:id="|flush-heading${menuSectionLoop.id}|">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                            th:data-bs-target="|#flush-collapse${menuSectionLoop.id}|"
-                                            aria-expanded="false"
-                                            th:aria-controls="|flush-collapse${menuSectionLoop.id}|"
-                                            th:text="${menuSectionLoop.name}">
-                                        placeholder text header
-                                    </button>
-                                </h2>
-                                <div th:id="|flush-collapse${menuSectionLoop.id}|" class="accordion-collapse collapse"
-                                     th:aria-labelledby="|flush-heading${menuSectionLoop.id}|"
-                                     data-bs-parent="#accordionFlushBolo">
-                                    <div class="accordion-body d-flex flex-column align-items-start justify-content-start">
+                                <div class="accordion-item" th:each="menuSectionLoop : ${menuSectionListBolo}">
+                                    <h2 class="accordion-header" th:id="|flush-heading${menuSectionLoop.id}|">
+                                        <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse"
+                                                th:data-bs-target="|#flush-collapse${menuSectionLoop.id}|"
+                                                aria-expanded="false"
+                                                th:aria-controls="|flush-collapse${menuSectionLoop.id}|"
+                                                th:text="${menuSectionLoop.name}">
+                                            placeholder text header
+                                        </button>
+                                    </h2>
+                                    <div th:id="|flush-collapse${menuSectionLoop.id}|"
+                                         class="accordion-collapse collapse"
+                                         th:aria-labelledby="|flush-heading${menuSectionLoop.id}|"
+                                         data-bs-parent="#accordionFlushBolo">
+                                        <div class="accordion-body d-flex flex-column align-items-start justify-content-start">
 
-                                        <div class="container my-2"
-                                             th:each="subSection : ${menuSectionLoop.menuSubSectionList}">
-                                            <input type="radio" name="subSectionId" th:text="${subSection.name}"
-                                                   th:value="${subSection.id}">
+                                            <div class="container my-2"
+                                                 th:each="subSection : ${menuSectionLoop.menuSubSectionList}">
+                                                <input type="radio" name="subSectionId" th:text="${subSection.name}"
+                                                       th:value="${subSection.id}">
+                                            </div>
+
                                         </div>
-
                                     </div>
                                 </div>
+
                             </div>
 
                         </div>
-
                     </div>
                 </div>
             </div>
-        </div>
 
-        <input type="submit" value="opslaan" class="btn btn-dark my-5">
+            <input type="submit" value="opslaan" class="btn btn-dark my-5">
 
-    </form>
-</div>
-
-<div class="container-fluid w-75 mx-auto" th:unless="${#authorization.expression('hasAuthority(''MENU'')')}">
-    <h5>Geen rechten om deze pagina te bekijken</h5>
-</div>
+        </form>
+    </div>
+</th:block>
+<th:block th:unless="${#authorization.expression('hasAuthority(''MENU'')')}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</th:block>
 </body>
 </html>
