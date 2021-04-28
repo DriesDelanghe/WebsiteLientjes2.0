@@ -6,6 +6,13 @@
     height: 0;
 }
 
+input.keep[type=checkbox]{
+    position: relative;
+    opacity: 1;
+    width: auto;
+    height: auto;
+}
+
 /* IMAGE STYLES */
 [type=checkbox] + .card {
     cursor: pointer;

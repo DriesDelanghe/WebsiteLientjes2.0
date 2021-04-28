@@ -25,7 +25,8 @@
 
 <th:block sec:authorize="hasAuthority('PERSONNEL')">
     <th:block th:if="${personnel}">
-        <th:block th:if="${personnel.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
+        <th:block
+                th:if="${personnel.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb ms-2 mt-2">
                     <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
@@ -112,7 +113,8 @@
                               enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="formFile" class="form-label">Upload nieuwe foto</label>
-                                <input class="form-control" type="file" id="formFile" name="newImage" oninput="Filevalidation()">
+                                <input class="form-control" type="file" id="formFile" name="newImage"
+                                       oninput="Filevalidation()">
                                 <p class="text-muted ms-3 my-1">File niet groter dan 2048Kb</p>
                                 <p class="text-muted ms-3 my-1" id="size"></p>
                                 <input type="submit" value="uploaden" id="fileUpload" class="btn btn-dark m-2">
@@ -122,13 +124,13 @@
                         <h4 class="text-center mt-4">bestaande foto selecteren</h4>
                         <form method="post" th:action="@{|/admin/personnel/imagechange/${personnel.id}|}">
                             <div class="row">
-                                <div class="col-lg-3 col-md-6 col-8 d-flex flex-row mx-auto my-3"
+                                <div class="col-lg-3 col-md-6 col-8 my-3"
                                      th:each="image : ${personnelImages}"
                                      th:object="${image}">
-                                    <label>
+                                    <label class="ratio ratio-1x1">
                                         <input type="radio" id="btnLoad" th:value="*{id}" name="imageId"
                                                th:checked="${personnel.image == image}">
-                                        <img th:src="*{imageLocation}" class="object-cover w-100">
+                                            <img th:src="*{imageLocation}" class="object-cover img-fluid">
                                     </label>
                                 </div>
                             </div>
@@ -167,32 +169,33 @@
             </div>
         </div>
 
-    <th:block th:unless="${personnel.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb ms-2 mt-2">
-                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
-                <li class="breadcrumb-item"><a th:href="@{|/admin/personeellijst|}">Personeellijst</a></li>
-                <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
-            </ol>
-        </nav>
-        <div class="container-fluid mt-5">
-            <h5>Geen rechten om deze pagina te bekijken</h5>
+        <th:block
+                th:unless="${personnel.domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb ms-2 mt-2">
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/personeellijst|}">Personeellijst</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+                </ol>
+            </nav>
+            <div class="container-fluid mt-5">
+                <h5>Geen rechten om deze pagina te bekijken</h5>
+            </div>
+        </th:block>
+    </th:block>
+    <th:block th:unless="${personnel}">
+        <div class="container-fluid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb ms-2 mt-2">
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{|/admin/personeellijst|}">personeellijst</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" th:text="|pagina niet gevonden|"></li>
+                </ol>
+            </nav>
+
+            <h5 class="m-3 text-center">Deze pagina kan niet gevonden worden</h5>
         </div>
     </th:block>
-</th:block>
-<th:block th:unless="${personnel}">
-    <div class="container-fluid">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb ms-2 mt-2">
-                <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
-                <li class="breadcrumb-item"><a th:href="@{|/admin/personeellijst|}">personeellijst</a></li>
-                <li class="breadcrumb-item active" aria-current="page" th:text="|pagina niet gevonden|"></li>
-            </ol>
-        </nav>
-
-        <h5 class="m-3 text-center">Deze pagina kan niet gevonden worden</h5>
-    </div>
-</th:block>
 </th:block>
 <th:block th:unless="${#authorization.expression('hasAuthority(''PERSONNEL'')')}">
     <nav aria-label="breadcrumb">

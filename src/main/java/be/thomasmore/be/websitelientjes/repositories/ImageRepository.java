@@ -13,20 +13,18 @@ public interface ImageRepository extends CrudRepository<Image, Integer> {
     @Query("select i from Image i where i.ImageLocation = :location")
     Optional<Image> getByImageLocation(@Param("location") String location);
 
-    @Query("select distinct i from Image i where i.ImageLocation like concat('%', 'personnel', '%') ")
+    @Query("select distinct i from Image i where i.ImageLocation like concat('%', '/personnel/', '%') ")
     List<Image> getAllPersonnelImages();
 
-    @Query("select distinct i from Image i where i.ImageLocation like concat('%', 'food', '%') ")
+    @Query("select distinct i from Image i where i.ImageLocation like concat('%', '/food/', '%') ")
     List<Image> getAllMenuImages();
 
-    @Query("select distinct i from Image i where i.ImageLocation like concat('%', 'socialmedia', '%') ")
-    List<Image> getAllSocialMediaImages();
-
-    @Query("select distinct i from Image i where i.ImageLocation like concat('%', 'contactinfo', '%') ")
-    List<Image> getAllContactInfoImages();
+    @Query("select distinct i from Image i where i.ImageLocation like '%/google/%' and i not in (select ig.image from ImageGoogle ig join ig.image) ")
+    List<Image> getAllGoogleImages();
 
     @Query("select distinct i from Image i where i not in (select ms.image from MenuSection ms join ms.image) " +
             "and i not in (select p.image from Page p join p.image) " +
-            "and i not in (select pers.image from Personnel pers join pers.image)")
+            "and i not in (select pers.image from Personnel pers join pers.image) " +
+            "and i not in (select ig.image from ImageGoogle ig join ig.image)")
     List<Image> getUnusedImages();
 }

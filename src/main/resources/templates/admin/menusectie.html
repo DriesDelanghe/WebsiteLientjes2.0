@@ -124,10 +124,10 @@
                             <h4 class="text-center mt-4">bestaande foto selecteren</h4>
                             <form method="post" th:action="@{|/admin/menu/imagechange/${menuSection.id}|}">
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-6 col-8 d-flex flex-row mx-auto my-3"
+                                    <div class="col-lg-3 col-md-6 col-8 my-3"
                                          th:each="image : ${menuImages}"
                                          th:object="${image}">
-                                        <label>
+                                        <label class="ratio ratio-1x1">
                                             <input type="radio" id="btnLoad" th:value="*{id}" name="imageId"
                                                    th:checked="${menuSection.image == image}">
                                             <img th:src="*{imageLocation}" class="object-cover w-100">
