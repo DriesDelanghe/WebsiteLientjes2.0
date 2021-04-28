@@ -29,8 +29,6 @@ public class AdminPagesController {
     @Autowired
     TextFragmentRepository textFragmentRepository;
     @Autowired
-    SymbolRepository symbolRepository;
-    @Autowired
     PersonnelRepository personnelRepository;
     @Autowired
     OpeningsuurRepository openingsuurRepository;
@@ -49,13 +47,6 @@ public class AdminPagesController {
             return personnelRepository.getByPage(page);
         }
         return null;
-    }
-
-    @ModelAttribute("rightArrow")
-    public Symbol getArrow() {
-        Symbol rightArrow = symbolRepository.getSymbolByReferenceName("rightArrow");
-
-        return rightArrow;
     }
 
     @ModelAttribute("domainBistro")

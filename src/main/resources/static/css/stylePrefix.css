@@ -1163,6 +1163,8 @@ footer a:hover {
     pointer-events: all;
     padding: 0.2rem;
     opacity: 0.7;
+    text-decoration: none;
+    color: #eeeeee;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1227,6 +1229,7 @@ footer a:hover {
     border-radius: 0.5rem;
     background-color: var(--color1);
     margin: 0 2rem 1rem;
+    cursor: pointer;
 }
 
 .filter-text-hidden,

@@ -20,7 +20,7 @@
 <header th:replace="admin/fragments/header :: header"></header>
 
 
-<th:block th:if="${category !=null&& #authorization.expression('hasAuthority(''MENU'')')}">
+<th:block th:if="${category !=null && #authorization.expression('hasAuthority(''MENU'')')}">
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb ms-2 mt-2">
@@ -31,7 +31,7 @@
     </nav>
 
     <div class="container mt-5">
-        <h2 class="lead">categorie:</h2>
+        <h2 class="lead">categorie: <span th:text="${category.name}"></span></h2>
         <hr>
     </div>
 

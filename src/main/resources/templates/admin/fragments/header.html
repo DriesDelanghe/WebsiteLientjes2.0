@@ -21,7 +21,7 @@
                         <a class="nav-link active" aria-current="page" th:href="@{|/admin/home|}">Home</a>
                     </li>
                     <li sec:authorize="hasAuthority('INBOX')" class="nav-item">
-                        <a class="nav-link" th:href="@{|/admin/inbox|}">inbox</a>
+                        <a class="nav-link" th:href="@{|/admin/inbox|}">Inbox</a>
                     </li>
 
                     <li class="nav-item dropdown" sec:authorize="hasAuthority('PERSONNEL')">
@@ -93,7 +93,7 @@
                     or hasAuthority('OPENINGUUR') or hasAuthority('PAGE_EDIT')">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownExtra" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            pagina info
+                            Pagina info
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdownExtra">
                             <li sec:authorize="hasAuthority('CONTRIBUTERS')"><a class="dropdown-item"
@@ -140,6 +140,31 @@
                                 <a th:href="@{|/admin/paginaoverzicht|}" class="dropdown-item">pagina overzicht</a>
                             </li>
 
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown" sec:authorize="hasAuthority('USER_EDIT')">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Afbeeldingen
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
+
+                            <li><a class="dropdown-item" th:href="@{|/admin/afbeeldingen|}">Overzicht</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" th:href="@{|/admin/afbeeldingen/verwijderen|}">Verwijder ongebruikte</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item" th:href="@{|/admin/afbeeldingen|}"><strong>Afbeeldingen google</strong></a>
+                            </li>
+                            <li>
+                                <a th:href="@{|/admin/afbeeldingen|}" class="dropdown-item">Afbeeldingen google Bistro</a>
+                            </li>
+                            <li>
+                                <a th:href="@{|/admin/afbeeldingen|}" class="dropdown-item">Afbeeldingen google Bolo</a>
+                            </li>
                         </ul>
                     </li>
 

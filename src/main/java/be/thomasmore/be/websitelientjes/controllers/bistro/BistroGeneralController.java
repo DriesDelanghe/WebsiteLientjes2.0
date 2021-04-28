@@ -30,8 +30,6 @@ public class BistroGeneralController {
     @Autowired
     PersonnelRepository personnelRepository;
     @Autowired
-    SymbolRepository symbolRepository;
-    @Autowired
     SocialMediaRepository socialMediaRepository;
     @Autowired
     ReferenceRepository referenceRepository;
@@ -64,7 +62,6 @@ public class BistroGeneralController {
         List<Openingsuur> openingsuren = openingsuurRepository.getByDomain(domain);
         List<Personnel> personnelList = personnelRepository.getByPage(page);
         List<SocialMedia> socialMediaList = socialMediaRepository.findByDomain(domain);
-        Symbol rightArrow = symbolRepository.getSymbolByReferenceName("rightArrow");
 
         Collections.sort(paragraphText);
         Collections.sort(headerText);
@@ -75,7 +72,6 @@ public class BistroGeneralController {
         model.addAttribute("openingsuren", openingsuren);
         model.addAttribute("personnelList", personnelList);
         model.addAttribute("socialMediaList", socialMediaList);
-        model.addAttribute("rightArrow", rightArrow);
         model.addAttribute("page", page);
 
         logger.info(String.format("Returned homepage to client -- %s", request.getRemoteAddr()));
@@ -124,9 +120,7 @@ public class BistroGeneralController {
         Page page = pageRepository.getByDomainAndPageName(domain, "menu");
 
         List<MenuSection> menuSectionList = menuSectionRepository.getByDomain(domain);
-        Symbol rightArrow = symbolRepository.getSymbolByReferenceName("rightArrow");
 
-        model.addAttribute("rightArrow", rightArrow);
         model.addAttribute("menuSectionList", menuSectionList);
         model.addAttribute("page", page);
 

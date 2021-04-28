@@ -31,19 +31,11 @@ public class BistroMenuDetailsController {
     @Autowired
     MenuSubSectionRepository menuSubSectionRepository;
     @Autowired
-    SymbolRepository symbolRepository;
-    @Autowired
     PageRepository pageRepository;
 
     Logger logger = LoggerFactory.getLogger(BistroMenuDetailsController.class);
 
 
-    @ModelAttribute("rightArrow")
-    public Symbol getArrow() {
-        Symbol rightArrow = symbolRepository.getSymbolByReferenceName("rightArrow");
-
-        return rightArrow;
-    }
 
     @ModelAttribute("domain")
     public Domain getDomain() {

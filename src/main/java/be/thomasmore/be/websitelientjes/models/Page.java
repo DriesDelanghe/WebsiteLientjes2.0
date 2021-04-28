@@ -18,8 +18,6 @@ public class Page {
     private Domain domain;
     @ManyToOne(fetch = FetchType.LAZY)
     private Image image;
-    @ManyToMany(mappedBy = "pages", fetch = FetchType.LAZY)
-    private Collection<Symbol> symbols;
 
     public Page() {
     }
@@ -70,14 +68,6 @@ public class Page {
 
     public void setImage(Image image) {
         this.image = image;
-    }
-
-    public Collection<Symbol> getSymbols() {
-        return symbols;
-    }
-
-    public void setSymbols(Collection<Symbol> symbols) {
-        this.symbols = symbols;
     }
 
     public String getPageReference() {

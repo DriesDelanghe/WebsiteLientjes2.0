@@ -1,7 +1,6 @@
 insert into image(id, image_location)
 values (nextval('IMG_SEQ'), '/images/general/default-image.jpg'),
        (nextval('IMG_SEQ'), '/images/general/pexels-negative-space-134577.jpg'),
-       (nextval('IMG_SEQ'), '/images/general/right-arrow.svg'),
        (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-1.jpg'),
        (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-2.jpg'),
        (nextval('IMG_SEQ'), '/images/personnel/placeholder-personnel-3.jpg'),
@@ -22,24 +21,24 @@ values (1, 'bistro'),
        (2, 'bolo');
 
 insert into personnel(id, name, image_Id, extra_info, function_description, domain_id)
-values (nextval('PER_SEQ'), 'Persona A', 4, 'This is the first test person, these are all here as proof of concept',
+values (nextval('PER_SEQ'), 'Persona A', 3, 'This is the first test person, these are all here as proof of concept',
         'chef-kok', 1),
-       (nextval('PER_SEQ'), 'Persona B', 5, 'This is the second test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona B', 4, 'This is the second test person, these are all here as proof of concept',
         'serveur', 1),
-       (nextval('PER_SEQ'), 'Persona C', 6, 'This is the third test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona C', 5, 'This is the third test person, these are all here as proof of concept',
         'uitbater', 1),
-       (nextval('PER_SEQ'), 'Persona D', 7, 'This is the fourth test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona D', 6, 'This is the fourth test person, these are all here as proof of concept',
         'sous-chef', 1),
-       (nextval('PER_SEQ'), 'Persona E', 8, 'This is the fifth test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona E', 7, 'This is the fifth test person, these are all here as proof of concept',
         'serveur', 1),
-       (nextval('PER_SEQ'), 'Persona F', 9, 'This is the sixth test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona F', 8, 'This is the sixth test person, these are all here as proof of concept',
         'serveur', 1),
-       (nextval('PER_SEQ'), 'Persona A', 4,
+       (nextval('PER_SEQ'), 'Persona A', 3,
         'This is the first test person, these are all here as proof of concept This is the first test person, these are all here as proof of concept This is the first test person, these are all here as proof of concept',
         'chef-kok', 2),
-       (nextval('PER_SEQ'), 'Persona B', 5, 'This is the second test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona B', 4, 'This is the second test person, these are all here as proof of concept',
         'serveur', 2),
-       (nextval('PER_SEQ'), 'Persona C', 6, 'This is the third test person, these are all here as proof of concept',
+       (nextval('PER_SEQ'), 'Persona C', 5, 'This is the third test person, these are all here as proof of concept',
         'uitbater', 2);
 
 insert into page(id, page_name, page_reference, domain_id, image_id)
@@ -48,7 +47,7 @@ values (1, 'home', 'bistrohome', 1, 2),
        (3, 'contact', 'bistrocontact', 1, 2),
        (4, 'personeel', 'bistropersoneel', 1, 2),
        (5, 'menu', 'bistromenu', 1, 2),
-       (6, 'home', 'bolohome', 2, 17),
+       (6, 'home', 'bolohome', 2, 16),
        (7, 'contact', 'bolocontact', 2, null),
        (8, 'contactconfirmation', 'boloconfirmation', 2, null),
        (9, 'landingspage', 'landingspage', null, null);
@@ -62,10 +61,7 @@ values (1, 1),
        (3, 4),
        (4, 4),
        (5, 4),
-       (6, 4),
-       (7, 6),
-       (8, 6),
-       (9, 6);
+       (6, 4);
 
 insert into openingsuur(id, dag, openingsuur, sluitingsuur, domain_id)
 values (nextval('OP_SEQ'), 'maandag', null, null, 1),
@@ -146,9 +142,6 @@ values (1, 'Meer dan een koffiehuis', 1, true, 1),
        (53, 'Bolo Lientjes is een nieuwe pastazaak die je met een glimlach bediend', 1, false, 9),
        (54, 'Lientjes Bistro is een koffiezaak/bistro die je met een glimlach bediend', 2, false, 9);
 
-insert into symbol(id, image_id, reference_name)
-values (1, 3, 'rightArrow');
-
 insert into icon(id, icon_code, reference_name)
 values (nextval('IC_SEQ'), '<i class="fas fa-map-marker-alt"></i>', 'contactInfo'),
        (nextval('IC_SEQ'), '<i class="fas fa-envelope-open-text"></i>', 'contactInfo'),
@@ -192,14 +185,14 @@ values (nextval('ci_seq'), 'email', 'info@lientjes-coffeebreak.be', 1, 2),
        (nextval('ci_seq'), 'telefoon', '03 344 85 79', 2, 3);
 
 insert into menu_section(id, domain_id, name, image_id)
-values (nextval('MSEC_SEQ'), 1, 'Alle producten', 16),
+values (nextval('MSEC_SEQ'), 1, 'Alle producten', 15),
        (nextval('MSEC_SEQ'), 2, 'Alle producten', 1),
-       (nextval('MSEC_SEQ'), 1, 'Warme Dranken', 15),
-       (nextval('MSEC_SEQ'), 1, 'Koude Dranken', 13),
-       (nextval('MSEC_SEQ'), 1, 'Ontbijt', 15),
-       (nextval('MSEC_SEQ'), 1, 'Versnaperingen', 10),
-       (nextval('MSEC_SEQ'), 1, 'Gerechten', 12),
-       (nextval('MSEC_SEQ'), 1, 'Desserten', 11),
+       (nextval('MSEC_SEQ'), 1, 'Warme Dranken', 14),
+       (nextval('MSEC_SEQ'), 1, 'Koude Dranken', 12),
+       (nextval('MSEC_SEQ'), 1, 'Ontbijt', 13),
+       (nextval('MSEC_SEQ'), 1, 'Versnaperingen', 9),
+       (nextval('MSEC_SEQ'), 1, 'Gerechten', 11),
+       (nextval('MSEC_SEQ'), 1, 'Desserten', 10),
        (nextval('MSEC_SEQ'), 2, 'Pasta''s', 1);
 
 insert into menu_sub_section(id, name, extra_info)

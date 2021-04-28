@@ -15,8 +15,6 @@
             integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
             crossorigin="anonymous"></script>
 </head>
-<body>
-
 <script>
 
     function disableSpaceSelect() {
@@ -24,6 +22,12 @@
         $document.data('spaceSelect', false);
     }
 </script>
+
+<script th:src="@{/js/FileValidation.js}">
+</script>
+
+<body>
+
 
 <header th:replace="admin/fragments/header :: header"></header>
 
@@ -110,9 +114,10 @@
                                   enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">Upload nieuwe foto</label>
-                                    <input class="form-control" type="file" id="formFile" name="newImage">
-                                    <p class="text-muted ms-3">File niet groter dan 1Mb</p>
-                                    <input type="submit" value="uploaden" class="btn btn-dark m-2">
+                                    <input class="form-control" type="file" id="formFile" name="newImage" oninput="Filevalidation()">
+                                    <p class="text-muted ms-3 my-1">File niet groter dan 2048Kb</p>
+                                    <p class="text-muted ms-3 my-1" id="size"></p>
+                                    <input type="submit" value="uploaden" id="fileUpload" class="btn btn-dark m-2">
                                 </div>
                             </form>
                             <hr class="my-2">

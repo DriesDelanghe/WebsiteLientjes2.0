@@ -13,6 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
             crossorigin="anonymous"></script>
+
 </head>
 <body>
 
@@ -29,7 +30,8 @@
                 <ol class="breadcrumb ms-2 mt-2">
                     <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
                     <li class="breadcrumb-item"><a th:href="@{|/admin/personeellijst|}">personeellijst</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" th:text="${domain == domainBistro} ? |personeellijst Bistro| : |personeellijst Bolo|"></li>
+                    <li class="breadcrumb-item active" aria-current="page"
+                        th:text="${domain == domainBistro} ? |personeellijst Bistro| : |personeellijst Bolo|"></li>
                 </ol>
             </nav>
 
@@ -39,15 +41,12 @@
                     <li class="breadcrumb-item active" aria-current="page" th:text="|personeellijst|"></li>
                 </ol>
             </nav>
-
-            <div class="jumbotron my-5">
-                <div class="container">
-                    <h1 class="lead">Personeellijst</h1>
-                    <hr class="mx-5 my-4">
-                </div>
+            <div class="container-fluid mt-5">
+                <h4>Personeellijst</h4>
+                <hr>
             </div>
             <div th:if="${countNoMatch == true}" class="container-fluid alert alert-danger">
-                <h4>per home pagina moeten er <strong>3</strong> personeelleden aanwezig zijn</h4>
+                <p class="lead">er mogen slecht <strong>3</strong> personeelleden aanwezig zijn op de homepagina van Bistro </p>
             </div>
 
             <div class="container-fluid w-75">
@@ -66,13 +65,13 @@
                                             th:text="${personnel.domain.id == 1}? 'Lientjes Bistro' : 'Lientjes Bolo'"></h6>
                                         <h6 class="card-subtitle text-muted mb-1" th:text="*{functionDescription}"></h6>
                                         <p class="card-text" th:text="*{extraInfo}"></p>
-                                        <div class="form-check my-2">
+                                        <div class="form-check my-2" th:if="${personnel.domain.id == 1}">
                                             <input type="checkbox" id="onHomePage" name="onHomePage[]"
                                                    th:value="${personnel.id}"
-                                                   th:checked="${personnel.domain.id == 1} ? ${personnel.pages.contains(homepageBistro)} : ${personnel.pages.contains(homepageBolo)}"
+                                                   th:checked="${personnel.pages.contains(homepageBistro)}"
                                                    class="form-check-input">
                                             <label for="onHomePage" class="form-check-label"
-                                                   th:text="${personnel.domain.id == 1} ? 'Op homepagina Bistro' : 'Op homepagina Bolo' "></label>
+                                                   th:text="|Op homepagina Bistro|"></label>
                                         </div>
                                         <div class="container-fluid d-flex justify-content-center">
                                             <a th:href="@{|/admin/personeeldetail/*{id}|}" class="btn btn-dark">update
@@ -137,7 +136,8 @@
                 </a>
             </div>
         </th:block>
-        <th:block th:unless="${domain} ? (${domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}) : 1==1">
+        <th:block
+                th:unless="${domain} ? (${domain == domainBistro} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')}) : 1==1">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb ms-2 mt-2">
                     <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>

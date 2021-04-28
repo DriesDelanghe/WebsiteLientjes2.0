@@ -27,7 +27,12 @@
         </ol>
     </nav>
 
-    <div class="container-fluid mt-5 mx-auto px-0 row d-flex justify-content-center">
+    <div class="container-fluid mt-5">
+        <h4>Contributers</h4>
+        <hr>
+    </div>
+
+    <div class="container-fluid mt-2 mx-auto px-0 row d-flex justify-content-center">
         <th:block th:each="contributer : ${contributers}">
             <div class="card col-12 col-lg-4 col-xl-3 m-2" th:if="${contributer.domain.contains(domainBistro) && contributer.domain.contains(domainBolo)} ? ${#authorization.expression('hasAuthority(''BOLO'') or hasAuthority(''BISTRO'')')} :(${contributer.domain.contains(domainBistro)} ? ${#authorization.expression('hasAuthority(''BISTRO'')')} : ${#authorization.expression('hasAuthority(''BOLO'')')})">
                 <div class="card-header">

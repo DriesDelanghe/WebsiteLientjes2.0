@@ -55,7 +55,7 @@ public class AdminPersonnelController {
         if (domainId != null) {
             Optional<Domain> domainOptional = domainRepository.findById(domainId);
 
-            if(domainOptional.isPresent()) {
+            if (domainOptional.isPresent()) {
                 return domainOptional.get();
             }
         }
@@ -78,7 +78,7 @@ public class AdminPersonnelController {
     public List<Personnel> getPersonnelList(@ModelAttribute("domain") Domain domain,
                                             @PathVariable(required = false) Integer domainId) {
         if (domainId != null) {
-            if(domain !=null) {
+            if (domain != null) {
                 return personnelRepository.getByDomain(domain);
             }
             return null;
@@ -189,11 +189,11 @@ public class AdminPersonnelController {
     }
 
     @PostMapping("/personnel/newimage/{personnelId}")
-    public String newImagePersonnel(@ModelAttribute("Personnel") Personnel personnel,
-                                    @PathVariable Integer personnelId,
+    public String newImagePersonnel(@PathVariable Integer personnelId,
                                     @NotNull @RequestParam MultipartFile newImage,
                                     Model model) throws Exception {
 
+            Personnel personnel = personnelRepository.findById(personnelId).get();
         try {
             String newImageName = newImage.getOriginalFilename();
             String path = uploadImagesDirString + "/images/personnel";
@@ -236,53 +236,40 @@ public class AdminPersonnelController {
     }
 
     @PostMapping("/personnel/updatehomepage")
-    public String updatePersonnelOnHomepage(@RequestParam(name = "onHomePage[]") List<Integer> personnelIds,
+    public String updatePersonnelOnHomepage(@RequestParam(name = "onHomePage[]", required = false) List<Integer> personnelIds,
                                             Model model,
                                             @ModelAttribute("homepageBistro") Page homepageBistro,
                                             @ModelAttribute("homepageBolo") Page homepageBolo) {
         ArrayList<Personnel> personnelHomepageBistro = new ArrayList<>();
-        ArrayList<Personnel> personnelHomepageBolo = new ArrayList<>();
-
-        for (Integer i : personnelIds) {
-            Personnel personnel = personnelRepository.findById(i).get();
-            if (personnel.getDomain().getId() == 1) {
-                personnelHomepageBistro.add(personnel);
-            } else {
-                personnelHomepageBolo.add(personnel);
+        if (personnelIds != null) {
+            for (Integer i : personnelIds) {
+                Personnel personnel = personnelRepository.findById(i).get();
+                if (personnel.getDomain().getId() == 1) {
+                    personnelHomepageBistro.add(personnel);
+                }
             }
         }
 
-        if (personnelHomepageBistro.size() != 3 || personnelHomepageBolo.size() != 3) {
+        if (personnelHomepageBistro.size() > 3) {
             model.addAttribute("countNoMatch", true);
             return "admin/personeellijst";
         }
 
-        for (Personnel personnel : personnelHomepageBistro){
-            if(!personnel.getPages().contains(homepageBistro)){
+        for (Personnel personnel : personnelHomepageBistro) {
+            if (!personnel.getPages().contains(homepageBistro)) {
                 personnel.getPages().add(homepageBistro);
-            }
-        }
-
-        for(Personnel personnel : personnelHomepageBolo){
-            if(!personnel.getPages().contains(homepageBolo)){
-                personnel.getPages().add(homepageBolo);
             }
         }
 
         ArrayList<Personnel> allUpdatedPersonnel = new ArrayList<>();
         allUpdatedPersonnel.addAll(personnelHomepageBistro);
-        allUpdatedPersonnel.addAll(personnelHomepageBolo);
 
         List<Personnel> excludedPersonnel = personnelRepository.getPersonnelExludeList(allUpdatedPersonnel);
 
-        for(Personnel personnel : excludedPersonnel){
-            if(personnel.getDomain().getId() == 1){
-                if(personnel.getPages().contains(homepageBistro)){
+        for (Personnel personnel : excludedPersonnel) {
+            if (personnel.getDomain().getId() == 1) {
+                if (personnel.getPages().contains(homepageBistro)) {
                     personnel.getPages().remove(homepageBistro);
-                }
-            }else{
-                if(personnel.getPages().contains(homepageBolo)){
-                    personnel.getPages().remove(homepageBolo);
                 }
             }
         }
@@ -299,6 +286,7 @@ public class AdminPersonnelController {
                                                       Model model,
                                                       @ModelAttribute("homepageBistro") Page homepageBistro,
                                                       @ModelAttribute("homepageBolo") Page homepageBolo) {
+
         List<Personnel> personnelList = (List<Personnel>) personnelRepository.findAllById(personnelIds);
 
         if (personnelList.size() != 3) {
@@ -312,21 +300,13 @@ public class AdminPersonnelController {
                 if (!personnel.getPages().contains(homepageBistro)) {
                     personnel.getPages().add(homepageBistro);
                 }
-            }else{
-                if (!personnel.getPages().contains(homepageBolo)) {
-                    personnel.getPages().add(homepageBolo);
-                }
             }
         }
         List<Personnel> personnelExclude = personnelRepository.getPersonnelExludeList(personnelList);
         for (Personnel personnel : personnelExclude) {
-            if(domain.getId() == 1) {
+            if (domain.getId() == 1) {
                 if (personnel.getPages().contains(homepageBistro)) {
                     personnel.getPages().remove(homepageBistro);
-                }
-            }else{
-                if (personnel.getPages().contains(homepageBolo)) {
-                    personnel.getPages().remove(homepageBolo);
                 }
             }
 

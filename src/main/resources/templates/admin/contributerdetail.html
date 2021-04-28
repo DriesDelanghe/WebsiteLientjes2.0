@@ -32,7 +32,12 @@
                 </ol>
             </nav>
 
-            <div class="container-fluid mt-5 mx-auto px-0 row d-flex justify-content-center">
+            <div class="container mt-5">
+                <h4 class="lead">Contributer: <span th:text="${contributer.artistName}"></span></h4>
+                <hr>
+            </div>
+
+            <div class="container-fluid mt-2 mx-auto px-0 row d-flex justify-content-center">
                 <div class="card col-12 col-lg-4 col-xl-3 m-2">
                     <form method="post" th:action="@{|/admin/updatecontributer/${contributer.id}|}"
                           th:object="${contributer}">

@@ -76,7 +76,7 @@
 
             <!-- carousel desktop -->
             <div id="personnelCarousel" class="carousel slide w-100 mx-auto h-auto carousel-dark my-4 d-none d-lg-block"
-                 data-bs-ride="carousel">
+                 data-bs-ride="carousel" th:unless="${personnelList.isEmpty()}">
                 <div class="carousel-inner h-auto">
                     <th:block th:each="iteration : ${#numbers.sequence(0, iterationSize)}">
                         <div class="carousel-item h-auto" th:classappend="${iteration == 0} ? active">
@@ -112,7 +112,7 @@
             </div>
 
             <!-- carousel mobile -->
-            <div class="container-fluid w-75 mx-auto">
+            <div class="container-fluid w-75 mx-auto" th:unless="${personnelList.isEmpty()}">
                 <div class="carousel slide carousel-dark my-4 d-lg-none d-block" id="carouselPersoneelMobile"
                      data-bs-ride="carousel">
                     <div class="carousel-inner">

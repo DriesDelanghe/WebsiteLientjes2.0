@@ -14,6 +14,8 @@
 
     <title th:utext="|Lientjes Bistro - menu - ${menuSection != null ? menuSection.name : 'sectie not found'}|">placeholder</title>
 
+    <script src="https://kit.fontawesome.com/6e9f44a530.js" crossorigin="anonymous"></script>
+
     <script>
         function toggleFilter(filterTextShownId, filterTextHiddenId, filterSectionId) {
             const filterSectionObject = document.getElementById(filterSectionId);
@@ -34,10 +36,10 @@
 <th:block th:if="${menuSection != null}">
     <div class="arrow-section">
         <a th:href="@{|/bistro/menudetails/${nextId}|}" class="right-arrow">
-            <img class="inline-logo" th:src="@{${rightArrow.image.imageLocation}}" alt="">
+            <i class="fas fa-arrow-right"></i>
         </a>
         <a th:href="@{|/bistro/menudetails/${prevId}|}" class="left-arrow">
-            <img class="inline-logo" th:src="@{${rightArrow.image.imageLocation}}" alt="">
+            <i class="fas fa-arrow-left"></i>
         </a>
     </div>
 </th:block>
