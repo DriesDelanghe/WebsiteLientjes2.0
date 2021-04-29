@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,8 @@ public class BoloGeneralController {
     AddressRepository addressRepository;
     @Autowired
     ImageGoogleRepository imageGoogleRepository;
+    @Autowired
+    TelephoneNumberRepository telephoneNumberRepository;
 
 
     @ModelAttribute("referenceList")
@@ -43,18 +47,65 @@ public class BoloGeneralController {
     }
 
     @ModelAttribute("imageLocations")
-    public ArrayList<String> getImageString(@ModelAttribute("domain") Domain domain){
+    public String getImageString(@ModelAttribute("domain") Domain domain){
         List<ImageGoogle> imageGoogleList = imageGoogleRepository.getByDomain(domain);
-        ArrayList<String> imageLocations = new ArrayList<>();
+        String imageLocations = "[";
         for(ImageGoogle ig : imageGoogleList){
-            imageLocations.add("https://www.lientjes.be" + ig.getImage().getImageLocation());
+            imageLocations += "\"https://www.lientjes.be" + ig.getImage().getImageLocation() + "\"";
+            if(ig != imageGoogleList.get(imageGoogleList.size() -1)){
+                imageLocations += ", \n";
+            }
         }
+        imageLocations += "]";
         return imageLocations;
     }
 
-    @ModelAttribute("imageGoogleList")
-    public List<ImageGoogle> getImageGoogleList(@ModelAttribute("domain") Domain domain){
-        return imageGoogleRepository.getByDomain(domain);
+    @ModelAttribute("openingsurenStructured")
+    public String getOpeningsurenStructured(@ModelAttribute("domain") Domain domain){
+        List<Openingsuur> openingsuurList = openingsuurRepository.getByDomain(domain);
+        String openinsurenStructured = "[";
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        for (Openingsuur op : openingsuurList){
+
+            switch (op.getDag()) {
+                case "maandag":
+                    op.setDag("Monday");
+                    break;
+                case "dinsdag":
+                    op.setDag("Tuesday");
+                    break;
+                case "woensdag":
+                    op.setDag("Wednesday");
+                    break;
+                case("donderdag"):
+                    op.setDag("Thursday");
+                    break;
+                case("vrijdag"):
+                    op.setDag("Friday");
+                    break;
+                case("zaterdag"):
+                    op.setDag("Saturday");
+                    break;
+                case("zondag"):
+                    op.setDag("Sunday");
+                    break;
+            }
+
+            if(op.getOpeningsuur() != null) {
+                if(!openinsurenStructured.equals("[")){
+                    openinsurenStructured += ",";
+                }
+
+                openinsurenStructured += "\n{ " +
+                        "\n \"@type\" : \"OpeningHoursSpecification\" ," +
+                        "\n \"dayOfWeek\" : \"" + op.getDag() + "\"," +
+                        "\n \"opens\" : \"" + df.format(op.getOpeningsuur()) + "\"," +
+                        "\n \"closes\" : \"" + df.format(op.getSluitingsuur()) + "\"" +
+                        "\n}";
+            }
+        }
+        openinsurenStructured += "]";
+        return openinsurenStructured;
     }
 
     @ModelAttribute("domain")
@@ -65,6 +116,11 @@ public class BoloGeneralController {
     @ModelAttribute("address")
     public Address getAddress(@ModelAttribute("domain") Domain domain){
         return addressRepository.getByDomain(domain);
+    }
+
+    @ModelAttribute("telephoneNumber")
+    public TelephoneNumber getTelephoneNumber(@ModelAttribute("domain") Domain domain){
+        return telephoneNumberRepository.getTelephoneNumberByDomain(domain);
     }
 
     @ModelAttribute("personnelList")

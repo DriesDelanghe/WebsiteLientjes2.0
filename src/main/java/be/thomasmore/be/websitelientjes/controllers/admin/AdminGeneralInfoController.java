@@ -28,6 +28,8 @@ public class AdminGeneralInfoController {
     IconRepository iconRepository;
     @Autowired
     AddressRepository addressRepository;
+    @Autowired
+    TelephoneNumberRepository telephoneNumberRepository;
 
     @Value("${upload.images.dir}")
     private String uploadImagesDirString;
@@ -72,6 +74,16 @@ public class AdminGeneralInfoController {
     @ModelAttribute("addressBolo")
     public Address getAddressBolo(@ModelAttribute("domainBolo") Domain domain){
         return addressRepository.getByDomain(domain);
+    }
+    
+    @ModelAttribute("telephoneNumberBistro")
+    public TelephoneNumber getTelephoneNumberBistro(@ModelAttribute("domainBistro") Domain domain){
+        return telephoneNumberRepository.getTelephoneNumberByDomain(domain);
+    }
+    
+    @ModelAttribute("telephoneNumberBolo")
+    public TelephoneNumber getTelephoneNumberBolo(@ModelAttribute("domainBolo") Domain domain){
+        return telephoneNumberRepository.getTelephoneNumberByDomain(domain);
     }
 
     @ModelAttribute("domain")
@@ -183,6 +195,28 @@ public class AdminGeneralInfoController {
         }
 
         addressRepository.save(address);
+        return "redirect:/admin/contactinfolijst";
+    }
+    
+    @PostMapping("/contactinfo/telephonechangebistro")
+    public String changeTelephoneBistro(@Valid @ModelAttribute("telephoneNumberBistro") TelephoneNumber telephoneNumber,
+                                        BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "admin/contactinfolist";
+        }
+        
+        telephoneNumberRepository.save(telephoneNumber);
+        return "redirect:/admin/contactinfolijst";
+    }
+
+    @PostMapping("/contactinfo/telephonechangebolo")
+    public String changeTelephoneBolo(@Valid @ModelAttribute("telephoneNumberBolo") TelephoneNumber telephoneNumber,
+                                        BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "admin/contactinfolist";
+        }
+
+        telephoneNumberRepository.save(telephoneNumber);
         return "redirect:/admin/contactinfolijst";
     }
 }

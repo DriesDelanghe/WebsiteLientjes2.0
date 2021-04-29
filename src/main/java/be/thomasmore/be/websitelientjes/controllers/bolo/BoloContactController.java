@@ -33,6 +33,8 @@ public class BoloContactController {
     TextFragmentRepository textFragmentRepository;
     @Autowired
     AddressRepository addressRepository;
+    @Autowired
+    TelephoneNumberRepository telephoneNumberRepository;
 
     @ModelAttribute("domain")
     public Domain getDomain(){
@@ -52,6 +54,10 @@ public class BoloContactController {
     @ModelAttribute("socialMediaList")
     public List<SocialMedia> getSocialMediaList(@ModelAttribute("domain") Domain domain){
         return socialMediaRepository.findByDomain(domain);
+    }
+    @ModelAttribute("telephoneNumber")
+    public TelephoneNumber getTelephoneNumber(@ModelAttribute("domain") Domain domain){
+        return telephoneNumberRepository.getTelephoneNumberByDomain(domain);
     }
 
     @ModelAttribute("contactForm")

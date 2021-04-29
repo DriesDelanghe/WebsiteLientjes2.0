@@ -259,6 +259,9 @@ public class AdminUserController {
         }
 
         if (!roleIds.isEmpty()) {
+            if(!roleIds.contains(3)){
+                roleIds.add(3);
+            }
             List<UserRole> userRoles = (List<UserRole>) userRoleRepository.findAllById(roleIds);
             user.setRole(userRoles);
         }

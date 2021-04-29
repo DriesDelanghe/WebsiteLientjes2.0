@@ -36,6 +36,8 @@ public class BistroContactController {
     ContactFormRepository contactFormRepository;
     @Autowired
     AddressRepository addressRepository;
+    @Autowired
+    TelephoneNumberRepository telephoneNumberRepository;
 
     Logger logger = LoggerFactory.getLogger(BistroContactController.class);
 
@@ -85,6 +87,10 @@ public class BistroContactController {
         return addressRepository.getByDomain(domain);
     }
 
+    @ModelAttribute("telephoneNumber")
+    public TelephoneNumber getTelephoneNumber(@ModelAttribute("domain") Domain domain){
+        return telephoneNumberRepository.getTelephoneNumberByDomain(domain);
+    }
 
     @GetMapping("/contact")
     public String contact(Model model, HttpServletRequest request) {

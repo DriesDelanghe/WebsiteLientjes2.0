@@ -13,7 +13,7 @@
         {
             "@context": "https://schema.org",
             "@type": "Restaurant",
-            "image" : [[${ imageLocations}]] ,
+            "image" : [(${ imageLocations})] ,
             "@id": "https://www.lientjes.be/bolo",
             "name": "Bolo Lientjes",
             "address": {
@@ -23,7 +23,13 @@
                 "addressRegion" : [[${address.addressRegion}]],
                 "postalCode" : [[${address.postalCode}]],
                 "addressCountry" : [[${address.addressCountry}]]
-            }
+            },
+            "url" : "https://www.lientjes.be/bolo/home",
+            "servesCuisine" : "pasta",
+            "telephone" : "[(${telephoneNumber.telephoneNumber})]",
+            "priceRange": "$$",
+            "openingHoursSpecification" : [(${openingsurenStructured})],
+            "menu" : "https://www.lientjes.be/bolo/menuoverzicht"
         }
     </script>
 

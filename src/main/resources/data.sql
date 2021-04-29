@@ -180,9 +180,7 @@ values (1, 1),
 
 insert into contact_info(id, info_name, info_content, domain_id, icon_id)
 values (nextval('ci_seq'), 'email', 'info@lientjes-coffeebreak.be', 1, 2),
-       (nextval('ci_seq'), 'telefoon', '03 344 85 79', 1, 3),
-       (nextval('ci_seq'), 'email', 'info@lientjes-coffeebreak.be', 2, 2),
-       (nextval('ci_seq'), 'telefoon', '03 344 85 79', 2, 3);
+       (nextval('ci_seq'), 'email', 'info@lientjes-coffeebreak.be', 2, 2);
 
 insert into menu_section(id, domain_id, name, image_id)
 values (nextval('MSEC_SEQ'), 1, 'Alle producten', 15),
@@ -585,3 +583,7 @@ values (1, 1),
 insert into address(id, street_address, address_locality, address_region, postal_code, domain_id)
 values (nextval('AD_SEQ'), 'Molenbergstraat 113', 'Rumst', 'Antwerpen', '2840', 2),
        (nextval('AD_SEQ'), 'Stationstraat 143', 'Niel', 'Antwerpen', '2845', 1);
+
+insert into telephone_number(id, telephone_number, icon_id, domain_id)
+values(1, '03 344 85 79', 3, 1),
+       (2, '03 344 85 79', 3, 2);

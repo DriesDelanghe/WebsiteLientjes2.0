@@ -13,6 +13,29 @@
     <link rel="stylesheet" th:href="@{|/css/stylePrefix.css|}">
 
     <title>Lientjes Bistro - Home</title>
+    <script type="application/ld+json" th:inline="javascript">
+        {
+            "@context": "https://schema.org",
+            "@type": "Restaurant",
+            "image" : [(${ imageLocations})] ,
+            "@id": "https://www.lientjes.be/bistro",
+            "name": "Lientje's Bistro",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress" : [[${address.streetAddress}]],
+                "addressLocality" : [[${address.addressLocality}]],
+                "addressRegion" : [[${address.addressRegion}]],
+                "postalCode" : [[${address.postalCode}]],
+                "addressCountry" : [[${address.addressCountry}]]
+            },
+            "url" : "https://www.lientjes.be/bistro/home",
+            "servesCuisine" : "bistro",
+            "telephone" : "[(${telephoneNumber.telephoneNumber})]",
+            "priceRange": "$$",
+            "openingHoursSpecification" : [(${openingsurenStructured})],
+            "menu" : "https://www.lientjes.be/bolo/menu"
+        }
+    </script>
 
     <script src="https://kit.fontawesome.com/6e9f44a530.js" crossorigin="anonymous"></script>
 </head>

@@ -106,6 +106,27 @@
                     </div>
                 </form>
             </div>
+
+            <div class="container-fluid d-flex justify-content-center my-5" th:object="${telephoneNumberBistro}">
+                <form method="post" th:action="@{/admin/contactinfo/telephonechangebistro}" class="col-12 col-lg-6">
+                    <div class="card">
+                        <div class="card-header w-100">
+                            <h5 class="card-title"><span th:utext="*{icon.iconCode}"></span> telefoonnummer</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                                <p class="lead m-0">Gelieve alle velden in te vullen</p>
+                            </div>
+                            <label for="streetAddress" class="form-label">Straat en huisnummer:</label>
+                            <input type="text" id="number" class="form-control" th:field="*{telephoneNumber}" th:errorclass="|alert-danger|">
+                            <div class="container mt-4">
+                                <input type="submit" class="btn btn-dark" value="Aanpassen">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
         </div>
 
         <div class="container-fluid mt-5"
@@ -172,6 +193,27 @@
                     </div>
                 </form>
             </div>
+
+            <div class="container-fluid d-flex justify-content-center my-5" th:object="${telephoneNumberBolo}">
+                <form method="post" th:action="@{/admin/contactinfo/telephonechangebolo}" class="col-12 col-lg-6">
+                    <div class="card">
+                        <div class="card-header w-100">
+                            <h5 class="card-title"><span th:utext="*{icon.iconCode}"></span> telefoonnummer</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                                <p class="lead m-0">Gelieve alle velden in te vullen</p>
+                            </div>
+                            <label for="streetAddress" class="form-label">Straat en huisnummer:</label>
+                            <input type="text" id="number" class="form-control" th:field="*{telephoneNumber}" th:errorclass="|alert-danger|">
+                            <div class="container mt-4">
+                                <input type="submit" class="btn btn-dark" value="Aanpassen">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </th:block>
     <th:block

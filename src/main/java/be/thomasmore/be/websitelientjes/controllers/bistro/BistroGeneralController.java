@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,11 +47,89 @@ public class BistroGeneralController {
     AllergieRepository allergieRepository;
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    TelephoneNumberRepository telephoneNumberRepository;
+    @Autowired
+    ImageGoogleRepository imageGoogleRepository;
+    @Autowired
+    AddressRepository addressRepository;
 
+    @ModelAttribute("telephoneNumber")
+    public TelephoneNumber getTelephoneNumber(@ModelAttribute("domain") Domain domain){
+        return telephoneNumberRepository.getTelephoneNumberByDomain(domain);
+    }
 
     @ModelAttribute("domain")
     public Domain getDomain(){
         return domainRepository.findById(1).get();
+    }
+
+    @ModelAttribute("imageLocations")
+    public String getImageString(@ModelAttribute("domain") Domain domain){
+        List<ImageGoogle> imageGoogleList = imageGoogleRepository.getByDomain(domain);
+        String imageLocations = "[";
+        for(ImageGoogle ig : imageGoogleList){
+            imageLocations += "\"https://www.lientjes.be" + ig.getImage().getImageLocation() + "\"";
+            if(ig != imageGoogleList.get(imageGoogleList.size() -1)){
+                imageLocations += ", \n";
+            }
+        }
+        imageLocations += "]";
+        return imageLocations;
+    }
+
+    @ModelAttribute("address")
+    public Address getAddress(@ModelAttribute("domain") Domain domain){
+        return addressRepository.getByDomain(domain);
+    }
+
+
+    @ModelAttribute("openingsurenStructured")
+    public String getOpeningsurenStructured(@ModelAttribute("domain") Domain domain){
+        List<Openingsuur> openingsuurList = openingsuurRepository.getByDomain(domain);
+        String openinsurenStructured = "[";
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        for (Openingsuur op : openingsuurList){
+
+            switch (op.getDag()) {
+                case "maandag":
+                    op.setDag("Monday");
+                    break;
+                case "dinsdag":
+                    op.setDag("Tuesday");
+                    break;
+                case "woensdag":
+                    op.setDag("Wednesday");
+                    break;
+                case("donderdag"):
+                    op.setDag("Thursday");
+                    break;
+                case("vrijdag"):
+                    op.setDag("Friday");
+                    break;
+                case("zaterdag"):
+                    op.setDag("Saturday");
+                    break;
+                case("zondag"):
+                    op.setDag("Sunday");
+                    break;
+            }
+
+            if(op.getOpeningsuur() != null) {
+                if(!openinsurenStructured.equals("[")){
+                    openinsurenStructured += ",";
+                }
+
+                openinsurenStructured += "\n{ " +
+                        "\n \"@type\" : \"OpeningHoursSpecification\" ," +
+                        "\n \"dayOfWeek\" : \"" + op.getDag() + "\"," +
+                        "\n \"opens\" : \"" + df.format(op.getOpeningsuur()) + "\"," +
+                        "\n \"closes\" : \"" + df.format(op.getSluitingsuur()) + "\"" +
+                        "\n}";
+            }
+        }
+        openinsurenStructured += "]";
+        return openinsurenStructured;
     }
 
     @RequestMapping(value = {"", "/", "/home"}, method = RequestMethod.GET)
