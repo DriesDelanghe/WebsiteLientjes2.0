@@ -19,6 +19,8 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
+<th:block sec:authorize="hasAuthority('IMAGE_EDIT')">
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb ms-2 mt-2">
         <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
@@ -59,7 +61,7 @@
 </div>
 
 
-<div class="container">
+<div class="container" sec:authorize="hasAuthority('BISTRO')">
     <h4 class="display-6">Google afbeeldingen Bistro</h4>
 
     <div class="container-fluid py-3" th:if="${imageGoogleBistroList.isEmpty()}">
@@ -87,7 +89,7 @@
     <hr>
 </div>
 
-<div class="container">
+<div class="container" sec:authorize="hasAuthority('BOLO')">
     <h4 class="display-6">Google afbeeldingen Bolo</h4>
 
     <div class="container-fluid py-3" th:if="${imageGoogleBoloList.isEmpty()}">
@@ -114,6 +116,19 @@
     </div>
     <hr>
 </div>
+</th:block>
+
+<th:block th:unless="${#authorization.expression('hasAuthority(''IMAGE_EDIT'')')}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</th:block>
 
 </body>
 </html>

@@ -33,11 +33,28 @@ public class BoloGeneralController {
     TextFragmentRepository textFragmentRepository;
     @Autowired
     AddressRepository addressRepository;
+    @Autowired
+    ImageGoogleRepository imageGoogleRepository;
 
 
     @ModelAttribute("referenceList")
     public List<Reference> getReferenceList(@ModelAttribute("domain") Domain domain){
         return referenceRepository.getByDomain(domain);
+    }
+
+    @ModelAttribute("imageLocations")
+    public ArrayList<String> getImageString(@ModelAttribute("domain") Domain domain){
+        List<ImageGoogle> imageGoogleList = imageGoogleRepository.getByDomain(domain);
+        ArrayList<String> imageLocations = new ArrayList<>();
+        for(ImageGoogle ig : imageGoogleList){
+            imageLocations.add("https://www.lientjes.be" + ig.getImage().getImageLocation());
+        }
+        return imageLocations;
+    }
+
+    @ModelAttribute("imageGoogleList")
+    public List<ImageGoogle> getImageGoogleList(@ModelAttribute("domain") Domain domain){
+        return imageGoogleRepository.getByDomain(domain);
     }
 
     @ModelAttribute("domain")

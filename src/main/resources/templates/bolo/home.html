@@ -9,19 +9,20 @@
     <link rel="stylesheet" href="/css/bistroStyle.css">
 
     <title>Bolo lientjes - Home</title>
-    <script type="application/ld+json" th:inline="text">
+    <script type="application/ld+json" th:inline="javascript">
         {
             "@context": "https://schema.org",
             "@type": "Restaurant",
+            "image" : [[${ imageLocations}]] ,
             "@id": "https://www.lientjes.be/bolo",
             "name": "Bolo Lientjes",
             "address": {
                 "@type": "PostalAddress",
-                "streetAddress" : "[[${address.streetAddress}]]",
-                "addressLocality" : "[[${address.addressLocality}]]",
-                "addressRegion" : "[[${address.addressRegion}]]",
-                "postalCode" : "[[${address.postalCode}]]",
-                "addressCountry" : "[[${address.addressCountry}]]"
+                "streetAddress" : [[${address.streetAddress}]],
+                "addressLocality" : [[${address.addressLocality}]],
+                "addressRegion" : [[${address.addressRegion}]],
+                "postalCode" : [[${address.postalCode}]],
+                "addressCountry" : [[${address.addressCountry}]]
             }
         }
     </script>

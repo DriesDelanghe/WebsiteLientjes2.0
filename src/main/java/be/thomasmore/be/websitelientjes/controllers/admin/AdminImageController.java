@@ -171,7 +171,71 @@ public class AdminImageController {
         }
 
 
+        return "redirect:/admin/afbeeldingen/afbeeldingengoogle/" + domain.getId();
+    }
+
+    @PostMapping("/afbeeldingen/google/orderchange/{imageGoogleId}")
+    public String changeOrderImageGoogle(@PathVariable Integer imageGoogleId,
+                                         @RequestParam Integer orderNr){
+
+        Optional<ImageGoogle> optionalImageGoogle = imageGoogleRepository.findById(imageGoogleId);
+
+        if(optionalImageGoogle.isPresent()){
+            ImageGoogle image = optionalImageGoogle.get();
+            Domain domain = image.getDomain();
+
+            List<ImageGoogle> allImageGoogleByDomain = imageGoogleRepository.getByDomain(domain);
+            allImageGoogleByDomain.remove(image);
+            for(ImageGoogle img : allImageGoogleByDomain){
+                if(img.getOrderNr() >= orderNr){
+                    img.setOrderNr(img.getOrderNr() + 1);
+                }
+            }
+
+            image.setOrderNr(orderNr);
+            imageGoogleRepository.saveAll(allImageGoogleByDomain);
+            imageGoogleRepository.save(image);
+
+            return "redirect:/admin/afbeeldingen/afbeeldingengoogle/" + domain.getId();
+        }
+
         return "redirect:/admin/afbeeldingen/afbeeldingengoogle";
+    }
+
+    @PostMapping("/afbeeldingen/google/remove/{imageGoogleId}")
+    public String removeGoogleImage(@PathVariable Integer imageGoogleId){
+        Optional<ImageGoogle> optionalImageGoogle = imageGoogleRepository.findById(imageGoogleId);
+        if(optionalImageGoogle.isPresent()){
+            ImageGoogle image = optionalImageGoogle.get();
+            imageGoogleRepository.delete(image);
+
+            List<ImageGoogle> allImagesGoogle = imageGoogleRepository.getByDomain(image.getDomain());
+
+            for(ImageGoogle img : allImagesGoogle){
+                if(img.getOrderNr() > image.getOrderNr()){
+                    img.setOrderNr(img.getOrderNr() - 1);
+                }
+            }
+
+            imageGoogleRepository.saveAll(allImagesGoogle);
+
+            return "redirect:/admin/afbeeldingen/afbeeldingengoogle/" + image.getDomain().getId();
+        }
+
+        return "redirect:/admin/afbeeldingen/afbeeldingengoogle";
+    }
+
+    @PostMapping("/images/imagegoogle/{domainId}")
+    public String newGoogleImageFromExistingImage(@ModelAttribute("domain") Domain domain,
+                                                  @RequestParam Integer imageId){
+        ImageGoogle imageGoogle = new ImageGoogle();
+        imageGoogle.setImage(new Image(imageId));
+        imageGoogle.setDomain(domain);
+        imageGoogle.setOrderNr(imageGoogleRepository.getByDomain(domain).size() + 1);
+
+        imageGoogleRepository.save(imageGoogle);
+
+        return "redirect:/admin/afbeeldingen/afbeeldingengoogle/" + domain.getId();
     }
 
 }

@@ -20,6 +20,9 @@
 
 <header th:replace="admin/fragments/header :: header"></header>
 
+<th:block sec:authorize="hasAuthority('IMAGE_EDIT')">
+
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb ms-2 mt-2">
         <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
@@ -51,5 +54,17 @@
     <p class="lead" th:unless="${unusedImages != null && !unusedImages.isEmpty()}">Geen ongebruikte afbeeldingen</p>
 </div>
 
+</th:block>
+<th:block th:unless="${#authorization.expression('hasAuthority(''IMAGE_EDIT'')')}">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ms-2 mt-2">
+            <li class="breadcrumb-item"><a th:href="@{|/admin/home|}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="|Access denied|"></li>
+        </ol>
+    </nav>
+    <div class="container-fluid mt-5">
+        <h5>Geen rechten om deze pagina te bekijken</h5>
+    </div>
+</th:block>
 </body>
 </html>
