@@ -14,9 +14,9 @@
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/6e9f44a530.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="h-100 bg-light">
 
-<header class="position-fixed w-100">
+<header class="shadow-sm">
     <nav class="navbar navbar-dark bg-secondary">
         <div class="container-fluid">
             <div class="navbar-brand d-flex align-items-center">
@@ -26,15 +26,20 @@
     </nav>
 </header>
 
-<main class="vh-100 bg-light d-flex justify-content-center align-items-lg-center align-items-start py-5 px-3">
+<main class="h-100 d-flex align-items-lg-center justify-content-center align-items-start px-3">
 
-    <div class="bg-body border my-5 px-5 pt-5 pb-4">
+    <div class="h-100 bg-body border my-5 px-5 pb-4 shadow">
+       <div class="container d-flex flex-nowrap justify-content-center my-3">
+            <h4 class="mt-4 mx-1 text-danger">Bolo</h4>
+            <h3 class="mt-2 mx-1">Lientjes</h3>
+            <h4 class="mt-4 mx-1 text-secondary">Bistro</h4>
+        </div>
         <form method="post" th:action="@{|/login|}">
             <div th:if="${param.error}" class="alert alert-danger px-4">
-                <p class="lead m-0">Invalid username or password.</p>
+                <p class="lead m-0 fs-6">Invalid username or password. </p>
             </div>
             <div th:if="${param.logout}" class="alert alert-success px-4">
-                <p class="lead m-0">You have been logged out</p>
+                <p class="lead m-0 fs-6">You have been logged out</p>
             </div>
 
             <label for="username" class="form-label ms-2 lead fs-6">Gebruikersnaam:</label>
