@@ -167,7 +167,7 @@ public class AdminImageController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "admin/personeeldetail";
+            return "admin/imagesgoogle";
         }
 
 
