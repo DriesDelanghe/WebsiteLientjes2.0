@@ -148,11 +148,11 @@
         <form method="post" th:action="@{|/admin/addgoogleimage/${domainBolo.id}|}" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="formFile" class="form-label">Upload nieuwe afbeelding</label>
-                <input class="form-control" type="file" id="formFile" name="newImage" oninput="Filevalidation()">
+                <input class="form-control" type="file" id="formFile1" name="newImage" oninput="Filevalidation()">
                 <p class="text-muted ms-3 my-1">File niet groter dan 2048Kb</p>
-                <p class="text-muted ms-3 my-1" id="size"></p>
+                <p class="text-muted ms-3 my-1" id="size1"></p>
                 <div class="d-flex justify-content-between">
-                    <input type="submit" value="uploaden" id="fileUpload" class="btn btn-dark m-2">
+                    <input type="submit" value="uploaden" id="fileUpload1" class="btn btn-dark m-2">
                     <button type="button" class="btn btn-dark my-2 align-self-center"
                             data-bs-toggle="modal"
                             data-bs-target="#imageModal1">
