@@ -135,27 +135,27 @@
                             Zorg dat alle velden juist ingevuld zijn
                         </div>
                         <label class="form-label">Voor- en achternaam ontvanger:</label>
-                        <input type="text" class="form-control" th:field="*{name}" placeholder="John Smith"
+                        <input type="text" class="form-control" th:field="*{redirectEmailList[__${redirectEmailStat.index}__].name}" placeholder="John Smith"
                                th:errorclass="|alert-danger|">
                         <label class="form-label">email:</label>
-                        <input type="text" class="form-control" placeholder="email@example.com" th:field="*{email}"
+                        <input type="text" class="form-control" placeholder="email@example.com" th:field="*{redirectEmailList[__${redirectEmailStat.index}__].email}"
                                th:errorclass="|alert-danger|">
                         <div class="row">
                             <div class="col-6">
                                 <h6 class="mt-2 mb-0">Berichtsoorten van Bistro</h6>
-                                <label class="w-100" th:for="|contactType*{id}|" th:object="${contactType}"
+                                <label class="w-100" th:for="|contactType${contactType.id}|"
                                        th:each="contactType : ${contactTypeListBistro}">
                                     <input type="checkbox" class="form-check-inline" name="contactTypeIds[]"
-                                           th:value="*{id}" th:text="*{questionType}"
+                                           th:value="${contactType.id}" th:text="${contactType.questionType}"
                                            th:checked="${redirectEmail.contactTypeList.contains(contactType)}">
                                 </label>
                             </div>
                             <div class="col-6">
                                 <h6 class="mt-2 mb-0">Berichtsoorten van Bolo</h6>
-                                <label class="w-100" th:for="|contactType*{id}|" th:object="${contactType}"
+                                <label class="w-100" th:for="|contactType${contactType.id}|"
                                        th:each="contactType : ${contactTypeListBolo}">
                                     <input type="checkbox" class="form-check-inline" name="contactTypeIds[]"
-                                           th:value="*{id}" th:text="*{questionType}"
+                                           th:value="${contactType.id}" th:text="${contactType.questionType}"
                                            th:checked="${redirectEmail.contactTypeList.contains(contactType)}">
                                 </label>
                             </div>
