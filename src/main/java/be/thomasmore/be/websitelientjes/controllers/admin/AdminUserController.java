@@ -221,6 +221,7 @@ public class AdminUserController {
                               Model model) {
 
         model.addAttribute("newUsername", newUsername);
+        model.addAttribute("roleIds", roleIds);
 
         boolean uniqueUserName = true;
         ArrayList<User> allUsers = (ArrayList<User>) userRepository.findAll();
@@ -234,7 +235,8 @@ public class AdminUserController {
         }
 
         if ((!password1.isBlank() && !password2.isBlank() && !password1.equals(password2))
-                || password1.isBlank() || password2.isBlank() || roleIds == null || roleIds.isEmpty() || !uniqueUserName || newUsername.isBlank()) {
+                || password1.isBlank() || password2.isBlank() || roleIds == null || roleIds.isEmpty() || !uniqueUserName || newUsername.isBlank()
+        || (!roleIds.contains(1) && !roleIds.contains(2)) ) {
 
             if (!password1.equals(password2) || password1.isBlank() || password2.isBlank()) {
                 model.addAttribute("passworderror", true);
@@ -252,6 +254,11 @@ public class AdminUserController {
 
             if (newUsername.isBlank()) {
                 model.addAttribute("blankName", true);
+            }
+
+            if(roleIds != null && !roleIds.isEmpty() && !roleIds.contains(1) && !roleIds.contains(2)){
+                model.addAttribute("noDomain", true);
+                logger.info("roleIds error");
             }
 
             logger.info("unspecified error");

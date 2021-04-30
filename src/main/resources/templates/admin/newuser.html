@@ -43,22 +43,35 @@
                 <div class="alert alert-danger" th:if="${noRoles}">
                     Vul de rechten van deze gebruiker in
                 </div>
+                <div class="alert alert-danger" th:if="${noDomain}">
+                    Minstens één domein selecteren
+                </div>
                 <h6 class="mt-2">domein rechten:</h6>
                 <div class="col-12">
-                    <input type="checkbox" name="roleIds[]" class="form-check-inline" th:value="${roleBistro.id}"
-                           th:text="${roleBistro.roleName.toLowerCase()}"
-                           th:if="${#authorization.expression('hasAuthority(''BISTRO'')')}">
+                    <label th:for="role1" th:if="${#authorization.expression('hasAuthority(''BISTRO'')')}">
+                        <input type="checkbox" id="role1" name="roleIds[]" class="form-check-inline"
+                               th:value="${roleBistro.id}" th:checked="${roleIds != null && roleIds.contains(roleBistro.id)}">
+                        <span th:text="${roleBistro.roleName.toLowerCase()}"
+                              th:classappend="${noDomain} ? |alert-danger| : (${noRoles} ? |alert-danger|)"></span>
+                    </label>
                 </div>
                 <div class="col-12">
-                    <input type="checkbox" name="roleIds[]" class="form-check-inline" th:value="${roleBolo.id}"
-                           th:text="${roleBolo.roleName.toLowerCase()}"
-                           th:if="${#authorization.expression('hasAuthority(''BOLO'')')}">
+                    <label th:for="role2" th:if="${#authorization.expression('hasAuthority(''BOLO'')')}">
+                        <input type="checkbox" id="role2" name="roleIds[]" class="form-check-inline"
+                               th:value="${roleBolo.id}" th:checked="${roleIds != null && roleIds.contains(roleBolo.id)}">
+                        <span th:text="${roleBolo.roleName.toLowerCase()}"
+                              th:classappend="${noDomain} ? |alert-danger| : (${noRoles} ? |alert-danger|)"></span>
+                    </label>
                 </div>
                 <h6 class="mt-2">specifieke rechten:</h6>
                 <div class="col-12" th:each="role : ${roles}"
                      th:if="${role.id != roleBistro.id && role.id != roleBolo.id && #authorization.expression('hasAuthority(''' + role.roleName + ''')')}">
-                    <input type="checkbox" class="form-check-inline" name="roleIds[]" th:value="${role.id}"
-                           th:text="${role.roleName.replaceAll('_', ' ').toLowerCase()}">
+                    <label th:for="|role${role.id}|">
+                        <input type="checkbox" th:id="|role${role.id}|" name="roleIds[]" class="form-check-inline"
+                               th:value="${role.id}" th:checked="${roleIds != null && roleIds.contains(role.id)}">
+                        <span th:text="${role.roleName.toLowerCase().replaceAll('_', ' ')}"
+                              th:classappend="${noRoles} ? |alert-danger|"></span>
+                    </label>
                 </div>
             </div>
 
@@ -75,7 +88,8 @@
                         <div th:if="${blankName}" class="alert alert-danger">
                             gebruikersnaam mag niet leeg zijn
                         </div>
-                        <input type="text" name="newUsername" th:value="${newUsername != null} ? ${newUsername}" class="form-control">
+                        <input type="text" name="newUsername" th:value="${newUsername != null} ? ${newUsername}"
+                               class="form-control" th:classappend="${blankName} ? |alert-danger|">
                         <p class="lead mt-2">Wachtwoord:</p>
                         <div class="alert alert-danger" th:if="${passworderror}">
                             wachtwoorden moeten hetzelfde zijn

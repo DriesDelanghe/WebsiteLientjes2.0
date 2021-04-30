@@ -61,9 +61,8 @@
                 <p>ERROR - data kan niet opgeslagen worden</p>
             </div>
             <div class="card col-8 col-lg-6 mx-auto p-0 mt-5">
-                <div class="card-header bg-secondary d-flex flex-lg-row flex-column">
-                    <h4></h4>
-                    <span th:utext="${contactInfo.icon.iconCode}" class="text-light h4 mx-auto align-self-center"></span>
+                <div class="card-header d-flex flex-lg-row flex-column">
+                    <span th:utext="${contactInfo.icon.iconCode}" class="h4 mx-auto align-self-center"></span>
                     <!-- Button trigger remove modal -->
                     <button type="button" class="btn btn-dark mt-2 mt-lg-0" data-bs-toggle="modal"
                             data-bs-target="#imageModal">

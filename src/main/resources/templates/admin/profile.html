@@ -37,6 +37,7 @@
     <div class="col-12 col-md-5 ms-4">
         <h4>Rechten</h4>
         <hr class="text-muted w-50 ms-2">
+
         <h5 class="mt-2">domein rechten:</h5>
         <div class="col-12">
             <p class="lead" th:text="${roleBistro.roleName.toLowerCase()}"
@@ -47,7 +48,7 @@
                th:if="${#authorization.expression('hasAuthority(''BOLO'')')}">
         </div>
         <h5 class="mt-2">specifieke rechten:</h5>
-        <div class="col-12" th:each="role : ${currentUser.role}">
+        <div class="col-12" th:each="role : ${currentUser.role}" th:unless="${role == roleBistro || role == roleBolo}">
             <p class="lead" th:text="${role.roleName.replaceAll('_', ' ').toLowerCase()}">
         </div>
     </div>
