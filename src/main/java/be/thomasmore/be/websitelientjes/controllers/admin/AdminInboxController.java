@@ -1,14 +1,8 @@
 package be.thomasmore.be.websitelientjes.controllers.admin;
 
-import be.thomasmore.be.websitelientjes.controllers.wrapperclass.ContactTypeWrapper;
-import be.thomasmore.be.websitelientjes.models.ContactForm;
-import be.thomasmore.be.websitelientjes.models.ContactType;
-import be.thomasmore.be.websitelientjes.models.Domain;
-import be.thomasmore.be.websitelientjes.models.MenuSection;
-import be.thomasmore.be.websitelientjes.repositories.ContactFormRepository;
-import be.thomasmore.be.websitelientjes.repositories.ContactTypeRepository;
-import be.thomasmore.be.websitelientjes.repositories.DomainRepository;
-import be.thomasmore.be.websitelientjes.repositories.MenuSectionRepository;
+import be.thomasmore.be.websitelientjes.controllers.wrapperclass.*;
+import be.thomasmore.be.websitelientjes.models.*;
+import be.thomasmore.be.websitelientjes.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +28,8 @@ public class AdminInboxController {
     DomainRepository domainRepository;
     @Autowired
     MenuSectionRepository menuSectionRepository;
+    @Autowired
+    RedirectEmailRepository redirectEmailRepository;
 
     Logger logger = LoggerFactory.getLogger(AdminInboxController.class);
 
@@ -50,6 +46,16 @@ public class AdminInboxController {
     @ModelAttribute("menuSectionListBistro")
     public List<MenuSection> getMenuSectionListBistro(@ModelAttribute("domainBistro") Domain domainBistro) {
         return menuSectionRepository.getByDomain(domainBistro);
+    }
+
+    @ModelAttribute("redirectEmailList")
+    public List<RedirectEmail> getRedirectEmailList(){
+        return (List<RedirectEmail>) redirectEmailRepository.findAll();
+    }
+
+    @ModelAttribute("newRedirectEmail")
+    public RedirectEmail getNewRedirectEmail(){
+        return new RedirectEmail();
     }
 
     @ModelAttribute("menuSectionListBolo")

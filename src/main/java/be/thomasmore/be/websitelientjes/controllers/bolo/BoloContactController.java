@@ -1,14 +1,17 @@
 package be.thomasmore.be.websitelientjes.controllers.bolo;
 
+import be.thomasmore.be.websitelientjes.controllers.MailSender;
 import be.thomasmore.be.websitelientjes.controllers.wrapperclass.TextWrapper;
 import be.thomasmore.be.websitelientjes.models.*;
 import be.thomasmore.be.websitelientjes.repositories.*;
+import com.wildbit.java.postmark.client.exception.PostmarkException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -101,7 +104,7 @@ public class BoloContactController {
     @PostMapping("/contactform")
     public String contactformPost(@Valid @ModelAttribute("contactForm") ContactForm contactForm,
                                   BindingResult bindingResult,
-                                  @RequestParam Integer contactTypeId){
+                                  @RequestParam Integer contactTypeId) {
         if(bindingResult.hasErrors()){
             return "bolo/contact";
         }
@@ -110,6 +113,10 @@ public class BoloContactController {
         contactForm.setTimestamp(new Date());
         contactForm.setQuestion(saveLineBreaks(contactForm.getQuestion()));
         contactFormRepository.save(contactForm);
+
+        MailSender sender = new MailSender();
+        sender.deliverMail();
+
         return "redirect:/bolo/contactbevestiging";
     }
 
