@@ -48,9 +48,11 @@ public class AdminInboxController {
         return menuSectionRepository.getByDomain(domainBistro);
     }
 
-    @ModelAttribute("redirectEmailList")
-    public List<RedirectEmail> getRedirectEmailList(){
-        return (List<RedirectEmail>) redirectEmailRepository.findAll();
+    @ModelAttribute("redirectEmailWrapper")
+    public RedirectEmailWrapper getRedirectEmailList(){
+        RedirectEmailWrapper wrapper = new RedirectEmailWrapper();
+        wrapper.setRedirectEmailList((List<RedirectEmail>) redirectEmailRepository.findAll());
+        return wrapper;
     }
 
     @ModelAttribute("newRedirectEmail")
@@ -220,6 +222,30 @@ public class AdminInboxController {
         }
 
         contactTypeRepository.delete(contactType);
+        return "redirect:/admin/inbox/instellingen";
+    }
+
+    @PostMapping("/redirectemail/new")
+    public String addNewEmail(@Valid @ModelAttribute("newRedirectEmail") RedirectEmail redirectEmail,
+                              BindingResult bindingResult,
+                              @RequestParam(name = "contactTypeIds[]", required = false) List<Integer> contactTypeIds,
+                              Model model){
+        if(bindingResult.hasErrors() || contactTypeIds == null || contactTypeIds.isEmpty()){
+            if(contactTypeIds == null || contactTypeIds.isEmpty()){
+                model.addAttribute("noContactType", true);
+            }
+            return "admin/inboxsettings";
+        }
+
+        redirectEmail.setContactTypeList((List<ContactType>) contactTypeRepository.findAllById(contactTypeIds));
+        redirectEmailRepository.save(redirectEmail);
+
+        return "redirect:/admin/inbox/instellingen";
+    }
+
+    @PostMapping("/redirectemail/{redirectEmailId}")
+    public String updateRedirectEmails(){
+
         return "redirect:/admin/inbox/instellingen";
     }
 }

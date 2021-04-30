@@ -1,17 +1,17 @@
 package be.thomasmore.be.websitelientjes.controllers.bolo;
 
-import be.thomasmore.be.websitelientjes.controllers.MailSender;
+import be.thomasmore.be.websitelientjes.controllers.JavaMailSender;
 import be.thomasmore.be.websitelientjes.controllers.wrapperclass.TextWrapper;
 import be.thomasmore.be.websitelientjes.models.*;
 import be.thomasmore.be.websitelientjes.repositories.*;
-import com.wildbit.java.postmark.client.exception.PostmarkException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +38,10 @@ public class BoloContactController {
     AddressRepository addressRepository;
     @Autowired
     TelephoneNumberRepository telephoneNumberRepository;
+    @Autowired
+    RedirectEmailRepository redirectEmailRepository;
+
+    Logger logger = LoggerFactory.getLogger(BoloContactController.class);
 
     @ModelAttribute("domain")
     public Domain getDomain(){
@@ -114,8 +118,12 @@ public class BoloContactController {
         contactForm.setQuestion(saveLineBreaks(contactForm.getQuestion()));
         contactFormRepository.save(contactForm);
 
-        MailSender sender = new MailSender();
-        sender.deliverMail();
+        JavaMailSender sender = new JavaMailSender();
+        try{
+        sender.sendmail(redirectEmailRepository.getByContactType(contactForm.getContactType()), contactForm);
+        }catch (Exception e){
+            logger.info(e.getMessage());
+        }
 
         return "redirect:/bolo/contactbevestiging";
     }
