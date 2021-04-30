@@ -120,13 +120,31 @@
     <div class="container-fluid w-75 mx-auto mt-4">
         <h4>Bestaande emails</h4>
         <hr>
-        <div class="container-fluid">
-            <div class="card w-100" th:each="redirectEmail : ${redirectEmailList}" th:object="${redirectEmail}">
+        <div class="container-fluid mb-5">
+            <div class="card w-100 my-2" th:each="redirectEmail : ${redirectEmailList}" th:object="${redirectEmail}">
                 <div class="card-header">
                     <h4>Ontvanger</h4>
                 </div>
                 <div class="card-body">
-                    <input type="text" th:field="*{}">
+                    <label class="form-label">Voor- en achternaam ontvanger:</label>
+                    <input type="text" class="form-control" th:field="*{name}">
+                    <label class="form-label">email:</label>
+                    <input type="text" class="form-control" th:field="*{email}">
+                </div>
+            </div>
+        </div>
+        <h4>Nieuwe email toevoegen</h4>
+        <hr>
+        <div class="container-fluid mb-5">
+            <div class="card w-100 my-2" th:object="${newRedirectEmail}">
+                <div class="card-header">
+                    <h4>Nieuwe ontvanger</h4>
+                </div>
+                <div class="card-body">
+                    <label class="form-label">Voor- en achternaam ontvanger:</label>
+                    <input type="text" class="form-control" th:field="*{name}">
+                    <label class="form-label">email:</label>
+                    <input type="text" class="form-control" th:field="*{email}">
                 </div>
             </div>
         </div>
