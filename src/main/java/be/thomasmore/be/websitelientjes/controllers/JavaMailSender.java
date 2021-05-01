@@ -2,9 +2,11 @@ package be.thomasmore.be.websitelientjes.controllers;
 
 import be.thomasmore.be.websitelientjes.models.ContactForm;
 import be.thomasmore.be.websitelientjes.models.RedirectEmail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.stereotype.Component;
+import org.springframework.scheduling.annotation.Async;
 
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -13,21 +15,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-@Component
+
 public class JavaMailSender {
 
+    Logger logger = LoggerFactory.getLogger(JavaMailSender.class);
 
     public JavaMailSender() {
     }
 
-    @Bean
     public JavaMailSenderImpl getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("out.nameweb.biz");
-        mailSender.setPort(465);
+        mailSender.setPort(2525);
 
-        mailSender.setUsername("my.gmail@gmail.com");
-        mailSender.setPassword("password");
+        mailSender.setUsername("info@lientjes.be");
+        mailSender.setPassword("L13ntjes@2021");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
@@ -38,12 +40,16 @@ public class JavaMailSender {
         return mailSender;
     }
 
+    @Bean
+    @Async
     public void sendmail(List<RedirectEmail> emails, ContactForm contactForm) throws AddressException, MessagingException, IOException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "out.nameweb.biz");
-        props.put("mail.smtp.port", "465");
+        props.put("mail.smtp.host", "out" +
+                ".nameweb.biz");
+        props.put("mail.smtp.port", "2525");
+        logger.info("Setting up mail client properties");
 
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
@@ -51,9 +57,12 @@ public class JavaMailSender {
                         return new PasswordAuthentication("info@lientjes.be", "L13ntjes@2021");
                     }
                 });
+        logger.info("setting up session");
 
         Message msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress("info@lientjes.be", false));
+
+        logger.info("instatiating email, setting from");
 
         String recipients = "";
         for (RedirectEmail mail : emails) {
@@ -63,19 +72,25 @@ public class JavaMailSender {
             recipients += mail.getEmail();
         }
         msg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(recipients));
+        logger.info("setting recipients, recipients found: " + recipients);
+
         msg.setSubject("nieuw bericht op lientjes");
 
-        msg.setContent("this is a test mail", "text/html");
+        String HtmlTemplate = "<h1>Nieuw bericht ontvangen</h1>" +
+                "<p>Er is een nieuw bericht binnengekomen op lientjes van het type " + contactForm.getContactType().getQuestionType() + "</p>" +
+                "<p>Klik <a href=\"www.lientjes.be/admin/inbox/message/" + contactForm.getId() + "\" target=\"_blank\">hier</a> om het bericht te bekijken </p>";
+
         msg.setSentDate(new Date());
 
         MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setContent("this is also a part of the test mail", "text/html");
+        messageBodyPart.setContent(HtmlTemplate, "text/html");
 
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(messageBodyPart);
 
         msg.setContent(multipart);
+        logger.info("message contructed, now sending...");
         Transport.send(msg);
-
+        logger.info("Message send!");
     }
 }

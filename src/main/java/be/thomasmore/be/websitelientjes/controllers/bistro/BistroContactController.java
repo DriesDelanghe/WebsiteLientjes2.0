@@ -1,5 +1,6 @@
 package be.thomasmore.be.websitelientjes.controllers.bistro;
 
+import be.thomasmore.be.websitelientjes.controllers.JavaMailSender;
 import be.thomasmore.be.websitelientjes.models.*;
 import be.thomasmore.be.websitelientjes.repositories.*;
 import org.slf4j.Logger;
@@ -38,6 +39,8 @@ public class BistroContactController {
     AddressRepository addressRepository;
     @Autowired
     TelephoneNumberRepository telephoneNumberRepository;
+    @Autowired
+    RedirectEmailRepository redirectEmailRepository;
 
     Logger logger = LoggerFactory.getLogger(BistroContactController.class);
 
@@ -118,6 +121,15 @@ public class BistroContactController {
         contactForm.setContactType(new ContactType(contactTypeId));
         contactForm.setRead(false);
         contactFormRepository.save(contactForm);
+
+        JavaMailSender sender = new JavaMailSender();
+        try{
+            if(!redirectEmailRepository.getByContactType(contactForm.getContactType()).isEmpty()) {
+                sender.sendmail(redirectEmailRepository.getByContactType(contactForm.getContactType()), contactForm);
+            }
+        }catch (Exception e){
+            logger.info(e.getMessage());
+        }
 
         return  "bistro/confirmcontactform";
     }

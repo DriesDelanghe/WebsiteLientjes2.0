@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@Table(name = "ADMIN_USER")
 public class User {
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")

@@ -120,7 +120,9 @@ public class BoloContactController {
 
         JavaMailSender sender = new JavaMailSender();
         try{
-        sender.sendmail(redirectEmailRepository.getByContactType(contactForm.getContactType()), contactForm);
+            if(!redirectEmailRepository.getByContactType(contactForm.getContactType()).isEmpty()) {
+                sender.sendmail(redirectEmailRepository.getByContactType(contactForm.getContactType()), contactForm);
+            }
         }catch (Exception e){
             logger.info(e.getMessage());
         }

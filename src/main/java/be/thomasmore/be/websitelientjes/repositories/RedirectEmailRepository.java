@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface RedirectEmailRepository extends CrudRepository<RedirectEmail, Integer> {
 
-    @Query("select re from RedirectEmail re where :contactType is null or :contactType in re.contactTypeList")
+    @Query("select distinct re from RedirectEmail re join re.contactTypeList cl where :contactType is null or :contactType in (cl)")
     List<RedirectEmail> getByContactType(@Param("contactType") ContactType contactType);
 
 }
