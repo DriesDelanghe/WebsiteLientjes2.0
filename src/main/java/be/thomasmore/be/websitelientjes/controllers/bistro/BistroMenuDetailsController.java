@@ -201,5 +201,4 @@ public class BistroMenuDetailsController {
 
         return "bistro/menudetails";
     }
-    }
 }

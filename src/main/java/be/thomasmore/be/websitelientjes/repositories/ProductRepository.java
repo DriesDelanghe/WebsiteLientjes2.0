@@ -9,8 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.Null;
-import java.awt.*;
 import java.util.List;
 
 @Repository
@@ -31,7 +29,7 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
                                           @Param("menuSection") MenuSection menuSection);
 
     @Query("select distinct p from Product p left join p.categories c " +
-            "where p not in (:productList) and (c) in (:categoryList) " +
+            "where ((:productList) is empty p not in (:productList)) and ((:categorylist) is not empty and (c) in (:categoryList)) " +
             "and p.menuSubSection in (select mss from MenuSubSection mss join mss.menuSectionList msl where :menuSection is null or :menuSection in (msl))")
     List<Product> filterListOnCategory(@Param("productList") List<Product> productList,
                                        @Param("categoryList") List<ProductCategory> hiddenCategoryList,
