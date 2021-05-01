@@ -1,6 +1,7 @@
 package be.thomasmore.be.websitelientjes.controllers.bistro;
 
 
+import be.thomasmore.be.websitelientjes.controllers.wrapperclass.FilterWrapper;
 import be.thomasmore.be.websitelientjes.models.*;
 import be.thomasmore.be.websitelientjes.repositories.*;
 import org.slf4j.Logger;
@@ -35,7 +36,18 @@ public class BistroMenuDetailsController {
 
     Logger logger = LoggerFactory.getLogger(BistroMenuDetailsController.class);
 
-
+    @ModelAttribute("filterWrapper")
+    public FilterWrapper getFilterWrapper(@ModelAttribute("menuSection") MenuSection menuSection) {
+        if (menuSection != null) {
+            FilterWrapper wrapper = new FilterWrapper();
+            menuSection.getMenuSubSectionList().forEach(menuSubSection -> logger.info("subsection name: " + menuSubSection.getName()));
+            wrapper.setAllergieList(allergieRepository.getAllAllergiesByMenuSubSections(menuSection.getMenuSubSectionList()));
+            wrapper.getAllergieList().forEach(allergie -> logger.info("allergie name: " + allergie.getName()));
+            wrapper.setCategoryList(categoryRepository.getAllCategoryByMenuSubSections(menuSection.getMenuSubSectionList()));
+            return wrapper;
+        }
+        return null;
+    }
 
     @ModelAttribute("domain")
     public Domain getDomain() {
@@ -133,85 +145,61 @@ public class BistroMenuDetailsController {
 
 
     @PostMapping({"/menudetails", "/menudetails/{menuSectionId}"})
-    public String menudetailspost(Model model,
-                                  @RequestParam(required = false) String productSearch,
-                                  @RequestParam(required = false, name = "allergieFilter[]") List<Integer> allergieFilters,
-                                  @RequestParam(required = false, name = "categoryFilter[]") List<Integer> categoryFilter,
-                                  @PathVariable(required = false) Integer menuSectionId,
-                                  @ModelAttribute("categoryList") List<ProductCategory> categoryList,
-                                  @ModelAttribute("menuSection") MenuSection menuSection) {
+    public String menudetailspost(@ModelAttribute("filterWrapper") FilterWrapper wrapper,
+                                  @ModelAttribute("menuSection") MenuSection menuSection,
+                                  @RequestParam(required = false, name = "category[]") ArrayList<Integer> categoryIdList,
+                                  @RequestParam(required = false, name = "allergy[]") ArrayList<Integer> allergyIdList,
+                                  Model model) {
 
-        model.addAttribute("productSearch", productSearch);
-        model.addAttribute("allergieFilters", allergieFilters);
-        model.addAttribute("categoryList", categoryList);
+        wrapper.setAllergyIdList(allergyIdList);
+        wrapper.setCategoryIdList(categoryIdList);
 
-        categoryList.forEach(productCategory -> logger.info(String.format("\t\t!!category -- %s", productCategory.getName())));
+        ArrayList<Allergie> allergieArrayList = new ArrayList<>();
+        if (wrapper.getAllergyIdList() != null && !wrapper.getAllergyIdList().isEmpty()) {
+            wrapper.getAllergyIdList().forEach(integer -> allergieArrayList.add(allergieRepository.findById(integer).get()));
+        }
 
-        List<ProductCategory> filteredCategoryList = null;
-
-        if (categoryFilter != null) {
-            for (Integer d : categoryFilter) {
-                logger.info(String.format("show catergoryId -- %d", d));
+        ArrayList<ProductCategory> productCategoryArrayList = new ArrayList<>();
+        if (wrapper.getCategoryIdList() != null && !wrapper.getCategoryIdList().isEmpty()) {
+            wrapper.getCategoryIdList().forEach(integer -> productCategoryArrayList.add(categoryRepository.findById(integer).get()));
+        }
+        ArrayList<ProductCategory> hiddenCategories = new ArrayList<>();
+        for (ProductCategory productCategory : wrapper.getCategoryList()) {
+            if (!productCategoryArrayList.contains(productCategory)) {
+                hiddenCategories.add(productCategory);
             }
-            filteredCategoryList = (List<ProductCategory>) categoryRepository.findAllById(categoryFilter);
+        }
+
+        logger.info("allergie list is empty : " + allergieArrayList.isEmpty());
+        if(!allergieArrayList.isEmpty()){
+            allergieArrayList.forEach(allergie -> logger.info("allergie id: " + allergie.getId()));
+        }
+
+        ArrayList<Product> filteredProductsList = new ArrayList<>();
+        ArrayList<Product> filterListOnCategory = new ArrayList<>();
+
+        if (!allergieArrayList.isEmpty()) {
+            filteredProductsList = new ArrayList<>(productRepository.filterOnAllergieAndName(allergieArrayList, wrapper.getProductSearch(), menuSection));
         } else {
-            logger.info("No shown category");
+            filteredProductsList = new ArrayList<>(productRepository.filterOnAllergieAndName(null, wrapper.getProductSearch(), menuSection));
         }
-
-        ArrayList<ProductCategory> missingCategories = new ArrayList<>();
-
-        for(ProductCategory productCategory : categoryList){
-            if(filteredCategoryList == null || !filteredCategoryList.contains(productCategory)){
-                missingCategories.add(productCategory);
+        if (!hiddenCategories.isEmpty()) {
+            if (!filteredProductsList.isEmpty()) {
+                filterListOnCategory.addAll(productRepository.filterListOnCategory(filteredProductsList, hiddenCategories, menuSection));
+                filteredProductsList.addAll(filterListOnCategory);
+            } else {
+                filterListOnCategory.addAll(productRepository.filterOnlyOnCategory(hiddenCategories, menuSection));
             }
         }
-        
 
-        categoryList.forEach(productCategory -> logger.info(String.format("\t\t!!category -- %s", productCategory.getName())));
-
-        if (!missingCategories.isEmpty()) {
-            missingCategories.forEach(category -> logger.info(String.format("Hiding category -- %s", category.getName())));
-        }
-
-        logger.info(String.format("value productsearch -- '%s'", productSearch));
-        logger.info(String.format("allergieFilters is null -- %s", allergieFilters == null));
-
-        ArrayList<Allergie> filteredAllergies = new ArrayList<>();
-        if (allergieFilters != null) {
-            filteredAllergies.addAll((List<Allergie>) allergieRepository.findAllById(allergieFilters));
-            filteredAllergies.forEach(allergie -> logger.info(String.format("Filtering on allergie -- %s", allergie.getName())));
-        }
-
-        logger.info(String.format("allergies is null -- %s", filteredAllergies == null));
-
-        logger.info(String.format("searching on productName -- '%s'", productSearch));
-        logger.info(String.format("searching in menuSection -- %s", menuSection.getName()));
-
-        if(allergieFilters !=null) {
-            List<Product> productListFiltered = productRepository.filterOnAllergieAndName(filteredAllergies, productSearch, menuSection);
-            List<Product> productListCategoryFilter = productRepository.filterListOnCategory(productListFiltered, missingCategories, menuSection);
-
-            productListFiltered.addAll(productListCategoryFilter);
-        productListFiltered.forEach(product -> logger.info(String.format("found product matching filter -- %s", product.getName())));
-        logger.info(String.format("number of filtered products -- %d", productListFiltered.size()));
-
-            model.addAttribute("productListFiltered", productListFiltered);
+        if (!filteredProductsList.isEmpty()) {
+            model.addAttribute("filteredProductList", filteredProductsList);
+            logger.info("amount of filtered products: " + filteredProductsList.size());
         }else{
-
-            List<Product> productListFiltered = productRepository.filterOnAllergieAndName(null, productSearch, menuSection);
-            List<Product> productListCategoryFilter = productRepository.filterListOnCategory(productListFiltered, missingCategories, menuSection);
-
-            productListFiltered.addAll(productListCategoryFilter);
-            logger.info("filtered products:");
-            productListFiltered.forEach(product -> logger.info(product.getName()));
-            model.addAttribute("productListFiltered", productListFiltered);
+            model.addAttribute("filteredProductList", filterListOnCategory);
         }
-
-        model.addAttribute("filteredCategoryList", filteredCategoryList);
-
-
-        logger.info("menuSection: " + menuSection.getName());
 
         return "bistro/menudetails";
+    }
     }
 }

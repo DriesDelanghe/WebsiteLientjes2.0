@@ -63,33 +63,32 @@
                     <p class="filter-text-hidden" id="hidden-text"> show filters </p>
                     <p class="filter-text-shown hide" id="shown-text"> hide filters </p>
                 </div>
-                <form class="menu-filters hide" method="post" th:action="@{|/bistro/menudetails/${menuSection.id}|}" id="filter-field">
+                <form class="menu-filters hide" method="post" th:action="@{|/bistro/menudetails/${menuSection.id}|}" th:object="${filterWrapper}" id="filter-field">
                     <div class="filter-block">
                         <h3>Zoeken op naam:</h3>
-                        <input type="text" list="productNames" name="productSearch" th:value="${productSearch}">
+                        <input type="text" list="productNames" name="productSearch" th:value="*{productSearch}">
                         <datalist id="productNames">
                             <option th:each="product : ${productList}" th:value="${product.name}">
                             </option>
                         </datalist>
                     </div>
 
-                    <div class="filter-block" th:if="${!allergieList.isEmpty()}">
+                    <div class="filter-block" th:if="*{!allergieList.isEmpty()}">
                         <h3>Allergie:</h3>
-                        <div class="filter-line" th:each="allergie : ${allergieList}">
-                            <input type="checkbox" name="allergieFilter[]" th:value="${allergie.id}"
-                                   th:utext="${allergie.name}" th:checked="${allergieFilters != null and
-                                allergieFilters.contains(allergie.id)}">
+                        <div class="filter-line" th:each="allergie : *{allergieList}">
+                            <input type="checkbox" name="allergy[]" th:value="${allergie.id}"
+                                   th:utext="${allergie.name}" th:checked="${filterWrapper.allergyIdList != null} ? ${filterWrapper.allergyIdList.contains(allergie.id)}">
                         </div>
 
                     </div>
 
-                    <div class="filter-block" th:if="${!categoryList.isEmpty()}">
+                    <div class="filter-block" th:if="*{!categoryList.isEmpty()}">
                         <h3>Categorie:</h3>
-                        <div class="filter-line" th:each="category : ${categoryList}">
+                        <div class="filter-line" th:each="category : *{categoryList}">
                             <div class="input-line">
-                                <input type="checkbox" th:id="${category.id}" name="categoryFilter[]"
+                                <input type="checkbox" th:id="${category.id}" name="category[]"
                                        th:value="${category.id}" th:utext="${category.name}"
-                                       th:checked="${filteredCategoryList != null} ? ${filteredCategoryList.contains(category)}">
+                                       th:checked="${filterWrapper.categoryIdList != null} ? ${filterWrapper.categoryIdList.contains(category.id)}">
                             </div>
                         </div>
                     </div>
