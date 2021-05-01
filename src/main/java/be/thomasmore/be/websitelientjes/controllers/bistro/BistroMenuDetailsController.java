@@ -69,7 +69,7 @@ public class BistroMenuDetailsController {
 
 
     @ModelAttribute("page")
-    public Page getPage(){
+    public Page getPage() {
         return pageRepository.findById(5).get();
     }
 
@@ -80,7 +80,7 @@ public class BistroMenuDetailsController {
 
 
         List<MenuSection> menuSectionList = menuSectionRepository.getByDomain(domain);
-        if(menuSection != null) {
+        if (menuSection != null) {
             int indexMenuSection = menuSectionList.indexOf(menuSection);
             int prevId = (indexMenuSection != 0) ?
                     menuSectionList.get(indexMenuSection - 1).getId() :
@@ -105,7 +105,7 @@ public class BistroMenuDetailsController {
 
     @ModelAttribute("categoryList")
     public List<ProductCategory> getCategoryList(@ModelAttribute("menuSection") MenuSection menuSection) {
-        if(menuSection != null) {
+        if (menuSection != null) {
             List<ProductCategory> categoryList = categoryRepository.getAllCategoryByMenuSubSections(menuSection.getMenuSubSectionList());
 
             return categoryList;
@@ -115,7 +115,7 @@ public class BistroMenuDetailsController {
 
     @ModelAttribute("allergieList")
     public List<Allergie> getAllergieList(@ModelAttribute("menuSection") MenuSection menuSection) {
-        if(menuSection != null) {
+        if (menuSection != null) {
             List<Allergie> allergieList = allergieRepository.getAllAllergiesByMenuSubSections(menuSection.getMenuSubSectionList());
 
             return allergieList;
@@ -154,9 +154,9 @@ public class BistroMenuDetailsController {
         wrapper.setAllergyIdList(allergyIdList);
         wrapper.setCategoryIdList(categoryIdList);
 
-        ArrayList<Allergie> allergieArrayList = new ArrayList<>();
-        if (wrapper.getAllergyIdList() != null && !wrapper.getAllergyIdList().isEmpty()) {
-            wrapper.getAllergyIdList().forEach(integer -> allergieArrayList.add(allergieRepository.findById(integer).get()));
+        List<Allergie> allergieList = null;
+        if(wrapper.getAllergyIdList() != null) {
+            allergieList = (List<Allergie>) allergieRepository.findAllById(wrapper.getAllergyIdList());
         }
 
         ArrayList<ProductCategory> productCategoryArrayList = new ArrayList<>();
@@ -170,34 +170,18 @@ public class BistroMenuDetailsController {
             }
         }
 
-        logger.info("allergie list is empty : " + allergieArrayList.isEmpty());
-        if(!allergieArrayList.isEmpty()){
-            allergieArrayList.forEach(allergie -> logger.info("allergie id: " + allergie.getId()));
+        logger.info(String.valueOf("allergie list is empty : " + allergieList != null));
+        if (allergieList != null) {
+            allergieList.forEach(allergie -> logger.info("allergie id: " + allergie.getId()));
         }
 
-        ArrayList<Product> filteredProductsList = new ArrayList<>();
-        ArrayList<Product> filterListOnCategory = new ArrayList<>();
+        ArrayList<Product> filteredProductsList = new ArrayList<>(productRepository.filterOnAllergieAndName(allergieList, menuSection));
+        ArrayList<Product> filterListOnCategory = new ArrayList<>(productRepository.filterListOnCategory(filteredProductsList, hiddenCategories, menuSection));
+        filteredProductsList = new ArrayList<>(productRepository.filterOnName(wrapper.getProductSearch(), filterListOnCategory));
 
-        if (!allergieArrayList.isEmpty()) {
-            filteredProductsList = new ArrayList<>(productRepository.filterOnAllergieAndName(allergieArrayList, wrapper.getProductSearch(), menuSection));
-        } else {
-            filteredProductsList = new ArrayList<>(productRepository.filterOnAllergieAndName(null, wrapper.getProductSearch(), menuSection));
-        }
-        if (!hiddenCategories.isEmpty()) {
-            if (!filteredProductsList.isEmpty()) {
-                filterListOnCategory.addAll(productRepository.filterListOnCategory(filteredProductsList, hiddenCategories, menuSection));
-                filteredProductsList.addAll(filterListOnCategory);
-            } else {
-                filterListOnCategory.addAll(productRepository.filterOnlyOnCategory(hiddenCategories, menuSection));
-            }
-        }
+        model.addAttribute("filteredProductList", filteredProductsList);
+        logger.info("amount of filtered products: " + filterListOnCategory.size());
 
-        if (!filteredProductsList.isEmpty()) {
-            model.addAttribute("filteredProductList", filteredProductsList);
-            logger.info("amount of filtered products: " + filteredProductsList.size());
-        }else{
-            model.addAttribute("filteredProductList", filterListOnCategory);
-        }
 
         return "bistro/menudetails";
     }

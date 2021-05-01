@@ -49,12 +49,12 @@ public class AdminInboxController {
     }
 
     @ModelAttribute("redirectEmailList")
-    public List<RedirectEmail> getRedirectEmailList(){
+    public List<RedirectEmail> getRedirectEmailList() {
         return (List<RedirectEmail>) redirectEmailRepository.findAll();
     }
 
     @ModelAttribute("newRedirectEmail")
-    public RedirectEmail getNewRedirectEmail(){
+    public RedirectEmail getNewRedirectEmail() {
         return new RedirectEmail();
     }
 
@@ -64,24 +64,24 @@ public class AdminInboxController {
     }
 
     @ModelAttribute("contactFormList")
-    public List<ContactForm> getContactForms(@PathVariable(required = false) Integer contactTypeId){
-        if(contactTypeId == null) {
+    public List<ContactForm> getContactForms(@PathVariable(required = false) Integer contactTypeId) {
+        if (contactTypeId == null) {
             List<ContactForm> contactFormList = (List<ContactForm>) contactFormRepository.findAll();
             Collections.sort(contactFormList);
             return contactFormList;
         }
         Optional<ContactType> optionalContactType = contactTypeRepository.findById(contactTypeId);
-        if(optionalContactType.isPresent()){
+        if (optionalContactType.isPresent()) {
             return contactFormRepository.getByContactType(optionalContactType.get());
         }
         return null;
     }
 
     @ModelAttribute("message")
-    public ContactForm getMessage(@PathVariable(required = false) Integer messageId){
-        if(messageId != null){
+    public ContactForm getMessage(@PathVariable(required = false) Integer messageId) {
+        if (messageId != null) {
             Optional<ContactForm> messageOptional = contactFormRepository.findById(messageId);
-            if(messageOptional.isPresent()){
+            if (messageOptional.isPresent()) {
                 return messageOptional.get();
             }
 
@@ -90,19 +90,19 @@ public class AdminInboxController {
     }
 
     @ModelAttribute("contactTypeList")
-    public List<ContactType> getContactTypeList(){
+    public List<ContactType> getContactTypeList() {
         return (List<ContactType>) contactTypeRepository.findAll();
     }
 
     @ModelAttribute("contactTypeListBistro")
-    public List<ContactType> getContactTypeListBistro(@ModelAttribute("domainBistro") Domain domain){
+    public List<ContactType> getContactTypeListBistro(@ModelAttribute("domainBistro") Domain domain) {
         return contactTypeRepository.getByDomain(domain);
     }
 
     @ModelAttribute("unreadList")
-    public HashMap<Integer, Integer> getListUnreads(@ModelAttribute("contactTypeList") List<ContactType> contactTypeList){
-        HashMap<Integer, Integer> unreadList= new HashMap<>();
-        for(ContactType ct : contactTypeList){
+    public HashMap<Integer, Integer> getListUnreads(@ModelAttribute("contactTypeList") List<ContactType> contactTypeList) {
+        HashMap<Integer, Integer> unreadList = new HashMap<>();
+        for (ContactType ct : contactTypeList) {
             Integer count = contactFormRepository.getUnreadBycontactType(ct).size();
             unreadList.put(ct.getId(), count);
         }
@@ -110,18 +110,18 @@ public class AdminInboxController {
     }
 
     @ModelAttribute("allUnreads")
-    public Integer getAllUnreads(){
-        return  contactFormRepository.getUnreadBycontactType(null).size();
+    public Integer getAllUnreads() {
+        return contactFormRepository.getUnreadBycontactType(null).size();
     }
 
     @ModelAttribute("contactTypeListBolo")
-    public List<ContactType> getContactTypeListBolo(@ModelAttribute("domainBolo") Domain domain){
-        return  contactTypeRepository.getByDomain(domain);
+    public List<ContactType> getContactTypeListBolo(@ModelAttribute("domainBolo") Domain domain) {
+        return contactTypeRepository.getByDomain(domain);
     }
 
     @ModelAttribute("contactTypeWrapper")
     public ContactTypeWrapper getContactWrapper(@ModelAttribute("contactTypeListBistro") List<ContactType> contactTypeListBistro,
-                                                @ModelAttribute("contactTypeListBolo") List<ContactType> contactTypeListBolo){
+                                                @ModelAttribute("contactTypeListBolo") List<ContactType> contactTypeListBolo) {
         ContactTypeWrapper wrapper = new ContactTypeWrapper();
         wrapper.setContactTypeListBistro(contactTypeListBistro);
         wrapper.setContactTypeListBolo(contactTypeListBolo);
@@ -129,15 +129,15 @@ public class AdminInboxController {
     }
 
     @ModelAttribute("newContactType")
-    public ContactType getNewContactType(){
+    public ContactType getNewContactType() {
         return new ContactType();
     }
 
     @ModelAttribute("contactType")
-    public ContactType getContactType(@PathVariable(required = false) Integer contactTypeId){
-        if(contactTypeId != null){
+    public ContactType getContactType(@PathVariable(required = false) Integer contactTypeId) {
+        if (contactTypeId != null) {
             Optional<ContactType> optionalContactType = contactTypeRepository.findById(contactTypeId);
-            if(optionalContactType.isPresent()){
+            if (optionalContactType.isPresent()) {
                 return optionalContactType.get();
             }
         }
@@ -145,10 +145,10 @@ public class AdminInboxController {
     }
 
     @ModelAttribute("redirectEmail")
-    public RedirectEmail getRedirectEmail(@PathVariable(required = false) Integer redirectEmailId){
-        if(redirectEmailId != null){
+    public RedirectEmail getRedirectEmail(@PathVariable(required = false) Integer redirectEmailId) {
+        if (redirectEmailId != null) {
             Optional<RedirectEmail> optionalRedirectEmail = redirectEmailRepository.findById(redirectEmailId);
-            if(optionalRedirectEmail.isPresent()){
+            if (optionalRedirectEmail.isPresent()) {
                 return optionalRedirectEmail.get();
             }
         }
@@ -156,14 +156,14 @@ public class AdminInboxController {
     }
 
     @GetMapping({"/inbox", "/inbox/{contactTypeId}"})
-    public String inboxPage(@PathVariable(required = false) Integer contactTypeId){
+    public String inboxPage(@PathVariable(required = false) Integer contactTypeId) {
 
         return "admin/inbox";
     }
 
     @GetMapping("/inbox/message/{messageId}")
-    public String messagePage(@ModelAttribute("message") ContactForm message){
-        if(message != null) {
+    public String messagePage(@ModelAttribute("message") ContactForm message) {
+        if (message != null) {
             message.setRead(true);
             logger.info(String.format("set read on message with id %d to -- %s", message.getId(), message.isRead()));
             contactFormRepository.save(message);
@@ -172,13 +172,13 @@ public class AdminInboxController {
     }
 
     @GetMapping("/inbox/instellingen")
-    public String inboxSettings(){
+    public String inboxSettings() {
 
         return "admin/inboxsettings";
     }
 
     @PostMapping("/removemessage/{messageId}")
-    public String removeMessage(@PathVariable Integer messageId){
+    public String removeMessage(@PathVariable Integer messageId) {
         ContactForm message = contactFormRepository.findById(messageId).get();
         contactFormRepository.delete(message);
 
@@ -186,21 +186,22 @@ public class AdminInboxController {
     }
 
     @PostMapping("/removemessages")
-    public String removeMessages(@RequestParam("messageId") List<Integer> messageIds){
-        List<ContactForm> contactFormList = (List<ContactForm>) contactFormRepository.findAllById(messageIds);
-        contactFormRepository.deleteAll(contactFormList);
-
+    public String removeMessages(@RequestParam(value = "messageId", required = false) List<Integer> messageIds) {
+        if (messageIds != null) {
+            List<ContactForm> contactFormList = (List<ContactForm>) contactFormRepository.findAllById(messageIds);
+            contactFormRepository.deleteAll(contactFormList);
+        }
         return "redirect:/admin/inbox";
     }
 
     @PostMapping("/changecontacttypes")
     public String updateContactTypesPost(@ModelAttribute("contactTypeWrapper") ContactTypeWrapper wrapper,
-                                         @ModelAttribute("newContactType") ContactType newContactType){
+                                         @ModelAttribute("newContactType") ContactType newContactType) {
 
         contactTypeRepository.saveAll(wrapper.getContactTypeListBistro());
         contactTypeRepository.saveAll(wrapper.getContactTypeListBolo());
 
-        if(newContactType.getDomain() != null && !newContactType.getQuestionType().isBlank()){
+        if (newContactType.getDomain() != null && !newContactType.getQuestionType().isBlank()) {
             contactTypeRepository.save(newContactType);
         }
 
@@ -210,8 +211,8 @@ public class AdminInboxController {
     @PostMapping("/changecontacttype/{contactTypeId}")
     public String updateContactTypePost(@PathVariable Integer contactTypeId,
                                         @Valid @ModelAttribute("contactType") ContactType contactType,
-                                        BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+                                        BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "admin/inboxsettings";
         }
 
@@ -224,8 +225,8 @@ public class AdminInboxController {
     @PostMapping("/removecontacttype/{contactTypeId}")
     public String removeContactTypePost(@PathVariable Integer contactTypeId,
                                         @ModelAttribute("contactType") ContactType contactType,
-                                        Model model){
-        if(!contactFormRepository.getByContactType(contactType).isEmpty()){
+                                        Model model) {
+        if (!contactFormRepository.getByContactType(contactType).isEmpty()) {
             model.addAttribute("notEmpty", true);
             return "admin/inboxsettings";
         }
@@ -238,9 +239,9 @@ public class AdminInboxController {
     public String addNewEmail(@Valid @ModelAttribute("newRedirectEmail") RedirectEmail redirectEmail,
                               BindingResult bindingResult,
                               @RequestParam(name = "contactTypeIds[]", required = false) List<Integer> contactTypeIds,
-                              Model model){
-        if(bindingResult.hasErrors() || contactTypeIds == null || contactTypeIds.isEmpty()){
-            if(contactTypeIds == null || contactTypeIds.isEmpty()){
+                              Model model) {
+        if (bindingResult.hasErrors() || contactTypeIds == null || contactTypeIds.isEmpty()) {
+            if (contactTypeIds == null || contactTypeIds.isEmpty()) {
                 model.addAttribute("noContactType", true);
             }
             return "admin/inboxsettings";
@@ -256,10 +257,10 @@ public class AdminInboxController {
     public String updateRedirectEmails(@Valid @ModelAttribute("redirectEmail") RedirectEmail redirectEmail,
                                        BindingResult bindingResult,
                                        @RequestParam(name = "contactTypeIds[]", required = false) List<Integer> contactTypeIds,
-                                       Model model){
+                                       Model model) {
 
-        if(bindingResult.hasErrors() || contactTypeIds == null || contactTypeIds.isEmpty()){
-            if(contactTypeIds == null || contactTypeIds.isEmpty()){
+        if (bindingResult.hasErrors() || contactTypeIds == null || contactTypeIds.isEmpty()) {
+            if (contactTypeIds == null || contactTypeIds.isEmpty()) {
                 model.addAttribute("noContactType", true);
             }
             return "admin/inboxsettings";
@@ -268,11 +269,11 @@ public class AdminInboxController {
         redirectEmail.setContactTypeList((List<ContactType>) contactTypeRepository.findAllById(contactTypeIds));
         redirectEmailRepository.save(redirectEmail);
 
-            return "redirect:/admin/inbox/instellingen";
+        return "redirect:/admin/inbox/instellingen";
     }
 
     @PostMapping("/redirectemail/remove/{redirectEmailId}")
-    public String removeRedirectEmail(@ModelAttribute("redirectEmail") RedirectEmail redirectEmail){
+    public String removeRedirectEmail(@ModelAttribute("redirectEmail") RedirectEmail redirectEmail) {
         redirectEmailRepository.delete(redirectEmail);
         return "redirect:/admin/inbox/instellingen";
     }

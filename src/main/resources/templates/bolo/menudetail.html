@@ -44,15 +44,6 @@
         <div class="card card-body">
             <form method="post" th:action="@{|/bolo/menudetail/${menuSection.id}|}" th:object="${filterWrapper}">
                 <div class="row d-flex justify-content-center">
-                    <div class="col-12 col-md-4 my-3">
-                        <h6 class="form-label card-title">product naam:</h6>
-                        <input type="text" list="productNames" id="productSearch" class="form-control"
-                               th:field="*{productSearch}">
-                        <datalist id="productNames">
-                            <option th:each="product : ${productList}" th:value="${product.name}">
-                            </option>
-                        </datalist>
-                    </div>
                     <div class="col-12 col-md-4 d-flex flex-column my-3" th:if="*{!categoryList.isEmpty()}">
                         <h6 class="card-title">categoriëen:</h6>
                         <div th:each="category : *{categoryList}">
