@@ -9,13 +9,21 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.constraints.Null;
+import java.awt.*;
 import java.util.List;
 
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Integer> {
 
     @Query("select distinct p from Product p left join p.allergies a " +
-            "where (:productName is null or lower(p.name) not like concat('%', lower( cast(:productName as string)), '%')) " +
+            "where ((:allergies) is null or (a) in (:allergies)) " +
+            "and p.menuSubSection in (select mss from MenuSubSection mss join mss.menuSectionList msl where :menuSection is null or :menuSection in (msl))")
+    List<Product> filterOnAllergie(@Param("allergies") List<Allergie> allergies,
+                                   @Param("menuSection")MenuSection menuSection);
+
+    @Query("select distinct p from Product p left join p.allergies a " +
+            "where (:productName is null or lower(p.name) not like concat('%', lower(:productName), '%')) " +
             "and ((:allergies) is null or (a) in (:allergies)) " +
             "and p.menuSubSection in (select mss from MenuSubSection mss join mss.menuSectionList msl where :menuSection is null or :menuSection in (msl))")
     List<Product> filterOnAllergieAndName(@Param("allergies") List<Allergie> allergies,

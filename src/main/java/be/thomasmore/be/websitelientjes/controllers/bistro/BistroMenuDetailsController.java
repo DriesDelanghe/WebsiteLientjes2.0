@@ -173,20 +173,12 @@ public class BistroMenuDetailsController {
             missingCategories.forEach(category -> logger.info(String.format("Hiding category -- %s", category.getName())));
         }
 
-
-        if (productSearch == null || productSearch.isBlank()) {
-            logger.info("productsearch was blank");
-            productSearch = null;
-        } else {
-            logger.info("productsearch was not blank");
-        }
-
         logger.info(String.format("value productsearch -- '%s'", productSearch));
         logger.info(String.format("allergieFilters is null -- %s", allergieFilters == null));
 
-        List<Allergie> filteredAllergies = null;
+        ArrayList<Allergie> filteredAllergies = new ArrayList<>();
         if (allergieFilters != null) {
-            filteredAllergies = (List<Allergie>) allergieRepository.findAllById(allergieFilters);
+            filteredAllergies.addAll((List<Allergie>) allergieRepository.findAllById(allergieFilters));
             filteredAllergies.forEach(allergie -> logger.info(String.format("Filtering on allergie -- %s", allergie.getName())));
         }
 

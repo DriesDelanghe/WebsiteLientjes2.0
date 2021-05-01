@@ -102,10 +102,6 @@ public class BoloMenuController {
         wrapper.setAllergyIdList(allergyIdList);
         wrapper.setCategoryIdList(categoryIdList);
 
-        if(wrapper.getProductSearch().isBlank()){
-            wrapper.setProductSearch(null);
-        }
-
         ArrayList<Allergie> allergieArrayList = new ArrayList<>();
         if (wrapper.getAllergyIdList() != null && !wrapper.getAllergyIdList().isEmpty()) {
             wrapper.getAllergyIdList().forEach(integer -> allergieArrayList.add(allergieRepository.findById(integer).get()));
@@ -127,7 +123,7 @@ public class BoloMenuController {
             allergieArrayList.forEach(allergie -> logger.info("allergie id: " + allergie.getId()));
         }
 
-        ArrayList<Product> filteredProductsList;
+        ArrayList<Product> filteredProductsList = new ArrayList<>();
         ArrayList<Product> filterListOnCategory = new ArrayList<>();
 
         if (!allergieArrayList.isEmpty()) {
