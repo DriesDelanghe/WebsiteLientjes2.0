@@ -13,7 +13,7 @@ public class Personnel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personnel_generator")
     @SequenceGenerator(name = "personnel_generator", sequenceName = "per_seq", allocationSize = 1)
     @Id
-    private int id;
+    private Integer id;
     @NotBlank
     private String name;
     @NotBlank

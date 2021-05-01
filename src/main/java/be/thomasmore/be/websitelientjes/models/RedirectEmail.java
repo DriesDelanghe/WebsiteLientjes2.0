@@ -11,7 +11,7 @@ public class RedirectEmail {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "redirect_email_generator")
     @SequenceGenerator(name = "redirect_email_generator", sequenceName = "re_seq", allocationSize = 1)
     @Id
-    private int Id;
+    private Integer Id;
     @Email
     private String email;
     @NotBlank

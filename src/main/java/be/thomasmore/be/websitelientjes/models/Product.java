@@ -1,5 +1,7 @@
 package be.thomasmore.be.websitelientjes.models;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
@@ -11,13 +13,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_generator")
     @SequenceGenerator(name = "product_generator", sequenceName = "prod_seq", allocationSize = 1)
     @Id
-    private int id;
+    private Integer id;
     @NotBlank
     private String name;
     @Column(precision=10, scale=2)
     private BigDecimal priceInEur;
     private String extraInfo;
     @ManyToOne(fetch = FetchType.LAZY)
+    @OrderBy("id ASC")
     private MenuSubSection menuSubSection;
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Allergie> allergies;

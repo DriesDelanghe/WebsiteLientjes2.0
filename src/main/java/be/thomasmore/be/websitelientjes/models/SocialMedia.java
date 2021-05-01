@@ -11,7 +11,7 @@ public class SocialMedia implements Comparable<SocialMedia> {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "social_media_generator")
     @SequenceGenerator(name = "social_media_generator", sequenceName = "sm_seq", allocationSize = 1)
     @Id
-    private int id;
+    private Integer id;
     @NotBlank
     @URL
     private String socialMediaUrl;

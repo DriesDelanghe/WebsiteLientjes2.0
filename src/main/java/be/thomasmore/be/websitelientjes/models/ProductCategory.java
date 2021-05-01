@@ -10,7 +10,7 @@ public class ProductCategory {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_generator")
     @SequenceGenerator(name = "category_generator", sequenceName = "cat_seq", allocationSize = 1)
     @Id
-    private int id;
+    private Integer id;
     @NotBlank
     private String name;
     @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)

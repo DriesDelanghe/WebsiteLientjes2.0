@@ -8,7 +8,7 @@ public class ImageGoogle implements Comparable<ImageGoogle> {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "image_google_generator")
     @SequenceGenerator(name = "image_google_generator", sequenceName = "img_ggl_seq", allocationSize = 1)
     @Id
-    private int id;
+    private Integer id;
     @ManyToOne(fetch = FetchType.LAZY)
     private Image image;
     @ManyToOne(fetch = FetchType.LAZY)

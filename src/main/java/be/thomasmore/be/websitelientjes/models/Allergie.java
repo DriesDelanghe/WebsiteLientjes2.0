@@ -10,7 +10,7 @@ public class Allergie {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "allergy_generator")
     @SequenceGenerator(name = "allergy_generator", sequenceName = "al_seq", allocationSize = 1)
     @Id
-    private int id;
+    private Integer id;
     @NotBlank
     private String name;
     @ManyToMany(mappedBy = "allergies", fetch = FetchType.LAZY)

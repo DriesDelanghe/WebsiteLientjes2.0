@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 public class TextFragment implements Comparable<TextFragment>{
 
     @Id
-    private int id;
+    private Integer id;
     @Column(length = 1500)
     @NotBlank
     private String textContent;

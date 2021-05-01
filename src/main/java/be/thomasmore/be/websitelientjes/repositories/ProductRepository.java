@@ -15,7 +15,7 @@ import java.util.List;
 public interface ProductRepository extends CrudRepository<Product, Integer> {
 
     @Query("select distinct p from Product p left join p.allergies a " +
-            "where (:productName is null or lower(p.name) not like concat('%', lower(:productName), '%')) " +
+            "where (:productName is null or lower(p.name) not like concat('%', lower( cast(:productName as string)), '%')) " +
             "and ((:allergies) is null or (a) in (:allergies)) " +
             "and p.menuSubSection in (select mss from MenuSubSection mss join mss.menuSectionList msl where :menuSection is null or :menuSection in (msl))")
     List<Product> filterOnAllergieAndName(@Param("allergies") List<Allergie> allergies,
@@ -35,8 +35,8 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
     List<Product> filterOnlyOnCategory(@Param("categoryList") List<ProductCategory> hiddenCategoryList,
                                        @Param("menuSection") MenuSection menuSection);
 
-    @Query("select distinct p from Product p " +
-            "where p.menuSubSection in (select mss from MenuSubSection mss join mss.menuSectionList ms where :menuSection is null or :menuSection in (ms))")
+    @Query("select distinct p from Product p join p.menuSubSection m " +
+            "where m in (select mss from MenuSubSection mss join mss.menuSectionList ms where :menuSection is null or :menuSection in (ms))")
     List<Product> getAllProductsByMenuSection(@Param("menuSection") MenuSection menuSection);
 
 }

@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class TelephoneNumber {
 
     @Id
-    private int id;
+    private Integer id;
     private String telephoneNumber;
     @ManyToOne
     private Icon icon;

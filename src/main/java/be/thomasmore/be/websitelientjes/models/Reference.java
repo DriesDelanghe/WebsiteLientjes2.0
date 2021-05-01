@@ -10,7 +10,7 @@ public class Reference {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reference_generator")
     @SequenceGenerator(name = "reference_generator", sequenceName = "ref_seq", allocationSize = 1)
     @Id
-    private int id;
+    private Integer id;
     private String siteUrl;
     private String siteName;
     @NotBlank

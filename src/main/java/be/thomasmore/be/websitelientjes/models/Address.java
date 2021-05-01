@@ -9,7 +9,7 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_generator")
     @SequenceGenerator(name = "address_generator", sequenceName = "ad_seq", allocationSize = 1)
     @Id
-    private int id;
+    private Integer id;
     @NotBlank
     private String streetAddress;
     @NotBlank

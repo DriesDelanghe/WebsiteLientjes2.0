@@ -161,7 +161,7 @@ public class BistroMenuDetailsController {
         ArrayList<ProductCategory> missingCategories = new ArrayList<>();
 
         for(ProductCategory productCategory : categoryList){
-            if(!filteredCategoryList.contains(productCategory)){
+            if(filteredCategoryList == null || !filteredCategoryList.contains(productCategory)){
                 missingCategories.add(productCategory);
             }
         }
@@ -210,7 +210,8 @@ public class BistroMenuDetailsController {
             List<Product> productListCategoryFilter = productRepository.filterListOnCategory(productListFiltered, missingCategories, menuSection);
 
             productListFiltered.addAll(productListCategoryFilter);
-
+            logger.info("filtered products:");
+            productListFiltered.forEach(product -> logger.info(product.getName()));
             model.addAttribute("productListFiltered", productListFiltered);
         }
 

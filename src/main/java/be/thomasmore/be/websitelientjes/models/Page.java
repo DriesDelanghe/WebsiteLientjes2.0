@@ -7,7 +7,7 @@ import java.util.Collection;
 public class Page {
 
     @Id
-    private int id;
+    private Integer id;
     private String pageName;
     private String pageReference;
     @OneToMany(fetch = FetchType.LAZY)

@@ -63,7 +63,10 @@ public class BoloMenuController {
 
     @ModelAttribute("productList")
     public List<Product> getProductList(@ModelAttribute("menuSection") MenuSection menuSection) {
-        return productRepository.getAllProductsByMenuSection(menuSection);
+        if(menuSection != null) {
+            return productRepository.getAllProductsByMenuSection(menuSection);
+        }
+        return null;
     }
 
     @ModelAttribute("filterWrapper")

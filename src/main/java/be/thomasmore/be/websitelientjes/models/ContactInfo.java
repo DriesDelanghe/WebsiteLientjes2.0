@@ -9,7 +9,7 @@ public class ContactInfo {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contact_info_generator")
     @SequenceGenerator(name = "contact_info_generator", sequenceName = "ci_seq", allocationSize = 1)
     @Id
-    private int id;
+    private Integer id;
     @NotBlank
     private String infoName;
     @NotBlank

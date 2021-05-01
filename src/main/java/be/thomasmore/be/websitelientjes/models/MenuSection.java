@@ -14,12 +14,13 @@ public class MenuSection {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menu_section_generator")
     @SequenceGenerator(name = "menu_section_generator", sequenceName = "msec_seq", allocationSize = 1)
     @Id
-    private int id;
+    private Integer id;
     @NotBlank
     private String name;
     @ManyToOne(fetch = FetchType.LAZY)
     private Domain domain;
     @ManyToMany(fetch = FetchType.LAZY)
+    @OrderBy("id ASC")
     private List<MenuSubSection> menuSubSectionList;
     @ManyToOne(fetch = FetchType.LAZY)
     private Image image;

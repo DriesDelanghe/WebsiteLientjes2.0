@@ -9,7 +9,7 @@ import java.util.Collection;
 public class Domain {
 
     @Id
-    private int id;
+    private Integer id;
     private String domainName;
 
     public Domain() {

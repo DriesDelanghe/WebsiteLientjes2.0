@@ -11,7 +11,7 @@ public class Openingsuur {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "openingsuur_generator")
     @SequenceGenerator(name = "openingsuur_generator", sequenceName = "op_seq", allocationSize = 1)
     @Id
-    private int id;
+    private Integer id;
     private String dag;
     @Temporal(TemporalType.TIME)
     @DateTimeFormat(pattern = "HH:mm")

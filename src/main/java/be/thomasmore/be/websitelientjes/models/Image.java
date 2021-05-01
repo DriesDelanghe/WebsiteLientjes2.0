@@ -9,7 +9,7 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "image_generator")
     @SequenceGenerator(name = "image_generator", sequenceName = "img_seq", allocationSize = 1)
     @Id
-    private int id;
+    private Integer id;
     @NotBlank
     private String ImageLocation;
 

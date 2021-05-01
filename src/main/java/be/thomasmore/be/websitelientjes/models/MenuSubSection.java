@@ -10,13 +10,15 @@ public class MenuSubSection {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menu_sub_section_generator")
     @SequenceGenerator(name = "menu_sub_section_generator", sequenceName = "mss_seq", allocationSize = 1)
     @Id
-    private int id;
+    private Integer id;
     private String name;
     private String extraInfo;
 
     @ManyToMany(mappedBy = "menuSubSectionList", fetch = FetchType.LAZY)
+    @Column(columnDefinition = "bytea")
     private List<MenuSection> menuSectionList;
     @OneToMany(mappedBy = "menuSubSection", fetch = FetchType.LAZY)
+    @OrderBy("id ASC")
     private List<Product> productList;
 
 
