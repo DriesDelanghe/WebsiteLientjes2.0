@@ -29,7 +29,7 @@ public class JavaMailSender {
         mailSender.setPort(2525);
 
         mailSender.setUsername("info@lientjes.be");
-        mailSender.setPassword("L13ntjes@2021");
+        mailSender.setPassword("password");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
